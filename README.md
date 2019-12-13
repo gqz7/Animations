@@ -1,1 +1,2 @@
 # AnimationPorfolio
+This is my animation portfolio, I create them for fun and because I like the challange it gives me to try to create complex animations that combined a love for coding and mathematics 
