@@ -41,11 +41,10 @@ window.onload = function () {
 
     for (let i = 0; i < 1; i++) {
 
-
-        
         
         context.beginPath();
-            context.rect(fibOrigin)
+            context.rect(currentOrigin,currentOrigin,currentLength,currentLength);
+            context.stroke();
 
         
         
