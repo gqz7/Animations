@@ -6,9 +6,8 @@ window.onload = function () {
         height = canvas.height = this.innerHeight,
         time = 0, startLength, arr = [1];
 
-        
+    //function that creates a fibonacci sequence that just exceeds the height of the canvas 
     let prvNum = 1, curNum = 1;
-
     create_fib_arr()
     function create_fib_arr() {
         
@@ -22,21 +21,10 @@ window.onload = function () {
             arr.push(fibNum);
 
             create_fib_arr()
-        } else {
-            startLength = curNum;
         }
-
-        
         
     }
-
-    context.strokeStyle = "white";
-
-    // context.translate(width/2,height/2); //to start at center
-    context.translate(0,height); //start at diffrent point
-
-    context.rotate(-.5 * Math.PI);
-
+    //function that creates fibonacci diagram (squares + arcs)
     function create_fib_dia() {
 
         for (let i = arr.length - 3; i > -1; i--) {
@@ -56,6 +44,22 @@ window.onload = function () {
         
     }
 
+    context.strokeStyle = "red";
     
+    context.save()
+    context.translate(300,height - 50); //start at bottom left
+
+    context.rotate(-.5 * Math.PI);
+
+    create_fib_dia()
+    context.restore()
+
+    context.save()
+    context.translate(arr[arr.length - 3] + arr[arr.length - 4] + 300, height - arr[arr.length - 3] - 50); //start at bottom left
+
+    context.rotate(.5 * Math.PI);
+
+    create_fib_dia()
+    context.restore()
 
 }
