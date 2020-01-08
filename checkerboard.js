@@ -10,37 +10,26 @@ window.onload = function() {
 		width = canvas.width = window.innerWidth,
         height = canvas.height = window.innerHeight,
 
-        size = 10, lim = (width/size) / 2, cycles = 0, trans = true;
+        size = 10,                      //determins size of each square
+        columnLimit = ((width/size)/2), //how wide the grid is
+        cycles = 0,                     //handles if too many columns of squares have been made on a row
+        startWithWhite = true;          //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
 
         // console.log(lim);
-    
-       
-
 
         //ANIMATION CYCLE
 
         context.fillStyle = "white";
 
-        context.save() //saves the context at 0,0 (upper left corner) to go back to for each new line
+        // context.save() //saves the context at 0,0 (upper left corner) to go back to for each new line
 
         animate()
         function animate() {
             
-            cycles++
-
-            // console.log(cycles);
-
-            if (cycles > lim) {
-
-                newline()
-    
-            } else {
-
-                create_square()
-
-            }
-            
-            // setTimeout(window.requestAnimationFrame, 10, (clear))
+            create_board()
+           
+            return
+            setTimeout(window.requestAnimationFrame, 10, (clear))
             setTimeout(window.requestAnimationFrame, 0, (animate))
         }
 
@@ -57,15 +46,15 @@ window.onload = function() {
 
             context.restore()
 
-                if (trans) {
+                if (startWithWhite) {
                     
                     context.translate(-size,size);
                     
-                    trans = false;
+                    startWithWhite = false;
                 } else {
                     context.translate(size, size);
 
-                    trans = true;
+                    startWithWhite = true;
                 }
 
                 context.save()
@@ -78,6 +67,33 @@ window.onload = function() {
             context.rect(0,0,size,size);
             context.fill()
             context.translate(size * 2, 0);
+        }
+
+        function create_board() { 
+
+            context.save()
+
+            let rowLimit = ((height/size) -80);
+
+            while (rowLimit > 0) {
+                cycles++
+
+                console.log(cycles);
+
+                if (cycles > columnLimit) {
+                    rowLimit--
+                    
+                    newline()
+        
+                } else {
+
+                    create_square()
+
+                }
+            }
+
+            // context.restore()
+
         }
 
 
