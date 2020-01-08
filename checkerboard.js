@@ -11,9 +11,10 @@ window.onload = function() {
         height = canvas.height = window.innerHeight,
 
         size = 10,                      //determins size of each square
-        columnLimit = ((width/size)/2), //how wide the grid is
+        columnLimit = ((width/size)/2) + 1, //how wide the grid is
         cycles = 0,                     //handles if too many columns of squares have been made on a row
-        startWithWhite = true;          //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
+        startWithWhite = true;         //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
+        
 
         // console.log(lim);
 
@@ -29,8 +30,8 @@ window.onload = function() {
             create_board()
            
             return
-            setTimeout(window.requestAnimationFrame, 10, (clear))
-            setTimeout(window.requestAnimationFrame, 0, (animate))
+            // setTimeout(window.requestAnimationFrame, 10, (clear))
+            // setTimeout(window.requestAnimationFrame, 0, (animate))
         }
 
         // FUNCTIONS
@@ -63,19 +64,22 @@ window.onload = function() {
         }
 
         function create_square(params) {
+
             context.beginPath()
             context.rect(0,0,size,size);
             context.fill()
             context.translate(size * 2, 0);
+
         }
 
         function create_board() { 
 
             context.save()
 
-            let rowLimit = ((height/size) -80);
+            let rowLimit = ((height/size)-10);
 
             while (rowLimit > 0) {
+
                 cycles++
 
                 console.log(cycles);
@@ -90,6 +94,7 @@ window.onload = function() {
                     create_square()
 
                 }
+
             }
 
             // context.restore()
