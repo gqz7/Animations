@@ -27,7 +27,7 @@ var time = 0,
 
 //rendering function loop
 window.requestAnimationFrame(function spin() {
-    context.rotate(Math.PI / 1.01);
+    context.rotate(Math.PI / .040002);
     context.save()
     x++;
     // distortion -= .00095 + Math.random() / 100;
@@ -71,7 +71,7 @@ function drawTri(p0, p1, p2) {
     context.moveTo(p0.x * scale, p0.y * scale);
     context.lineTo(p1.x * scale, p1.y * scale);
     context.lineTo(p2.x * scale, p2.y * scale);
-    context.fillStyle = 'hsl(' + (time * 2.3) + ', 100%, 60%)';
+    context.fillStyle = 'hsl(' + (time * 1.7) + ', 100%, 60%)';
     context.fill(); 
        
 } 
@@ -88,7 +88,7 @@ function fractal(p0, p1, p2, lim){
             },
             pB = {
                 x: (p1.x + p2.x) * distortion,
-                y: (p1.y + p2.y) / distortion
+                y: (p1.y + p2.y) * distortion
             }, 
             pC = {
                 x: (p2.x - p0.x) * distortion,
