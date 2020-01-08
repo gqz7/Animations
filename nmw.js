@@ -21,7 +21,7 @@ window.onload = function() {
                 x: -278, y: 160
             };
 var time = 0,
-    distortion = .5;
+    distortion = 1;
     x = 0,
     scale = 0; 
 
