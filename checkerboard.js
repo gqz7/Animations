@@ -1,0 +1,1 @@
+//background color must be white
