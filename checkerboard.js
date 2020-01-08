@@ -10,17 +10,21 @@ window.onload = function() {
 
         animate()
         function animate() {
+            
 
             subH -= 5;
             subW -= 10;
 
             context.beginPath()
-            context.moveTo(0,0);
+            context.moveTo(width - subW - 20, height - subH - 10);
             context.lineTo(width - subW, height - subH);
 
             context.stroke()
+            
 
-            setTimeout(window.requestAnimationFrame, 0, (animate))
+        //    clear()
+            setTimeout(window.requestAnimationFrame, 200, (clear))
+            setTimeout(window.requestAnimationFrame, 60, (animate))
         }
 
 
@@ -29,6 +33,13 @@ window.onload = function() {
         // context.lineTo(width, height);
 
         // context.stroke()
+
+        function clear() { 
+            context.save();
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.restore();
+        }
 
 
 }
