@@ -1,44 +1,74 @@
 //background color must be white
 
 window.onload = function() {
-	var canvas = document.getElementById("canvas"),
+	let canvas = document.getElementById("canvas"),
 		context = canvas.getContext("2d"),
 		width = canvas.width = window.innerWidth,
         height = canvas.height = window.innerHeight;
 
-        let subW = width, subH = height;
+        context.fillStyle = "white";
+
+        let size = 10, lim = (width/size) / 2, cycles = 0, trans = true;
+
+        console.log(lim);
+        
+
+        context.save()
 
         animate()
         function animate() {
             
+            cycles++
+            
 
-            subH -= 5;
-            subW -= 10;
+            console.log(cycles);
 
-            context.beginPath()
-            context.moveTo(width - subW - 20, height - subH - 10);
-            context.lineTo(width - subW, height - subH);
+            if (cycles > lim) {
 
-            context.stroke()
+                newline()
+    
+            } else {
+
+                context.beginPath()
+                context.rect(0,0,size,size);
+                context.fill()
+                context.translate(size * 2, 0);
+
+            }
+            
+            
             
 
         //    clear()
-            setTimeout(window.requestAnimationFrame, 200, (clear))
-            setTimeout(window.requestAnimationFrame, 60, (animate))
+            // setTimeout(window.requestAnimationFrame, 10, (clear))
+            setTimeout(window.requestAnimationFrame, 0, (animate))
         }
-
-
-        // context.beginPath()
-        // context.moveTo(0,0);
-        // context.lineTo(width, height);
-
-        // context.stroke()
 
         function clear() { 
             context.save();
             context.setTransform(1, 0, 0, 1, 0, 0);
             context.clearRect(0, 0, canvas.width, canvas.height);
             context.restore();
+        }
+
+        function newline() {
+
+            context.restore()
+
+                if (trans) {
+                    
+                    context.translate(-size,size);
+                    
+                    trans = false;
+                } else {
+                    context.translate(size, size);
+
+                    trans = true;
+                }
+
+                context.save()
+                cycles = 0;
+            
         }
 
 
