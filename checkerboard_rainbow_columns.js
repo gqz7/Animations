@@ -20,51 +20,27 @@ window.onload = function() {
         rowsCycles = 0,                  //handles if too many rows of squares have been made on the grid
         startWithWhite = true,          //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
 
-
-        originx = 0, originy = 0,
+        originx = 500, originy = 500,
 
         p1 = {x: originx, y: originy}, p2 = {x: size + originx, y: originy}, p3 = {x: size + originx, y: size + originy}, p4 = {x: originx, y: size + originy},
         squares = [];
 
-        // console.log(columnLimit, (width/size));
-        
-
-        // console.log(lim);
-
         //ANIMATION CYCLE
 
         
-        // columnLimit -= 50;
-        // rowLimit -= 20;
-
-        // context.save() //saves the context at 0,0 (upper left corner) to go back to for each new line
-        
-        // context.translate(500,200);
-
-
-        // console.log(squares);
+        columnLimit -= 100;
+        rowLimit -= 70;
         
         animate()
         function animate() {
             time++
-    
-            // create_grid()
-            // console.log('test');
-            
-            // return
-            
-            // clear()
-            context.fillStyle = 'hsl(' + (time*3) + ', 100%, 60%)';
 
-            
+            context.fillStyle = 'hsl(' + (time*5) + ', 100%, 60%)';
+
             create_grid()
-
              
-            context.translate(20,0)
-            
-            
-
-            // return
+            context.translate(60,40)
+       
             setTimeout(window.requestAnimationFrame, 0, (animate));
         }
 
@@ -80,12 +56,6 @@ window.onload = function() {
 
         function create_square(p1,p2,p3,p4) {
 
-            let square = {
-                p1, p2, p3, p4
-            };
-
-            // squares.push(square);
-
             context.beginPath();
             context.moveTo(p1.x, p1.y);
             context.lineTo(p2.x, p2.y);
@@ -99,7 +69,6 @@ window.onload = function() {
             } else {
                 startWithWhite = true;
             }
-            
 
         }
 
@@ -108,7 +77,7 @@ window.onload = function() {
 
             while (columnCycles < columnLimit) {
                 create_square(p1,p2,p3,p4);
-                context.translate(size, originy);
+                context.translate(size, 0);
                 columnCycles++
             }
 
@@ -124,7 +93,7 @@ window.onload = function() {
                 context.save()
                 create_row()
                 context.restore()
-                context.translate(originx,size);
+                context.translate(0,size);
                 rowsCycles++
             }
             rowsCycles = 0;
