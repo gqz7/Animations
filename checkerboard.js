@@ -7,13 +7,25 @@ window.onload = function() {
 	let canvas = document.getElementById("canvas"),
         context = canvas.getContext("2d"),
         
-		width = canvas.width = window.innerWidth,
-        height = canvas.height = window.innerHeight,
+		width = canvas.width = window.innerWidth,       //width of the canvas
+        height = canvas.height = window.innerHeight,   //height of the canvas
+        size = 20,                                    //determins size of each square
 
-        size = 10,                      //determins size of each square
-        columnLimit = ((width/size)/2) + 1, //how wide the grid is
-        cycles = 0,                     //handles if too many columns of squares have been made on a row
-        startWithWhite = true;         //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
+        //logic is included to make sure columnLimit is an odd number, this will make sure each row starts will the opposite of how to previous row started
+        columnLimit =  (Math.ceil(width/size) % 2 == 0) ? Math.ceil(width/size) + 1: Math.ceil(width/size),     //how many columns in the grid
+
+        rowLimit = ((height/size) + 2),    //how many rows in the grid
+        columnCycles = 0,                 //handles if too many columns of squares have been made on a row
+        rowsCycles = 0,                  //handles if too many rows of squares have been made on the grid
+        startWithWhite = true,          //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
+
+
+        originx = 0, originy = 0,
+
+        p1 = {x: originx, y: originy}, p2 = {x: size, y: originy}, p3 = {x: size, y: size}, p4 = {x: originx, y: size},
+        squares = [];
+
+        // console.log(columnLimit, (width/size));
         
 
         // console.log(lim);
@@ -21,17 +33,24 @@ window.onload = function() {
         //ANIMATION CYCLE
 
         context.fillStyle = "white";
+        // columnLimit -= 200;
+        // rowLimit -= 80;
 
         // context.save() //saves the context at 0,0 (upper left corner) to go back to for each new line
+        create_grid()
 
+        // console.log(squares);
+        
         animate()
         function animate() {
+    
             
-            create_board()
-           
-            return
-            // setTimeout(window.requestAnimationFrame, 10, (clear))
-            // setTimeout(window.requestAnimationFrame, 0, (animate))
+            // console.log('test');
+            
+            // return
+            
+            // setTimeout(clear, 60);
+            setTimeout(window.requestAnimationFrame, 0, (animate));
         }
 
         // FUNCTIONS
@@ -43,63 +62,63 @@ window.onload = function() {
             context.restore();
         }
 
-        function newline() {
 
-            context.restore()
+        function create_square(p1,p2,p3,p4) {
 
-                if (startWithWhite) {
-                    
-                    context.translate(-size,size);
-                    
-                    startWithWhite = false;
-                } else {
-                    context.translate(size, size);
+            let square = {
+                p1, p2, p3, p4
+            };
 
-                    startWithWhite = true;
-                }
+            squares.push(square);
 
-                context.save()
-                cycles = 0;
+            context.beginPath();
+            context.moveTo(p1.x, p1.y);
+            context.lineTo(p2.x, p2.y);
+            context.lineTo(p3.x, p3.y);
+            context.lineTo(p4.x, p4.y);
+            context.lineTo(p1.x,p1.y);
+
+            if (startWithWhite) {
+                context.fill();
+                startWithWhite = false;
+            } else {
+                startWithWhite = true;
+            }
+            
+
+        }
+
+        function create_row(){
+            
+
+            while (columnCycles < columnLimit) {
+                create_square(p1,p2,p3,p4);
+                context.translate(size, originy);
+                columnCycles++
+            }
+
+            columnCycles = 0
             
         }
 
-        function create_square(params) {
-
-            context.beginPath()
-            context.rect(0,0,size,size);
-            context.fill()
-            context.translate(size * 2, 0);
-
-        }
-
-        function create_board() { 
+        function create_grid() {
 
             context.save()
 
-            let rowLimit = ((height/size)-10);
-
-            while (rowLimit > 0) {
-
-                cycles++
-
-                console.log(cycles);
-
-                if (cycles > columnLimit) {
-                    rowLimit--
-                    
-                    newline()
-        
-                } else {
-
-                    create_square()
-
-                }
-
+            while (rowsCycles < rowLimit) {
+                context.save()
+                create_row()
+                context.restore()
+                context.translate(originx,size);
+                rowsCycles++
             }
 
-            // context.restore()
+
+            context.restore()
 
         }
+
+       
 
 
 }
