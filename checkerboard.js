@@ -6,6 +6,7 @@ window.onload = function() {
 
 	let canvas = document.getElementById("canvas"),
         context = canvas.getContext("2d"),
+        time = 0;
         
 		width = canvas.width = window.innerWidth,       //width of the canvas
         height = canvas.height = window.innerHeight,   //height of the canvas
@@ -22,35 +23,43 @@ window.onload = function() {
 
         originx = 0, originy = 0,
 
-        p1 = {x: originx, y: originy}, p2 = {x: size, y: originy}, p3 = {x: size, y: size}, p4 = {x: originx, y: size},
+        p1 = {x: originx, y: originy}, p2 = {x: size + originx, y: originy}, p3 = {x: size + originx, y: size + originy}, p4 = {x: originx, y: size + originy},
         squares = [];
 
-        // console.log(columnLimit, (width/size));
-        
+        //Animation Modifiers 
 
-        // console.log(lim);
+        // ---Sets the size of the grid, else the whole screen wil be used
+        columnLimit -= 50;
+        rowLimit -= 20;
 
-        //ANIMATION CYCLE
+        // ---Translates the top left corner of the grid,
+        // else it will start at the top left corner of the window
+        context.translate(500,200);
 
-        context.fillStyle = "white";
-        // columnLimit -= 200;
-        // rowLimit -= 80;
-
-        // context.save() //saves the context at 0,0 (upper left corner) to go back to for each new line
-        create_grid()
+        //Color
+        context.fillStyle = 'white';
 
         // console.log(squares);
-        
+        //ANIMATION CYCLE
         animate()
         function animate() {
+            time++
     
-            
+            // create_grid()
             // console.log('test');
             
             // return
             
-            // setTimeout(clear, 60);
-            setTimeout(window.requestAnimationFrame, 0, (animate));
+            clear()
+            
+            create_grid()
+             
+            context.translate(1,1)
+            
+            
+
+            // return
+            setTimeout(window.requestAnimationFrame, 30, (animate));
         }
 
         // FUNCTIONS
@@ -69,7 +78,7 @@ window.onload = function() {
                 p1, p2, p3, p4
             };
 
-            squares.push(square);
+            // squares.push(square);
 
             context.beginPath();
             context.moveTo(p1.x, p1.y);
@@ -103,6 +112,8 @@ window.onload = function() {
 
         function create_grid() {
 
+            startWithWhite = true
+
             context.save()
 
             while (rowsCycles < rowLimit) {
@@ -112,6 +123,7 @@ window.onload = function() {
                 context.translate(originx,size);
                 rowsCycles++
             }
+            rowsCycles = 0;
 
 
             context.restore()
@@ -122,3 +134,10 @@ window.onload = function() {
 
 
 }
+//a test to see if the context is in the right postion
+// context.strokeStyle = 'white';
+//             context.beginPath()
+//             context.moveTo(0,0);
+//             context.lineTo(width,height);
+            
+//             context.stroke()
