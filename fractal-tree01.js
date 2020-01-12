@@ -2,8 +2,8 @@
 
 const canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d'),
-    width = canvas.width = 1700,
-    height = canvas.height = 900,
+    width = canvas.width = this.innerWidth - 75,
+    height = canvas.height = this.innerHeight - (this.innerHeight * .15),
 
     slider = document.getElementById('slider'),
     txtbox = document.getElementById('userangle');
@@ -11,6 +11,7 @@ const canvas = document.getElementById('canvas'),
 ctx.translate(width/2, height);
 
 canvas.style.background = "darkgrey";
+ctx.strokeStyle = '#98ff98';
 
 
 ctx.beginPath();
@@ -18,7 +19,7 @@ ctx.moveTo(0,100);
 ctx.lineTo(0,0);
 ctx.stroke();
 
-let startLength = 300,
+let startLength = height/3,
 branchAngle = Math.PI / 7;
 
 document.getElementById('submit').addEventListener('click', create_uTree);
@@ -35,13 +36,15 @@ function create_tree(angle, length) { //recersive fractal tree function
     ctx.translate(0, -length);
     length *= .67;
 
-    if (length < 30) {
-        ctx.strokeStyle = 'hsl(' + (Math.random() * 360) + ', 100%, 70%)';
+    if (length <= 10) {
+        ctx.strokeStyle = 'hsl(' + (Math.random() * 360) + ', 100%, 80%)';
+    } else if (length < 30 && length > 10) {
+        ctx.strokeStyle = '#ffd2ec';
     } else {
-        ctx.strokeStyle = 'pink';
+        ctx.strokeStyle = '#98ff98';
     }
 
-    if(length > 3) { //if the branch length is still large enough two more branches will be appended to the trunk
+    if(length > 4) { //if the branch length is still large enough two more branches will be appended to the trunk
     //saving position before right branch is made
     ctx.save()
     ctx.rotate(angle)
