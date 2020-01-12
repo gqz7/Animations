@@ -59,12 +59,12 @@ window.requestAnimationFrame(function spin() {
         ranCount++
     }
 
-    // context.rotate(Math.PI / .040002);
+    context.rotate(Math.PI / .04);
     context.save()
-    // distortion -= .00095 + Math.random() / 100;
+    distortion -= .00095 + Math.random() / 100;
     // context.rotate(Math.PI / 1.00);
 
-        fractal(p0, p1, p2, 1);
+        fractal(p0, p1, p2, 2);
     
    
     context.restore();
