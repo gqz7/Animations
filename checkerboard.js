@@ -19,9 +19,7 @@ window.onload = function() {
         columnCycles = 0,                 //handles if too many columns of squares have been made on a row
         rowsCycles = 0,                  //handles if too many rows of squares have been made on the grid
         startWithWhite = true,          //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
-
-
-        originx = 0, originy = 0,
+        originx = 0, originy = 0,      //if these vars' values are modified the grid starting position will also be modified
 
         p1 = {x: originx, y: originy}, p2 = {x: size + originx, y: originy}, p3 = {x: size + originx, y: size + originy}, p4 = {x: originx, y: size + originy},
         squares = [];
@@ -29,14 +27,14 @@ window.onload = function() {
         //Animation Modifiers 
 
         // ---Sets the size of the grid, else the whole screen wil be used
-        columnLimit -= 50;
-        rowLimit -= 20;
+        columnLimit += 30;
+        rowLimit -= 70;
 
         // ---Translates the top left corner of the grid,
         // else it will start at the top left corner of the window
-        context.translate(500,200);
+        // context.translate(500,200);
 
-        //Color
+        //Color, else fill style must be set in the animation cycle
         context.fillStyle = 'white';
 
         // console.log(squares);
@@ -53,10 +51,11 @@ window.onload = function() {
             clear()
             
             create_grid()
-             
-            context.translate(1,1)
-            
-            
+
+            // originx++
+            columnLimit-=2;
+            rowLimit++;
+            // context.translate(1,1)
 
             // return
             setTimeout(window.requestAnimationFrame, 30, (animate));
@@ -102,7 +101,7 @@ window.onload = function() {
 
             while (columnCycles < columnLimit) {
                 create_square(p1,p2,p3,p4);
-                context.translate(size, originy);
+                context.translate(size, 0);
                 columnCycles++
             }
 
@@ -120,7 +119,7 @@ window.onload = function() {
                 context.save()
                 create_row()
                 context.restore()
-                context.translate(originx,size);
+                context.translate(0,size);
                 rowsCycles++
             }
             rowsCycles = 0;
