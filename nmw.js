@@ -23,18 +23,14 @@ window.onload = function() {
 var time = 0,
     distortion = 1;
     x = 0,
-    scale = 0; 
+    scale = 0, 
+    ranCount = 0;
 
 //rendering function loop
 window.requestAnimationFrame(function spin() {
-    context.rotate(Math.PI / .040002);
-    context.save()
-    x++;
-    // distortion -= .00095 + Math.random() / 100;
-    // context.rotate(Math.PI / 1.00);
-
-        fractal(p0, p1, p2, 1);
     
+    x++;
+
     if(time < 0 ){
         x = 0;
         time++;
@@ -49,7 +45,28 @@ window.requestAnimationFrame(function spin() {
          //(2 + Math.random() / 6);
          scale = 3.3 - (time /199); 
          
-    }   
+    } 
+
+    if (ranCount < 0) {
+        random = false;
+        ranCount = 0;
+    } else if (ranCount > 75) {
+        random = true;
+        ranCount = 75
+    } else if (random) {
+        ranCount-- 
+    } else {
+        ranCount++
+    }
+
+    // context.rotate(Math.PI / .040002);
+    context.save()
+    // distortion -= .00095 + Math.random() / 100;
+    // context.rotate(Math.PI / 1.00);
+
+        fractal(p0, p1, p2, 1);
+    
+   
     context.restore();
      
 setTimeout(window.requestAnimationFrame,0, (spin));  
@@ -65,13 +82,23 @@ function clear() {
 
 
 //create simple triangle
+
+let random = true;
 function drawTri(p0, p1, p2) {
+
+
+
+    if (random) {
+        context.fillStyle = 'hsl(' + (Math.random() * 360) + ', 100%, 70%)';
+    } else {
+        context.fillStyle = 'hsl(' + (time * 3.7) + ', 100%, 70%)';
+    }
 
     context.beginPath(); 
     context.moveTo(p0.x * scale, p0.y * scale);
     context.lineTo(p1.x * scale, p1.y * scale);
     context.lineTo(p2.x * scale, p2.y * scale);
-    context.fillStyle = 'hsl(' + (time * 1.7) + ', 100%, 60%)';
+    
     context.fill(); 
        
 } 
