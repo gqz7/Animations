@@ -20,16 +20,15 @@ window.onload = function() {
         rowsCycles = 0,                  //handles if too many rows of squares have been made on the grid
         startWithWhite = true,          //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
 
-        originx = 500, originy = 500,
+        originx = 0, originy = 0,
 
         p1 = {x: originx, y: originy}, p2 = {x: size + originx, y: originy}, p3 = {x: size + originx, y: size + originy}, p4 = {x: originx, y: size + originy},
         squares = [];
 
         //ANIMATION CYCLE
-
         
-        columnLimit -= 100;
-        rowLimit -= 70;
+        // columnLimit -= 100;
+        // rowLimit -= 70;
         
         animate()
         function animate() {
@@ -39,7 +38,8 @@ window.onload = function() {
 
             create_grid()
              
-            context.translate(60,40)
+            // context.scale(1.01,1.01);
+            context.translate(size*2,size)
        
             setTimeout(window.requestAnimationFrame, 0, (animate));
         }
