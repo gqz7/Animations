@@ -10,15 +10,15 @@ window.onload = function() {
         
 		width = canvas.width = window.innerWidth,       //width of the canvas
         height = canvas.height = window.innerHeight,   //height of the canvas
-        size = 20,                                    //determins size of each square
+        size = 100,                                    //determins size of each square
 
         //logic is included to make sure columnLimit is an odd number, this will make sure each row starts will the opposite of how to previous row started
         columnLimit =  (Math.ceil(width/size) % 2 == 0) ? Math.ceil(width/size) + 1: Math.ceil(width/size),     //how many columns in the grid
 
-        rowLimit = ((height/size) + 2),    //how many rows in the grid
-        columnCycles = 0,                 //handles if too many columns of squares have been made on a row
-        rowsCycles = 0,                  //handles if too many rows of squares have been made on the grid
-        startWithWhite = true,          //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
+        rowLimit = Math.ceil((height/size) + 3),    //how many rows in the grid
+        columnCycles = 0,                          //handles if too many columns of squares have been made on a row
+        rowsCycles = 0,                           //handles if too many rows of squares have been made on the grid
+        startWithWhite = true,                   //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
 
         originx = 0, originy = 0,
 
@@ -32,21 +32,23 @@ window.onload = function() {
         // rowLimit -= 140;
 
         // works for 100%
-        columnLimit -= 82;
-        rowLimit -= 34;
+        // columnLimit -= 82;
+        // rowLimit -= 34;
+        console.log(columnLimit, rowLimit);
+        
         
         animate()
         function animate() {
             time++
 
-            context.fillStyle = 'hsl(' + (time*12) + ', 100%, 60%)';
+            // context.fillStyle = 'hsl(' + (time*12) + ', 100%, 60%)';
 
             create_grid()
              
             // context.scale(1.01,1.01);
 
-            size += 1;
-            context.translate(size*2,size)
+            size -= .4;
+            // context.translate(,size)
        
             setTimeout(window.requestAnimationFrame, 0, (animate));
         }
@@ -71,9 +73,15 @@ window.onload = function() {
             context.lineTo(p1.x,p1.y);
 
             if (startWithWhite) {
+
+                context.fillStyle = 'hsl(' + (time*4) + ', 100%, 60%)';
+
                 context.fill();
                 startWithWhite = false;
             } else {
+                context.fillStyle = 'black';
+
+                context.fill();
                 startWithWhite = true;
             }
 
