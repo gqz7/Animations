@@ -10,7 +10,7 @@ window.onload = function() {
         
 		width = canvas.width = window.innerWidth,       //width of the canvas
         height = canvas.height = window.innerHeight,   //height of the canvas
-        size = 10,                                    //determins size of each square
+        size = 20,                                    //determins size of each square
 
         //logic is included to make sure columnLimit is an odd number, this will make sure each row starts will the opposite of how to previous row started
         columnLimit =  (Math.ceil(width/size) % 2 == 0) ? Math.ceil(width/size) + 1: Math.ceil(width/size),     //how many columns in the grid
@@ -25,6 +25,8 @@ window.onload = function() {
         p1 = {x: originx, y: originy}, p2 = {x: size + originx, y: originy}, p3 = {x: size + originx, y: size + originy}, p4 = {x: originx, y: size + originy},
         squares = [];
 
+        context.translate(-size,500);
+
         //ANIMATION CYCLE
         
         //work for 30%
@@ -32,8 +34,8 @@ window.onload = function() {
         // rowLimit -= 140;
 
         // works for 100%
-        columnLimit -= 82;
-        rowLimit -= 34;
+        // columnLimit -= 82;
+        rowLimit -= 40;
         
         animate()
         function animate() {
@@ -43,9 +45,14 @@ window.onload = function() {
 
             create_grid()
             
-            // context.scale(1.01,1.01);
-            size += .3;
-            // context.translate(size*2,size)
+            context.scale(1.00,1.001);
+            size += size*.013;
+
+            context.save()
+
+            context.translate(size*2,size)
+
+            context.restore()
        
             setTimeout(window.requestAnimationFrame, 60, (animate));
         }
@@ -72,13 +79,18 @@ window.onload = function() {
 
             if (startWithWhite) {
 
-                context.fillStyle = 'white';
+                // context.fillStyle = 'white';
+                // context.fillStyle = 'magenta';
+                context.fillStyle = 'yellow';
+                
 
                 context.fill();
                 startWithWhite = false;
             } else {
 
-                context.fillStyle = 'black';
+                // context.fillStyle = 'black';
+                // context.fillStyle = 'lime';
+                context.fillStyle = 'lightskyblue';
 
                 context.fill();
                 startWithWhite = true;
