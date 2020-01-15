@@ -6,3 +6,6 @@ I have finally got a fibonacci spiral working in Javascript! it had to give up t
 
 12/25 : 
 ive been making progress on making my animations look really cool and keeping them as simple as i can in my code. i could still work on making my code easier to read and leaving comments for thoes who want to understand how it works. sometimes changes can be guess and check so it is also good for me to look at my work and figure out exactly how everything is working together. my most recent animations have a pychedalic feel to them, but i will be moving away from these types of animations soon and try to challenge myself in other ways
+
+1/14 :
+i made substancial progess working with the idea of a checkerboard that can be animated in various ways, that is my current project right now
