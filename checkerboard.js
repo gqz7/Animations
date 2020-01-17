@@ -52,6 +52,9 @@ window.onload = function() {
             
             create_grid()
 
+            console.log(p1,p2,p3,p4);
+            
+
             // return if you uncomment this only the first grid will be made
             size-=.314;
             setTimeout(window.requestAnimationFrame, 30, (animate)); //number of milliseconds wiat period between each frame
@@ -67,9 +70,9 @@ window.onload = function() {
             context.restore();
         }
 
-
+        //CREATING GRID FUNCTIONS 3 parts - create square, row, grid
         //draw square onto canvas then fill
-        function create_square(p1,p2,p3,p4) { //this function creates the square line by line. and will then fill the shape with either white or black
+        function create_square() { //this function creates the square line by line. and will then fill the shape with either white or black
         
             context.beginPath();
 
@@ -98,9 +101,10 @@ window.onload = function() {
 
         function create_row(){
 
-            while (columnCycles < columnLimit) { //it will contiue to make new square every 
+            while (columnCycles < columnLimit) { //it will contiue to make new square in a perfect line until it has reached the column limit
+                //columnLimit must always be odd inorder for the checkerboard pattern to exist
 
-                create_square(p1,p2,p3,p4);
+                create_square();
                 context.translate(size, 0);
                 columnCycles++
 
@@ -110,7 +114,7 @@ window.onload = function() {
             
         }
 
-        function create_grid() {
+        function create_grid() { //loops until the given number of rows have been created
 
             startWithWhite = true
 
@@ -130,4 +134,4 @@ window.onload = function() {
 
         }
 
-}
+    }

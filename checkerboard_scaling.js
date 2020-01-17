@@ -80,7 +80,8 @@ window.onload = function() {
 
             if (startWithWhite) {
 
-                context.fillStyle = 'hsl(' + (time*7) + ', 100%, 60%)';
+                context.fillStyle = 'white';
+                // context.fillStyle = 'hsl(' + (time*7) + ', 100%, 60%)';
 
                 context.fill();
                 startWithWhite = false;
