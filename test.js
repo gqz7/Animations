@@ -9,7 +9,7 @@ window.onload = function() {
        
 
    context.translate(width / 2, height /2);
-    context.rotate(.5)
+    context.rotate(3.14)
 
     var p0 = {
                 x: 0, y: -321
@@ -20,39 +20,70 @@ window.onload = function() {
         p2 = {
                 x: -278, y: 160
             };
-var time = 0,
+let time = 0,
     distortion = .51;
     x = 0,
-    scale = 0; 
+    scale = 1,
+    timeSwitch = true,
+    lightness = 50,
+    limit = 444;
 
 //rendering function loop
 window.requestAnimationFrame(function spin() {
-    context.rotate(Math.PI / 2);
-    context.save()
-    x++;
-    // distortion -= .00095 + Math.random() / 100;
-    // context.rotate(Math.PI / 1.00);
 
-        fractal(p0, p1, p2, 3);
+
+    x++;
+    // distortion -= .000095 - Math.random() / 770;
+    // context.rotate(Math.PI / 1.2);
+
+    context.scale(1.0005,1.0005)
     
-    if(time < 0 ){
-        x = 0;
-        time++;
-        clear();
-    } else if ( x > 654 ){
-        return ////STOPS ANIMATION!!
-        time--;
-        scale = ((time/654));
+
+    context.save()
+
+    for (let i = 0; i < 2; i++) {
+
+        fractal(p0, p1, p2, 1);
+        context.scale(1.2,1.7);
+        context.rotate(Math.PI/3)
+
+        
     }
-    else if ( x < 654 ){
-        time++;
-         //(2 + Math.random() / 6);
-         scale = (time/654);
-         (x/200) + (Math.random() / 25); 
-    }   
-    context.restore();
+
+    time++
      
-setTimeout(window.requestAnimationFrame,0, (spin));  
+    context.restore();
+
+    if (time < limit && timeSwitch == true) {
+        console.log('going up');
+        
+        time++
+        scale-= .1;
+
+    } else if (time > limit && timeSwitch == true) {
+        
+        
+        time = limit - 3;
+
+        timeSwitch = false;
+
+    } else if (time < limit && timeSwitch == false) {
+
+        console.log('going down');
+
+        time--
+        scale-= .01;
+
+
+    } else if (time < 0 && timeSwitch == false) {
+        time = 3;
+        timeSwitch = true;
+    }
+
+    console.log(time);
+    
+     
+setTimeout(window.requestAnimationFrame,60, (spin));  
 })   
 
 //clear screen function
@@ -68,10 +99,10 @@ function clear() {
 function drawTri(p0, p1, p2) {
 
     context.beginPath(); 
-    context.moveTo(p0.x * scale, p0.y * scale);
+    context.moveTo(p0.x / scale, p0.y / scale);
     context.lineTo(p1.x / scale, p1.y / scale);
     context.lineTo(p2.x / scale, p2.y / scale);
-    context.fillStyle = 'hsl(' + (time * 7.3) + ', 100%, 60%)';
+    context.fillStyle = 'hsl(' + (time * 7.3) + ', 100%,' + lightness + '%)';
     context.fill(); 
        
 } 

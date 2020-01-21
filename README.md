@@ -9,3 +9,5 @@ ive been making progress on making my animations look really cool and keeping th
 
 1/14 :
 i made substancial progess working with the idea of a checkerboard that can be animated in various ways, that is my current project right now
+
+1/20/20 : making updates for filing system. checkboard animation is focus right now.
