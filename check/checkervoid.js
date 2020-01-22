@@ -21,7 +21,6 @@ window.onload = function() {
         colorswitch = true,             //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
 
         lightness = 0, //used in hsl ('hue', 'saturation', 'lightness');
-        
 
         originx = 0, originy = 0,
 
@@ -31,20 +30,24 @@ window.onload = function() {
         context.translate(width/2, height/2)
 
         //ANIMATION CYCLE
-        
-        //work for 30%
-        // columnLimit -= 290;
-        // rowLimit -= 140;
-
+    
         // works for 100%
-        columnLimit = 53;
-        rowLimit = 53;
+        columnLimit = 23;
+        rowLimit = 23;
         
         animate()
         function animate() {
+
+            //stops the animation once the size reaches 0
+            if (size < 0) {
+                console.log('animation complete');
+                return
+            }
+
             time++
-            // clear()
-            // 
+            size+=.3;
+            lightness++
+   
             context.save()
             for (let i = 0; i < 2; i++) {
                 create_grid()
@@ -53,7 +56,7 @@ window.onload = function() {
                 
             }
 
-            context.translate(0,100)
+            context.translate(0,300)
 
             for (let i = 0; i < 2; i++) {
                 create_grid()
@@ -62,24 +65,16 @@ window.onload = function() {
                 
             }
             context.restore()
-
-
-            // create_grid()
-
-            // context.rotate(Math.PI/2)
-
-            // create_grid()
-
-            // context.rotate(Math.PI/2)
-
-            lightness++
             
             
-            context.scale(1.01,.999);
-
-            size+=.3;
-            // context.translate(size,size)
-
+            if (time < 257) {
+                context.scale(1.01,.999);
+            } else {
+                size-=.8
+                columnLimit = 3;
+                rowLimit = 3;
+                context.scale(.990,-1.01);
+            }
        
             setTimeout(window.requestAnimationFrame, 0, (animate));
         }
@@ -112,7 +107,7 @@ window.onload = function() {
                 colorswitch = false;
             } else {
 
-                context.fillStyle = 'hsl(' + (10) + ', 50%,' + lightness+ '%)'; //pnk
+                context.fillStyle = 'hsl(' + (0) + ', 50%,' + (lightness * .5)+ '%)'; //pnk
 
                 // context.fillStyle = 'white';
 
