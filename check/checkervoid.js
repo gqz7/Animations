@@ -37,8 +37,8 @@ window.onload = function() {
         // rowLimit -= 140;
 
         // works for 100%
-        columnLimit -= 82;
-        rowLimit -= 34;
+        columnLimit = 53;
+        rowLimit = 53;
         
         animate()
         function animate() {
@@ -46,10 +46,19 @@ window.onload = function() {
             // clear()
             // 
             context.save()
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 2; i++) {
                 create_grid()
 
-                context.rotate(Math.PI/4)
+                context.rotate(Math.PI/2)
+                
+            }
+
+            context.translate(0,100)
+
+            for (let i = 0; i < 2; i++) {
+                create_grid()
+
+                context.rotate(Math.PI/2)
                 
             }
             context.restore()
@@ -66,20 +75,11 @@ window.onload = function() {
             lightness++
             
             
-            context.scale(1.01,1.037);
+            context.scale(1.01,.999);
 
-            size += .4;
-            context.translate(size*2,size)
+            size+=.3;
+            // context.translate(size,size)
 
-            
-
-            // if (time > 100) {
-            //     context.rotate(.01)
-                    console.log(time);
-            // } else {
-            //     console.log(time);
-                
-            // }
        
             setTimeout(window.requestAnimationFrame, 0, (animate));
         }
@@ -105,16 +105,16 @@ window.onload = function() {
 
             if (colorswitch) {
 
-                // context.fillStyle = 'hsl(' + (200) + ', 100%,' + (-1*(lightness-122)) + '%)'; //blue
-                context.fillStyle = 'black';
+                context.fillStyle = 'hsl(' + (100) + ', 100%,' + (-1*(lightness-122)) + '%)'; //grn
+                // context.fillStyle = 'black';
 
                 context.fill();
                 colorswitch = false;
             } else {
 
-                // context.fillStyle = 'hsl(' + (30) + ', 100%,' + lightness+ '%)'; //orange
+                context.fillStyle = 'hsl(' + (10) + ', 50%,' + lightness+ '%)'; //pnk
 
-                context.fillStyle = 'white';
+                // context.fillStyle = 'white';
 
                 context.fill();
                 colorswitch = true;
