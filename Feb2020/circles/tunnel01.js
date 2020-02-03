@@ -22,9 +22,9 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < 10; i++) {
 
-            context.translate(20,0)
+            context.translate(time/3,i/2);
             
-            make_circle(time, time, time, time);
+            make_circle(time, time, time*4, time);
             
         }
 
@@ -38,7 +38,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         context.beginPath()
         context.arc(x, y,  size, 0, 2 * Math.PI)
 
-        context.strokeStyle = 'hsl('+color+', 50%, 70%)'
+        context.strokeStyle = 'hsl('+color+', 100%, 50%)'
         context.stroke()
 
         
