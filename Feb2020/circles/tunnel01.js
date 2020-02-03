@@ -22,10 +22,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < 10; i++) {
 
-            context.translate(time/3,i/2);
+            context.translate(time/5 + i*10,i*10);
 
-            let curColor = time*3,
-                cursize = time/2;
+            let curColor = time*7,
+                cursize = time*4;
+
             
             make_circle(time, time, curColor, cursize);
             
