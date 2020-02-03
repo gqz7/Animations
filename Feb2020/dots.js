@@ -16,8 +16,22 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     animate()
     function animate() {
 
+        time++
+
+        make_circle(100, 100, time, time);
 
         setTimeout(window.requestAnimationFrame, 0, (animate));
     }
 
     // FUNCTIONS
+
+    function make_circle(x, y, color, size){
+
+        context.beginPath()
+        context.arc(x, y,  size, 0, 2 * Math.PI)
+
+        context.strokeStyle = 'hsl('+color+', 50%, 70%)'
+        context.stroke()
+
+        
+    }
