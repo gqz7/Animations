@@ -18,7 +18,15 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         time++
 
-        make_circle(100, 100, time, time);
+        
+
+        for (let i = 0; i < 10; i++) {
+
+            context.translate(20,0)
+            
+            make_circle(time, time, time, time);
+            
+        }
 
         setTimeout(window.requestAnimationFrame, 0, (animate));
     }
