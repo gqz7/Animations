@@ -5,7 +5,7 @@ const slider = document.getElementById('slider');
 
 let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d"),
-    time = 0;
+    time = 11;
     
 const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
@@ -13,7 +13,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
    //SETUP
 
-   context.translate(width/2, height/2)
+   context.translate(200, height/4)
 
     //ANIMATION CYCLE
     
@@ -45,20 +45,30 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function create(variable) {
 
+        let jMax;
+
         console.log(variable);
+
+        if(variable < 200) {
+            jMax = variable
+        } else { 
+            jMax = (variable - 200) *4;
+        }
 
         
         context.save()
 
-        for (let j = 0; j < time; j++) {
+        for (let j = jMax; j > 23; j--) {
 
-            context.translate(0,0);
-            let curClr = j * 7,
+            context.translate(j/4,-j/10);
+
+            context.rotate(Math.PI/j*1.9)
+            let curClr = j * 2,
             size = (j) + 0;
 
-            for (let i = -23; i < 23; i++) {
+            for (let i = -13; i < 10; i++) {
                 
-                make_circle(i, i, curClr, size);
+                make_circle(i/i*i, i*i, curClr, size);
                 
             }
         }
