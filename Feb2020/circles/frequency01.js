@@ -20,11 +20,13 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = -17; i < 23; i++) {
 
-            context.translate(time/3,i/2);
+            context.translate(time/3,i/3);
+
+            let curClr = time * 7;
             
-            make_circle(time, time, time*4, time);
+            make_circle(time, time, curClr, time);
             
         }
 

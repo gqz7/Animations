@@ -12,23 +12,35 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
    
     //ANIMATION CYCLE
+
+    context.translate(width/2, height/2)
     
     animate()
     function animate() {
 
-        time++
-
         
 
-        for (let i = 0; i < 10; i++) {
+        time++
 
-            context.translate(time/3,i/2);
+        context.rotate(Math.PI/2);
+
+        if (time % 50 == 0) clear()
             
-            make_circle(time, time, time*4, time);
+
+
+        for (let i = -10; i < 10; i++) {
+
+            
+
+            context.translate(time/10,i);
+
+            let curClr = time * 7;
+            
+            make_circle(time/10, time/100, curClr, time);
             
         }
 
-        setTimeout(window.requestAnimationFrame, 0, (animate));
+        setTimeout(window.requestAnimationFrame, 6, (animate));
     }
 
     // FUNCTIONS
@@ -42,4 +54,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         context.stroke()
 
         
+    }
+
+    function clear() { 
+        context.save();
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.restore();
     }

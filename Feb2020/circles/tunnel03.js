@@ -1,3 +1,4 @@
+
 //INITIAL VARIABLE DECLERATIONS
 
 const slider = document.getElementById('slider');
@@ -10,23 +11,21 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
       size = 48.1;                                  //determins size of each square
 
-   
+   //SETUP
+
+   context.translate(width/2, height/2)
+
     //ANIMATION CYCLE
     
     animate()
     function animate() {
+        clear()
 
         time++
 
+        create(time) 
+
         
-
-        for (let i = 0; i < 10; i++) {
-
-            context.translate(time/3,i/2);
-            
-            make_circle(time, time, time*4, time);
-            
-        }
 
         setTimeout(window.requestAnimationFrame, 0, (animate));
     }
@@ -42,4 +41,34 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         context.stroke()
 
         
+    }
+
+    function create(variable) {
+
+        console.log(variable);
+
+        
+        context.save()
+
+        for (let j = 0; j < time; j++) {
+
+            context.translate(0,0);
+            let curClr = j * 7,
+            size = (j) + 0;
+
+            for (let i = -23; i < 23; i++) {
+                
+                make_circle(i, i, curClr, size);
+                
+            }
+        }
+
+        context.restore()
+    }
+
+    function clear() { 
+        context.save();
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.restore();
     }
