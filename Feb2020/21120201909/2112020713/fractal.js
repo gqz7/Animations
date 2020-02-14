@@ -1,60 +1,4 @@
-//INITIAL VARIABLE DECLERATIONS
 
-const slider = document.getElementById('slider');
-
-console.log(slider);
-
-console.log(slider.value);
-
-
-
-let canvas = document.getElementById("canvas"),
-    context = canvas.getContext("2d"),
-    time = 0;
-    
-const width = canvas.width = window.innerWidth,       //width of the canvas
-      height = canvas.height = window.innerHeight;   //height of the canvas
-
-
-      
-context.translate(width/2, height/2);
-
-for (let i = 0; i < 400; i++) {
-
-
-    for (let shape = 0; shape === 4 ;shape++) {
-
-
-        spin()
-        context.rotate(shapes/i)
-
-
-    }
-    
-
-
-
-    context.strokeStyle = 'hsl(' + Math.random() * 360 + ', 100%, 50%)';
-    
-
-    //make turn
-
-    context.rotate((2 * Math.random()) + 1)
-
-    //movment
-    let forwardMove = Math.random() * 333;
-
-    context.beginPath()
-    context.moveTo(0,0);
-    context.lineTo(0, forwardMove);
-    context.stroke()
-
-    context.translate(0, forwardMove);
-
-
-    
-}
-// single line commentflskafolsdk
 
 window.onload = function() {
 	let canvas = document.getElementById("canvas"),
@@ -77,21 +21,21 @@ window.onload = function() {
             };
 let x = 0,
     m = .1;
-    distortion = 6;
+    distortion = 1;
 
 //(2 + Math.random() / 6); 
 
 window.requestAnimationFrame(function spin() {
     x++
     m = m + .06;
-    distortion = distortion / 1.9;
+    // distortion = distortion / 1.9;
 
     context.save();
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.restore();
     
-    context.rotate(Math.PI / 0 );
+    context.rotate(Math.PI / 40);
 
         context.save();
         fractal(p0, p1, p2, 5 );
@@ -183,7 +127,7 @@ window.requestAnimationFrame(function spin() {
         context.moveTo(p0.x * m, p0.y * m);
         context.lineTo(p1.x * m, p1.y * m);
         context.lineTo(p2.x * m, p2.y * m);
-        context.fillStyle = 'hsl(' + 360 * 77 + ', 100%, 80%)';
+        context.fillStyle = 'hsl(' +  x + ', 100%, 60%)';
         context.fill();
            
     } 
