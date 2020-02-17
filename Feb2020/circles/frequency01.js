@@ -16,32 +16,47 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     animate()
     function animate() {
 
-        time++
+            time+=.3
 
-        
+            if (time > 200) {
+                return
+            }
 
-        for (let i = -17; i < 23; i++) {
+                let curClr = time * 7;
+                
+                console.log('before');
 
-            context.translate(time/3,i/3);
+                setTimeout( () => {
 
-            let curClr = time * 7;
+                    context.translate(time/3, (Math.sin(time) * 10) + time/7);
+
+                    make_circle(time, time, curClr, time);
+
+                    animate()
+
+                }, 30 )
+
+                console.log('after');
+                
+                
+                // make_circle(time, time, curClr, time);
+                
+    
             
-            make_circle(time, time, curClr, time);
-            
-        }
 
-        setTimeout(window.requestAnimationFrame, 0, (animate));
+            
+
+            console.log(time);
     }
 
     // FUNCTIONS
 
-    function make_circle(x, y, color, size){
+    async function make_circle(x, y, color, size){
 
         context.beginPath()
         context.arc(x, y,  size, 0, 2 * Math.PI)
 
         context.strokeStyle = 'hsl('+color+', 100%, 50%)'
         context.stroke()
-
         
     }

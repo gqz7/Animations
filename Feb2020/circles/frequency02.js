@@ -4,73 +4,62 @@ const slider = document.getElementById('slider');
 
 let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d"),
-    time = 30;
+    time = 0;
     
 const width = canvas.width = window.innerWidth,       //width of the canvas
-      height = canvas.height = window.innerHeight;   //height of the canvas
-      
+      height = canvas.height = window.innerHeight,   //height of the canvas
+      size = 48.1;                                  //determins size of each square
 
    
     //ANIMATION CYCLE
 
-    context.translate(width*2/3, height - 400)
 
-    context.save()
+    context.translate(width/2, height/2)
     
     animate()
     function animate() {
 
-        time+=.5
+            time+=.3
 
-        context.rotate(Math.PI/2.001);
-        if (time > 700) {
-
-            time = 50;
-            setTimeout(100, clear())
-            context.restore();
-
-        }
-
-        let curClr = time;
-            
-
-        for (let i = -26; i < 26; i++) {
-
-
-            if (i == 26) {
-                
-                
+            if (time > 200) {
+                return
             }
 
-            // context.translate(time/400,i*1.000000001);
-            context.translate(.1,9)
+                let curClr = time * 7;
+                
+                console.log('before');
 
-            curClr-=i/3
+                setTimeout( () => {
 
-            make_circle(time/100000, time/100000, curClr, time/2);
+                    context.translate(time/2, (Math.sin(time) * 10) + time/7);
+
+                    make_circle(time, time, curClr, time);
+
+                    animate()
+
+                }, 30 )
+
+                console.log('after');
+                
+                
+                // make_circle(time, time, curClr, time);
+                
+    
             
-        }
 
+            
 
-        setTimeout(window.requestAnimationFrame, 10, (animate));
+            console.log(time);
     }
 
     // FUNCTIONS
 
-    function make_circle(x, y, color, size){
+    async function make_circle(x, y, color, size){
 
         context.beginPath()
         context.arc(x, y,  size, 0, 2 * Math.PI)
 
-        context.strokeStyle = 'hsl('+color+', 100%, 70%)'
+        context.strokeStyle = 'hsl('+color+', 100%, 50%)'
         context.stroke()
-
         
-    }
-
-    function clear() { 
-        context.save();
-        context.setTransform(1, 0, 0, 1, 0, 0);
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.restore();
     }
