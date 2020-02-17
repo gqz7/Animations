@@ -4,13 +4,11 @@ const slider = document.getElementById('slider');
 
 let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d"),
-    time = 0;
+    time = 2;
     
 const width = canvas.width = window.innerWidth,       //width of the canvas
-      height = canvas.height = window.innerHeight,   //height of the canvas
-      size = 48.1;                                  //determins size of each square
+      height = canvas.height = window.innerHeight;   //height of the canvas
 
-   
     //ANIMATION CYCLE
 
 
@@ -20,7 +18,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     animate()
     function animate() {
 
-            time+=.2
+            time+=.15
 
             if (time > 200) {
                 return
@@ -36,7 +34,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
                     animate()
 
-                }, 30 )
+                }, 20 )
 
                 console.log('after');
                 
@@ -65,19 +63,19 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function create_pattern() {
 
-        // context.rotate(.03)
+        context.rotate(time/10000)
 
-        let curClr = (time * 3) + 250;
+        let curClr = (time * 5.7) + 250;
 
-        for ( let i = -2; i <= 2; i+=1) {
+        for ( let i = -6; i <= 6; i+=.5) {
 
             context.save()
 
-            context.rotate(Math.PI/i)
+            context.rotate(i/2)
 
             let 
-                translatex = time*time,
-                translatey = (Math.sin(time) * 30) + time*6;
+                translatex = (Math.cos(time) * time) + time * 13,
+                translatey = (Math.sin(time) * time) + Math.pow(1.13, time);
 
             context.translate(translatex, translatey);
 
