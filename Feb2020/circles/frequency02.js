@@ -7,15 +7,13 @@ let canvas = document.getElementById("canvas"),
     time = 0;
     
 const width = canvas.width = window.innerWidth,       //width of the canvas
-      height = canvas.height = window.innerHeight,   //height of the canvas
-      size = 48.1;                                  //determins size of each square
-
+      height = canvas.height = window.innerHeight;   //height of the canvas
    
     //ANIMATION CYCLE
 
 
     context.translate(width/2, height/2)
-    context.rotate(.5)
+    context.rotate(Math.PI/1.08)
     
     animate()
     function animate() {
@@ -26,9 +24,6 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                 return
             }
 
-                
-                
-                console.log('before');
 
                 setTimeout( () => {
 
@@ -36,27 +31,18 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
                     animate()
 
-                }, 30 )
+                }, 44 )
 
-                console.log('after');
-                
-                
-                // make_circle(time, time, curClr, time);
-                
-    
-            
-
-            
-
-            console.log(time);
     }
 
     // FUNCTIONS
 
     function make_circle(x, y, color, size){
 
+        let startAngle = 0 + color/20;
+
         context.beginPath()
-        context.arc(x, y,  size, 0, 2 * Math.PI)
+        context.arc(x, y,  size, startAngle, 2 * Math.PI)
 
         context.strokeStyle = 'hsl('+color+', 100%, 50%)'
         context.stroke()
@@ -76,7 +62,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
             context.rotate(Math.PI/i)
 
             let 
-                translatex = time*time,
+                translatex = time*time/2,
                 translatey = (Math.sin(time) * 30) + time*6;
 
             context.translate(translatex, translatey);

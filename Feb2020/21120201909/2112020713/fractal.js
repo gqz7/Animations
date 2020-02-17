@@ -19,9 +19,10 @@ window.onload = function() {
         p2 = {
                 x: -278, y: 160
             };
-let x = 0,
+let x = 200,
     m = .1;
-    distortion = 1;
+    distortion = 1,
+    fracLim = 5;
 
 //(2 + Math.random() / 6); 
 
@@ -30,31 +31,28 @@ let x = 0,
             m = m + .06;
             // distortion = distortion / 1.9;
 
+            // clear()
             
-            
-            context.rotate(Math.PI / 40);
+            context.rotate(Math.PI / 400);
 
                 context.save();
-                fractal(p0, p1, p2, 5 );
-                context.rotate(1);
-                fractal(p0, p1, p2, 5 );
-                context.restore();
-
-            
-
-
-            if(x > 100){
+                fractal(p0, p1, p2, fracLim);
+                
+        
+            if(x > 200){
                 clear()
-                x = 1
+                x = 100
                 m = 0
-                distortion = 3
+                distortion = 2
+
+                if (fracLim < 9) {
+                    fracLim++
+                }
+                
             }
             
-
             
-            
-            
-        setTimeout(requestAnimationFrame,0, (spin));  
+        setTimeout(requestAnimationFrame, 100, (spin));  
         })    
 
 
@@ -98,7 +96,7 @@ let x = 0,
         context.moveTo(p0.x * m, p0.y * m);
         context.lineTo(p1.x * m, p1.y * m);
         context.lineTo(p2.x * m, p2.y * m);
-        context.fillStyle = 'hsl(' + x + ', 100%, 60%)';
+        context.fillStyle = 'hsl(' + x*2 + ', 100%, 60%)';
         context.fill();
         
     } 

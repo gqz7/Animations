@@ -54,7 +54,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     function make_circle(x, y, color, size){
 
         context.beginPath()
-        context.arc(x, y,  size, 0, 2 * Math.PI)
+        context.arc(x, y,  size, 4.3, 2 * Math.PI)
 
         context.strokeStyle = 'hsl('+color+', 100%, 50%)'
         context.stroke()
