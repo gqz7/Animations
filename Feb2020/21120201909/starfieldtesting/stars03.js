@@ -10,7 +10,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
       delay = 10;                                    //determins durration of time(ms) between each frame
 
-let  speed = 7;                                   //sets the speed at which stars travel away from the center
+let  speed = 4;                                   //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
 
@@ -39,17 +39,17 @@ let  speed = 7;                                   //sets the speed at which star
              console.log(speed);
 
             
-            if (time < 100) {
+            if (time < 400) {
 
-                speed += .1
+                speed += .01
                 
                  animate()
                 
             } else if (time < 10000) {
 
-                if (speed < 21) {
+                if (speed < 17) {
 
-                    speed += .01
+                    speed += .1
                     
                 }
 
