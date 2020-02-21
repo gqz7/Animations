@@ -27,20 +27,18 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         render_objects()
 
-        console.log(time);
+        console.log(Objects.length);
         
 
-        if (time % 10 == 0) {
+        if (time % 100 == 0) {
             create_objects()
         }
-
-        // create_frame()
 
         change_properties()
 
         setTimeout( () => {
             
-            if (time < 1000) {
+            if (time < 3000) {
 
                  animate()
                 
@@ -77,7 +75,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
             
             hue = Math.random() * 360,
 
-            lightness = 70,
+            lightness = 0,
 
             x = Math.random() * width/8,
             y = Math.random() * height/8,
@@ -85,12 +83,12 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
             growthRandomizer = Math.random() > .5 ?  false : true,
 
-            ranAngle = Math.random() * (Math.PI * 2);
+            ranAngle = Math.round((Math.random() * (Math.PI * 2)) * 10) / 10;
 
-            console.log(ranAngle);
+            // console.log(ranAngle);
             
 
-            Objects.push({x: x, y: y, hue: hue, size: size, lightness: lightness, growing: growthRandomizer, angle: ranAngle})
+            Objects.unshift({x: x, y: y, hue: hue, size: size, lightness: lightness, growing: growthRandomizer, fading: false, angle: ranAngle})
             
         }
         
@@ -112,9 +110,15 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                
             Objects[i].y += 1
 
-            render_circle(Objects[i].x, Objects[i].y, Objects[i].hue, Objects[i].size, Objects[i].lightness);
+
+            if (Objects[i].x > width || Objects[i].x < 0 || Objects[i].y > height || Objects[i].y < 0)  {
+                Objects.splice(i, 1)
+                i--
+            } else {
+                render_circle(Objects[i].x, Objects[i].y, Objects[i].hue, Objects[i].size, Objects[i].lightness);
             
-           
+            }
+
             context.restore()
 
             
@@ -139,9 +143,25 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                    Objects[i].growing = true
                }
 
-            //    Objects[i].x += 1;
-            //    Objects[i].y += 1
+               if (!Objects[i].fading && Objects[i].lightness < 100) {
 
+                    Objects[i].lightness+=.2
+                   
+               } else if (!Objects[i].fading) {
+
+                    Objects[i].fading = true;
+
+               } else if (Objects[i].fading && Objects[i].lightness > 1) {
+
+                    Objects[i].lightness-=.2
+                   
+               } else {
+                    Objects[i].fading = false
+               }
+
+    
+
+               
 
             
         }
