@@ -10,6 +10,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
       delay = 1;                                //determins durration of time(ms) between each frame
 
+      context.translate(width/2, height/2)
    
     //ANIMATION CYCLE
 
@@ -26,7 +27,14 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         render_objects()
 
-        create_frame()
+        console.log(time);
+        
+
+        if (time % 10 == 0) {
+            create_objects()
+        }
+
+        // create_frame()
 
         change_properties()
 
@@ -63,7 +71,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function create_objects() {
 
-        for (let i = 0; i < 333; i++) {
+        for (let i = 0; i < 10; i++) {
 
             let    
             
@@ -71,8 +79,8 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
             lightness = 70,
 
-            x = Math.random() * width/2 + width/4,
-            y = Math.random() * height/2 + height/4,
+            x = Math.random() * width/8,
+            y = Math.random() * height/8,
             size = Math.random() * 100,
 
             growthRandomizer = Math.random() > .5 ?  false : true,
@@ -91,10 +99,23 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     function render_objects() {
         for (let i = 0; i < Objects.length; i++) {
 
-         
-            render_circle(Objects[i].x, Objects[i].y, Objects[i].hue, Objects[i].size, Objects[i].lightness);
+            
+            let angle = Objects[i].angle;
 
+            context.save()
+
+            context.translate(0,0)
+
+            context.rotate(angle)
+
+            Objects[i].x += 1;
+               
+            Objects[i].y += 1
+
+            render_circle(Objects[i].x, Objects[i].y, Objects[i].hue, Objects[i].size, Objects[i].lightness);
+            
            
+            context.restore()
 
             
         }
@@ -117,17 +138,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                } else {
                    Objects[i].growing = true
                }
-               let angle = Objects[i].angle;
 
-               context.save()
-   
-               context.rotate(Objects[i].angle)
+            //    Objects[i].x += 1;
+            //    Objects[i].y += 1
 
-               Objects[i].x += .1
 
-               Objects[i].y += .1
-
-               context.restore()
             
         }
 
