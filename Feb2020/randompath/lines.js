@@ -14,13 +14,15 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     //ANIMATION CYCLE
 
     let Objects = [];
-    
+
+    create_objects()
     animate()
+
     function animate() {
 
         clear()
 
-        create_objects()
+        render_objects()
 
         setTimeout( () => {
             
@@ -69,11 +71,22 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
             y = Math.random() * height,
             size = 100;
              
-            render_circle(x, y, hue, size, lightness);
+            Objects.push({x: x, y: y, hue: hue, size: size, lightness: lightness})
             
         }
         
     }
+
+    function render_objects() {
+        for (let i = 0; i < Objects.length; i++) {
+            
+            render_circle(x, y, hue, size, lightness);
+            
+        }
+    }
+
+
+    
 
     function clear() {
 
