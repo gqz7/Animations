@@ -26,13 +26,26 @@ let  speed = 4;                                   //sets the speed at which star
 
         time++ //a counter that counts the elapsed number of frames
 
-        if (time > 200 && time < 350) {
+        if (time > 200 && time < 400) {
+
             context.rotate(-.001)
-            speed -=.5
-        } else if (time === 350) {
+            speed -=.3
+
+        } else if (time == 200) {
+
+            Stars.forEach(star => {
+                star.radius = .4
+            });
+            
+        } else if (time === 400) {
+            
             clear()
             speed = 0
-        } else if (time > 350 && time < 600) {
+
+            Stars.forEach(star => {
+                star.radius = .2
+            });
+        } else if (time > 400 && time < 600) {
 
             context.rotate(.01)
             speed+=.4
@@ -51,7 +64,7 @@ let  speed = 4;                                   //sets the speed at which star
 
         renderStars() //displays each star from its position in the Stars array 
 
-        moveStars(speed) //moves the position of each start slightly
+        modifyStars(speed) //moves the position of each start slightly
 
         setTimeout( () => {
 
@@ -88,7 +101,7 @@ let  speed = 4;                                   //sets the speed at which star
 
     function create_star_field() {
 
-        for (let i = 0; i < 400; i++) {
+        for (let i = 0; i < 200; i++) {
 
             let hue = Math.random() * 360,
                     x = (Math.random() * width) - width /2,
@@ -124,7 +137,7 @@ let  speed = 4;                                   //sets the speed at which star
 
     }
 
-    function moveStars(speed) {
+    function modifyStars(speed) {
 
         for (let i = 0; i < Stars.length; i++) {
 
