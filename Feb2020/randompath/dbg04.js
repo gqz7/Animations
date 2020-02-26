@@ -82,19 +82,22 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     function render_triangle(x, y, hue, size, lightness){
 
     
+        // context.fillStyle = `hsl(${hue}, 100%, ${lightness}%)`;
         context.strokeStyle = `hsl(${hue}, 100%, ${lightness}%)`;
-
         context.translate(x,y)
 
         context.beginPath()
         context.moveTo(0,0)
 
 
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 2; i++) {
+                context.rotate(Math.PI/3)
                 context.lineTo(size,size)
-                context.rotate(Math.PI/2)
-
+                
             }
+
+            context.rotate(Math.PI)
+            context.lineTo(0,0)
 
         context.stroke()
  
