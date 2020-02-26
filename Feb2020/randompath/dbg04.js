@@ -17,7 +17,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     let Objects = [];
 
-    create_objects(100)
+    create_objects(3)
     animate()
 
     function animate() {
@@ -26,7 +26,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         // clear()
 
-        context.rotate(Math.PI)
+        context.rotate(Math.PI/2)
 
         render_objects()
         
@@ -90,13 +90,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         context.moveTo(0,0)
 
 
-            context.rotate(Math.PI/3)
-            
-            context.lineTo(size,size);
+            for (let i = 0; i < 3; i++) {
+                context.lineTo(size,size)
+                context.rotate(Math.PI/2)
 
-            context.rotate(Math.PI/3)
-            
-            context.lineTo(size,size);
+            }
 
         context.stroke()
  
@@ -110,7 +108,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
             hue =( Math.random() * 144) + time/2 + 100,
 
-            lightness = 0,
+            lightness = 10,
 
             x = Math.random() * width/32 + 30,
             y = Math.random() * width/32 + 30,
@@ -138,7 +136,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
             context.translate(0,0)
 
-            context.rotate(angle)
+            context.rotate(-angle)
 
             Objects[i].x += (Objects[i].x / 100)
                
@@ -176,6 +174,8 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < Objects.length; i++) {
     
+
+            //Condional Block 1 controls radius of each object
                if (Objects[i].growing && Objects[i].size < 500) {
 
                    Objects[i].size += Math.random()
@@ -190,9 +190,10 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                    Objects[i].growing = true
                }
 
+            //Condional Block 2 controls lightness of each object
                if (!Objects[i].fading && Objects[i].lightness < 70) {
 
-                    Objects[i].lightness+=.2
+                    Objects[i].lightness+=.5
                    
                } else if (!Objects[i].fading) {
 
@@ -210,6 +211,8 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     }
 
+
+    //NOT IN USE creates a border that changes color
 
     function create_frame() {
 
