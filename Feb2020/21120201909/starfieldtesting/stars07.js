@@ -26,7 +26,7 @@ let  speed = 4;                                   //sets the speed at which star
 
         time++ //a counter that counts the elapsed number of frames
 
-        if (time > 700 || time < 100) {
+        if (time > 1222 || time < 122) {
             clear() //clears the screen
         }
         
@@ -155,38 +155,38 @@ let  speed = 4;                                   //sets the speed at which star
 
     function lightspeed() {
 
-        if (time > 200 && time < 400) {
+        if (time > 200 && time < 603) {
             
             context.scale(.999,.999)
 
-            context.rotate(-.003)
-            speed -=.3
+            context.rotate(-.03)
+            speed -=.093
         
         } else if (time == 200) {
 
-            // clear()
+            clear()
 
             Stars.forEach(star => {
-                star.radius = 4
+                star.radius = .1
             });
             
-        } else if (time === 400) {
+        } else if (time === 603) {
             
             clear()
-            speed = 02
+            speed = 2;
 
             Stars.forEach(star => {
-                star.radius = .001
+                star.radius = 2
             });
             
-        } else if (time > 400 && time < 600) {
+        } else if (time > 603 && time < 977) {
 
             context.rotate(.01)
             speed+=.4
 
            
 
-        } else if (time == 600) {
+        } else if (time == 977) {
 
             speed = 3
             
