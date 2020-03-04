@@ -76,8 +76,8 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         let 
         x1 = x,
         y1 = y,
-        x2 = x*(1.05),
-        y2 = y*(1.05),
+        x2 = x*(1.15),
+        y2 = y*(1.15),
         
         grad = context.createLinearGradient(x1, y1, x2, y2);
 
@@ -108,7 +108,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < 500; i++) {
 
-            let
+            let     
                 x = (Math.random() * width) - width /2,
                 y = (Math.random() * height) - height /2,
                 size = 1,
@@ -163,7 +163,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness += 2
+                    Stars[i].lightness += 1
                     
                     Stars[i].size += 7/10000
 
@@ -176,12 +176,21 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function addStar() { //when one star dies another is born
 
-        let 
-        x = (Math.random() * width/7) - width /14,
-        y = (Math.random() * height/7) - height /14,
+        
+        let  
+        ranNum = Math.random() * 100   
+        radius = time/100;
+        randomX1 = (Math.cos(ranNum) * radius),
+        randomY1 = (Math.sin(ranNum) * radius),
+        randomX2 = (Math.cos(ranNum) * radius * 2),
+        randomY2 = (Math.sin(ranNum) * radius * 2),
+        ranNum = Math.random(),
+
+        x =  (randomX1 / ranNum) + (randomX2 * ranNum) ,
+        y =  (randomY1 / ranNum) + (randomY2 * ranNum) ;
         size = 3,
         lightness = 0;
- 
+
         Stars.push({
             x: x, y: y, size: size, lightness: lightness
         });
