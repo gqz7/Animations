@@ -5,18 +5,15 @@ let canvas = document.getElementById('canvas'),
       context = canvas.getContext('2d'),
 
       width = canvas.width = window.innerWidth,
-      height = canvas.height = window.innerHeight;
+      height = canvas.height = window.innerHeight,
 
-      //creates black background
-      context.beginPath()
-      context.rect(0,0,width,height)
-      context.fillStyle = 'black'
-      context.fill()
+      angle = 0;
 
+      createbbg()
       render()
       function render() {
 
-          scale_from_center()
+        //   scale_from_center()
         //   clearFullScreen()
 
           rotate_about_the_center()
@@ -24,7 +21,7 @@ let canvas = document.getElementById('canvas'),
           ranCircle()
 
 
-          setTimeout(window.requestAnimationFrame, 30, render)
+          setTimeout(window.requestAnimationFrame, 0, render)
       }
 
 
@@ -45,12 +42,12 @@ let canvas = document.getElementById('canvas'),
 
         for (let i = 0; i < 1000; i++) {
 
-                let radius = 100;
+                let radius = i/100;
 
-                let randomX = (Math.random() * Math.cos(i)) *radius,
+                let randomX = (Math.random() * Math.cos(i)) * radius,
                     randomY = (Math.random() * Math.sin(i)) * radius,
 
-                    x = width / randomX,
+                    x =  randomX,
                     y = height / randomY,
                     x1 = x + 1,
                     y1 = y +1;
@@ -61,7 +58,7 @@ let canvas = document.getElementById('canvas'),
 
                 context.lineTo(x1,y1)
 
-                context.strokeStyle = `hsl(${i-60}, 100%, 30%)`;
+                context.strokeStyle = `hsl(${radius*65}, 100%, 44%)`;
 
                 context.stroke()
                 
@@ -74,19 +71,43 @@ let canvas = document.getElementById('canvas'),
 
     function rotate_about_the_center() {
 
-        context.translate(width/2, height/2)
+        let angleOfRoation = Math.PI / 300;
 
-        context.rotate(.01)
+        angle += angleOfRoation
+
+        if (angle >= Math.PI) {
+            clearFullScreen()
+            createbbg()
+            angle = 0;
+            
+        } else {
+
+            context.translate(width/2, height/2)
+
+        context.rotate(angleOfRoation)
 
         context.translate(-width/2, -height/2)
 
+        }
+ 
     }
 
     function scale_from_center() {
         // context.save()
         context.translate(width/2, height/2)
-        context.scale(1.01,1.01)
+        context.scale(1.001,1.001)
         context.translate(-width/2, -height/2)
 
         // context.restore()
+    }
+
+    function createbbg() {
+         //creates black background
+        context.save()
+      context.beginPath()
+      context.rect(0,0,width,height)
+      context.fillStyle = 'black'
+      context.fill()
+      context.restore()
+        
     }
