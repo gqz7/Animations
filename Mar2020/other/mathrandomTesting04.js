@@ -17,7 +17,7 @@ let canvas = document.getElementById('canvas'),
           ranCircle()
 
 
-        //   setTimeout(window.requestAnimationFrame, 10, render)
+          setTimeout(window.requestAnimationFrame, 10, render)
       }
 
 
@@ -36,40 +36,27 @@ let canvas = document.getElementById('canvas'),
 
         context.translate(width/2, height/2)
 
-        let loops = 10000, outside = 0;
-
-        for (let i = 0; i < loops; i++) {
+        for (let i = 1; i < 1000; i+=3) {
 
                 let radius = 200;
 
                 let randomX = (Math.cos(i) * radius),
                     randomY = (Math.sin(i) * radius),
 
-                    x =  randomX / (Math.random()*1.01),
-                    y =  randomY / (Math.random()*1.01);
-
-                    // x =  randomX / (Math.random() * 2.001),
-                    // y =  randomY / (Math.random() * 2.001);
-
-                if (x > width / 2 || x < -width / 2 || y > height/2 || y < -height/2 ) {
-                   outside++
-                    
-                }
+                    x =  randomX,
+                    y =  randomY;
             
                 context.beginPath()
 
                 context.moveTo(x,y)
 
-                context.lineTo(x+1,y+1)
+                context.lineTo(x*i,y*i)
 
                 context.strokeStyle = 'white'
 
                 context.stroke()
                 
         }
-
-        console.log(`Outside ${(outside/loops)*100}%`);
-        
 
         context.restore()
 
