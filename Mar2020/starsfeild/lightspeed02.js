@@ -8,9 +8,9 @@ let canvas = document.getElementById("canvas"),
     
 const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
-      delay = 10;                                    //determins durration of time(ms) between each frame
+      delay = 20;                                    //determins durration of time(ms) between each frame
 
-  let speed = 30;                                   //sets the speed at which stars travel away from the center
+  let speed = 50;                                   //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
 
@@ -70,9 +70,6 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         context.save()
 
-        // context.beginPath()
-        // context.arc(x, y,  size, 0, 2 * Math.PI)
-
         let saturation = 30;
 
         context.beginPath();
@@ -130,8 +127,8 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < Stars.length; i++) {
 
-            let NewX = Stars[i].x * (1 + speed/1000),
-                NewY = Stars[i].y * (1 + speed/1000);
+            let NewX = Stars[i].x * (1 + speed/300),
+                NewY = Stars[i].y * (1 + speed/300);
 
 
                 if (NewX > width/1.5 || NewX < -width/1.5 || NewY > width/1.5 || NewY < -width/1.5) {
@@ -147,7 +144,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness += 2
+                    Stars[i].lightness += 6
                     
                     Stars[i].radius += 7/1000
 
@@ -163,7 +160,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         let hue = Math.random() * 360,
         x = (Math.random() * width/8) - width /16,
         y = (Math.random() * height/8) - height /16,
-        size = 1,
+        size = 3,
         lightness = 0;
  
         Stars.push({
