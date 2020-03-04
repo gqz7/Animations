@@ -7,13 +7,19 @@ let canvas = document.getElementById('canvas'),
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight;
 
+      //creates black background
+      context.beginPath()
+      context.rect(0,0,width,height)
+      context.fillStyle = 'black'
+      context.fill()
+
       render()
       function render() {
 
           scale_from_center()
         //   clearFullScreen()
 
-        //   rotate_about_the_center()
+          rotate_about_the_center()
 
           ranCircle()
 
@@ -39,21 +45,23 @@ let canvas = document.getElementById('canvas'),
 
         for (let i = 0; i < 1000; i++) {
 
-                let radius = i/4;
+                let radius = 100;
 
                 let randomX = (Math.random() * Math.cos(i)) *radius,
                     randomY = (Math.random() * Math.sin(i)) * radius,
 
                     x = width / randomX,
-                    y = height / randomY;
+                    y = height / randomY,
+                    x1 = x + 1,
+                    y1 = y +1;
             
                 context.beginPath()
 
                 context.moveTo(x,y)
 
-                context.lineTo(x+1,y+1)
+                context.lineTo(x1,y1)
 
-                context.strokeStyle = 'black'
+                context.strokeStyle = `hsl(${i-60}, 100%, 30%)`;
 
                 context.stroke()
                 
@@ -63,12 +71,13 @@ let canvas = document.getElementById('canvas'),
 
     }
 
-    function rotate_about_the_center() {
 
+    function rotate_about_the_center() {
 
         context.translate(width/2, height/2)
 
         context.rotate(.01)
+
         context.translate(-width/2, -height/2)
 
     }
