@@ -8,9 +8,9 @@ let canvas = document.getElementById("canvas"),
     
 const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
-      delay = 20;                                    //determins durration of time(ms) between each frame
+      delay = 30;                                    //determins durration of time(ms) between each frame
 
-  let speed = 50;                                   //sets the speed at which stars travel away from the center
+  let speed = 53;                                   //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
 
@@ -21,11 +21,10 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
    
     //ANIMATION CYCLE
     
-    animate()
+    animate() 
     function animate() {
 
         time++ //a counter that counts the elapsed number of frames
-
         clear() //clears the screen
 
         renderStars() //displays each star from its position in the Stars array 
@@ -36,12 +35,12 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         setTimeout( () => {
 
-             console.log(speed);
+            //  console.log(speed);
 
             
             if (time < 400) {
 
-                speed += .01
+                speed += .001
                 
                  animate()
                 
@@ -66,43 +65,53 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     // FUNCTIONS
 
-    function create_star_streak(x, y, hue, size, lightness) {
+    function create_star_streak(x, y, size, lightness) {
 
-        context.save()
+        // context.save()
 
-        let saturation = 30,
-            x1 = x,
-            x2 = y,
-            y1 = x*1.1,
-            y2 = y*1.1;
+        let 
+        x1 = x,
+        y1 = y,
+        x2 = x*(1.13),
+        y2 = y*(1.13),
+        
+        grad = context.createLinearGradient(x1, y1, x2, y2);
 
-        context.rotate(Math.PI)
-
+        //set up gradient
+        grad.addColorStop(1, `hsl(0, 100%, ${lightness +5}%)`);
+        grad.addColorStop(6/7, `hsl(45, 100%, ${lightness+2}%)`);
+        grad.addColorStop(5/7, `hsl(90, 100%, ${lightness+1}%)`);
+        grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
+        grad.addColorStop(3/7, `hsl(180, 100%, ${lightness-1}%)`);
+        grad.addColorStop(2/7, `hsl(245, 100%, ${lightness-2}%)`);
+        grad.addColorStop(1/7, `hsl(305, 100%, ${lightness -5}%)`);
+        
+        context.strokeStyle = grad;
+        
+        //gradient line stroke 
         context.beginPath();
         context.moveTo(x1,y1);
-
         context.lineTo(x2,y2);
+       
+        context.stroke();
 
-        context.strokeStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-        context.stroke()
+        // context.restore()
 
-        context.restore()
-        
     }
 
 
     function create_star_field() {
 
-        for (let i = 0; i < 577; i++) {
+        for (let i = 0; i < 500; i++) {
 
-            let hue = Math.random() * 360,
-                    x = (Math.random() * width) - width /2,
-                    y = (Math.random() * height) - height /2,
-                    size = 1,
-                    lightness = -10;
+            let
+                x = (Math.random() * width) - width /2,
+                y = (Math.random() * height) - height /2,
+                size = 1,
+                lightness = 10;
              
             Stars.push({
-                x: x, y: y, hue: hue, radius: size, lightness: lightness
+                x: x, y: y, size: size, lightness: lightness
             });
             
         }
@@ -123,7 +132,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < Stars.length; i++) {
             
-            create_star_streak(Stars[i].x, Stars[i].y, Stars[i].hue, Stars[i].radius, Stars[i].lightness);
+            create_star_streak(Stars[i].x, Stars[i].y, Stars[i].size, Stars[i].lightness);
             
         }
 
@@ -152,7 +161,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
                     Stars[i].lightness += 2
                     
-                    Stars[i].radius += 7/10000
+                    Stars[i].size += 7/10000
 
                 }
            
@@ -163,14 +172,14 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function addStar() { //when one star dies another is born
 
-        let hue = Math.random() * 360,
-        x = (Math.random() * width/8) - width /16,
-        y = (Math.random() * height/8) - height /16,
+        let 
+        x = (Math.random() * width/7) - width /14,
+        y = (Math.random() * height/7) - height /14,
         size = 3,
         lightness = 0;
  
         Stars.push({
-            x: x, y: y, hue: hue, radius: size, lightness: lightness
+            x: x, y: y, size: size, lightness: lightness
         });
         
     }
