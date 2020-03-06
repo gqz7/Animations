@@ -165,7 +165,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness += 1
+                    Stars[i].lightness += (time/170 ) + 1
                     
                     Stars[i].size += 7/10000
 
@@ -181,7 +181,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         
         let  
         ranNum = Math.random() * 100   
-        radius = (time/30) + 5;
+        radius = (time/15) + 5;
         randomX1 = (Math.cos(ranNum) * radius),
         randomY1 = (Math.sin(ranNum) * radius),
         randomX2 = (Math.cos(ranNum) * radius * 2),
