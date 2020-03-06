@@ -36,17 +36,20 @@ let canvas = document.getElementById('canvas'),
 
         context.translate(width/2, height/2)
 
-        let loops = 10000, outside = 0;
+        let loops = 100, outside = 0;
 
         for (let i = 0; i < loops; i++) {
 
-                let radius = 200;
+                let radius = 30;
 
-                let randomX = (Math.cos(i) * radius),
-                    randomY = (Math.sin(i) * radius),
+                let randomX1 = (Math.cos(i) * radius),
+                    randomY1 = (Math.sin(i) * radius),
+                    randomX2 = (Math.cos(i) * radius * 2),
+                    randomY2 = (Math.sin(i) * radius * 2),
+                    ranNum = Math.random(),
 
-                    x =  randomX / (Math.random()*1.01),
-                    y =  randomY / (Math.random()*1.01);
+                    x =  (randomX1 / ranNum) + (randomX2 * ranNum) ,
+                    y =  (randomY1 / ranNum) + (randomY2 * ranNum) ;
 
                     // x =  randomX / (Math.random() * 2.001),
                     // y =  randomY / (Math.random() * 2.001);
