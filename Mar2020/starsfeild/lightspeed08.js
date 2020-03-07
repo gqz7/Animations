@@ -10,9 +10,9 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
       delay = 35,                                    //determins durration of time(ms) between each frame
 
-      lightSpeedStart = 260,
+      lightSpeedStart = 260 - 200,
 
-      lightSpeedEnd = 418;
+      lightSpeedEnd = 417 - 200;
 
   let speed = 80;                                   //sets the speed at which stars travel away from the center
 
@@ -30,7 +30,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         time++ //a counter that counts the elapsed number of frames
 
-        if (time <= lightSpeedStart && time >= lightSpeedEnd ) {
+        if (time >= lightSpeedStart && time <= lightSpeedEnd ) {
             context.rotate(.01)
         } else {
             clear() //clears the screen
@@ -127,7 +127,10 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
             if (Math.random() > probibility ) {
 
-                context.strokeStyle = `hsl(${(Math.random() * 360)}, 100%, ${lightness}%)`
+                context.strokeStyle = `hsl(${(time)}, 100%, ${lightness}%)`
+
+                x *= 3
+                y *= 3
             
             }
                
@@ -193,7 +196,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                 NewY = Stars[i].y * (1 + speed/1000);
 
 
-                if (NewX > width/1.5 || NewX < -width/1.5 || NewY > width/1.5 || NewY < -width/1.5) {
+                if (NewX > width/.5 || NewX < -width/.5 || NewY > width/.5 || NewY < -width/.5) {
 
                     Stars.splice(i, 1); //if it goes off screen, delete it from the stars to be rendered
 
