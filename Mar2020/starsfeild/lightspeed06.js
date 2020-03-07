@@ -26,11 +26,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         time++ //a counter that counts the elapsed number of frames
 
-        if (time < 50 || time > 150 ) {
-            clear() //clears the screen
-        } else {
-            context.rotate(.03)
-        }
+        // if (time < 50 || time > 150 ) {
+        //     clear() //clears the screen
+        // } else {
+        //     context.rotate(.03)
+        // }
         
 
         renderStars() //displays each star from its position in the Stars array 
@@ -78,21 +78,24 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         let 
         x1 = x,
         y1 = y,
-        x2 = x*(1.15),
-        y2 = y*(1.15),
+        x2 = x*(1.1),
+        y2 = y*(1.1),
         
         grad = context.createLinearGradient(x1, y1, x2, y2);
 
         //set up gradient
-        grad.addColorStop(1, `hsl(0, 100%, ${lightness +5}%)`);
-        grad.addColorStop(6/7, `hsl(45, 100%, ${lightness+2}%)`);
-        grad.addColorStop(5/7, `hsl(90, 100%, ${lightness+1}%)`);
-        grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
-        grad.addColorStop(3/7, `hsl(180, 100%, ${lightness-1}%)`);
-        grad.addColorStop(2/7, `hsl(245, 100%, ${lightness-2}%)`);
-        grad.addColorStop(1/7, `hsl(305, 100%, ${lightness -5}%)`);
+        // grad.addColorStop(1, `hsl(0, 100%, ${lightness}%)`);
+        // grad.addColorStop(6/7, `hsl(45, 100%, ${lightness}%)`);
+        // grad.addColorStop(5/7, `hsl(90, 100%, ${lightness}%)`);
+        // grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
+        // grad.addColorStop(3/7, `hsl(180, 100%, ${lightness}%)`);
+        // grad.addColorStop(2/7, `hsl(215, 100%, ${lightness}%)`);
+        // grad.addColorStop(1/7, `hsl(305, 100%, ${lightness}%)`);
+
+        // grad.addColorStop(1, `hsl(${Math.random()*360}, 100%, ${lightness}%)`);
+        // grad.addColorStop(0, `hsl(${Math.random()*360}, 100%, ${lightness}%)`);
         
-        context.strokeStyle = grad;
+        context.strokeStyle = `hsl(${Math.random()*360}, 100%, ${lightness}%)`;
         
         //gradient line stroke 
         context.beginPath();
@@ -108,13 +111,13 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function create_star_field() {
 
-        for (let i = 0; i < 500; i++) {
+        for (let i = 0; i < 2000; i++) {
 
             let     
                 x = (Math.random() * width) - width /2,
                 y = (Math.random() * height) - height /2,
                 size = 1,
-                lightness = 10;
+                lightness = 0;
              
             Stars.push({
                 x: x, y: y, size: size, lightness: lightness
@@ -165,7 +168,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness += (time/170 ) + 1
+                    Stars[i].lightness += (time/270 ) + 1
                     
                     Stars[i].size += 7/10000
 
@@ -180,19 +183,19 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         
         let  
-        ranNum = Math.random() * 100   
-        radius = (time/15) + 5;
-        randomX1 = (Math.cos(ranNum) * radius),
-        randomY1 = (Math.sin(ranNum) * radius),
-        randomX2 = (Math.cos(ranNum) * radius * 2),
-        randomY2 = (Math.sin(ranNum) * radius * 2),
+        ranAngle = Math.random() * 100   
+        radius = 0 + (time / 10);
+        randomX1 = (Math.cos(ranAngle) * radius),
+        randomY1 = (Math.sin(ranAngle) * radius),
+        randomX2 = (Math.cos(ranAngle) * radius * 4),
+        randomY2 = (Math.sin(ranAngle) * radius * 4),
 
-        ranNum = Math.random(),
+        ranNum = Math.random() + 1,
 
-        x =  (randomX1 / ranNum) + (randomX2 * ranNum) ,
-        y =  (randomY1 / ranNum) + (randomY2 * ranNum) ;
+        x =  (randomX2 * ranNum) + (randomX1 * ranNum) * Math.random(),
+        y =  (randomY2 * ranNum) + (randomY1 * ranNum) * Math.random();
         size = 3,
-        lightness = 0;
+        lightness = time/200;
 
         Stars.push({
             x: x, y: y, size: size, lightness: lightness
