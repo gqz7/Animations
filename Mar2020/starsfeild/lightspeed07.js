@@ -10,7 +10,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
       delay = 35,                                    //determins durration of time(ms) between each frame
 
-      lightSpeedStart = 50,
+      lightSpeedStart = 250,
 
       lightSpeedEnd = 250;
 
@@ -39,7 +39,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         renderStars() //displays each star from its position in the Stars array 
 
-        // context.rotate(speed/100)
+        context.rotate(speed/10000)
 
         moveStars(speed) //moves the position of each start slightly
 
@@ -79,11 +79,31 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         // context.save()
 
+        if (x < 0 ) {
+
+            x = x - 15
+            
+        } else if (x > 0) {
+
+            x = x + 15
+
+        }
+
+        if (y < 0 ) {
+
+            y = y - 5
+            
+        } else if (y > 0) {
+
+            y = y + 5
+
+        }
+
         let 
         x1 = x,
         y1 = y,
-        x2 = x*(1.15),
-        y2 = y*(1.15),
+        x2 = x*(1 + lightness/100),
+        y2 = y*(1 + lightness/100),
         
         grad = context.createLinearGradient(x1, y1, x2, y2);
 
@@ -109,7 +129,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         context.moveTo(x1,y1);
         context.lineTo(x2,y2);
 
-        context.lineWidth = (lightness/23) + 1;
+        context.lineWidth = (lightness/37) + 1;
        
         context.stroke();
 
