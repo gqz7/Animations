@@ -163,11 +163,10 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
             let     
                 x = (Math.random() * width) - width /2,
                 y = (Math.random() * height) - height /2,
-                size = 1,
-                lightness = 10;
+                lightness = -10;
              
             Stars.push({
-                x: x, y: y, size: size, lightness: lightness
+                x: x, y: y, lightness: lightness
             });
             
         }
@@ -240,9 +239,8 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         lightness = 0;
 
-        console.log(radius);
-        
-
+        // console.log(radius);
+    
         Stars.push({
             x: x, y: y, lightness: lightness
         });
