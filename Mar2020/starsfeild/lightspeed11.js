@@ -94,20 +94,42 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         if (y < 0 ) {
 
-            y = (y) / 2
+            y = (y) / 4
             
         } else if (y > 0) {
 
-            y = (y) / 2
+            y = (y) / 4
 
         }
 
         let 
         x1 = x,
         y1 = y,
-        x2 = x*(1 + lightness/150),
-        y2 = y*(1 + lightness/150),
+        x2 = x*(1 + lightness/750),
+        y2 = y*(1 + lightness/750);
+
+        if (time < 150 ) {
+            x2 *= time/100
+            y2 *= time/100
+            x1 += time/100*x1
+            y1 += time/100*y1
+
+        } else if (time < 250) {
+
+            x2 *= time/100
+            y2 *= time/100
+            x1 += time/100*x1
+            y1 += time/100*y1
+
+            lightness -= time-150
+
+        } else if (time < 350) {
+
+            lightness -= 310 - time
+
+        }
         
+        let
         grad = context.createLinearGradient(x1, y1, x2, y2);
 
         //set up gradient
@@ -123,23 +145,15 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         if (time >= lightSpeedStart &&  time <= lightSpeedEnd) {
 
-            let probibility = (lightSpeedEnd - lightSpeedStart) / (lightSpeedEnd - lightSpeedStart + time);
-
             if (index % 3 == 0 ) {
 
                 context.strokeStyle = `hsl(${(time)}, 100%, ${lightness}%)`
 
-                x *= 1
-                y *= 1
+                x2 *= 2
+                y2 *= 2
             
             }
                
-        } else if (time > lightSpeedEnd + 100) {
-
-            context.strokeStyle = `hsl(${(time)}, 100%, ${lightness-100}%)`
-
-
-        
         }
         
         //gradient line stroke 
@@ -147,7 +161,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         context.moveTo(x1,y1);
         context.lineTo(x2,y2);
 
-        context.lineWidth = (lightness/37) + 1;
+        context.lineWidth = (lightness/100) + 1;
        
         context.stroke();
 
@@ -158,16 +172,26 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function create_star_field() {
 
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 2000; i++) {
 
-            let     
-                x = (Math.random() * width) - width /2,
-                y = (Math.random() * height) - height /2,
-                size = 1,
+            let  
+                ranNum = Math.random() * 100
+                radius = (time/5) + 5 < 10 ? (time/5) + 5 : Math.random() * 10 ;
+                randomX1 = (Math.cos(ranNum) * radius),
+                randomY1 = (Math.sin(ranNum) * radius),
+                randomX2 = (Math.cos(ranNum) * radius * 2),
+                randomY2 = (Math.sin(ranNum) * radius * 2),
+
+                x =  (randomX1 / ranNum) + (randomX2 * ranNum) * Math.random(),
+                y =  (randomY1 / ranNum) + (randomY2 * ranNum) * Math.random(),
+
+            // let     
+                // x = (Math.random() * width) - width /2,
+                // y = (Math.random() * height) - height /2,
                 lightness = 10;
              
             Stars.push({
-                x: x, y: y, size: size, lightness: lightness
+                x: x, y: y, lightness: lightness
             });
             
         }
@@ -215,7 +239,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                 Stars[i].x = NewX;
                 Stars[i].y = NewY;
 
-                Stars[i].lightness += (time/470 ) + 1
+                Stars[i].lightness += 1
 
             }
            
@@ -226,17 +250,15 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     function addStar() { //when one star dies another is born
 
         let  
-        ranNum = Math.random() * 1000   
-        radius = (time/5) + 5 < 10 ? (time/5) + 5 : Math.random() * 10 ;
+        ranNum = Math.random() * 10
+        radius = (time/5) + 5 < 10 ? (time/5) + 5 : Math.random() * 100 ;
         randomX1 = (Math.cos(ranNum) * radius),
         randomY1 = (Math.sin(ranNum) * radius),
         randomX2 = (Math.cos(ranNum) * radius * 2),
         randomY2 = (Math.sin(ranNum) * radius * 2),
 
-        ranNum = Math.random() * 1000,
-
-        x =  (randomX1 / ranNum) + (randomX2 * ranNum) * Math.random() * 10,
-        y =  (randomY1 / ranNum) + (randomY2 * ranNum) * Math.random() * 10,
+        x =  (randomX1 / ranNum) + (randomX2 * ranNum) * Math.random(),
+        y =  (randomY1 / ranNum) + (randomY2 * ranNum) * Math.random(),
 
         lightness = 0;
 
