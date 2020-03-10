@@ -10,14 +10,15 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
       delay = 30,                                    //determins durration of time(ms) between each frame
 
-      lightSpeedStart = 260 + 200,
+      lightSpeedStart = 260 - 200,
 
-      lightSpeedEnd = 573 + 200;
+      lightSpeedEnd = 573 - 200;
 
   let speed = 80;                                   //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
-
+    
+      context.rotate(Math.PI/2)
 
       let Stars = []; //this array will store the values of the current stars on the screen
 
@@ -32,6 +33,8 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         if (time >= lightSpeedStart && time <= lightSpeedEnd ) {
             context.rotate(.01)
+        } else if (time < 300) {
+
         } else {
             clear() //clears the screen
             
@@ -84,29 +87,29 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         if (x < 0 ) {
 
-            x = (x - width/2)/7
+            x = (x/3  - width/20)
             
         } else if (x > 0) {
 
-            x = (x + width/2)/7 
+            x = (x/3  + width/20)
 
         }
 
         if (y < 0 ) {
 
-            y = (y) / 4
+            y = (y) * 1.2
             
         } else if (y > 0) {
 
-            y = (y) / 4
+            y = (y) * 1.2 
 
         }
 
         let 
         x1 = x,
         y1 = y,
-        x2 = x*(1 + lightness/750),
-        y2 = y*(1 + lightness/750);
+        x2 = x*(1 + lightness/250),
+        y2 = y*(1 + lightness/250);
 
         if (time < 150 ) {
             x2 *= time/100
@@ -121,11 +124,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
             x1 += time/100*x1
             y1 += time/100*y1
 
-            lightness -= time-150
+            // lightness -= time-150
 
         } else if (time < 350) {
 
-            lightness -= 310 - time
+            // lightness -= 350 - time
 
         }
         
@@ -133,13 +136,13 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         grad = context.createLinearGradient(x1, y1, x2, y2);
 
         //set up gradient
-        grad.addColorStop(1, `hsl(0, 100%, ${lightness +5}%)`);
-        grad.addColorStop(6/7, `hsl(45, 100%, ${lightness+2}%)`);
-        grad.addColorStop(5/7, `hsl(90, 100%, ${lightness+1}%)`);
+        grad.addColorStop(1, `hsl(0, 100%, ${lightness}%)`);
+        grad.addColorStop(6/7, `hsl(45, 100%, ${lightness}%)`);
+        grad.addColorStop(5/7, `hsl(90, 100%, ${lightness}%)`);
         grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
-        grad.addColorStop(3/7, `hsl(180, 100%, ${lightness-1}%)`);
-        grad.addColorStop(2/7, `hsl(245, 100%, ${lightness-2}%)`);
-        grad.addColorStop(1/7, `hsl(305, 100%, ${lightness -5}%)`);
+        grad.addColorStop(3/7, `hsl(180, 100%, ${lightness}%)`);
+        grad.addColorStop(2/7, `hsl(245, 100%, ${lightness}%)`);
+        grad.addColorStop(1/7, `hsl(305, 100%, ${lightness}%)`);
         
         context.strokeStyle = grad;
 
@@ -147,10 +150,10 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
             if (index % 3 == 0 ) {
 
-                context.strokeStyle = `hsl(${(time)}, 100%, ${lightness}%)`
+                // context.strokeStyle = `hsl(${(time)}, 100%, ${lightness}%)`
 
-                x2 *= 2
-                y2 *= 2
+                x2 *= 1.1
+                y2 *= 1.1
             
             }
                
@@ -239,7 +242,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                 Stars[i].x = NewX;
                 Stars[i].y = NewY;
 
-                Stars[i].lightness += 1
+                Stars[i].lightness += .7
 
             }
            
@@ -251,14 +254,12 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         let  
         ranNum = Math.random() * 10
-        radius = (time/5) + 5 < 10 ? (time/5) + 5 : Math.random() * 100 ;
+        radius = (Math.random() * 100);
         randomX1 = (Math.cos(ranNum) * radius),
         randomY1 = (Math.sin(ranNum) * radius),
-        randomX2 = (Math.cos(ranNum) * radius * 2),
-        randomY2 = (Math.sin(ranNum) * radius * 2),
 
-        x =  (randomX1 / ranNum) + (randomX2 * ranNum) * Math.random(),
-        y =  (randomY1 / ranNum) + (randomY2 * ranNum) * Math.random(),
+        x =  (randomX1 / ranNum),
+        y =  (randomY1 / ranNum),
 
         lightness = 0;
 
