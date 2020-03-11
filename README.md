@@ -11,3 +11,10 @@ ive been making progress on making my animations look really cool and keeping th
 i made substancial progess working with the idea of a checkerboard that can be animated in various ways, that is my current project right now
 
 1/20/20 : making updates for filing system. checkboard animation is focus right now.
+
+
+3/10/2020 
+
+In the past couple months ive gone onto some experimental projects, trying out diffrent techniques to see what works and what doesnt, I have found some cool designs and finished up my checkerboard animations although I would love to get back into thoes. 
+
+I've made great progress on an idea i had wanted to try out for a really long time. Moving stars in space. I started with just circles in random locations and moved up to gradient ranbows that appear to whizz past the viewer. My next step in this field is calculating positions in 3 dimensions. So far I have only worked with two but I need to step up the challenge
