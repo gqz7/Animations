@@ -214,13 +214,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         radius = (time/15) + 5;
         randomX1 = (Math.cos(ranNum) * radius),
         randomY1 = (Math.sin(ranNum) * radius),
-        randomX2 = (Math.cos(ranNum) * radius * 2),
-        randomY2 = (Math.sin(ranNum) * radius * 2),
 
         ranNum = Math.random(),
 
-        x =  (randomX1 / ranNum) + (randomX2 * ranNum) * Math.random(),
-        y =  (randomY1 / ranNum) + (randomY2 * ranNum) * Math.random();
+        x =  (randomX1 * ranNum),
+        y =  (randomY1 * ranNum);
         lightness = 0;
 
         Stars.push({
