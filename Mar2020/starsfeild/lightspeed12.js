@@ -112,10 +112,10 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         y2 = y*(1 + lightness/250);
 
         if (time < 150 ) {
-            x2 *= time/100
-            y2 *= time/100
-            x1 += time/100*x1
-            y1 += time/100*y1
+            x2 *= time/10
+            y2 *= time/10
+            x1 += time/10*x1
+            y1 += time/10*y1
 
         } else if (time < 250) {
 
@@ -261,7 +261,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         x =  (randomX1 / ranNum),
         y =  (randomY1 / ranNum),
 
-        lightness = 0;
+        lightness = 10;
 
         // console.log(radius);
         

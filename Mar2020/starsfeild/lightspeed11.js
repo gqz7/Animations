@@ -125,7 +125,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         } else if (time < 350) {
 
-            lightness -= 310 - time
+            lightness -= 350 - time
 
         }
         
@@ -145,13 +145,12 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         if (time >= lightSpeedStart &&  time <= lightSpeedEnd) {
 
-            if (index % 3 == 0 ) {
+            lightness /= 2
+
+            if (index % 2 == 0 ) {
 
                 context.strokeStyle = `hsl(${(time)}, 100%, ${lightness}%)`
 
-                x2 *= 2
-                y2 *= 2
-            
             }
                
         }
@@ -172,22 +171,17 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function create_star_field() {
 
-        for (let i = 0; i < 2000; i++) {
+        for (let i = 0; i < 1000; i++) {
 
             let  
                 ranNum = Math.random() * 100
-                radius = (time/5) + 5 < 10 ? (time/5) + 5 : Math.random() * 10 ;
+                radius = Math.random() * 7;
                 randomX1 = (Math.cos(ranNum) * radius),
                 randomY1 = (Math.sin(ranNum) * radius),
-                randomX2 = (Math.cos(ranNum) * radius * 2),
-                randomY2 = (Math.sin(ranNum) * radius * 2),
 
-                x =  (randomX1 / ranNum) + (randomX2 * ranNum) * Math.random(),
-                y =  (randomY1 / ranNum) + (randomY2 * ranNum) * Math.random(),
+                x =  (randomX1 * ranNum),
+                y =  (randomY1 * ranNum),
 
-            // let     
-                // x = (Math.random() * width) - width /2,
-                // y = (Math.random() * height) - height /2,
                 lightness = 10;
              
             Stars.push({
@@ -250,15 +244,13 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     function addStar() { //when one star dies another is born
 
         let  
-        ranNum = Math.random() * 10
-        radius = (time/5) + 5 < 10 ? (time/5) + 5 : Math.random() * 100 ;
+        ranNum = (Math.random() * 10) - 5
+        radius =  (Math.random() * 100) - 50;
         randomX1 = (Math.cos(ranNum) * radius),
         randomY1 = (Math.sin(ranNum) * radius),
-        randomX2 = (Math.cos(ranNum) * radius * 2),
-        randomY2 = (Math.sin(ranNum) * radius * 2),
 
-        x =  (randomX1 / ranNum) + (randomX2 * ranNum) * Math.random(),
-        y =  (randomY1 / ranNum) + (randomY2 * ranNum) * Math.random(),
+        x =  (randomX1 * ranNum),
+        y =  (randomY1 * ranNum),
 
         lightness = 0;
 
