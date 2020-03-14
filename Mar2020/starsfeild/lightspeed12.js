@@ -117,6 +117,8 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
             x1 += time/10*x1
             y1 += time/10*y1
 
+            lightness += time
+
         } else if (time < 250) {
 
             x2 *= time/100
@@ -124,7 +126,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
             x1 += time/100*x1
             y1 += time/100*y1
 
-            // lightness -= time-150
+            lightness += time-150
 
         } else if (time < 350) {
 
@@ -175,7 +177,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function create_star_field() {
 
-        for (let i = 0; i < 2000; i++) {
+        for (let i = 0; i < 777; i++) {
 
             let  
                 ranNum = Math.random() * 100

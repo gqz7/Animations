@@ -8,13 +8,9 @@ let canvas = document.getElementById("canvas"),
     
 const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
-      delay = 35,                                    //determins durration of time(ms) between each frame
+      delay = 30;                                    //determins durration of time(ms) between each frame
 
-      lightSpeedStart = 250,
-
-      lightSpeedEnd = 250;
-
-  let speed = 50;                                   //sets the speed at which stars travel away from the center
+  let speed = 67;                                   //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
 
@@ -29,38 +25,20 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
     function animate() {
 
         time++ //a counter that counts the elapsed number of frames
-
-        if (time <= lightSpeedStart || time >= lightSpeedEnd ) {
-            clear() //clears the screen
-        } else {
-            context.rotate(.01)
-        }
-        
-
+ 
         renderStars() //displays each star from its position in the Stars array 
 
-        context.rotate(speed/10000)
+        renderImage()
+
+        // context.rotate(speed/100)
 
         moveStars(speed) //moves the position of each start slightly
 
         setTimeout( () => {
 
             //  console.log(speed);
-
             
             if (time < 400) {
-
-                speed += .001
-                
-                 animate()
-                
-            } else if (time < 10000) {
-
-                if (speed < 80) {
-
-                    speed += .1
-                    
-                }
 
                 animate()
                 
@@ -75,61 +53,22 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     // FUNCTIONS
 
-    function create_star_streak(x, y, lightness) {
+    function create_star_streak(x, y, size, lightness) {
 
         // context.save()
-
-        if (x < 0 ) {
-
-            x = x - 15
-            
-        } else if (x > 0) {
-
-            x = x + 15
-
-        }
-
-        if (y < 0 ) {
-
-            y = y - 5
-            
-        } else if (y > 0) {
-
-            y = y + 5
-
-        }
 
         let 
         x1 = x,
         y1 = y,
-        x2 = x*(1 + lightness/100),
-        y2 = y*(1 + lightness/100),
+        x2 = x*(1.15),
+        y2 = y*(1.15);
         
-        grad = context.createLinearGradient(x1, y1, x2, y2);
-
-        //set up gradient
-        grad.addColorStop(1, `hsl(0, 100%, ${lightness +5}%)`);
-        grad.addColorStop(6/7, `hsl(45, 100%, ${lightness+2}%)`);
-        grad.addColorStop(5/7, `hsl(90, 100%, ${lightness+1}%)`);
-        grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
-        grad.addColorStop(3/7, `hsl(180, 100%, ${lightness-1}%)`);
-        grad.addColorStop(2/7, `hsl(245, 100%, ${lightness-2}%)`);
-        grad.addColorStop(1/7, `hsl(305, 100%, ${lightness -5}%)`);
-        
-        context.strokeStyle = grad;
-
-        if (time >= lightSpeedStart &&  time <= lightSpeedEnd) {
-
-            context.strokeStyle = `hsl(${(Math.random() * 70) + 190}, 70%, ${lightness -5}%)`
-            
-        }
+        context.strokeStyle = `hsl(${Math.random() * 360}, 100%, ${lightness}%)`;;
         
         //gradient line stroke 
         context.beginPath();
         context.moveTo(x1,y1);
         context.lineTo(x2,y2);
-
-        context.lineWidth = (lightness/37) + 1;
        
         context.stroke();
 
@@ -170,10 +109,23 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < Stars.length; i++) {
             
-            create_star_streak(Stars[i].x, Stars[i].y, Stars[i].lightness);
+            create_star_streak(Stars[i].x, Stars[i].y, Stars[i].size, Stars[i].lightness);
             
         }
 
+    }
+
+    function renderImage() {
+        let imageObj = new Image(),
+            imageW = 100,
+            imageH = 100,
+            imageX = 0 - imageW,
+            imageY = 0 - imageH;
+
+
+        imageObj.src = 'yin-yang.png';
+
+        context.drawImage(imageObj, imageX, imageY, imageW*2, imageH*2 )
     }
 
     function moveStars(speed) {
@@ -197,7 +149,9 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness += (time/470 ) + 1
+                    Stars[i].lightness += (time/170 ) + 1
+                    
+                    Stars[i].size += 7/10000
 
                 }
            
@@ -214,15 +168,18 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         radius = (time/15) + 5;
         randomX1 = (Math.cos(ranNum) * radius),
         randomY1 = (Math.sin(ranNum) * radius),
+        randomX2 = (Math.cos(ranNum) * radius * 2),
+        randomY2 = (Math.sin(ranNum) * radius * 2),
 
         ranNum = Math.random(),
 
-        x =  (randomX1 * ranNum),
-        y =  (randomY1 * ranNum);
+        x =  (randomX1 / ranNum) + (randomX2 * ranNum) ,
+        y =  (randomY1 / ranNum) + (randomY2 * ranNum) ;
+        size = 3,
         lightness = 0;
 
         Stars.push({
-            x: x, y: y, lightness: lightness
+            x: x, y: y, size: size, lightness: lightness
         });
         
     }
