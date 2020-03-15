@@ -10,11 +10,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
       delay = 24,                                    //determins durration of time(ms) between each frame
 
-      lightSpeedStart = 260 - 200,
+      lightSpeedStart = 176,
 
-      lightSpeedEnd = 417 - 200;
+      lightSpeedEnd = 617;
 
-  let speed = 24;                                   //sets the speed at which stars travel away from the center
+  let speed = 35;                                   //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
 
@@ -32,9 +32,29 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         time++ //a counter that counts the elapsed number of frames
 
-        if (time >= lightSpeedStart && time <= lightSpeedEnd + 300) {
-            context.rotate((time - lightSpeedStart) / 70000)
-        } 
+        // console.log(speed);
+        
+
+        if (time >= lightSpeedStart && time <= lightSpeedEnd) {
+            const rotateby = ( 1000) / Math.pow(time, 2) ;
+            console.log(rotateby);
+            
+            context.rotate(rotateby)
+
+            speed = 100 - time/50
+
+        } else if (time >= lightSpeedEnd + 300 && time < 304) {
+            speed = 100
+
+        } else if (time > lightSpeedEnd + 301 && speed > 40) {
+            
+            speed -= .171
+        } else if (time < lightSpeedStart) {
+
+            speed +=.4
+        } else {
+
+        }
 
         clear()
         
@@ -48,12 +68,6 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         setTimeout( () => {
 
             if (time < 4444) {
-
-                if (speed < 88) {
-
-                    speed += .07
-                    
-                }
 
                 animate()
                 
@@ -72,47 +86,21 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         // context.save()
 
-        if (x < 0 ) {
+        x = x < 0 ? x - 15 : x + 15;
 
-            x = x - 5
-            
-        } else if (x > 0) {
-
-            x = x + 5
-
-        }
-
-        if (y < 0 ) {
-
-            y = (y - 55) / 2
-            
-        } else if (y > 0) {
-
-            y = (y + 55) / 2
-
-        }
+        y = y < 0 ? y - 55 : y + 55;
 
         let 
         x1 = x,
         y1 = y,
         x2 = lightness/100 < 0.20 ? x*(1 + lightness/100) : x*1.17,
-        y2 = lightness/100 < 0.20 ? y*(1 + lightness/100) : y*1.17,
+        y2 = lightness/100 < 0.20 ? y*(1 + lightness/100) : y*1.17;
         
-        grad = context.createLinearGradient(x1, y1, x2, y2);
-        //set up gradient
-        grad.addColorStop(1, `hsl(0, 100%, ${lightness +5}%)`);
-        grad.addColorStop(6/7, `hsl(45, 100%, ${lightness+2}%)`);
-        grad.addColorStop(5/7, `hsl(90, 100%, ${lightness+1}%)`);
-        grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
-        grad.addColorStop(3/7, `hsl(180, 100%, ${lightness-1}%)`);
-        grad.addColorStop(2/7, `hsl(245, 100%, ${lightness-2}%)`);
-        grad.addColorStop(1/7, `hsl(305, 100%, ${lightness -5}%)`);
-        
-        context.strokeStyle = grad;
-
-        context.lineWidth = (lightness/74) + 1;
+        create_rainbow_gradient(x1, y1, x2, y2, lightness);
 
         if (time >= lightSpeedStart &&  time <= lightSpeedEnd) {
+
+            lightness = 40 + lightness/2;
 
             // let probibility = (lightSpeedEnd - lightSpeedStart) / (lightSpeedEnd - lightSpeedStart + time);
 
@@ -123,19 +111,21 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                 x2 = x2 * ((time - lightSpeedStart -100) / 100)
                 y2 = y2 * ((time - lightSpeedStart -100) / 100)
 
-                // context.strokeStyle = `hsl(${(Math.random()* 360)}, 100%, ${lightness-60}%)`
                 let lightspeedStroke = context.createLinearGradient(x1, y1, x2, y2),
 
                 ranColor = Math.random() * 360;
 
-                lightspeedStroke.addColorStop(2/4, `hsl(180, 100%, ${60 + lightness/10}%)`);
-                lightspeedStroke.addColorStop(1/4, `hsl(295, 100%, ${60 + lightness/10}%)`);
-                lightspeedStroke.addColorStop(0/4, `hsl(315, 100%, ${60 + lightness/10}%)`);
-                lightspeedStroke.addColorStop(3/4, `hsl(55, 100%, ${70 + lightness/10}%)`);
+                   lightspeedStroke.addColorStop(1, `hsl(0, 100%, ${lightness +25}%)`);
+                    lightspeedStroke.addColorStop(6/7, `hsl(45, 100%, ${lightness+22}%)`);
+                    lightspeedStroke.addColorStop(5/7, `hsl(90, 100%, ${lightness+21}%)`);
+                    lightspeedStroke.addColorStop(4/7, `hsl(135, 100%, ${lightness+20}%)`);
+                    lightspeedStroke.addColorStop(3/7, `hsl(180, 100%, ${lightness+19}%)`);
+                    lightspeedStroke.addColorStop(2/7, `hsl(245, 100%, ${lightness+18}%)`);
+                    lightspeedStroke.addColorStop(1/7, `hsl(305, 100%, ${lightness +15}%)`);
 
                 context.strokeStyle = lightspeedStroke;
 
-                context.lineWidth = 1;
+                context.lineWidth = 3.7 - (time/180);
 
             }
                
@@ -235,11 +225,30 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         x =  (randomX1 / ranNum) * Math.random(),
         y =  (randomY1 / ranNum) * Math.random(),
 
-        lightness = -speed/7,
+        lightness = -speed/4,
         id = ++tdlSmd;
 
         Stars.push({
             x: x, y: y, lightness: lightness, id: id
         });
+        
+    } 
+
+    function create_rainbow_gradient(x1, y1, x2, y2, lightness) {
+
+        grad = context.createLinearGradient(x1, y1, x2, y2);
+
+        grad.addColorStop(1, `hsl(0, 100%, ${lightness +5}%)`);
+        grad.addColorStop(6/7, `hsl(45, 100%, ${lightness+2}%)`);
+        grad.addColorStop(5/7, `hsl(90, 100%, ${lightness+1}%)`);
+        grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
+        grad.addColorStop(3/7, `hsl(180, 100%, ${lightness-1}%)`);
+        grad.addColorStop(2/7, `hsl(245, 100%, ${lightness-2}%)`);
+        grad.addColorStop(1/7, `hsl(305, 100%, ${lightness -5}%)`);
+        
+        context.strokeStyle = grad;
+
+        context.lineWidth = (lightness/34) + 1;
+
         
     }
