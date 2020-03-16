@@ -30,6 +30,9 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         renderImage()
 
+
+        create_border()
+
         // context.rotate(speed/100)
 
         moveStars(speed) //moves the position of each start slightly
@@ -181,5 +184,71 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         Stars.push({
             x: x, y: y, size: size, lightness: lightness
         });
+        
+    }
+
+    function create_border() {
+
+        let squareD = 35;
+
+        context.save()
+
+        context.translate(-width/2,-height/2)
+
+        let value = true
+
+        for (let j = 0; j < 5; j++) {
+
+                for (let i = 0; i < width; i+=squareD) {
+
+                    context.fillStyle = value == true ? 'black' : 'white';
+
+                    value = value == true ? false : true
+
+                    context.beginPath()
+                    context.rect(i, 0, squareD, squareD)
+                    context.fill()
+
+                    // console.log(context.fillStyle);
+                    
+
+                    context.fillStyle = context.fillStyle == '#000000' ?'white' : 'black';
+
+                    context.beginPath()
+                    context.rect(i, height - (squareD * j * 2) - squareD +11 , squareD, squareD)
+                    context.fill()
+
+                    // context.fillStyle = context.fillStyle == 'black' ? 'black' : 'white';
+                
+            }
+
+            value = value == true ? false : true
+
+            context.translate(0, squareD)
+            
+            
+        }
+
+        for (let i = 0; i < height; i+=squareD) {
+            
+            for (let j = 0; j < 11; j++) {
+
+                context.fillStyle = value == true ? 'black' : 'white';
+
+                context.beginPath()
+                context.rect(j*squareD, i, squareD, squareD)
+                context.fill() 
+
+                context.beginPath()
+                context.rect(width - j*squareD, i, squareD, squareD)
+                context.fill() 
+
+                value = value == true ? false : true
+                
+            }
+            
+        }
+
+        context.restore()
         
     }
