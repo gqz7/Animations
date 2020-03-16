@@ -149,7 +149,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness += (time/170 ) + 1
+                    Stars[i].lightness -= (time/170 ) + 1
                     
                     Stars[i].size += 7/10000
 
@@ -176,7 +176,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         x =  (randomX1 / ranNum) + (randomX2 * ranNum) ,
         y =  (randomY1 / ranNum) + (randomY2 * ranNum) ;
         size = 3,
-        lightness = 0;
+        lightness = 100;
 
         Stars.push({
             x: x, y: y, size: size, lightness: lightness
