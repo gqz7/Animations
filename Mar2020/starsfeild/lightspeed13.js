@@ -20,20 +20,45 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
       create_star_field() //adds stars to Stars array
    
     //ANIMATION CYCLE
+
+    let imageAoR = 0, //angle of rotation for image
+
+    endTime = 1000; //how many cycles before it all ends
     
     animate() 
     function animate() {
 
         time++ //a counter that counts the elapsed number of frames
+
+        // clear()
  
-        renderStars() //displays each star from its position in the Stars array 
+        if (time < 100) {
 
-        renderImage()
+            renderStars() 
+
+            renderImage(200,200)
+            
+        } else if (time < 383) {
+
+            imageAoR += Math.PI / 360;
+
+            renderStars()
+
+            renderImage(-time + 300, -time + 300, imageAoR)
 
 
-        create_border()
+        } else if (time < endTime) {
 
-        // context.rotate(speed/100)
+            imageAoR += Math.PI / 360;
+
+            renderStars()
+
+            renderImage(83, 83, imageAoR)
+
+        }
+
+
+        // create_border() //creates a checkerboard border
 
         moveStars(speed) //moves the position of each start slightly
 
@@ -41,7 +66,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
             //  console.log(speed);
             
-            if (time < 400) {
+            if (time < endTime) {
 
                 animate()
                 
@@ -56,7 +81,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     // FUNCTIONS
 
-    function create_star_streak(x, y, size, lightness) {
+    function create_star_streak(x, y, hue, lightness) {
 
         // context.save()
 
@@ -66,7 +91,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         x2 = x*(1.15),
         y2 = y*(1.15);
         
-        context.strokeStyle = `hsl(${Math.random() * 360}, 100%, ${lightness}%)`;;
+        context.strokeStyle = `hsl(${hue}, 100%, ${lightness}%)`;;
         
         //gradient line stroke 
         context.beginPath();
@@ -87,11 +112,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
             let     
                 x = (Math.random() * width) - width /2,
                 y = (Math.random() * height) - height /2,
-                size = 1,
-                lightness = 10;
+                hue = Math.random() * 360,
+                lightness = 7;
              
             Stars.push({
-                x: x, y: y, size: size, lightness: lightness
+                x: x, y: y, hue: hue, lightness: lightness
             });
             
         }
@@ -112,31 +137,37 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < Stars.length; i++) {
             
-            create_star_streak(Stars[i].x, Stars[i].y, Stars[i].size, Stars[i].lightness);
+            create_star_streak(Stars[i].x, Stars[i].y, Stars[i].hue, Stars[i].lightness);
             
         }
 
     }
 
-    function renderImage() {
+    function renderImage(h,w,angle) {
         let imageObj = new Image(),
-            imageW = 100,
-            imageH = 100,
+            imageW = h,
+            imageH = w,
             imageX = 0 - imageW,
             imageY = 0 - imageH;
 
 
         imageObj.src = 'yin-yang.png';
 
+        context.save()
+
+        context.rotate(angle)
+
         context.drawImage(imageObj, imageX, imageY, imageW*2, imageH*2 )
+
+        context.restore()
     }
 
     function moveStars(speed) {
 
         for (let i = 0; i < Stars.length; i++) {
 
-            let NewX = Stars[i].x * (1 + speed/1000),
-                NewY = Stars[i].y * (1 + speed/1000);
+            let NewX = Stars[i].x * (1 + .08),
+                NewY = Stars[i].y * (1 + .07);
 
 
                 if (NewX > width/1.5 || NewX < -width/1.5 || NewY > width/1.5 || NewY < -width/1.5) {
@@ -152,10 +183,9 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness -= (time/170 ) + 1
+                    Stars[i].lightness -= (time/470 ) + 1.1
                     
-                    Stars[i].size += 7/10000
-
+                    Stars[i].hue += 10
                 }
            
         }
@@ -168,21 +198,19 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         
         let  
         ranNum = Math.random() * 100   
-        radius = (time/15) + 5;
+        radius = (time/150) + 5;
         randomX1 = (Math.cos(ranNum) * radius),
         randomY1 = (Math.sin(ranNum) * radius),
-        randomX2 = (Math.cos(ranNum) * radius * 2),
-        randomY2 = (Math.sin(ranNum) * radius * 2),
 
-        ranNum = Math.random(),
+        ranNum = Math.random() * 10,
 
-        x =  (randomX1 / ranNum) + (randomX2 * ranNum) ,
-        y =  (randomY1 / ranNum) + (randomY2 * ranNum) ;
-        size = 3,
+        x =  (randomX1 * ranNum),
+        y =  (randomY1 * ranNum);
+        hue = (Math.random() * 130) + 80,
         lightness = 100;
 
         Stars.push({
-            x: x, y: y, size: size, lightness: lightness
+            x: x, y: y, hue: hue, lightness: lightness
         });
         
     }
@@ -197,7 +225,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         let value = true
 
-        for (let j = 0; j < 5; j++) {
+        for (let j = 0; j < 3; j++) {
 
                 for (let i = 0; i < width; i+=squareD) {
 
@@ -231,7 +259,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < height; i+=squareD) {
             
-            for (let j = 0; j < 11; j++) {
+            for (let j = 0; j < 3; j++) {
 
                 context.fillStyle = value == true ? 'black' : 'white';
 
