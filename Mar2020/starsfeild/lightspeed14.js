@@ -14,7 +14,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
       lightSpeedEnd = 617;
 
-  let speed = 35;                                   //sets the speed at which stars travel away from the center
+  let speed = 7;                                   //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
 
@@ -86,9 +86,9 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         // context.save()
 
-        x = x < 0 ? x - 15 : x + 15;
+        x = x < 0 ? x - 5 : x + 5;
 
-        y = y < 0 ? y - 55 : y + 55;
+        y = y < 0 ? y - 10 : y + 10;
 
         let 
         x1 = x,
@@ -100,11 +100,11 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         if (time >= lightSpeedStart &&  time <= lightSpeedEnd) {
 
-            lightness = 40 + lightness/2;
+            lightness = lightness*2;
 
             // let probibility = (lightSpeedEnd - lightSpeedStart) / (lightSpeedEnd - lightSpeedStart + time);
 
-            if (id % 4 == 0) {
+            if (id % 2 == 0) {
 
                 x1 = time - lightSpeedStart < 200 ? (x1/100) * (time - lightSpeedStart) : (x1*2)
                 y1 = time - lightSpeedStart < 200 ? (y1/100) * (time - lightSpeedStart) : (y1*2)
@@ -116,7 +116,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                 ranColor = Math.random() * 360;
 
                    lightspeedStroke.addColorStop(1, `hsl(0, 100%, ${lightness +25}%)`);
-                    lightspeedStroke.addColorStop(6/7, `hsl(45, 100%, ${lightness+22}%)`);
+                    lightspeedStroke.addColorStop(6/7, `hsl(30, 100%, ${lightness+22}%)`);
                     lightspeedStroke.addColorStop(5/7, `hsl(90, 100%, ${lightness+21}%)`);
                     lightspeedStroke.addColorStop(4/7, `hsl(135, 100%, ${lightness+20}%)`);
                     lightspeedStroke.addColorStop(3/7, `hsl(180, 100%, ${lightness+19}%)`);
@@ -125,7 +125,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
                 context.strokeStyle = lightspeedStroke;
 
-                context.lineWidth = 3.7 - (time/180);
+                context.lineWidth = 2.7 - (time/180);
 
             }
                
