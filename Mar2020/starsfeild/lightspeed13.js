@@ -1,3 +1,28 @@
+//event listeners for user input
+
+let clearScreenBool = true;
+
+document.addEventListener('keydown', userInputEvent, false);
+
+function userInputEvent(input) {
+
+    switch (input.code) {
+        case "Space":
+
+            clearScreenBool = clearScreenBool ? false : true;
+
+            console.log(clearScreenBool);
+            
+            break;
+    
+        default:
+            break;
+    }
+    
+}
+
+
+
 //INITIAL VARIABLE DECLERATIONS
 
 const slider = document.getElementById('slider');
@@ -30,8 +55,10 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         time++ //a counter that counts the elapsed number of frames
 
-        // clear()
- 
+        if (clearScreenBool) {
+            clear()
+        }
+        
         if (time < 100) {
 
             renderStars() 
