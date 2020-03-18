@@ -8,7 +8,7 @@ let canvas = document.getElementById("canvas"),
     
 const width = canvas.width = window.innerWidth,        //width of the canvas
       height = canvas.height = window.innerHeight,    //height of the canvas
-      delay = 20;                                    //determins durration of time(ms) between each frame
+      delay = 30;                                    //determins durration of time(ms) between each frame
 
   let speed = 30;                                  //sets the speed at which stars travel away from the center
 
@@ -69,25 +69,25 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         // context.save()
 
-        if (x < 0 ) {
+        // if (x < 0 ) {
 
-            x = (x*3  - width/(time/2) - time/100)
+        //     x = (x*3  - width/(time/2) - time/100)
             
-        } else if (x > 0) {
+        // } else if (x > 0) {
 
-            x = (x*3  + width/(time/2) + time/100)
+        //     x = (x*3  + width/(time/2) + time/100)
 
-        }
+        // }
 
-        if (y < 0 ) {
+        // if (y < 0 ) {
 
-            y = (y) * 2.2
+        //     y = (y) * 2.2
             
-        } else if (y > 0) {
+        // } else if (y > 0) {
 
-            y = (y) * 2.2 
+        //     y = (y) * 2.2 
 
-        }
+        // }
 
         let 
         x1 = x,
@@ -129,7 +129,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
             let  
                 ranNum = Math.random() * 100 - 50
-                radius = (time/5) + 5 < 10 ? (time/5) + 5 : Math.random() * 10 ;
+                radius =  Math.random() * 10 - 5;
                 randomX1 = (Math.cos(ranNum) * radius),
                 randomY1 = (Math.sin(ranNum) * radius),
             
@@ -187,7 +187,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
                 Stars[i].x = NewX;
                 Stars[i].y = NewY;
 
-                Stars[i].lightness = Stars[i].lightness <= 70 ? Stars[i].lightness * 1.027 : 70;
+                Stars[i].lightness = Stars[i].lightness <= 70 ? Stars[i].lightness * 1.0103 : 70;
 
             }
            
@@ -198,8 +198,8 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
     function addStar() { //when one star dies another is born
 
         let  
-        ranNum = Math.random() * 10
-        radius = (Math.random() * 100);
+        ranNum = Math.random() * 50 - 25 
+        radius = Math.random() * 50 - 25;
         randomX1 = (Math.cos(ranNum) * radius),
         randomY1 = (Math.sin(ranNum) * radius),
 

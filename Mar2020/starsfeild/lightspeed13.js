@@ -194,7 +194,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         for (let i = 0; i < Stars.length; i++) {
 
             let NewX = Stars[i].x * (1 + .08),
-                NewY = Stars[i].y * (1 + .07);
+                NewY = Stars[i].y * (1 + .08);
 
 
                 if (NewX > width/1.5 || NewX < -width/1.5 || NewY > width/1.5 || NewY < -width/1.5) {
