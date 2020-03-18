@@ -6,15 +6,11 @@ let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d"),
     time = 0;
     
-const width = canvas.width = window.innerWidth,       //width of the canvas
-      height = canvas.height = window.innerHeight,   //height of the canvas
-      delay = 30,                                    //determins durration of time(ms) between each frame
+const width = canvas.width = window.innerWidth,        //width of the canvas
+      height = canvas.height = window.innerHeight,    //height of the canvas
+      delay = 20;                                    //determins durration of time(ms) between each frame
 
-      lightSpeedStart = 260 - 200,
-
-      lightSpeedEnd = 573 - 200;
-
-  let speed = 50;                                   //sets the speed at which stars travel away from the center
+  let speed = 30;                                  //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
     
@@ -31,17 +27,9 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         time++ //a counter that counts the elapsed number of frames
 
-        if (time >= lightSpeedStart && time <= lightSpeedEnd ) {
-            // context.rotate(.01)
-        } else if (time < 300) {
-
-        } 
         clear()
         
-
         renderStars() //displays each star from its position in the Stars array 
-
-        // context.rotate(speed/10000)
 
         moveStars(speed) //moves the position of each start slightly
 
@@ -120,19 +108,6 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         grad.addColorStop(1/7, `hsl(305, 100%, ${lightness}%)`);
         
         context.strokeStyle = grad;
-
-        if (time >= lightSpeedStart &&  time <= lightSpeedEnd) {
-
-            if (index % 3 == 0 ) {
-
-                // context.strokeStyle = `hsl(${(time)}, 100%, ${lightness}%)`
-
-                // x2 *= 1.1
-                // y2 *= 1.1
-            
-            }
-               
-        }
         
         //gradient line stroke 
         context.beginPath();
@@ -195,8 +170,8 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
         for (let i = 0; i < Stars.length; i++) {
 
-            let NewX = Stars[i].x * (1 + speed/1000),
-                NewY = Stars[i].y * (1 + speed/1000);
+            let NewX = Stars[i].x * (1 + speed/2000 + Stars[i].lightness/2000),
+                NewY = Stars[i].y * (1 + speed/2000 + Stars[i].lightness/2000);
 
 
             if (NewX > width*5 || NewX < -width*5 || NewY > width/.5 || NewY < -width/.5) {
@@ -212,7 +187,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
                 Stars[i].x = NewX;
                 Stars[i].y = NewY;
 
-                Stars[i].lightness *= 1.0107;
+                Stars[i].lightness = Stars[i].lightness <= 70 ? Stars[i].lightness * 1.027 : 70;
 
             }
            
