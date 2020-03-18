@@ -1,3 +1,26 @@
+//event listeners for user input
+
+let clearScreenBool = true;
+
+document.addEventListener('keydown', userInputEvent, false);
+
+function userInputEvent(input) {
+
+    switch (input.code) {
+        case "Space":
+
+            clearScreenBool = clearScreenBool ? false : true;
+
+            console.log(clearScreenBool);
+            
+            break;
+    
+        default:
+            break;
+    }
+    
+}
+
 //INITIAL VARIABLE DECLERATIONS
 
 const slider = document.getElementById('slider');
@@ -8,9 +31,9 @@ let canvas = document.getElementById("canvas"),
     
 const width = canvas.width = window.innerWidth,        //width of the canvas
       height = canvas.height = window.innerHeight,    //height of the canvas
-      delay = 30;                                    //determins durration of time(ms) between each frame
+      delay = 15;                                    //determins durration of time(ms) between each frame
 
-  let speed = 30;                                  //sets the speed at which stars travel away from the center
+  let speed = 52;                                  //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
     
@@ -27,7 +50,9 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         time++ //a counter that counts the elapsed number of frames
 
-        clear()
+        if (clearScreenBool) {
+             clear()
+        }
         
         renderStars() //displays each star from its position in the Stars array 
 
@@ -35,22 +60,19 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         setTimeout( () => {
 
-            //  console.log(speed);
+            if (time < 100) {
 
-            
-            if (time < 400) {
+                addStar()
+                addStar()
+                addStar()
 
                 speed += .001
                 
-                 animate()
+                animate()
                 
             } else if (time < 10000) {
 
-                if (speed < 80) {
-
-                    speed += .1
-                    
-                }
+                speed = speed <= 80 ? speed + .1 : 80;
 
                 animate()
                 
@@ -69,31 +91,14 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         // context.save()
 
-        // if (x < 0 ) {
-
-        //     x = (x*3  - width/(time/2) - time/100)
+        x = x< 0 ? (x  - width/(time/2) - time/100) : (x  + width/(time/2) + time/100);
             
-        // } else if (x > 0) {
-
-        //     x = (x*3  + width/(time/2) + time/100)
-
-        // }
-
-        // if (y < 0 ) {
-
-        //     y = (y) * 2.2
-            
-        // } else if (y > 0) {
-
-        //     y = (y) * 2.2 
-
-        // }
 
         let 
         x1 = x,
         y1 = y,
-        x2 = x*(1 + lightness/550),
-        y2 = y*(1 + lightness/550);
+        x2 = x*(1 + lightness/500),
+        y2 = y*(1 + lightness/500);
         
         let
         grad = context.createLinearGradient(x1, y1, x2, y2);
@@ -125,16 +130,11 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
     function create_star_field() {
 
-        for (let i = 0; i < 777; i++) {
+        for (let i = 0; i < 300; i++) {
 
             let  
-                ranNum = Math.random() * 100 - 50
-                radius =  Math.random() * 10 - 5;
-                randomX1 = (Math.cos(ranNum) * radius),
-                randomY1 = (Math.sin(ranNum) * radius),
-            
-                x =  (randomX1 * ranNum) * Math.random(),
-                y =  (randomY1 * ranNum) * Math.random(),
+                x =  (width * Math.random()) - width/2,
+                y =  (height * Math.random()) - height/2,
 
                 lightness = 10;
              
@@ -170,8 +170,8 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         for (let i = 0; i < Stars.length; i++) {
 
-            let NewX = Stars[i].x * (1 + speed/2000 + Stars[i].lightness/2000),
-                NewY = Stars[i].y * (1 + speed/2000 + Stars[i].lightness/2000);
+            let NewX = Stars[i].x * (.997 + speed/5000 + Stars[i].lightness/1700),
+                NewY = Stars[i].y * (.999 + speed/5000 + Stars[i].lightness/1700);
 
 
             if (NewX > width*5 || NewX < -width*5 || NewY > width/.5 || NewY < -width/.5) {
@@ -187,7 +187,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
                 Stars[i].x = NewX;
                 Stars[i].y = NewY;
 
-                Stars[i].lightness = Stars[i].lightness <= 70 ? Stars[i].lightness * 1.0103 : 70;
+                Stars[i].lightness = Stars[i].lightness <= 70 ? Stars[i].lightness * 1.02 : 70;
 
             }
            
@@ -198,13 +198,17 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
     function addStar() { //when one star dies another is born
 
         let  
-        ranNum = Math.random() * 50 - 25 
-        radius = Math.random() * 50 - 25;
-        randomX1 = (Math.cos(ranNum) * radius),
-        randomY1 = (Math.sin(ranNum) * radius),
+        ranAngle = Math.random() * 100   
+        radius = 5;
+        randomX1 = (Math.cos(ranAngle) * radius),
+        randomY1 = (Math.sin(ranAngle) * radius),
+        randomX2 = (Math.cos(ranAngle) * radius * 4),
+        randomY2 = (Math.sin(ranAngle) * radius * 4),
 
-        x =  (randomX1 * ranNum) * Math.random(),
-        y =  (randomY1 * ranNum) * Math.random(),
+        ranNum = (Math.random() * 17) + 1,
+
+        x =  (randomX2 * ranNum) + (randomX1 * ranNum) * Math.random(),
+        y =  (randomY2 * ranNum) + (randomY1 * ranNum) * Math.random(),
 
         lightness = 10;
 
