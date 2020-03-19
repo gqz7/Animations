@@ -4,6 +4,8 @@ let clearScreenBool = true,
 
     colorBool = true,
 
+    drawStarsBool = true,
+
     xFactorInput = 0,
 
     yFactorInput = 0;
@@ -13,6 +15,31 @@ document.addEventListener('keydown', userInputEvent, false);
 function userInputEvent(input) {
 
     switch (input.code) {
+
+        case "KeyA":
+            context.translate(0,10)
+            
+            break;
+        case "KeyS":
+            context.translate(10,0)
+
+            break;
+        case "KeyD":
+            context.translate(0,-10)
+            
+            break;
+        case "KeyW":
+            context.translate(-10,0)
+
+            break;
+
+        case "KeyO":
+            context.rotate(-Math.PI/100)
+            break;
+
+        case "KeyP":
+            context.rotate(Math.PI/100)
+            break;
 
         case "KeyL":
             console.log(`Clear Screen: ${clearScreenBool}\nColorStyle: ${colorBool}\nX-factor:${xFactorInput}\nY-factor:${yFactorInput}`);
@@ -28,6 +55,15 @@ function userInputEvent(input) {
 
             colorBool = colorBool ? false : true;
  
+            break;
+
+        case "KeyV":
+
+            drawStarsBool = drawStarsBool ? false : true;
+ 
+            break;
+        case "KeyX":
+            showOrigin()
             break;
 
         case "ArrowLeft":
@@ -92,9 +128,14 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
         if (clearScreenBool) {
              clear()
         }
-        
-        renderStars() //displays each star from its position in the Stars array 
 
+        if (drawStarsBool) {
+
+            renderStars() //displays each star from its position in the Stars array 
+
+            
+            
+        } 
         moveStars(speed) //moves the position of each start slightly
 
         setTimeout( () => {
@@ -274,4 +315,14 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
             x: x, y: y, lightness: lightness
         });
         
+    }
+
+    function showOrigin() {
+
+        context.beginPath()
+
+        context.arc(0,0,20, 0, 2 * Math.PI)
+        context.strokeStyle = 'white';
+        context.lineWidth = 10
+        context.stroke()
     }

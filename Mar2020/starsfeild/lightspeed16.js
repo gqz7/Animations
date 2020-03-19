@@ -91,9 +91,8 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         // context.save()
 
-        x = x< 0 ? (x  - width/(time/2) - time/100) : (x  + width/(time/2) + time/100);
+        x = x< 0 ? (x  - width/(time*2) - time/100) : (x  + width/(time*2) + time/100);
             
-
         let 
         x1 = x,
         y1 = y,
@@ -170,11 +169,11 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         for (let i = 0; i < Stars.length; i++) {
 
-            let NewX = Stars[i].x * (.997 + speed/5000 + Stars[i].lightness/1700),
-                NewY = Stars[i].y * (.999 + speed/5000 + Stars[i].lightness/1700);
+            let NewX = Stars[i].x * (.979 + speed/4700 + Stars[i].lightness/1700),
+                NewY = Stars[i].y * (.979 + speed/4700 + Stars[i].lightness/1700);
 
 
-            if (NewX > width*5 || NewX < -width*5 || NewY > width/.5 || NewY < -width/.5) {
+            if (NewX > width || NewX < -width || NewY > width/.5 || NewY < -width/.5) {
 
                 Stars.splice(i, 1); //if it goes off screen, delete it from the stars to be rendered
 
@@ -187,7 +186,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
                 Stars[i].x = NewX;
                 Stars[i].y = NewY;
 
-                Stars[i].lightness = Stars[i].lightness <= 70 ? Stars[i].lightness * 1.02 : 70;
+                Stars[i].lightness = Stars[i].lightness <= 77 ? Stars[i].lightness * 1.02 : 77;
 
             }
            
@@ -208,7 +207,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
         ranNum = (Math.random() * 17) + 1,
 
         x =  (randomX2 * ranNum) + (randomX1 * ranNum) * Math.random(),
-        y =  (randomY2 * ranNum) + (randomY1 * ranNum) * Math.random(),
+        y =  (randomY2 * ranNum) + (randomY1 * ranNum) * Math.random() * 5,
 
         lightness = 10;
 
