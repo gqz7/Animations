@@ -1,3 +1,6 @@
+console.log('\nWelcome to this interactive animation\nUse "asdw" keys to move origin\nPress X to view current origin location\nUse O & P to rotate canvas\nUse arrow keys to distort X and Y plane\nPress Space to toggle screen clearing\nPress V to temporially disable animation drawing\nPress C to toggle color modes\nPress L to veiw current stats\nENJOY!');
+
+
 //event listeners for user input
 
 let clearScreenBool = true,
