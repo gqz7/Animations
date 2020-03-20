@@ -6,14 +6,14 @@ let canvas = document.getElementById('canvas'),
       height = canvas.height = window.innerHeight,
 
       frames = 0;
-
+ 
 
       render()
       function render() {
 
         frames++
 
-        // clearFullScreen()
+        clearFullScreen()
 
         create_squares(frames, 0, height/2)
 
@@ -21,17 +21,17 @@ let canvas = document.getElementById('canvas'),
 
         create_squares(frames, width, height/2)
 
-        create_squares(frames, 0, 0)
+        // create_squares(frames, 0, 0)
 
-        create_squares(frames, width, 0)
+        // create_squares(frames, width, 0)
 
-        create_squares(frames, width/2, 0)
+        // create_squares(frames, width/2, 0)
 
-        create_squares(frames, 0, height)
+        // create_squares(frames, 0, height)
 
-        create_squares(frames, width/2, height)
+        // create_squares(frames, width/2, height)
 
-        create_squares(frames, width, +height)
+        // create_squares(frames, width, +height)
 
           rotate_about_the_center()
 
@@ -43,7 +43,7 @@ let canvas = document.getElementById('canvas'),
 
         context.save();
         context.setTransform(1, 0, 0, 1, 0, 0);
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.clearRect(width/2, height/2, width/4, height/4);
         context.restore();
         
     }
@@ -56,16 +56,14 @@ let canvas = document.getElementById('canvas'),
 
         for (let i = size/.5; i > 0; i-=size/10) {
 
-            let lightness = i/3 < 80 ? i/3 : 70;
+            let lightness = i/3 < 50 ? i/3 : 50;
 
             context.beginPath()
 
             context.rect(-i, -i, i*2, i*2)
 
-            context.strokeStyle = `hsl(${i/.5}, 100%, ${lightness}%)`;
-
+            context.strokeStyle = `hsl(${i/5}, 100%, ${lightness}%)`;
             context.stroke()
-
         }
 
         context.restore()
