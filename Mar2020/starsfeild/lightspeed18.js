@@ -13,7 +13,9 @@ let clearScreenBool = true,
 
     yFactorInput = 0,
 
-    speedOfRotation = .03
+    speedOfRotation = .03,
+
+    globalRadius = 30;
 
 document.addEventListener('keydown', userInputEvent, false);
 
@@ -56,7 +58,7 @@ function userInputEvent(input) {
             break;
 
         case "KeyL":
-            console.log(`Clear Screen: ${clearScreenBool}\nColorStyle: ${colorBool}\nX-factor:${xFactorInput}\nY-factor:${yFactorInput}`);
+            console.log(`Clear Screen: ${clearScreenBool}\nColorStyle: ${colorBool}\nX-factor:${xFactorInput}\nY-factor:${yFactorInput}\nStarSpawn-Radius:${globalRadius}`);
             break;
             
         case "Space":
@@ -101,6 +103,18 @@ function userInputEvent(input) {
         case "ArrowDown":
 
             yFactorInput--
+            
+            break;
+
+        case "KeyR":
+
+           globalRadius -= .1;
+            
+            break;
+
+        case "KeyT":
+
+            globalRadius += .1;
             
             break;
     
@@ -309,7 +323,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         let  
         ranAngle = Math.random() * 100   
-        radius = 20;
+        radius = globalRadius;
         randomX1 = (Math.cos(ranAngle) * radius),
         randomY1 = (Math.sin(ranAngle) * radius),
         randomX2 = (Math.cos(ranAngle) * radius * 4),
