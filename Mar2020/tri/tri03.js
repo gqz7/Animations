@@ -7,7 +7,7 @@ let canvas = document.getElementById('canvas'),
 
       frames = 0,
 
-      color = 144;
+      color = 100;
 
 
 // context.translate(0, height/2)
@@ -23,11 +23,13 @@ let canvas = document.getElementById('canvas'),
         color += .7;
 
         clearFullScreen()
-        triangluar_grid(140-frames/100)
+        triangluar_grid(140-frames/50)
+
+        // context.scale(1,1.001)
 
         // return
 
-        setTimeout(window.requestAnimationFrame, 10, render)
+        setTimeout(window.requestAnimationFrame, 0, render)
 
       }
 
@@ -45,21 +47,24 @@ let canvas = document.getElementById('canvas'),
     function triangluar_grid(size) {
 
 
-        let light = 100
+        
 
         // context.strokeStyle = 'grey';
         context.save()
 
-        context.translate(-size, (size*frames/size)/2)
+        context.translate(-size, (size*frames/size)/1.1)
 
-        let count = 0;
+        let count = 0,
+            rowColor = color,
+            light = 90;
 
-        for (let i = height + size*10; i > 0; i -= size) {
+        for (let i = height + size*44; i > 0; i -= size) {
 
             count++
-            tri_row(size, light) 
+            tri_row(size, light, rowColor) 
 
-            light-=7
+            light-=2
+            rowColor +=17
             
             context.translate(-size/2, size-(size*frames/1000))
 
@@ -74,9 +79,9 @@ let canvas = document.getElementById('canvas'),
         
     }
 
-    function tri_row(size, light) {
+    function tri_row(size, light, rowColor) {
 
-        context.strokeStyle = `hsl(${color}, 100%, ${light}%)`;
+        context.strokeStyle = `hsl(${rowColor}, 100%, ${light}%)`;
 
         context.save()
 
@@ -88,13 +93,13 @@ let canvas = document.getElementById('canvas'),
 
             context.beginPath()
 
-            context.moveTo((Math.random()*1),(Math.random()*1))
+            context.moveTo(0,0)
             context.rotate(-Math.PI/3)
-            context.lineTo(size + (Math.random()*1),(Math.random()*1))
+            context.lineTo(size + 0,0)
             context.rotate(Math.PI/3)
-            context.lineTo(size + (Math.random()*1),(Math.random()*1))
+            context.lineTo(size + 0,0)
             context.rotate(Math.PI)
-            context.lineTo(size+(Math.random()*1),(Math.random()*1))
+            context.lineTo(size+0,0)
 
             context.stroke()
 
@@ -104,4 +109,4 @@ let canvas = document.getElementById('canvas'),
 
         context.restore()
         
-    }
+    } 
