@@ -1,4 +1,4 @@
-console.log('\nWelcome to this interactive animation\nControls Are As Follows\n"asdw" keys to move origin\nX to set a marker at current origin location\nO & P to rotate canvas\nArrow keys to distort X and Y plane\nSpace to toggle screen clearing\nV to temporially disable animation drawing\nC to toggle color modes\nT to increase spawn radius, R to decrease\nPress L to veiw current stats\nENJOY!');
+console.log('\nWelcome to this interactive animation\nControls Are As Follows\n"asdw" keys to move origin\nX to set a marker at current origin location\nO & P to rotate canvas\nArrow keys to distort X and Y plane\nSpace to toggle screen clearing\nV to temporially disable animation drawing\nC to toggle color modes\nT to increase spawn radius, R to decrease\nZ to toggle entities fade in/out\nPlus to add an entity, minus to delete\nPress L to veiw current stats\nENJOY!');
 
 
 //event listeners for user input
@@ -8,6 +8,8 @@ let clearScreenBool = true,
     colorBool = true,
 
     drawStarsBool = true,
+
+    fadeIn = true,
 
     xFactorInput = 0,
 
@@ -25,112 +27,78 @@ function userInputEvent(input) {
 
         case "KeyA":
             context.translate(0,10)
-            
             break;
         case "KeyS":
             context.translate(10,0)
-
             break;
         case "KeyD":
             context.translate(0,-10)
-            
             break;
         case "KeyW":
             context.translate(-10,0)
-
             break;
-
         case "KeyO":
             context.rotate(-speedOfRotation)
             break;
-
         case "KeyP":
             context.rotate(speedOfRotation)
             break;
-
         case "Digit9":
             speedOfRotation = speedOfRotation > 0 ? speedOfRotation - .001: speedOfRotation;
             console.log(speedOfRotation);
-            
             break;
         case "Digit0":
             speedOfRotation += .001
             break;
 
         case "KeyL":
-            console.log(`Clear Screen: ${clearScreenBool}\nColorStyle: ${colorBool}\nCurrent Speed: ${speed}\nX-factor:${xFactorInput}\nY-factor:${yFactorInput}\nStarSpawn-Radius:${globalRadius}`);
+            console.log(`Clear Screen: ${clearScreenBool}\nColorStyle: ${colorBool}\nFadeIn: ${fadeIn}\nCurrent Speed: ${speed}\nX-factor:${xFactorInput}\nY-factor:${yFactorInput}\nStarSpawn-Radius:${globalRadius}\nNumber Of Stars: ${Stars.length}\n`);
             break;
-            
+    
         case "Space":
-
             clearScreenBool = clearScreenBool ? false : true;
-
             break;
-
          case "KeyC":
-
             colorBool = colorBool ? false : true;
- 
             break;
-
         case "KeyV":
-
             drawStarsBool = drawStarsBool ? false : true;
- 
+            break;
+        case "KeyZ":
+            fadeIn = fadeIn ? false : true;
             break;
         case "KeyX":
             showOrigin()
             break;
-
         case "ArrowLeft":
-
             --xFactorInput
-            
             break;
-
         case "ArrowRight":
-
             xFactorInput++
-            
             break;
-
         case "ArrowUp":
-
             yFactorInput++
-            
             break;
-
         case "ArrowDown":
-
             yFactorInput--
-            
             break;
-
         case "KeyR":
-
            globalRadius -= .1;
-            
             break;
-
         case "KeyT":
-
             globalRadius += .1;
-            
             break;
-
         case "Comma":
-
            speed -= 10;
-            
             break;
-
         case "Period":
-
             speed += 10;
-            
             break;
-    
-        default:
+        case "Minus":
+            Stars.shift()
+            break;
+        case "Equal":
+            addStar()
             break;
     }
     
@@ -223,23 +191,25 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         if (colorBool) {
 
-            context.strokeStyle = `hsl(${(index*.93) + 70}, 100%, ${100 - lightness * 2}%)`;
+            let light = fadeIn ? lightness : 100 - lightness * 1.3;
+
+            context.strokeStyle = `hsl(${(index*.93) + 70}, 100%, ${light}%)`;
 
         } else {
 
             let
-            grad = context.createLinearGradient(x1, y1, x2, y2);
+                grad = context.createLinearGradient(x1, y1, x2, y2),
 
-            lightness = 60 - lightness;
+                light = fadeIn ? lightness : 100 - lightness * 1.3;
 
             //set up gradient
-            grad.addColorStop(1, `hsl(0, 100%, ${lightness}%)`);
-            grad.addColorStop(6/7, `hsl(45, 100%, ${lightness}%)`);
-            grad.addColorStop(5/7, `hsl(90, 100%, ${lightness}%)`);
-            grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
-            grad.addColorStop(3/7, `hsl(180, 100%, ${lightness}%)`);
-            grad.addColorStop(2/7, `hsl(245, 100%, ${lightness}%)`);
-            grad.addColorStop(1/7, `hsl(305, 100%, ${lightness}%)`);
+            grad.addColorStop(1, `hsl(0, 100%, ${light}%)`);
+            grad.addColorStop(6/7, `hsl(45, 100%, ${light}%)`);
+            grad.addColorStop(5/7, `hsl(90, 100%, ${light}%)`);
+            grad.addColorStop(4/7, `hsl(135, 100%, ${light}%)`);
+            grad.addColorStop(3/7, `hsl(180, 100%, ${light}%)`);
+            grad.addColorStop(2/7, `hsl(245, 100%, ${light}%)`);
+            grad.addColorStop(1/7, `hsl(305, 100%, ${light}%)`);
             
             context.strokeStyle = grad;
 
