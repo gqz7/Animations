@@ -1,4 +1,4 @@
-console.log('\nWelcome to this interactive animation\nUse "asdw" keys to move origin\nPress X to view current origin location\nUse O & P to rotate canvas\nUse arrow keys to distort X and Y plane\nPress Space to toggle screen clearing\nPress V to temporially disable animation drawing\nPress C to toggle color modes\nPress L to veiw current stats\nENJOY!');
+console.log('\nWelcome to this interactive animation\nControls Are As Follows\n"asdw" keys to move origin\nX to set a marker at current origin location\nO & P to rotate canvas\nArrow keys to distort X and Y plane\nSpace to toggle screen clearing\nV to temporially disable animation drawing\nC to toggle color modes\nT to increase spawn radius, R to decrease\nPress L to veiw current stats\nENJOY!');
 
 
 //event listeners for user input
@@ -15,7 +15,7 @@ let clearScreenBool = true,
 
     speedOfRotation = .03,
 
-    globalRadius = 30;
+    globalRadius = 3;
 
 document.addEventListener('keydown', userInputEvent, false);
 
@@ -58,7 +58,7 @@ function userInputEvent(input) {
             break;
 
         case "KeyL":
-            console.log(`Clear Screen: ${clearScreenBool}\nColorStyle: ${colorBool}\nX-factor:${xFactorInput}\nY-factor:${yFactorInput}\nStarSpawn-Radius:${globalRadius}`);
+            console.log(`Clear Screen: ${clearScreenBool}\nColorStyle: ${colorBool}\nCurrent Speed: ${speed}\nX-factor:${xFactorInput}\nY-factor:${yFactorInput}\nStarSpawn-Radius:${globalRadius}`);
             break;
             
         case "Space":
@@ -117,6 +117,18 @@ function userInputEvent(input) {
             globalRadius += .1;
             
             break;
+
+        case "Comma":
+
+           speed -= 10;
+            
+            break;
+
+        case "Period":
+
+            speed += 10;
+            
+            break;
     
         default:
             break;
@@ -136,7 +148,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
       height = canvas.height = window.innerHeight,    //height of the canvas
       delay = 15;                                    //determins durration of time(ms) between each frame
 
-  let speed = 52;                                  //sets the speed at which stars travel away from the center
+  let speed = 70;                                  //sets the speed at which stars travel away from the center
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
     
@@ -164,7 +176,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
             
             
         } 
-        moveStars(speed) //moves the position of each start slightly
+        moveStars() //moves the position of each start slightly
 
         setTimeout( () => {
 
@@ -173,20 +185,15 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
                 addStar()
                 addStar()
                 addStar()
-                addStar()
                 // addStar()
                 // addStar()
                 // addStar()
                 // addStar()
                 // addStar()
-
-                speed += .001
-                
+                // // addStar()
                 animate()
                 
             } else if (time < 33333) {
-
-                speed = speed <= 80 ? speed + .1 : 80;
 
                 animate()
                 
@@ -290,12 +297,12 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
     }
 
-    function moveStars(speed) {
+    function moveStars() {
 
         for (let i = 0; i < Stars.length; i++) {
 
-            let NewX = Stars[i].x * (.8199 + speed/5000 + Stars[i].lightness/100 + xFactorInput/1000),
-                NewY = Stars[i].y * (.8199 + speed/5000 + Stars[i].lightness/100 + yFactorInput/1000);
+            let NewX = Stars[i].x * (.97 + speed/5000 + Stars[i].lightness/1000 + xFactorInput/1000),
+                NewY = Stars[i].y * (.97 + speed/5000 + Stars[i].lightness/1000 + yFactorInput/1000);
 
 
             if (NewX > width*5 || NewX < -width*5 || NewY > width/.5 || NewY < -width/.5) {
@@ -349,8 +356,8 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         context.beginPath()
 
-        context.arc(0,0,20, 0, 2 * Math.PI)
+        context.arc(0,0,10, 0, 2 * Math.PI)
         context.strokeStyle = 'white';
-        context.lineWidth = 10
+        context.lineWidth = 3
         context.stroke()
     }
