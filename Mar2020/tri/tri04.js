@@ -23,9 +23,7 @@ let canvas = document.getElementById('canvas'),
         color += .7;
 
         clearFullScreen()
-        triangluar_grid(140-frames/50)
-
-        // context.scale(1,1.001)
+        triangluar_grid(140-frames/200)
 
         // return
 
@@ -46,22 +44,18 @@ let canvas = document.getElementById('canvas'),
 
     function triangluar_grid(size) {
 
-
-        
-
-        // context.strokeStyle = 'grey';
         context.save()
 
-        context.translate(-size, (size*frames/size)/1.1)
+        context.translate(-size, (size*frames/size)/2)
 
         let count = 0,
             rowColor = color,
-            light = 90;
+            light = 70;
 
         for (let i = height + size*44; i > 0; i -= size) {
 
             count++
-            tri_row(size, light, rowColor) 
+            tri_row(size, light, rowColor, count) 
 
             light-=2
             rowColor +=17
@@ -72,20 +66,26 @@ let canvas = document.getElementById('canvas'),
                 context.translate(size,0)
             }
             
-            
         }
 
         context.restore()
         
     }
 
-    function tri_row(size, light, rowColor) {
+    function tri_row(size, light, rowColor, count) {
 
-        context.strokeStyle = `hsl(${rowColor}, 100%, ${light}%)`;
+        // console.log(count);
+        
+
+        let triColor = rowColor,
+            colCount = 0;
 
         context.save()
 
         for (let i = width + size; i > 0; i -= size) {
+
+            colCount++
+            triColor -=20
 
             context.translate(size, 0)
 
@@ -94,14 +94,26 @@ let canvas = document.getElementById('canvas'),
             context.beginPath()
 
             context.moveTo(0,0)
-            context.rotate(-Math.PI/3)
+            context.rotate(-Math.PI/ 3)
             context.lineTo(size + 0,0)
             context.rotate(Math.PI/3)
             context.lineTo(size + 0,0)
             context.rotate(Math.PI)
-            context.lineTo(size+0,0)
+            context.lineTo(size, 0)
+            
+            if (colCount%3!=0) {
 
-            context.stroke()
+                context.fillStyle = `hsl(${triColor}, 100%, ${light}%)`;
+
+                context.fill()
+                
+            } else {
+
+                context.strokeStyle = `hsl(${triColor}, 100%, ${light}%)`;
+
+                context.stroke()
+                
+            }
 
             context.restore()
             
