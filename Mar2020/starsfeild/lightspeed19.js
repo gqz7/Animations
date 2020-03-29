@@ -39,18 +39,22 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
     
     //   context.rotate(Math.PI/2)
 
-      let Stars = []; //this array will store the values of the current stars on the screen
+      let Stars = [], //this array will store the values of the current stars on the screen
 
-      let spaceImgsLinks = [ //array of online images of nebulas
+          spaceImgsLinks = [ //array of online images of nebulas
 
-          './space-images/nebula (1).png',
-          './space-images/nebula (3).png',  
-          './space-images/nebula (2).png', 
-          './space-images/nebula (4).png',
-          './space-images/nebula (5).png' 
-      ];
+            './space-images/nebula (1).png',
+            './space-images/nebula (3).png',  
+            './space-images/nebula (2).png', 
+            './space-images/nebula (4).png',
+            './space-images/nebula (5).png' 
+          ],
 
-      let spaceImgs = [];
+          spaceImgs = [],
+
+          transitionTimer = 100, //this will be used to time the transition between space pictues 
+          starZoom = 0,
+          pictuesIndex = 0;
 
       createImgElements(spaceImgsLinks, spaceImgs);
 
@@ -67,8 +71,24 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
              clear()
         }
 
+        if (time % 300 == 0) {
+            transitionTimer = 100;
+            starZoom = 0
+            pictuesIndex = Math.floor(spaceImgsLinks.length * Math.random())
+        }
 
-        createBGimg() //creates an image of space on the canvas
+
+        if (transitionTimer > 0) {
+            transitionTimer--
+            console.log('test1');
+            
+        } else {
+            console.log('test2');
+
+            starZoom++
+            createBGimg(starZoom) //creates an image of space on the canvas
+
+        }
         
         renderStars() //displays each star from its position in the Stars array 
         
@@ -110,8 +130,8 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
         y = y < 0 ? (y  - width/(time/7) - time/1000) : (y  + width/(time/7) + time/1000);
             
         let 
-        x1 = x,
-        y1 = y,
+        x1 = transitionTimer > 0 ? 1 * x/transitionTimer : x,
+        y1 = transitionTimer > 0 ? 1 * y/transitionTimer : y,
         x2 = x*(1 + Math.sqrt(lightness)/100),
         y2 = y*(1 + Math.sqrt(lightness)/100);
         
@@ -246,27 +266,25 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
             image.src = arrayOfLinks[i];
 
-            
-
             storage.push(image)
         }
 
     }
 
-    function createBGimg() {
+    function createBGimg(size) {
 
         // spaceImgs[2].style.borderRadius = 50%;
 
-        let x = width/2-time/2,
-            y = (height/2-time/2),
-            w = time,
-            h = time;
+        let x = width/2-size/2,
+            y = (height/2-size/2),
+            w = size,
+            h = size;
 
         context.save();
 
         context.translate(-width/2, -height/2)
         
-        context.drawImage(spaceImgs[4], x, y, w, h);
+        context.drawImage(spaceImgs[pictuesIndex], x, y, w, h);
 
         context.translate(width/2, height/2)
 
