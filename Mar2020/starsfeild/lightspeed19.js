@@ -52,9 +52,10 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
           spaceImgs = [],
 
-          transitionTimer = 100, //this will be used to time the transition between space pictues 
+          transitionTimer = 0, //this will be used to time the transition between space pictues 
           starZoom = 0,
-          pictuesIndex = 0;
+          pictuesIndex = 0,
+          imageSizeLimit = 999;
 
       createImgElements(spaceImgsLinks, spaceImgs);
 
@@ -71,24 +72,46 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
              clear()
         }
 
-        if (time % 300 == 0) {
+        if (time % imageSizeLimit == 0 && time != 0) {
             transitionTimer = 100;
-            starZoom = 0
-            pictuesIndex = Math.floor(spaceImgsLinks.length * Math.random())
+
+            
         }
 
 
         if (transitionTimer > 0) {
-            transitionTimer--
-            console.log('test1');
             
-        } else {
-            console.log('test2');
+            transitionTimer--
+            
+        }
+
+        if (transitionTimer == 0) {
+
+            createBGimg(starZoom)
 
             starZoom++
-            createBGimg(starZoom) //creates an image of space on the canvas
+
+        } else if (transitionTimer > 70) {
+
+            createBGimg(starZoom)
+
+            starZoom = starZoom > 0 ? starZoom - 40 : 0;
+
+        } else if (transitionTimer == 70) {
+
+            starZoom = 0
+
+            let newIndex = Math.floor(spaceImgsLinks.length * Math.random());
+
+            while (newIndex == pictuesIndex) {
+                newIndex = Math.floor(spaceImgsLinks.length * Math.random());
+            }
+            pictuesIndex = newIndex
 
         }
+
+        console.log(transitionTimer );
+        
         
         renderStars() //displays each star from its position in the Stars array 
         
@@ -130,10 +153,19 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
         y = y < 0 ? (y  - width/(time/7) - time/1000) : (y  + width/(time/7) + time/1000);
             
         let 
-        x1 = transitionTimer > 0 ? 1 * x/transitionTimer : x,
-        y1 = transitionTimer > 0 ? 1 * y/transitionTimer : y,
+        x1 = x,
+        y1 = y,
         x2 = x*(1 + Math.sqrt(lightness)/100),
         y2 = y*(1 + Math.sqrt(lightness)/100);
+
+        //conditional for lightspeed transistion 
+
+        if (transitionTimer > 0) {
+
+            x1 = x / (1 + ((100-transitionTimer)/3));
+            y1 = y / (1 + ((100-transitionTimer)/3));
+            
+        }
         
         let
         grad = context.createLinearGradient(x1, y1, x2, y2),
@@ -150,6 +182,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
         grad.addColorStop(1/7, `hsl(305, 100%, ${light}%)`);
         
         context.strokeStyle = grad;
+
         
         //gradient line stroke 
         context.beginPath();
