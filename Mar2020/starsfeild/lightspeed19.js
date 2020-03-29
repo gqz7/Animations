@@ -37,9 +37,22 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
       context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
     
-      context.rotate(Math.PI/2)
+    //   context.rotate(Math.PI/2)
 
       let Stars = []; //this array will store the values of the current stars on the screen
+
+      let spaceImgsLinks = [ //array of online images of nebulas
+
+          './space-images/nebula (1).png',
+          './space-images/nebula (3).png',  
+          './space-images/nebula (2).png', 
+          './space-images/nebula (4).png',
+          './space-images/nebula (5).png' 
+      ];
+
+      let spaceImgs = [];
+
+      createImgElements(spaceImgsLinks, spaceImgs);
 
       create_star_field() //adds stars to Stars array
    
@@ -53,8 +66,12 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
         if (clearScreenBool) {
              clear()
         }
+
+
+        createBGimg() //creates an image of space on the canvas
         
         renderStars() //displays each star from its position in the Stars array 
+        
 
         moveStars(speed) //moves the position of each start slightly
 
@@ -90,7 +107,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         // context.save()
 
-        x = x< 0 ? (x  - width/(time*2) - time/100) : (x  + width/(time*2) + time/100);
+        y = y < 0 ? (y  - width/(time/7) - time/1000) : (y  + width/(time/7) + time/1000);
             
         let 
         x1 = x,
@@ -133,8 +150,8 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
         for (let i = 0; i < 200; i++) {
 
             let  
-                x =  (width * Math.random()) - width/2,
-                y =  (height * Math.random()) - height/2,
+                x =  (width * Math.random()/2) - width/4,
+                y =  (height * Math.random()/2) - height/4,
 
                 lightness = 20;
              
@@ -199,7 +216,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         let  
         ranAngle = Math.random() * 100   
-        radius = 5;
+        radius = 10;
         randomX1 = (Math.cos(ranAngle) * radius),
         randomY1 = (Math.sin(ranAngle) * radius),
         randomX2 = (Math.cos(ranAngle) * radius * 4),
@@ -219,4 +236,40 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
             x: x, y: y, lightness: lightness
         });
         
+    }
+
+    function createImgElements(arrayOfLinks, storage) {
+
+        for (let i = 0; i < arrayOfLinks.length; i++) {
+            
+            let image = new Image();
+
+            image.src = arrayOfLinks[i];
+
+            
+
+            storage.push(image)
+        }
+
+    }
+
+    function createBGimg() {
+
+        // spaceImgs[2].style.borderRadius = 50%;
+
+        let x = width/2-time/2,
+            y = (height/2-time/2),
+            w = time,
+            h = time;
+
+        context.save();
+
+        context.translate(-width/2, -height/2)
+        
+        context.drawImage(spaceImgs[4], x, y, w, h);
+
+        context.translate(width/2, height/2)
+
+        context.restore()
+
     }
