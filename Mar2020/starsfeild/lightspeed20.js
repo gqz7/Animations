@@ -108,7 +108,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
             starZoom = starZoom > 0 ? starZoom - (imageSizeLimit/50) : 0;
 
-            context.rotate(starZoom*time/33333333)
+            // context.rotate(starZoom*time/33333333)
 
         } else if (transitionTimer == 20) {
 
