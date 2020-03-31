@@ -4,6 +4,8 @@ let clearScreenBool = true;
 
 document.addEventListener('keydown', userInputEvent, false);
 
+document.getElementById("canvas").onmousemove = findObjectCoords;
+
 function userInputEvent(input) {
 
     switch (input.code) {
@@ -36,7 +38,16 @@ const slider = document.getElementById('slider');
 
 let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d"),
-    time = 0;
+    time = 0,
+
+    mosPos = {
+
+          x: 0,
+          y: 0,
+
+    };
+
+    canvas.style="cursor: none";
     
 const width = canvas.width = window.innerWidth,        //width of the canvas
       height = canvas.height = window.innerHeight,    //height of the canvas
@@ -44,7 +55,7 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
   let speed = 52;                                  //sets the speed at which stars travel away from the center
 
-      context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
+    //   context.translate(width/2, height/2) //setting the origin (0,0) to the center of the screen makes it easier to calculate where stars will spawn (will change this later so the origin can be set with a var) 
     
     //   context.rotate(Math.PI/2)
 
@@ -94,11 +105,18 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
             
         }
 
+        context.save()
+
+        context.translate(mosPos.x, mosPos.y)
+
         createBGimg(starZoom)
 
-        if (transitionTimer == 0) {
+        renderStars() //displays each star from its position in the Stars array 
 
-            
+        context.restore();
+
+
+        if (transitionTimer == 0) {
 
             starZoom++
 
@@ -123,7 +141,6 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
 
         }        
         
-        renderStars() //displays each star from its position in the Stars array 
         
 
         moveStars(speed) //moves the position of each start slightly
@@ -340,5 +357,36 @@ const width = canvas.width = window.innerWidth,        //width of the canvas
         context.translate(width/2, height/2)
 
         context.restore()
+
+    }
+
+     function findObjectCoords(mouseEvent) {
+
+            let obj = document.getElementById("canvas"),
+                obj_left = 0,
+                obj_top = 0,
+                xpos,
+                ypos;
+
+        while (obj.offsetParent)
+        {
+            obj_left += obj.offsetLeft;
+            obj_top += obj.offsetTop;
+            obj = obj.offsetParent;
+        }
+        if (mouseEvent)
+        {
+            xpos = mouseEvent.pageX;
+            ypos = mouseEvent.pageY;
+        }
+        
+        xpos -= obj_left;
+        ypos -= obj_top;
+        
+        mosPos.x = xpos
+        mosPos.y = ypos
+
+        console.log(xpos, ypos);
+        
 
     }
