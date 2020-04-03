@@ -1,3 +1,35 @@
+let clearScreenBool = true,
+    colorBool = true,
+
+    colorSelect = [323, 180, 64];
+
+document.addEventListener('keydown', userInputEvent, false);
+
+function userInputEvent(input) {
+
+    switch (input.code) {
+        case "Space":
+
+            clearScreenBool = !clearScreenBool;
+
+            console.log(clearScreenBool);
+            
+            break;
+
+        case "KeyC":
+
+            colorBool = !colorBool;
+
+            console.log(clearScreenBool);
+            
+            break;
+    
+        default:
+            break;
+    }
+    
+}
+
 
 let canvas = document.getElementById('canvas'),
       context = canvas.getContext('2d'),
@@ -19,7 +51,10 @@ let canvas = document.getElementById('canvas'),
 
           frames++
 
-          clearFullScreen()
+          if (clearScreenBool) {
+              clearFullScreen()
+          }
+          
 
           time++
 
@@ -38,7 +73,7 @@ let canvas = document.getElementById('canvas'),
       }
 
 
-    function createTri(size, oX, oY) {
+    function createTri(size, oX, oY, count) {
 
         let centerX = oX+size/2,
             centerY = oY-(.25  * Math.sqrt(3) * size),
@@ -53,13 +88,9 @@ let canvas = document.getElementById('canvas'),
 
         context.translate(centerX, centerY)
 
-
-
         context.rotate(-frames/100)
-        context.translate(-centerX, -centerY)
 
-
-        context.translate(oX, oY)
+        context.translate(oX-centerX, oY-centerY)
 
         context.beginPath()
 
@@ -74,7 +105,9 @@ let canvas = document.getElementById('canvas'),
 
         context.stroke()
 
-        context.fillStyle = 'black';
+        context.fillStyle = colorBool ?  `hsl( ${colorSelect[Math.round(count)%3]}, 100%, ${light-50}%)` : 'black';
+
+
 
         context.fill()
 
@@ -100,11 +133,13 @@ let canvas = document.getElementById('canvas'),
 
             count++
 
-           
+           let loopCount = 0;
 
-            for (let i = start; i > 0; i-=7) {
+            for (let i = start; i >= 0; i-=10) {
 
                 size = i
+
+                loopCount++
 
                  context.save()
 
@@ -117,11 +152,11 @@ let canvas = document.getElementById('canvas'),
                     
                 } 
 
-                createTri(i, 0,0)
+                createTri(size, 0,0, loopCount)
                 // context.translate(100,0)
-                createTri(size, size,0)
+                createTri(size, size,0, loopCount)
                 // context.translate(-50,-100)
-                createTri(size, size/2, -(.5 * Math.sqrt(3) * size))
+                createTri(size, size/2, -(.5 * Math.sqrt(3) * size), loopCount)
                 context.restore()
             }
             
