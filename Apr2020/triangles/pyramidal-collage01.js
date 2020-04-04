@@ -1,6 +1,8 @@
 let clearScreenBool = true,
     colorBool = true,
 
+    spaceSize = 7,
+
     colorSelect = [323, 180, 64];
 
 document.addEventListener('keydown', userInputEvent, false);
@@ -12,16 +14,24 @@ function userInputEvent(input) {
 
             clearScreenBool = !clearScreenBool;
 
-            console.log(clearScreenBool);
-            
             break;
 
         case "KeyC":
 
             colorBool = !colorBool;
 
-            console.log(clearScreenBool);
-            
+            break;
+
+        case "Comma":
+
+            spaceSize = spaceSize > 2 ? spaceSize - 1 : 2;
+
+            break;
+
+        case "Period":
+
+            spaceSize++
+
             break;
     
         default:
@@ -43,7 +53,7 @@ let canvas = document.getElementById('canvas'),
 
       light = 100;
 
-      context.translate(width/2, height - height/3)
+      context.translate(width/2, height/2+height/10)
 
         render()
 
@@ -76,10 +86,10 @@ let canvas = document.getElementById('canvas'),
     function createTri(size, oX, oY, count) {
 
         let centerX = oX+size/2,
-            centerY = oY-(.25  * Math.sqrt(3) * size),
-            rotateBy = -frames/100;
+            centerY = oY-(.15  * Math.sqrt(3) * size),
+            rotateBy = -frames/50;
 
-            if (rotateBy < -2.1) {
+            if (rotateBy < -4.1) {
                 light-=.01
             }
 
@@ -88,7 +98,7 @@ let canvas = document.getElementById('canvas'),
 
         context.translate(centerX, centerY)
 
-        context.rotate(-frames/100)
+        context.rotate(rotateBy)
 
         context.translate(oX-centerX, oY-centerY)
 
@@ -101,7 +111,7 @@ let canvas = document.getElementById('canvas'),
         context.lineTo(size,0)
         context.lineTo(0, 0)
 
-        context.strokeStyle = `hsl( 0, 0%, ${light}%)`;
+        context.strokeStyle = colorBool ? 'black' : `hsl( 0, 0%, ${light}%)`;
 
         context.stroke()
 
@@ -135,7 +145,7 @@ let canvas = document.getElementById('canvas'),
 
            let loopCount = 0;
 
-            for (let i = start; i >= 0; i-=10) {
+            for (let i = start; i >= 0; i-=spaceSize) {
 
                 size = i
 
