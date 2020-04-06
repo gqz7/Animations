@@ -9,13 +9,11 @@ let canvas = document.getElementById('canvas'),
 
       time = 0;
 
-      context.translate(width/2, height/2)
-
         render()
 
       function render() {
 
-          frames = frames < 11111 ? frames + 1 : 0;
+          frames = frames < 3000 ? frames+1 : 0;
 
           clearFullScreen()
 
@@ -23,9 +21,16 @@ let canvas = document.getElementById('canvas'),
 
           let changeSize = frames;
 
-          createFractal(changeSize/7)
+          
+         context.save()
 
+        createFractal(changeSize)
 
+          context.restore() 
+
+          
+
+        // return
           setTimeout(window.requestAnimationFrame, 0, render)
 
       }
@@ -36,25 +41,24 @@ let canvas = document.getElementById('canvas'),
         let centerX = oX+size/2,
             centerY = oY-(.25  * Math.sqrt(3) * size);
 
+        context.beginPath()
+        // context.arc(0,0, size/10, 0, Math.PI*2)
+        context.stroke()
+
+        context.beginPath()
+
         context.save()
-
-        context.translate(centerX, centerY)
-        context.rotate(-frames/100)
-        context.translate(-centerX, -centerY)
-
 
         context.translate(oX, oY)
 
         context.beginPath()
 
         context.moveTo(0,0)
-        context.rotate(-Math.PI/ 3)
+        context.rotate(Math.PI/ 3)
         context.lineTo(size,0)
         context.rotate(Math.PI/3)
         context.lineTo(size,0)
         context.lineTo(0, 0)
-
-        context.strokeStyle = 'white';
 
         context.stroke()
 
@@ -72,34 +76,34 @@ let canvas = document.getElementById('canvas'),
     }
 
     function createFractal(size) {
-        
-        let count = 0;
 
-        while (count < 3) {
+        context.strokeStyle = `hsl(${time}, 0%, 80%)`;
+        context.lineWidth = 2;
 
-            count++
+        context.save();
 
-            context.save()
+        console.log(size);
+        context.translate(width/2, height/2);
+        context.rotate(Math.PI/6)
 
-            context.translate(-size*2,size)
+        for (let i = 0; i < 6; i++) {
 
-            if (count == 2) {
-                context.translate(size*2,0)
-            } else if (count == 3) {
-                context.translate( size, -(Math.sqrt(3) * size))
+            let triSize = size;
+
+            while (triSize > 1) {
+
+                createTri(triSize,0,0);
+
+                triSize/=2
                 
-            } 
-
-            createTri(size, 0,0)
-            // context.translate(100,0)
-            createTri(size, size,0)
-            // context.translate(-50,-100)
-            createTri(size, size/2, -(.5 * Math.sqrt(3) * size))
-
-            context.restore()
+            }
+            
+            context.rotate(Math.PI/3)
             
         }
 
-              
+
+        
+        context.restore();
     }
 
