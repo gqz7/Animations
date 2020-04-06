@@ -1,3 +1,58 @@
+let showCircles = true,
+    angleShift = false,
+    colorSwitch = 0,
+
+    spaceSize = 100,
+
+    colorSelect1 = [323, 180, 64],
+    colorSelect2 = [300, 133, 32];;
+
+document.addEventListener('keydown', userInputEvent, false);
+
+function userInputEvent(input) {
+
+    switch (input.code) {
+
+        case "ShiftLeft":
+        case "ShiftRight":
+
+            angleShift = !angleShift;
+
+            break;
+        case "Space":
+
+            showCircles = !showCircles;
+
+            break;
+
+        case "KeyC":
+
+            console.log(colorSwitch);
+            
+
+            colorSwitch = colorSwitch < 3 ? colorSwitch+1 : 0;
+
+            break;
+
+        case "Comma":
+        case "ArrowLeft":
+
+            spaceSize = spaceSize > 2 ? spaceSize - 1 : 2;
+
+            break;
+
+        case "Period":
+        case "ArrowRight":
+
+            spaceSize++
+
+            break;
+    
+        default:
+            break;
+    }
+    
+}
 
 let canvas = document.getElementById('canvas'),
       context = canvas.getContext('2d'),
@@ -5,7 +60,7 @@ let canvas = document.getElementById('canvas'),
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
 
-      frames = 100,
+      frames = 30,
 
       time = 0;
 
@@ -13,41 +68,41 @@ let canvas = document.getElementById('canvas'),
 
       function render() {
 
-          frames = frames < 1000 ? frames * 1.01 : 100;
+          frames *= 1.0314
 
-          clearFullScreen()
-
-          time++
+           time++
 
           let changeSize = frames;
 
-          
-         context.save()
-
-        createFractal(changeSize)
-
-          context.restore() 
-
-          
+          clearFullScreen()
+  
+          createFractal(frames)          
 
         // return
-          setTimeout(window.requestAnimationFrame, 0, render)
+          setTimeout(window.requestAnimationFrame, 20, render)
 
       }
 
 
-    function createTri(size, oX, oY) {
-
-        let centerX = oX+size/2,
-            centerY = oY-(.25  * Math.sqrt(3) * size);
-
-        context.beginPath()
-        // context.arc(0,0, size/10, 0, Math.PI*2)
-        context.stroke()
-
-        context.beginPath()
+    function createTri(size, oX, oY, flipped) {
 
         context.save()
+
+        if (flipped) {
+            context.rotate(Math.PI)
+            context.translate(0, -( Math.sqrt(3) * size))
+
+            
+        }
+
+        if (showCircles) {
+            context.beginPath()
+        context.arc(0,0, size, 0, Math.PI*2)
+        context.stroke()
+        }
+        
+
+        context.beginPath()
 
         context.translate(oX, oY)
 
@@ -61,8 +116,6 @@ let canvas = document.getElementById('canvas'),
         context.lineTo(0, 0)
 
         context.stroke()
-
-        // context.fill()
 
         context.restore()
 
@@ -79,36 +132,56 @@ let canvas = document.getElementById('canvas'),
 
     function createFractal(size) {
 
-        context.strokeStyle = `hsl(${time}, 0%, 80%)`;
-
-        context.fillStyle = 'black'
         context.lineWidth = 2;
 
         context.save();
 
-        console.log(size);
         context.translate(width/2, height/2);
-        // context.rotate(Math.PI/6)
+
+        if (angleShift) {
+            context.rotate(Math.PI/6)
+        }
 
         for (let i = 0; i < 6; i++) {
 
-            let triSize = size;
+            let triSize = width + size, count = 0;
 
             context.save()
 
-            while (triSize > 10) {
+            while (triSize > spaceSize) {
 
-                createTri(triSize,0,0);
+                if (triSize < width+1000) {
 
-                triSize-=100
+                    switch (colorSwitch) {
+                        case 0:
 
-                context.rotate(Math.PI)
+                            context.strokeStyle =`hsl(0, 0%, ${triSize/4.2}%)`
+                            
+                            break;
+                        case 1:
 
-                context.translate(0, triSize)
+                            context.strokeStyle = `hsl(${time + triSize/23 + 155}, 100%, ${triSize/100 + 42}%)`
+                            
+                            break;
+                        case 2:
 
-                createTri(triSize/2,0,0);
+                            context.strokeStyle = `hsl(${colorSelect1[Math.floor(count%3)]}, 100%, ${triSize/42 + 67}%)`
+                            
+                            break;
+                        case 3:
 
-                
+                            context.strokeStyle = `hsl(${colorSelect2[Math.floor(count%3)]}, 100%, ${triSize/42 + 67}%)`
+                            
+                            break;
+                    }
+
+                    createTri(triSize,0,0);
+
+                    createTri(triSize/2, 0, 0, true)
+                }
+
+                count++
+                triSize/=2
             }
 
             context.restore()
