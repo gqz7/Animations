@@ -5,7 +5,7 @@ let canvas = document.getElementById('canvas'),
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
 
-      frames = 0,
+      frames = 100,
 
       time = 0;
 
@@ -13,7 +13,7 @@ let canvas = document.getElementById('canvas'),
 
       function render() {
 
-          frames = frames < 3000 ? frames+1 : 0;
+          frames = frames < 1000 ? frames * 1.01 : 100;
 
           clearFullScreen()
 
@@ -62,6 +62,8 @@ let canvas = document.getElementById('canvas'),
 
         context.stroke()
 
+        // context.fill()
+
         context.restore()
 
     }
@@ -78,25 +80,38 @@ let canvas = document.getElementById('canvas'),
     function createFractal(size) {
 
         context.strokeStyle = `hsl(${time}, 0%, 80%)`;
+
+        context.fillStyle = 'black'
         context.lineWidth = 2;
 
         context.save();
 
         console.log(size);
         context.translate(width/2, height/2);
-        context.rotate(Math.PI/6)
+        // context.rotate(Math.PI/6)
 
         for (let i = 0; i < 6; i++) {
 
             let triSize = size;
 
-            while (triSize > 1) {
+            context.save()
+
+            while (triSize > 10) {
 
                 createTri(triSize,0,0);
 
-                triSize/=2
+                triSize-=100
+
+                context.rotate(Math.PI)
+
+                context.translate(0, triSize)
+
+                createTri(triSize/2,0,0);
+
                 
             }
+
+            context.restore()
             
             context.rotate(Math.PI/3)
             
