@@ -93,10 +93,6 @@ let canvas = document.getElementById('canvas'),
                 if (-triSize/5 - frames/9 > -100) {
                     createTri(triSize,0,0);
 
-                    // context.strokeStyle = `hsl(${triSize*2 + frames}, 100%, ${100-size/5 - frames/9}%)`
-                    // context.beginPath()
-                    // context.arc(0,0, triSize, 0, Math.PI*2)
-                    // context.stroke()
                 }
 
                 triSize-=20
