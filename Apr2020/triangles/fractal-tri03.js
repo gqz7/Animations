@@ -5,32 +5,49 @@ let canvas = document.getElementById('canvas'),
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
 
-      frames = 0,
+      frames = 1200,
 
       time = 0;
 
       context.translate(width/2, height/2)
+      context.rotate(Math.PI/3)
 
         render()
 
       function render() {
 
-          frames++
+          clearFullScreen()
+
+          frames = frames < width*10 ? frames*1.1 : 1200
 
           time++
 
-          sirpinskiZoom(frames+100)
+        //   console.log(frames);
+          
+            context.save()
+          sirpinskiZoom(frames)
+             context.restore()
 
-        setTimeout(window.requestAnimationFrame, 0, render)
+            //  context.rotate(-.001)
+
+             
+        setTimeout(window.requestAnimationFrame, 100, render)
 
       }
 
 
     function createTri(size, oX, oY) {
+        context.strokeStyle = 'white';
 
         context.save()
 
         context.translate(oX, oY)
+
+        context.beginPath()
+
+        context.arc(0,0, size*7, 0, Math.PI*2)
+        
+        // context.stroke()
 
          context.beginPath()
 
@@ -41,7 +58,6 @@ let canvas = document.getElementById('canvas'),
         context.lineTo(size,0)
         context.lineTo(0, 0)
 
-        context.strokeStyle = 'white';
 
         context.stroke()
 
@@ -61,14 +77,26 @@ let canvas = document.getElementById('canvas'),
 
     function sirpinskiZoom(size) {
 
-        size = size < height ? size : height;
         
+        let count =  0;
+
+        context.save()
         
-        while (size > 10) {
-            
-            // console.log(size);
+        while (count < 7) {
+
+            count++
             
 
-            size-=100
+        context.save()
+
+            // context.translate(-size, 0)
+
+            createTri(size, 0 , 0 )
+
+        context.restore()
+            size/=2
+            
         }
+
+        context.restore()
     }
