@@ -1,50 +1,53 @@
+//event listener to add interactivity and alter look of animation
+document.addEventListener('keydown', () => {
 
+    context.rotate(Math.PI/6)
+
+}, false);
+
+//set canvas vars and declare animaiton cycle vars
 let canvas = document.getElementById('canvas'),
       context = canvas.getContext('2d'),
 
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
 
-      frames = 0,
+      frames = width,
 
-      endSize = 50,
+      time = 0,
 
-      time = 0;
+      endSize = height/3;
 
+    //SET CONTEXT SETTINGS BEFORE ANIMATION CYCLE STARTS
+      context.fillStyle = 'black';
       context.translate(width/2, height/2)
+      context.rotate(Math.PI/6)
 
         render()
 
       function render() {
 
-          clearFullScreen()
+        time++
 
-          frames = width + frames < width*2 ? frames + 20: 1; 
+        endSize = endSize > 33 ? endSize - .3: 33;
 
-          time++
+        frames*=1.007; 
 
-          size = width + frames > width*2? width : width + frames;
-          
-            createHexagon(size/2)
+        if (frames > width*2) {
+            frames = width*1.007
+        }
+        createHexagon(frames/2)
  
-        setTimeout(window.requestAnimationFrame, 30, render)
+        setTimeout(window.requestAnimationFrame, 3, render)
 
       }
 
 
-    function createTri(size, oX, oY) {
-
-        context.save()
-
-        context.translate(oX, oY)
-
-        // context.beginPath()
-
-        // context.arc(0,0, size, 0, Math.PI*2)
+    function createTri(size) {
         
-        // context.stroke()
+      context.strokeStyle = `hsl(${time*10}, 100%, 90%)`;
 
-         context.beginPath()
+        context.beginPath()
 
         context.moveTo(0,0)
         context.rotate(-Math.PI/ 3)
@@ -54,8 +57,7 @@ let canvas = document.getElementById('canvas'),
         context.lineTo(0, 0)
 
         context.stroke()
-
-        context.restore()
+        context.fill()
 
     }
 
@@ -79,13 +81,12 @@ let canvas = document.getElementById('canvas'),
 
 
     function sirpinskiZoom(startSize) {
-                context.strokeStyle = 'white';
-
+                
         if (startSize > endSize) {
             
             if (startSize/2 <= endSize) {
-
-                createTri(startSize,0,0)
+                
+                createTri(startSize)
 
             } else {
                 context.save()                
