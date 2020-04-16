@@ -5,12 +5,13 @@ let canvas = document.getElementById('canvas'),
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
 
-      frames = 1200,
+      frames = 0,
+
+      endSize = 50,
 
       time = 0;
 
       context.translate(width/2, height/2)
-    //   context.rotate(Math.PI/3)
 
         render()
 
@@ -18,34 +19,28 @@ let canvas = document.getElementById('canvas'),
 
           clearFullScreen()
 
-          frames = width + frames < width*2 ? frames + (width/20): 10; 
+          frames = width + frames < width*2 ? frames + 20: 1; 
 
           time++
 
           size = width + frames > width*2? width : width + frames;
           
-            context.save()
-          sirpinskiZoom(size)
-             context.restore()
-
-            //  context.rotate(-.01)
-
-             
+            createHexagon(size/2)
+ 
         setTimeout(window.requestAnimationFrame, 30, render)
 
       }
 
 
     function createTri(size, oX, oY) {
-        context.strokeStyle = 'white';
 
         context.save()
 
         context.translate(oX, oY)
 
-        context.beginPath()
+        // context.beginPath()
 
-        context.arc(0,0, size, 0, Math.PI*2)
+        // context.arc(0,0, size, 0, Math.PI*2)
         
         // context.stroke()
 
@@ -73,36 +68,34 @@ let canvas = document.getElementById('canvas'),
         
     }
 
-
-    function sirpinskiZoom(startSize) {
-
-
-        context.save()
+    function createHexagon(size) {
 
         for (let i = 0; i < 6; i++) {
-            
-            let tempSize = startSize
-            let count =  0;
-            while (tempSize > 30) {
-
-                count++
-
-                context.save()
-                    context.translate(-tempSize/2, 0)
-
-                    createTri(tempSize, 0 , 0 )
-
-                context.restore()
-                    tempSize/=2
-                
-            }
-
-            context.rotate((Math.PI/3))
-
-        
+           sirpinskiZoom(size)
+           context.rotate(Math.PI/3)
         }
+        
+    }
 
-      
 
-        context.restore()
+    function sirpinskiZoom(startSize) {
+                context.strokeStyle = 'white';
+
+        if (startSize > endSize) {
+            
+            if (startSize/2 <= endSize) {
+
+                createTri(startSize,0,0)
+
+            } else {
+                context.save()                
+                sirpinskiZoom(startSize/2)
+                context.translate(startSize/2,0)
+                sirpinskiZoom(startSize/2)
+                context.translate(-startSize/4, -Math.sqrt(3) * startSize * .25)
+                sirpinskiZoom(startSize/2)
+                context.restore();
+            }
+            
+        }
     }
