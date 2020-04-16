@@ -10,7 +10,7 @@ let canvas = document.getElementById('canvas'),
       time = 0;
 
       context.translate(width/2, height/2)
-      context.rotate(Math.PI/3)
+    //   context.rotate(Math.PI/3)
 
         render()
 
@@ -18,20 +18,20 @@ let canvas = document.getElementById('canvas'),
 
           clearFullScreen()
 
-          frames = frames < width*10 ? frames*1.1 : 1200
+          frames = width + frames < width*2 ? frames + (width/20): 10; 
 
           time++
 
-        //   console.log(frames);
+          size = width + frames > width*2? width : width + frames;
           
             context.save()
-          sirpinskiZoom(frames)
+          sirpinskiZoom(size)
              context.restore()
 
-            //  context.rotate(-.001)
+            //  context.rotate(-.01)
 
              
-        setTimeout(window.requestAnimationFrame, 100, render)
+        setTimeout(window.requestAnimationFrame, 30, render)
 
       }
 
@@ -45,7 +45,7 @@ let canvas = document.getElementById('canvas'),
 
         context.beginPath()
 
-        context.arc(0,0, size*7, 0, Math.PI*2)
+        context.arc(0,0, size, 0, Math.PI*2)
         
         // context.stroke()
 
@@ -57,7 +57,6 @@ let canvas = document.getElementById('canvas'),
         context.rotate(Math.PI/3)
         context.lineTo(size,0)
         context.lineTo(0, 0)
-
 
         context.stroke()
 
@@ -75,28 +74,35 @@ let canvas = document.getElementById('canvas'),
     }
 
 
-    function sirpinskiZoom(size) {
+    function sirpinskiZoom(startSize) {
 
-        
-        let count =  0;
-
-        context.save()
-        
-        while (count < 7) {
-
-            count++
-            
 
         context.save()
 
-            // context.translate(-size, 0)
-
-            createTri(size, 0 , 0 )
-
-        context.restore()
-            size/=2
+        for (let i = 0; i < 6; i++) {
             
+            let tempSize = startSize
+            let count =  0;
+            while (tempSize > 30) {
+
+                count++
+
+                context.save()
+                    context.translate(-tempSize/2, 0)
+
+                    createTri(tempSize, 0 , 0 )
+
+                context.restore()
+                    tempSize/=2
+                
+            }
+
+            context.rotate((Math.PI/3))
+
+        
         }
+
+      
 
         context.restore()
     }
