@@ -17,13 +17,9 @@ let canvas = document.createElement('canvas');
       function render() {
         time = time < 200 ? time + 1 : 200;
 
-        // clearFullScreen()
+        clearFullScreen()
 
         yinyang(time)
-
-        let radian = (213 - time)/1000
-
-        context.rotate(radian)
 
         setTimeout(window.requestAnimationFrame, 0, render)
 
@@ -31,27 +27,42 @@ let canvas = document.createElement('canvas');
 
     function yinyang(radius) {
         context.strokeStyle = `hsl(${time}, 100%, 70%)`;
-
+ 
+        //create half white circle        
+        context.fillStyle = 'white'; 
         context.beginPath()
-        context.arc(0,0,radius,0,Math.PI*2);
+        context.arc(0,0,radius,0,Math.PI);
+        context.fill()
+        //create black outline for white half
+        context.strokeStyle = 'black'
+        context.beginPath()
+        context.arc(0,0,radius,0,Math.PI);
         context.stroke()
 
+        //create black half circle
+        context.fillStyle = 'black';
+        context.beginPath()
+        context.arc(0,0,radius,Math.PI,Math.PI*2);
+        context.fill()
+        //create white outline for white half
+        context.strokeStyle = 'white'
+        context.beginPath()
+        context.arc(0,0,radius,Math.PI,Math.PI*2);
+        context.stroke()
+
+        //create white full circle with 1/2 radius
         context.fillStyle = 'white'; 
         context.beginPath()
         context.arc(-radius/2,0,radius/2,0,Math.PI*2)
         context.fill()
-
+        //create white full circle with 1/2 radius and inner circle for white 1/2 circle
         context.fillStyle = 'black';
         context.beginPath()
         context.arc(-radius/2,0,radius/7,0,Math.PI*2)
-        context.fill()
-
-        context.fillStyle = 'black';
-        context.beginPath()
         context.arc(radius/2,0,radius/2,0,Math.PI*2)
         context.fill()
-
-        context.fillStyle = 'white'; 
+        //create inner circle for black 1/2 circle
+        context.fillStyle = 'white';
         context.beginPath()
         context.arc(radius/2,0,radius/7,0,Math.PI*2)
         context.fill()
