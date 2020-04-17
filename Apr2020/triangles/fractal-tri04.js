@@ -14,13 +14,11 @@ let canvas = document.getElementById('canvas'),
 //VARS FOR USER INPUT
 let showCircles = true,
 
-    showTriangles = false,
+    showTriangles = true,
 
     colorSwitch = 0,
 
-    colorIndex = 0,
-
-    endSize = 100;
+    endSize = 170;
 
 //USER INPUT EVENT LISTENER
 document.addEventListener('keydown', userInputEvent, false);
@@ -53,7 +51,7 @@ function userInputEvent(input) {
             console.log(colorSwitch);
             
 
-            colorSwitch = colorSwitch < 3 ? colorSwitch+1 : 0;
+            colorSwitch = colorSwitch < 1 ? colorSwitch+1 : 0;
 
             break;
 
@@ -99,9 +97,9 @@ function userInputEvent(input) {
 
         time++
 
-        endSize = endSize > 30 ? endSize - .5: 30;
+        endSize = endSize > 40 ? endSize - .3: 40;
 
-        frames*=1.01; 
+        frames*=1.03; 
 
         if (frames > width*2) {
             frames = width
@@ -155,21 +153,16 @@ function userInputEvent(input) {
 
 //CREATE A HEX STRUCTURE OF SIRPINSKI TRIANGLES
     function createHexagon(size) {
-
         for (let i = 0; i < 6; i++) {
            sirpinskiZoom(size)
            context.rotate(Math.PI/3)
         }
-        
     }
 
 //A FUNCTION THAT USES RECURSTION TO CREATE A SIRPINSKI TRIANGLE
     function sirpinskiZoom(startSize) {
-    
         if (startSize > endSize) {
-            
             setStroke(startSize)
-  
             if (startSize/2 <= endSize) {
 
                 if (showTriangles) {
@@ -181,31 +174,21 @@ function userInputEvent(input) {
                 
                 if (showTriangles) {
                     context.lineWidth = 1 
-
                     createTri(startSize)
                 }
 
                 if (showCircles) {
                     context.lineWidth = (1-(endSize/startSize*2))/2;
-
                     createCir(startSize)
                 }
-
-
                 triRecursion(startSize)
-
             } else {
-
                 if (showCircles) {
-    
                     context.lineWidth = ((endSize/startSize)*2)-.2;
                     createCir(startSize)
                 }
-
                 triRecursion(startSize)
-
             } 
-            
         }
     }
 
@@ -222,19 +205,13 @@ function userInputEvent(input) {
 
 //SETS THE CONTEXT STROKE STYLE USING colorSwitch var 
     function setStroke(size) {
-
         switch (colorSwitch) {
             case 0:
-
             context.strokeStyle = 'white';
-                
-                break;
-            case 1:
-
-            context.strokeStyle = `hsl( ${time/4}, 100%, 50%)`;
-                
             break;
-
+            case 1:
+            context.strokeStyle = `hsl( ${time*2}, 100%, 50%)`;
+            break;
         }
 
     }
