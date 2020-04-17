@@ -31,48 +31,50 @@ let canvas = document.createElement('canvas');
 
     function yinyang(radius) {
 
-        let innerTriH = Math.sqrt(Math.pow(radius,2)-Math.pow(radius/2,2)),
-            xTran = Math.sqrt(Math.pow(radius,2) - Math.pow(innerTriH/3, 2))
+        context.save()
+        //first circle origin in the middle of all three circles
+        context.translate(Math.sqrt(3)*.22222*radius, 0);
 
-        let x1 = 0, y1 = -innerTriH/1.651,
-            x2 = -xTran/2.1, y2 = (innerTriH)/3.2,
-            x3 = xTran/2.1, y3 = ((innerTriH)/3.2),
-
-            radiusBig = Math.sqrt(3)*.26*radius,
-            radiusSml = radius/7;
-
+        //circle 1
         context.fillStyle = 'lightgrey';
         context.beginPath()
-        context.arc(x1,y1,radiusBig,0,Math.PI*2)
+        context.arc(0,0,radius/3,0,Math.PI*2)
         context.fill()
-
         context.fillStyle = 'darkgrey'; 
         context.beginPath()
-        context.arc(x1,y1,radiusSml,0,Math.PI*2)
+        context.arc(0,0,radius/7,0,Math.PI*2)
         context.fill()
 
+        //translate to next circle origin
+        context.rotate(Math.PI/3)
+        context.translate(0, radius/3*2);
+
+        //circle 2
         context.fillStyle = 'white'; 
         context.beginPath()
-        context.arc(x2,y2,radiusBig,0,Math.PI*2)
+        context.arc(0,0,radius/3,0,Math.PI*2)
         context.fill()
-
         context.fillStyle = 'black';
         context.beginPath()
-        context.arc(x2,y2,radiusSml,0,Math.PI*2)
+        context.arc(0,0,radius/7,0,Math.PI*2)
         context.fill()
 
+        context.rotate(Math.PI/1.5)
+        context.translate(0, radius/3*2);
+
+
+        //circle 3
         context.fillStyle = 'black';
         context.beginPath()
-        context.arc(x3,y3,radiusBig,0,Math.PI*2)
+        context.arc(0,0,radius/3,0,Math.PI*2)
         context.fill()
-
         context.fillStyle = 'white'; 
         context.beginPath()
-        context.arc(x3,y3,radiusSml,0,Math.PI*2)
+        context.arc(0,0,radius/7,0,Math.PI*2)
         context.fill()
 
      
-  
+        context.restore()
     }
 
     function clearFullScreen() {
