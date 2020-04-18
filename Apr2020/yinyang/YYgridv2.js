@@ -23,13 +23,13 @@ let canvas = document.createElement('canvas');
      render()
 
       function render() {
-        time = time < height/12.3 ? time + .1 : height/12.3;
-        rotateTime+=Math.PI/10
+        time = time < height/12.3 ? time + .1 : 44;
+        rotateTime+=Math.PI/111
         clearFullScreen()
 
         createGrid()
 
-        setTimeout(window.requestAnimationFrame, 10, render)
+        setTimeout(window.requestAnimationFrame, 0, render)
 
       }
 
@@ -102,7 +102,9 @@ let canvas = document.createElement('canvas');
 
         for (let j = 0; j < height; j+=radius*2) {
 
-            rotateTime =rotateTime + (j/1) > 2 ? rotateTime +  (j/10) : .1 ;
+            // let indexNum = j < 200 ? j : .1;
+
+            rotateTime = .0001 + (j/7);
 
             context.save()
             
