@@ -1,14 +1,28 @@
 # AnimationPorfolio
 This is my animation portfolio, I create them for fun and because I like the challange it gives me to try to create complex animations that combined a love for coding and mathematics 
 
-SOME ANIMATIONS
+# SOME ANIMATIONS
 
+
+FLOWER OF LIFE AND SIRPINKSKI TRIANGLE SYNCHRONICITIES 
+
+flower of life
 ![](flwrOfLyf.gif)
-![](infinity_v1.gif)
+
+sirpinski triangle
 ![](sirpinski-v2.gif)
+
 ![](tri-fractal-bnw.gif)
+
+CHECKERBOARD ANIMATIONS
+
+![](infinity_v1.gif)
+
 <!-- ![](src.gif)
 ![](src.gif) -->
+My inspiration for many of these animations comes from natures itself. I am very facinates by the fractals that appear in the phenomonal world. These are all the animations I have created in my journey as a delevopler and digital artist.
+
+Notes
 
 
 //12/14 :
