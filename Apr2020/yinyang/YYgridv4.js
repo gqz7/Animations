@@ -12,9 +12,14 @@ let canvas = document.createElement('canvas');
     height = canvas.height = window.innerHeight,
 
     time = 30,
-    rotateTime = 0;
+    rotateTime = 0,
+    
+    colors = ['hotpink', 'skyblue', 'yellow'];
+    index = 0;
 
-    document.body.style.backgroundColor = 'aqua';
+    context.lineWidth = 1.5;
+
+    document.body.style.backgroundColor = 'limegreen';
 
     document.body.appendChild(canvas);
 
@@ -23,27 +28,27 @@ let canvas = document.createElement('canvas');
      render()
 
       function render() {
-        time = time < 555 ? time + 1.5 : 42;
-        clearFullScreen()
+        time = time < 1000 ? time + .5 : 42;
+        // clearFullScreen()
 
         createGrid()
 
-        setTimeout(window.requestAnimationFrame, 5, render)
+        setTimeout(window.requestAnimationFrame, 0, render)
 
       }
 
-    function yinyang(radius, radians) {
+    function yinyang(radius, radians, colorIn) {
         context.save()
 
         context.rotate(radians)
- 
+
         //create half white circle        
         context.fillStyle = 'white'; 
         context.beginPath()
         context.arc(0,0,radius,0,Math.PI);
         context.fill()
         //create black outline for white half
-        context.strokeStyle = 'black'
+        context.strokeStyle = colors[colorIn];
         context.beginPath()
         context.arc(0,0,radius,0,Math.PI);
         context.stroke()
@@ -54,7 +59,7 @@ let canvas = document.createElement('canvas');
         context.arc(0,0,radius,Math.PI,Math.PI*2);
         context.fill()
         //create white outline for white half
-        context.strokeStyle = 'white'
+        context.strokeStyle =  colors[colorIn];
         context.beginPath()
         context.arc(0,0,radius,Math.PI,Math.PI*2);
         context.stroke()
@@ -67,13 +72,13 @@ let canvas = document.createElement('canvas');
         //create white full circle with 1/2 radius and inner circle for white 1/2 circle
         context.fillStyle = 'black';
         context.beginPath()
-        context.arc(-radius/2,0,radius/7,0,Math.PI*2)
+        context.arc(-radius/2,0,radius/8,0,Math.PI*2)
         context.arc(radius/2,0,radius/2,0,Math.PI*2)
         context.fill()
         //create inner circle for black 1/2 circle
         context.fillStyle = 'white';
         context.beginPath()
-        context.arc(radius/2,0,radius/7,0,Math.PI*2)
+        context.arc(radius/2,0,radius/8,0,Math.PI*2)
         context.fill()
 
         context.restore();
@@ -107,6 +112,12 @@ let canvas = document.createElement('canvas');
         context.save()
         
         let radius = time;
+
+        if (radius/10 % Math.PI*2 < .1) {
+
+            index = index < 2 ? index + 1: 0; 
+            
+        }
             
         context.translate(radius,radius)
 
@@ -114,13 +125,13 @@ let canvas = document.createElement('canvas');
 
             // let indexNum = j < 200 ? j : .1;
 
-            rotateTime = ((j*10)/Math.PI/200) + radius/44
+            rotateTime =  radius/10
 
             context.save()
             
             for (let i = 0; i < width; i+=radius*4) {
 
-                yinyang(radius, rotateTime)
+                yinyang(radius, rotateTime, index)
                 context.translate(radius*2,0)
         
             }
