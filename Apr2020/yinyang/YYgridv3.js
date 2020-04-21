@@ -1,8 +1,3 @@
-document.addEventListener('keydown', changeBGColor, false);
-
-function changeBGColor() {
-    document.body.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
-}
 
 
 let canvas = document.createElement('canvas');
@@ -11,10 +6,10 @@ let canvas = document.createElement('canvas');
     width = canvas.width = window.innerWidth,
     height = canvas.height = window.innerHeight,
 
-    time = 30,
+    time = 44,
     rotateTime = 0;
 
-    document.body.style.backgroundColor = 'aqua';
+    document.body.style.backgroundColor = 'black';
 
     document.body.appendChild(canvas);
 
@@ -23,12 +18,12 @@ let canvas = document.createElement('canvas');
      render()
 
       function render() {
-        time = time < 555 ? time + 1.5 : 42;
+        time = time < 222 ? time + .5 : 42;
         clearFullScreen()
 
         createGrid()
 
-        setTimeout(window.requestAnimationFrame, 5, render)
+        setTimeout(window.requestAnimationFrame, 20, render)
 
       }
 
@@ -114,7 +109,7 @@ let canvas = document.createElement('canvas');
 
             // let indexNum = j < 200 ? j : .1;
 
-            rotateTime = ((j*10)/Math.PI/200) + radius/44
+            rotateTime = ((j*10)/Math.PI/1000) + radius/3
 
             context.save()
             
