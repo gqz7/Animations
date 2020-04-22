@@ -17,13 +17,13 @@ let canvas = document.createElement('canvas');
       function render() {
         time = time < 444 ? time + 1 : 444;
 
-        // clearFullScreen()
+        clearFullScreen()
 
         yinyang(time)
 
         let radian = (537 - time)/17000
 
-        context.rotate(radian)
+        // context.rotate(-radian)
 
         setTimeout(window.requestAnimationFrame, 0, render)
 
@@ -32,10 +32,29 @@ let canvas = document.createElement('canvas');
     function yinyang(radius) {
 
         context.save()
+
+        context.fillStyle = 'white';
+        context.beginPath()
+        context.arc(0,0,radius/1.39,Math.PI*2/3,Math.PI*4/3)
+        context.arc(radius/3,0,radius/1.39,Math.PI*2/3,Math.PI*4/3)
+        context.fill()
+
+        context.fillStyle = 'black';
+        context.beginPath()
+        context.arc(0,0,radius/1.39,Math.PI*4/3,Math.PI*6/3)
+        context.arc(-radius/7,radius/4,radius/1.39,Math.PI*4/3,Math.PI*6/3)
+        context.fill()
+
+        context.fillStyle = 'lightgrey';
+        context.beginPath()
+        context.arc(0,0,radius/1.39,Math.PI*6/3,Math.PI*2/3)
+        context.arc(-radius/7,-radius/4,radius/1.39,Math.PI*6/3,Math.PI*2/3)
+        context.fill()
         //first circle origin in the middle of all three circles
         context.translate(Math.sqrt(3)*.22222*radius, 0);
 
-        //circle 1
+
+        // circle 1
         context.fillStyle = 'lightgrey';
         context.beginPath()
         context.arc(0,0,radius/3,0,Math.PI*2)
