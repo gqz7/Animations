@@ -6,7 +6,7 @@ let canvas = document.createElement('canvas');
 
     time = 0;
 
-    document.body.style.backgroundImage = 'url(https://lh3.googleusercontent.com/proxy/OT40dO4WW9tKgJvsDcF0TrvToZQrvHC5urLl2S75zfOEuGk0InmsOBvAbJP12vn3C_nrXtHFQf2lGg5BQ5jQDZfWRGA2WunB0A)';
+    document.body.style.backgroundImage = 'url(./space.gif)';
 
     document.body.appendChild(canvas);
 
