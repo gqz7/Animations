@@ -11,7 +11,16 @@ let canvas = document.createElement('canvas');
 
     frames = 0, //keep count of how many render cycles have occured
 
-    renderPaused = true, //user can toggle animation
+    radius = height/3,
+
+    renderPaused = false, //user can toggle animation
+
+    autoRotate = false, //roates z axis, can be toggle by user
+
+    mosPos = {
+        x: width/2,
+        y: height/2,
+    },
     
     point = { //obj to keep track of points when roating sphere
         x: 0,
@@ -23,8 +32,11 @@ let canvas = document.createElement('canvas');
 
     document.body.style = 'cursor: none; margin: 0px;';
 
-    canvas.style = `display: block; position: static; top: 0px; left: 0px; cursor: none; margin:auto`
+    canvas.style = `display: block; position: static; top: 0px; left: 0px; margin:auto`
 
+
+    canvas.onmousemove = findObjectCoords;
+    
     //event listener for user input
     document.addEventListener('keydown', (evn) => {
 
@@ -36,9 +48,10 @@ let canvas = document.createElement('canvas');
                 render()
             }
             
-        }
+        } else if (evn.code == 'KeyA') {
 
-       
+            autoRotate = !autoRotate;
+        }
 
     }, false)
 
@@ -55,7 +68,7 @@ let canvas = document.createElement('canvas');
 
       function render() {
 
-        console.log(frames);
+        // console.log(frames);
 
         clearFullScreen() //clear the canvas of previous animation cycle
 
@@ -63,7 +76,6 @@ let canvas = document.createElement('canvas');
 
         //counts how many frames have occured
         frames++
-
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
@@ -79,11 +91,11 @@ let canvas = document.createElement('canvas');
 
     function createSphere() {
 
+        let reso = frames/100 + 15 < 72 ? frames/100 + 15 : 72,//resolution of sphere coord detail
 
-        let reso = 22,//resolution of sphere coord detail
+            r = radius; //radius of sphere
 
-            r = height/2.7; //radius of sphere
-
+            // console.log(Math.PI * (width/mosPos.x));
 
     //first loop tracks longitude then the nested loop tracks latitude
         for (let i = 0; i < reso; i++) {
@@ -95,9 +107,9 @@ let canvas = document.createElement('canvas');
             let lat = mapNumber(j , 0, reso, 0, pi*2),
 
             //formula for finding  xyz position based on polar angle in a xy system
-            x = (r * Math.sin(lat) * Math.cos(lon)),
-            y = (r * Math.sin(lat) * Math.sin(lon)),
-            z = r * Math.cos(lat);
+            x = (r * Math.sin(lon) * Math.cos(lat)),
+            y = (r * Math.sin(lon) * Math.sin(lat)),
+            z =  r * Math.cos(lon);
 
             //store the points calculated
             point = {
@@ -106,11 +118,18 @@ let canvas = document.createElement('canvas');
                 z: z
             }
 
-            //rotate the points to give the illusion of 3d
-            rotateX(frames/100)
-            rotateY(frames/100)
-            rotateZ(frames/100)
+
+            let xRotation = mosPos.x/343 - Math.PI,
+                yRotation = -mosPos.y/343 - Math.PI*3/5;
             
+            //rotate the points to give the illusion of 3d
+            rotateX(xRotation)
+            rotateY(yRotation)
+
+            if (autoRotate) {
+                rotateZ(frames/777)
+            }
+
             renderPoint(point)
 
             }
@@ -120,15 +139,16 @@ let canvas = document.createElement('canvas');
 
     function renderPoint(origin) {
 
-        let light = origin.z - 100 > 20 ? origin.z - 100 : 20;
+        let light = (origin.z/radius) * 100 > 20 ? (origin.z/radius) * 100 : 20;
 
-        context.fillStyle = `hsl(${origin.x}, 100%, ${light}%)`
+        context.fillStyle = `hsl(${origin.y}, 100%, ${light}%)`
 
-        let size = origin.z/100 > 1 ? origin.z/100 : 1;
+        let size = origin.z/177 > .9 ? origin.z/177 : .9;
         
         context.beginPath()
-        context.arc(origin.x,origin.y,1,0, pi*2)
+        context.arc(origin.x,origin.y,size,0, pi*2)
         context.fill()
+    
     }
 
     function rotateY(radians) {
@@ -160,5 +180,33 @@ let canvas = document.createElement('canvas');
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.restore();
         
+    }
+
+    function findObjectCoords(mouseEvent) {
+
+            let obj = canvas,
+                obj_left = 0,
+                obj_top = 0,
+                xpos,
+                ypos;
+
+        while (obj.offsetParent)
+        {
+            obj_left += obj.offsetLeft;
+            obj_top += obj.offsetTop;
+            obj = obj.offsetParent;
+        }
+        if (mouseEvent)
+        {
+            xpos = mouseEvent.pageX;
+            ypos = mouseEvent.pageY;
+        }
+        
+        xpos -= obj_left;
+        ypos -= obj_top;
+        
+        mosPos.x = xpos
+        mosPos.y = ypos
+
     }
 
