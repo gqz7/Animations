@@ -16,15 +16,90 @@ let canvas = document.createElement('canvas');
 
     radius = height/3,
 
-    renderPaused = true, //user can toggle animation
+    renderPaused = false, //user can toggle animation paused/unpaused
 
     viewLimit = 30, //user can change how much of the object is in view
+
+    SSindex = 0, //controls what structure is being displayed on the canvas
     
     point = { //obj to keep track of points when roating sphere
         x: 0,
         y: 0,
         z: 0
-    };
+    },
+
+    superSpos = [ //longitude is represented by true, latitude by false, a ternary oporater will change how the object is structured to showcased diffrent super structures with less code
+        {   //donut horizontal
+            x1: true,
+            x2: true,
+            y1: false,
+            y2: true,
+            z:  false 
+        },
+        {   //donut vertical
+            x1: false,
+            x2: false,
+            y1: false,
+            y2: true,
+            z:  true 
+        },
+        {   //infinity 8 destructured
+            x1: false,
+            x2: false,
+            y1: false,
+            y2: true,
+            z:  false 
+        },
+        {   //infinity 8 structured
+            x1: false,
+            x2: false,
+            y1: true,
+            y2: true,
+            z:  false 
+        },
+        {   //plane twist
+            x1: true,
+            x2: false,
+            y1: true,
+            y2: true,
+            z:  false 
+        },
+        {   //one bend
+            x1: false,
+            x2: false,
+            y1: true,
+            y2: true,
+            z:  true 
+        },
+        {   //open cylinder
+            x1: true,
+            x2: true,
+            y1: true,
+            y2: true,
+            z:  false 
+        },
+        {   //infinity band
+            x1: false,
+            x2: false,
+            y1: false,
+            y2: false,
+            z:  false 
+        },
+        {   //perfect hat
+            x1: false,
+            x2: true,
+            y1: true,
+            y2: true,
+            z:  false 
+        },
+        {   //better sphere
+            x1: true,
+            x2: false,
+            y1: true,
+            y2: false,
+            z:  true 
+        }
+    ];
 
     //set styling 
 
@@ -46,23 +121,27 @@ let canvas = document.createElement('canvas');
                 
             break;
             case 'ArrowLeft':
+            
+                viewLimit = viewLimit > -20 ? viewLimit -1: -20;
+            break;
             case 'Comma':
 
-            viewLimit = viewLimit > -20 ? viewLimit -1: -20;
-
+                SSindex = SSindex > 1 ? SSindex - 1: superSpos.length-1;
             break;
             case 'ArrowRight':
+
+                viewLimit = viewLimit < 100 ? viewLimit + 1: 100;
+            break;
             case 'Period':
 
-            viewLimit = viewLimit < 100 ? viewLimit + 1: 100;
+                SSindex = SSindex < superSpos.length-1 ? SSindex + 1: 0;
             break;
-
             case 'KeyI':
 
-            console.log('Brightness Setting:', viewLimit + 20);
-            
+            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}`);
             
             break;
+
         }
 
 
@@ -113,20 +192,27 @@ let canvas = document.createElement('canvas');
 
             r = radius; //radius of sphere
 
+        if (reso > 88) {
+            frames = 1;
+        }
 
     //first loop tracks longitude then the nested loop tracks latitude
         for (let i = 0; i < reso; i++) {
             
-            let lon = mapNumber(i , 0, reso, 0, pi)
+            lon = mapNumber(i , 0, reso, 0, pi)
 
             for (let j = 0; j < reso; j++) {
                
-            let lat = mapNumber(j , 0, reso, 0, pi*2),
+            lat = mapNumber(j , 0, reso, 0, pi*2);
+
+            let x1 = superSpos[SSindex].x1 ? lon : lat, x2 = superSpos[SSindex].x2 ? lon : lat,
+                y1 = superSpos[SSindex].y1 ? lon : lat, y2 = superSpos[SSindex].y2 ? lon : lat,
+                z1 = superSpos[SSindex].z  ? lon : lat,
 
             //formula for finding  xyz position based on polar angle in a xy system
-            x = (r * Math.sin(lon) * Math.cos(lon)),
-            y = (r * Math.sin(lat) * Math.sin(lon)),
-            z = r * Math.cos(lat);
+            x = (r * Math.sin(x1) * Math.cos(x2)),
+            y = (r * Math.sin(y1) * Math.sin(y2)),
+            z = r * Math.cos(z1);
             //store the points calculated
             point = {
                 x: x,
