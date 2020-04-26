@@ -14,9 +14,11 @@ let canvas = document.createElement('canvas');
 
     radius = height/3,
 
-    renderPaused = false, //user can toggle animation paused/unpaused
+    renderPaused = false,   //user can toggle animation paused/unpaused
 
-    grayScale = false,  //user can toggle grayscale
+    grayScale = false,    //user can toggle grayscale
+
+    lockPos = false,    //user can toggle if the object roates on its own or is locked to the mouse position
 
     flipPos = false,  //user can see what will happen to a given structure if the logitude and latitude get flipped
 
@@ -28,6 +30,11 @@ let canvas = document.createElement('canvas');
         x: 0,
         y: 0,
         z: 0
+    },
+
+    mosPos = {
+        x: 0,
+        y: 0,
     },
 
     superSpos = [ //longitude is represented by true, latitude by false, a ternary oporater will change how the object is structured to showcased diffrent super structures with less code
@@ -150,53 +157,11 @@ let canvas = document.createElement('canvas');
     document.body.style = 'cursor: none; margin: 0px;';
 
     canvas.style = `display: block; position: static; top: 0px; left: 0px; cursor: none; margin:auto`
+    //event listener for mouse tracking 
+    canvas.onmousemove = findObjectCoords;
 
     //event listener for user input
-    document.addEventListener('keydown', (evn) => {
-        switch (evn.code) {
-            case 'Space':
-
-            renderPaused = !renderPaused;
-        
-            if (!renderPaused) { 
-                render()
-            }
-            break;
-            case 'KeyC':
-            
-            grayScale = !grayScale;
-
-            break;
-            case 'KeyF':
-  
-            flipPos = !flipPos;
-
-            break
-            case 'ArrowLeft':
-            
-                viewLimit = viewLimit > -20 ? viewLimit -1: -20;
-            break;
-            case 'Comma':
-
-                SSindex = SSindex > 1 ? SSindex - 1: superSpos.length-1;
-            break;
-            case 'ArrowRight':
-
-                viewLimit = viewLimit < 100 ? viewLimit + 1: 100;
-            break;
-            case 'Period':
-
-                SSindex = SSindex < superSpos.length-1 ? SSindex + 1: 0;
-            break;
-            case 'KeyI':
-
-            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}`);
-            
-            break;
-
-        }
-
-    }, false)
+    document.addEventListener('keydown', takeUserInput, false)
 
     document.body.style.backgroundColor = 'black';
 
@@ -273,12 +238,25 @@ let canvas = document.createElement('canvas');
                 x: x,
                 y: y,
                 z: z
+            };
+
+            let xRotation, yRotation;
+
+            if (lockPos) {
+                
+                xRotation = mosPos.x/343 - Math.PI,
+                yRotation = -mosPos.y/177 - Math.PI*3/5;
+
+            } else {
+                xRotation = frames/170,
+                yRotation = frames/170;
+                rotateZ(frames/200)
+
             }
 
             //rotate the points about the origin to give the illusion of 3d
-            rotateX(frames/170)
-            rotateY(frames/170)
-            rotateZ(frames/200)
+            rotateX(xRotation)
+            rotateY(yRotation)
             
             renderPoint(coordinates)
 
@@ -288,6 +266,7 @@ let canvas = document.createElement('canvas');
 
     }
 
+    //render an object's point's position onto the canvas
     function renderPoint(origin) {
 
         let light = (origin.z/radius) * 100 > viewLimit + 20 ? (origin.z/radius) * 100 : viewLimit + 20;
@@ -306,6 +285,8 @@ let canvas = document.createElement('canvas');
         }
         
     }
+
+    //functions to roate object's positions about the 0,0,0 origin
 
     function rotateY(radians) {
 
@@ -328,7 +309,7 @@ let canvas = document.createElement('canvas');
         coordinates.y = (x * Math.sin(radians)) + (coordinates.y * Math.cos(radians));
     }
 
-
+    //function clears entire canvas
     function clearFullScreen() {
 
         context.save();
@@ -338,3 +319,84 @@ let canvas = document.createElement('canvas');
         
     }
 
+    //functions for event listeners
+
+    //user input 
+    function takeUserInput (evn) {
+        switch (evn.code) {
+            case 'Space':
+
+            renderPaused = !renderPaused;
+        
+            if (!renderPaused) { 
+                render()
+            }
+            break;
+            case 'KeyG':
+            
+            grayScale = !grayScale;
+
+            break;
+            case 'KeyF':
+  
+            flipPos = !flipPos;
+
+            break
+            case 'KeyL':
+  
+            lockPos = !lockPos;
+
+            break
+            case 'ArrowLeft':
+            
+                viewLimit = viewLimit > -20 ? viewLimit -1: -20;
+            break;
+            case 'Comma':
+
+                SSindex = SSindex > 1 ? SSindex - 1: superSpos.length-1;
+            break;
+            case 'ArrowRight':
+
+                viewLimit = viewLimit < 100 ? viewLimit + 1: 100;
+            break;
+            case 'Period':
+
+                SSindex = SSindex < superSpos.length-1 ? SSindex + 1: 0;
+            break;
+            case 'KeyI':
+
+            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}`);
+            
+            break;
+
+        }
+
+    }
+    //mouse position
+    function findObjectCoords(mousEnv) {
+
+            let obj = canvas,
+                obj_left = 0,
+                obj_top = 0,
+                xpos,
+                ypos;
+
+        while (obj.offsetParent)
+        {
+            obj_left += obj.offsetLeft;
+            obj_top += obj.offsetTop;
+            obj = obj.offsetParent;
+        }
+        if (mousEnv)
+        {
+            xpos = mousEnv.pageX;
+            ypos = mousEnv.pageY;
+        }
+        
+        xpos -= obj_left;
+        ypos -= obj_top;
+        
+        mosPos.x = xpos
+        mosPos.y = ypos
+
+    }
