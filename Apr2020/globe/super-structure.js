@@ -1,5 +1,6 @@
-alert('Look At Dev Console For Instructions\nFull Screen Recomened When You Click  \'OK\'')
-console.log(`Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'F' to toggle flipping of structure's latitude and logitude coordinates\n\nPress 'G' to toggle view in grayscale\n\nPress 'I' to display current settings`);
+console.log(`Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'G' to toggle view in grayscale\n\nPress 'O' to decrease speed that complexity is being added to the object 'P' to increase speed\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nPress 'F' to toggle flipping of structure's latitude and logitude coordinates\n\nPress 'I' to display current settings`);
+
+alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
 const pi = Math.PI; //shortcut because is gets used alot
 
@@ -14,17 +15,19 @@ let canvas = document.createElement('canvas');
 
     radius = height/3,
 
-    renderPaused = false,   //user can toggle animation paused/unpaused
+    renderPaused = false,    //user can toggle animation paused/unpaused
 
-    grayScale = false,    //user can toggle grayscale
+    grayScale = false,     //user can toggle grayscale
 
-    lockPos = false,    //user can toggle if the object roates on its own or is locked to the mouse position
+    lockPos = false,     //user can toggle if the object roates on its own or is locked to the mouse position
 
-    flipPos = false,  //user can see what will happen to a given structure if the logitude and latitude get flipped
+    flipPos = false,   //user can see what will happen to a given structure if the logitude and latitude get flipped
 
-    viewLimit = 30, //user can change how much of the object is in view
+    viewLimit = 30,  //user can change how much of the object is in view
 
-    SSindex = 0,  //controls what structure is being displayed on the canvas
+    cmplxSpd = 77,//user can control how quickly more points will be added to object, range(0-333)
+
+    SSindex = 0, //controls what structure is being displayed on the canvas
     
     coordinates = {   //obj to keep track of points when roating sphere
         x: 0,
@@ -32,7 +35,7 @@ let canvas = document.createElement('canvas');
         z: 0
     },
 
-    mosPos = {
+    mosPos = { //track mouse position 
         x: 0,
         y: 0,
     },
@@ -200,7 +203,7 @@ let canvas = document.createElement('canvas');
 
     function createSphere() {
 
-        let reso = frames/100 + 30,//resolution of sphere coord detail
+        let reso = frames/cmplxSpd + 1,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
@@ -363,9 +366,20 @@ let canvas = document.createElement('canvas');
 
                 SSindex = SSindex < superSpos.length-1 ? SSindex + 1: 0;
             break;
+            case 'KeyP':
+
+                cmplxSpd = cmplxSpd > 3 ? cmplxSpd-1 : 3;
+
+            break
+            case 'KeyO':
+
+                cmplxSpd = cmplxSpd < 333 ? cmplxSpd+1 : 333;
+
+            break
+
             case 'KeyI':
 
-            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}`);
+            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nGrayscale Mode: ${grayScale}\nCamera Locked To Mouse: ${lockPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}\nObject Complexity Increase Speed: ${333-cmplxSpd}`);
             
             break;
 
