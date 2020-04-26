@@ -1,7 +1,5 @@
-//Press space to start animation
-// alert('Look At Dev Console For Instructions\nFull Screen Recomened When You Click  \'OK\'')
+alert('Look At Dev Console For Instructions\nFull Screen Recomened When You Click  \'OK\'')
 console.log(`Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'F' to toggle flipping of structure's latitude and logitude coordinates\n\nPress 'G' to toggle view in grayscale\n\nPress 'I' to display current settings`);
-
 
 const pi = Math.PI; //shortcut because is gets used alot
 
@@ -163,6 +161,7 @@ let canvas = document.createElement('canvas');
             if (!renderPaused) { 
                 render()
             }
+            break;
             case 'KeyC':
             
             grayScale = !grayScale;
@@ -236,7 +235,7 @@ let canvas = document.createElement('canvas');
 
     function createSphere() {
 
-        let reso = frames/100 + 10,//resolution of sphere coord detail
+        let reso = frames/100 + 30,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
@@ -254,15 +253,11 @@ let canvas = document.createElement('canvas');
             let lat = mapNumber(j , 0, reso, 0, pi*2),
                 structureObj = {...(superSpos[SSindex])};
 
-            // console.log(lat,lon);
-
-
             if (flipPos) {   
                 for (const key in structureObj) {
                     structureObj[key] = !structureObj[key];
                 }
             }
-            // console.log(lat,lon);
 
             let x1 = structureObj.x1 ? lon : lat, x2 = structureObj.x2 ? lon : lat,
                 y1 = structureObj.y1 ? lon : lat, y2 = structureObj.y2 ? lon : lat,
@@ -298,13 +293,14 @@ let canvas = document.createElement('canvas');
         let light = (origin.z/radius) * 100 > viewLimit + 20 ? (origin.z/radius) * 100 : viewLimit + 20;
 
         if (light > 5) {
+            
+            let color = grayScale ? 0 : 100,
+                size  = origin.z/117>.97 ? origin.z/117 : .97;
 
-            context.fillStyle = `hsl(${origin.x}, 100%, ${light}%)`
-
-        let size = origin.z/100 > 1 ? origin.z/100 : 1;
+        context.fillStyle = `hsl(${origin.x}, ${color}%, ${light}%)`
         
         context.beginPath()
-        context.arc(origin.x,origin.y,3,0, pi*2)
+        context.arc(origin.x,origin.y,size,0, pi*2)
         context.fill()
             
         }
