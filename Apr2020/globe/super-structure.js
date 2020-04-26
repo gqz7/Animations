@@ -1,6 +1,6 @@
 //Press space to start animation
 // alert('Look At Dev Console For Instructions\nFull Screen Recomened When You Click  \'OK\'')
-console.log('Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress \'I\' to display current settings');
+console.log(`Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'F' to toggle flipping of structure's latitude and logitude coordinates\n\nPress 'G' to toggle view in grayscale\n\nPress 'I' to display current settings`);
 
 
 const pi = Math.PI; //shortcut because is gets used alot
@@ -33,13 +33,6 @@ let canvas = document.createElement('canvas');
     },
 
     superSpos = [ //longitude is represented by true, latitude by false, a ternary oporater will change how the object is structured to showcased diffrent super structures with less code
-        {   //test
-            x1: true,
-            x2: true,
-            y1: false,
-            y2: false,
-            z:  true 
-        },
         {   //donut horizontal
             x1: true,
             x2: true,
@@ -162,7 +155,6 @@ let canvas = document.createElement('canvas');
 
     //event listener for user input
     document.addEventListener('keydown', (evn) => {
-grayScale
         switch (evn.code) {
             case 'Space':
 
@@ -172,10 +164,14 @@ grayScale
                 render()
             }
             case 'KeyC':
-            // grayscale
+            
+            grayScale = !grayScale;
+
             break;
             case 'KeyF':
-            // flipPos
+  
+            flipPos = !flipPos;
+
             break
             case 'ArrowLeft':
             
@@ -195,7 +191,7 @@ grayScale
             break;
             case 'KeyI':
 
-            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}`);
+            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}`);
             
             break;
 
@@ -240,8 +236,7 @@ grayScale
 
     function createSphere() {
 
-
-        let reso = frames/100 + 21,//resolution of sphere coord detail
+        let reso = frames/100 + 10,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
@@ -252,21 +247,26 @@ grayScale
     //first loop tracks longitude then the nested loop tracks latitude
         for (let i = 0; i < reso; i++) {
             
-            const lon = mapNumber(i , 0, reso, 0, pi);
+            let lon = mapNumber(i , 0, reso, 0, pi);
 
             for (let j = 0; j < reso; j++) {
 
-            const lat = mapNumber(j , 0, reso, 0, pi*2);
+            let lat = mapNumber(j , 0, reso, 0, pi*2),
+                structureObj = {...(superSpos[SSindex])};
 
-            if (flipPos) {
-                let tempPos = lat; //store one of the positions in a temporay variable so once one is changed the other still has a variable to be set to.
-                lat = lon;
-                lon = tempPos;
+            // console.log(lat,lon);
+
+
+            if (flipPos) {   
+                for (const key in structureObj) {
+                    structureObj[key] = !structureObj[key];
+                }
             }
+            // console.log(lat,lon);
 
-            let x1 = superSpos[SSindex].x1 ? lon : lat, x2 = superSpos[SSindex].x2 ? lon : lat,
-                y1 = superSpos[SSindex].y1 ? lon : lat, y2 = superSpos[SSindex].y2 ? lon : lat,
-                z1 = superSpos[SSindex].z  ? lon : lat;
+            let x1 = structureObj.x1 ? lon : lat, x2 = structureObj.x2 ? lon : lat,
+                y1 = structureObj.y1 ? lon : lat, y2 = structureObj.y2 ? lon : lat,
+                z1 = structureObj.z  ? lon : lat;
 
             //formula for finding  xyz position based on polar angle in a xy system
             const x = (r * Math.sin(x1) * Math.cos(x2)),
