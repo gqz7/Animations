@@ -1,6 +1,6 @@
 //Press space to start animation
-
-console.log('Press Space to Start/Stop Animation,\n\n < and > (comma and period) OR left/right arrow keys;\n control how much of the object stays in view\n\nPress \'I\' to know what the brightness setting is currently');
+// alert('Look At Dev Console For Instructions\nFull Screen Recomened When You Click  \'OK\'')
+console.log('Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress \'I\' to display current settings');
 
 
 const pi = Math.PI; //shortcut because is gets used alot
@@ -18,17 +18,28 @@ let canvas = document.createElement('canvas');
 
     renderPaused = false, //user can toggle animation paused/unpaused
 
+    grayScale = false,  //user can toggle grayscale
+
+    flipPos = false,  //user can see what will happen to a given structure if the logitude and latitude get flipped
+
     viewLimit = 30, //user can change how much of the object is in view
 
-    SSindex = 0, //controls what structure is being displayed on the canvas
+    SSindex = 0,  //controls what structure is being displayed on the canvas
     
-    point = { //obj to keep track of points when roating sphere
+    coordinates = {   //obj to keep track of points when roating sphere
         x: 0,
         y: 0,
         z: 0
     },
 
     superSpos = [ //longitude is represented by true, latitude by false, a ternary oporater will change how the object is structured to showcased diffrent super structures with less code
+        {   //test
+            x1: true,
+            x2: true,
+            y1: false,
+            y2: false,
+            z:  true 
+        },
         {   //donut horizontal
             x1: true,
             x2: true,
@@ -57,13 +68,6 @@ let canvas = document.createElement('canvas');
             y2: true,
             z:  false 
         },
-        {   //plane twist
-            x1: true,
-            x2: false,
-            y1: true,
-            y2: true,
-            z:  false 
-        },
         {   //one bend
             x1: false,
             x2: false,
@@ -71,12 +75,47 @@ let canvas = document.createElement('canvas');
             y2: true,
             z:  true 
         },
-        {   //open cylinder
+        {   //s-curve
+            x1: true,
+            x2: true,
+            y1: false,
+            y2: false,
+            z:  true 
+        },
+        {   //plane twist
+            x1: true,
+            x2: false,
+            y1: true,
+            y2: true,
+            z:  false 
+        },
+        {   //full twist
+            x1: false,
+            x2: true,
+            y1: false,
+            y2: true,
+            z:  true 
+        },
+        {   //unnamed
+            x1: true,
+            x2: false,
+            y1: true,
+            y2: false,
+            z:  false 
+        },
+        {   //cylinder 1
             x1: true,
             x2: true,
             y1: true,
             y2: true,
             z:  false 
+        },
+        {   //cylinder 2
+            x1: false,
+            x2: false,
+            y1: false,
+            y2: false,
+            z:  true 
         },
         {   //infinity band
             x1: false,
@@ -85,14 +124,28 @@ let canvas = document.createElement('canvas');
             y2: false,
             z:  false 
         },
-        {   //perfect hat
+        {   //boat structure 1
             x1: false,
             x2: true,
             y1: true,
             y2: true,
             z:  false 
         },
-        {   //better sphere
+        {   //boat structure 2
+            x1: true,
+            x2: false,
+            y1: false,
+            y2: false,
+            z:  true 
+        },
+        {   //hor sphere
+            x1: false,
+            x2: true,
+            y1: false,
+            y2: true,
+            z:  false 
+        },
+        {   //(better) vert sphere
             x1: true,
             x2: false,
             y1: true,
@@ -109,7 +162,7 @@ let canvas = document.createElement('canvas');
 
     //event listener for user input
     document.addEventListener('keydown', (evn) => {
-
+grayScale
         switch (evn.code) {
             case 'Space':
 
@@ -118,8 +171,12 @@ let canvas = document.createElement('canvas');
             if (!renderPaused) { 
                 render()
             }
-                
+            case 'KeyC':
+            // grayscale
             break;
+            case 'KeyF':
+            // flipPos
+            break
             case 'ArrowLeft':
             
                 viewLimit = viewLimit > -20 ? viewLimit -1: -20;
@@ -138,15 +195,11 @@ let canvas = document.createElement('canvas');
             break;
             case 'KeyI':
 
-            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}`);
+            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}`);
             
             break;
 
         }
-
-
-        
-       
 
     }, false)
 
@@ -188,48 +241,56 @@ let canvas = document.createElement('canvas');
     function createSphere() {
 
 
-        let reso = frames/100 + 1,//resolution of sphere coord detail
+        let reso = frames/100 + 21,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
-        if (reso > 88) {
+        if (reso > 72) {
             frames = 1;
         }
 
     //first loop tracks longitude then the nested loop tracks latitude
         for (let i = 0; i < reso; i++) {
             
-            lon = mapNumber(i , 0, reso, 0, pi)
+            const lon = mapNumber(i , 0, reso, 0, pi);
 
             for (let j = 0; j < reso; j++) {
-               
-            lat = mapNumber(j , 0, reso, 0, pi*2);
+
+            const lat = mapNumber(j , 0, reso, 0, pi*2);
+
+            if (flipPos) {
+                let tempPos = lat; //store one of the positions in a temporay variable so once one is changed the other still has a variable to be set to.
+                lat = lon;
+                lon = tempPos;
+            }
 
             let x1 = superSpos[SSindex].x1 ? lon : lat, x2 = superSpos[SSindex].x2 ? lon : lat,
                 y1 = superSpos[SSindex].y1 ? lon : lat, y2 = superSpos[SSindex].y2 ? lon : lat,
-                z1 = superSpos[SSindex].z  ? lon : lat,
+                z1 = superSpos[SSindex].z  ? lon : lat;
 
             //formula for finding  xyz position based on polar angle in a xy system
-            x = (r * Math.sin(x1) * Math.cos(x2)),
-            y = (r * Math.sin(y1) * Math.sin(y2)),
-            z = r * Math.cos(z1);
-            //store the points calculated
-            point = {
+            const x = (r * Math.sin(x1) * Math.cos(x2)),
+                  y = (r * Math.sin(y1) * Math.sin(y2)),
+                  z =  r * Math.cos(z1);
+
+            //store the points calculated into a object
+            coordinates = {
                 x: x,
                 y: y,
                 z: z
             }
 
-            //rotate the points to give the illusion of 3d
+            //rotate the points about the origin to give the illusion of 3d
             rotateX(frames/170)
             rotateY(frames/170)
             rotateZ(frames/200)
             
-            renderPoint(point)
+            renderPoint(coordinates)
 
             }
             
         }
+
     }
 
     function renderPoint(origin) {
@@ -252,23 +313,23 @@ let canvas = document.createElement('canvas');
 
     function rotateY(radians) {
 
-        let y = point.y;
-        point.y = (y * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
-        point.z = (y * Math.sin(radians)) + (point.z * Math.cos(radians));
+        let y = coordinates.y;
+        coordinates.y = (y * Math.cos(radians)) + (coordinates.z * Math.sin(radians) * -1.0);
+        coordinates.z = (y * Math.sin(radians)) + (coordinates.z * Math.cos(radians));
     }
 
     function rotateX(radians) {
 
-        let x = point.x;
-        point.x = (x * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
-        point.z = (x * Math.sin(radians)) + (point.z * Math.cos(radians));
+        let x = coordinates.x;
+        coordinates.x = (x * Math.cos(radians)) + (coordinates.z * Math.sin(radians) * -1.0);
+        coordinates.z = (x * Math.sin(radians)) + (coordinates.z * Math.cos(radians));
     }
 
     function rotateZ(radians) {
 
-        let x = point.x;
-        point.x = (x * Math.cos(radians)) + (point.y * Math.sin(radians) * -1.0);
-        point.y = (x * Math.sin(radians)) + (point.y * Math.cos(radians));
+        let x = coordinates.x;
+        coordinates.x = (x * Math.cos(radians)) + (coordinates.y * Math.sin(radians) * -1.0);
+        coordinates.y = (x * Math.sin(radians)) + (coordinates.y * Math.cos(radians));
     }
 
 
