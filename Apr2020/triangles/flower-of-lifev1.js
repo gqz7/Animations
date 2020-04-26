@@ -8,12 +8,65 @@ let canvas = document.getElementById('canvas'),
       frames = width,
 
       time = 0,
-      endSize = 40;
+      
+      pauseAnimation = false;
+
+//VARS FOR USER INPUT
+let colorSwitch = 0,
+
+    endSize = 70;
+
+//USER INPUT EVENT LISTENER
+document.addEventListener('keydown', userInputEvent, false);
+
+//USER INPUT LOGIC
+function userInputEvent(input) {
+
+    switch (input.code) {
+
+        case "ShiftLeft":
+        case "ShiftRight":
+
+            context.rotate(Math.PI/6)
+
+            break;
+        case "KeyC":
+
+            colorSwitch = colorSwitch < 1 ? colorSwitch+1 : 0;
+
+            break;
+
+        case "Comma":
+        case "ArrowLeft":
+
+            endSize = endSize > 20 ? endSize - 1 : 20;
+
+            break;
+
+        case "Period":
+        case "ArrowRight":
+
+            endSize++
+
+            break;
+
+        case "Escape":
+
+            pauseAnimation = !pauseAnimation;
+
+            if (!pauseAnimation) {
+                render()
+            }
+    
+        default:
+            break;
+    }
+    
+}
 
 //SET THE CANVAS ORIGIN TO THE MIDDLE OF THE WINDOW
       context.translate(width/2, height/2)
 
-      context.strokeStyle = 'white';
 
 //ANIMAITON CYCLE
 
@@ -25,16 +78,16 @@ let canvas = document.getElementById('canvas'),
 
         time++
 
-        endSize = endSize > 40 ? endSize - .3: 40;
-
-        frames*=1.03; 
+        frames*=1.01; 
 
         if (frames > width*2) {
             frames = width
         }
         createHexagon(frames/2)
 
-        setTimeout(window.requestAnimationFrame, 30, render)
+        if (!pauseAnimation) {
+            setTimeout(window.requestAnimationFrame, 30, render)
+        }
 
       }
 
@@ -80,44 +133,54 @@ let canvas = document.getElementById('canvas'),
 //CREATE A HEX STRUCTURE OF SIRPINSKI TRIANGLES
     function createHexagon(size) {
         for (let i = 0; i < 6; i++) {
-           sirpinskiZoom(size)
+           flowerBloom(size)
            context.rotate(Math.PI/3)
         }
     }
 
 //A FUNCTION THAT USES RECURSTION TO CREATE A SIRPINSKI TRIANGLE
-    function sirpinskiZoom(startSize) {
-        if (startSize > endSize) {
+    function flowerBloom(startSize) {
+        if (startSize/2 > endSize) {
+            setStroke(startSize)
 
-            if (startSize/2 <= endSize) {
-
+            if (startSize/2 > endSize && startSize/4 < endSize) {
+                // console.log((1-(endSize/startSize*2))/2 , startSize);
+                context.lineWidth = (1-(endSize/startSize*2))/2;
                 createCir(startSize)
+                fractalRecur(startSize)
 
-
-            } else if (startSize/2 > endSize && startSize/2 < endSize*2) {
+            } else if (startSize/4 > endSize && startSize/8 < endSize) {
+                // console.log(endSize/startSize , startSize);
                 
-                context.lineWidth = ((endSize/startSize*2))/2;
+                context.lineWidth = ((endSize/startSize)*2)-.251;
                 createCir(startSize)
-                triRecursion(startSize)
-
+                fractalRecur(startSize)
             } else {
-
-                context.lineWidth = ((endSize/startSize)*4)-.2;
-                createCir(startSize)
-                triRecursion(startSize)
-            
-            } 
-
+                fractalRecur(startSize)
+            }
         }
     }
 
 //HELP SHORTEN REPEATED CODE USED IN FUNCTION ABOVE
-    function triRecursion (startSize) {
+    function fractalRecur (startSize) {
         context.save()                
-        sirpinskiZoom(startSize/2)
+        flowerBloom(startSize/2)
         context.translate(startSize/2,0)
-        sirpinskiZoom(startSize/2)
+        flowerBloom(startSize/2)
         context.translate(-startSize/4, -Math.sqrt(3) * startSize * .25)
-        sirpinskiZoom(startSize/2)
+        flowerBloom(startSize/2)
         context.restore();
+    }
+
+//SETS THE CONTEXT STROKE STYLE USING colorSwitch var 
+    function setStroke(size) {
+        switch (colorSwitch) {
+            case 0:
+            context.strokeStyle = 'white';
+            break;
+            case 1:
+            context.strokeStyle = `hsl( ${time*2}, 100%, 50%)`;
+            break;
+        }
+
     }
