@@ -41,25 +41,49 @@ let canvas = document.createElement('canvas');
 
         context.save()
         context.rotate(time/72)
-            yinyang(size)
+            yinyang(size/ (1 +(time/400)))
         context.restore()
 
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 4; i++) {
             context.save()
             // context.translate(0,size*2);
-            context.rotate(Math.PI/2)
-            for (let j = 2; j < 42; j++) {
+            // context.rotate(Math.PI/2)
+            for (let j = 2; j < 27; j++) {
                 context.translate((size/(j-1))*2 ,0);
                 
                 context.save()
-                context.rotate(time/72)
+                context.rotate(time/72 *(27-j)/10)
                     yinyang(size/(j))
                 context.restore()
             }
             context.restore()
 
-            context.rotate(Math.PI/4)
+            context.rotate(Math.PI/2)
         }
+
+        context.save()
+
+        context.rotate(Math.PI/4)
+
+        for (let i = 0; i < 4; i++) {
+            context.save()
+            context.translate(0,size*1.1);
+            context.rotate(Math.PI/ 2)
+            for (let j = 2; j < 17; j++) {
+                context.translate(size/(17-(j-1))*2 ,0);
+                
+                context.save()
+                context.rotate(time/72 *(17-j)/3)
+                yinyang(size/(17-(j-1)))
+                context.restore()
+            }
+            context.restore()
+
+            context.rotate(Math.PI/2)
+        }
+
+        context.restore()
+
 
     }
 
