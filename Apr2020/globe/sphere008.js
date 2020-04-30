@@ -10,15 +10,15 @@ let canvas = document.createElement('canvas');
 
     frames = 0, //keep count of how many render cycles have occured
 
-    radius = height/2,
+    radius = height/2.3,
 
     renderPaused = false, //user can toggle animation
 
     autoRotate = true, //user can toggle if the sphere locks to mouse position or auto rotates
 
     mosPos = {
-        x: 0,
-        y: 0,
+        x: 1000,
+        y: 1000,
     },
 
     point = { //obj to keep track of points when roating sphere
@@ -52,7 +52,6 @@ let canvas = document.createElement('canvas');
                 break;  
         
         }
-       
 
     }, false)
 
@@ -89,16 +88,11 @@ let canvas = document.createElement('canvas');
 
       }
 
-    //function used to map numbers from int into a radian range
-    function mapNumber (number, min1, max1, min2, max2) {
-        return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
-    };
-
     function createSphere() {
 
         spherePoints = [];
 
-        let reso = 42//5+frames/100,//resolution of sphere coord detail
+        let reso = 33+frames/277 < 72 ? 33+frames/277 : 72,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
@@ -126,15 +120,15 @@ let canvas = document.createElement('canvas');
                 }
 
                 if (autoRotate) {
-                    rotateZ(frames/(55))
-                    rotateX(frames/93)
-                    rotateY(frames/77)
+                    rotateZ(frames/(555))
+                    rotateX(frames/333)
+                    rotateY(frames/777)
                 } else {
-                    let xRotation = mosPos.x/343 - Math.PI,
-                    yRotation = -mosPos.y/343 - Math.PI*3/5;
-                
+                    let xRotation = mosPos.x/243 - Math.PI,
+                        yRotation = -mosPos.y/243 - Math.PI*3/5;
                     rotateX(xRotation)
                     rotateY(yRotation)
+
                 }
 
                 spherePoints[i].push(point)
@@ -151,41 +145,46 @@ let canvas = document.createElement('canvas');
         
         for (let i = 0; i < spherePoints.length; i++) {
 
-
             for (let j = 0; j < spherePoints[i].length; j++) {
+
+                let p = spherePoints[i][j], 
+                    light = (p.z/radius) * 100 > 0 ? (p.z/radius) * 100 : 0;
                 
-                let p = spherePoints[i][j], n1, n2;
+                if (light > 0) {
 
-                if (spherePoints[i][j+1]) {
+                    let 
+                        n1 = spherePoints[i][j+1] ? spherePoints[i][j+1] : spherePoints[i][0],
+                        
+                        n2 = spherePoints[i+1] ? spherePoints[i+1][j] : spherePoints[i][j],
 
-                    n1 = spherePoints[i][j+1];
-                    
-                } else {
-                    n1 = spherePoints[i][0];
+                        n3 = spherePoints[i+1] && spherePoints[i+1][j+1] ? spherePoints[i+1][j+1] : spherePoints[i][0];
+
+                    if (n3 == spherePoints[i][0] && spherePoints[i+1]) {
+                        n3 = spherePoints[i+1][0]
+                    }
+
+                    let color = ((p.x*p.y*i)/22222)+frames/3;
+
+                    context.fillStyle = `hsl(${color}, ${120-light}%, ${light/2}%)`;
+                    context.strokeStyle = `hsl(${color}, ${120-light}%, ${light/2}%)`;
+
+                    context.beginPath()
+                    context.moveTo(p.x, p.y)
+                    context.lineTo(n1.x, n1.y)
+                    context.lineTo(n3.x,n3.y)
+                    context.lineTo(n2.x, n2.y)
+                    context.lineTo(p.x, p.y)
+                    context.fill()
+                    context.stroke()
+
+                    // context.strokeStyle ='black';
+                    // renderPoint(p)
                 }
-
-                if (spherePoints[i+1]) {
-                    n2 = spherePoints[i+1][j]
-                } else {
-                    n2 = spherePoints[i][j]
-                }
-
-                context.strokeStyle = 'grey';
-
-                context.beginPath()
-                context.moveTo(p.x, p.y)
-                context.lineTo(n1.x, n1.y)
-                context.moveTo(p.x, p.y)
-                context.lineTo(n2.x, n2.y)
-                context.stroke()
-
-                context.strokeStyle = `hsl(${p.x}, ${p.z}%, 50%)`;
-                
-                renderPoint(p)
             }
         }
     }
 
+    //renders a dot on the canvas a given origin 
     function renderPoint(origin) {
 
         let size = origin.z/100 > 1 ? origin.z/100 : 1;
@@ -195,27 +194,27 @@ let canvas = document.createElement('canvas');
         context.stroke()
     }
 
+    //FUNCTIONS ROTATE A GIVEN POINT ABOUT THE 0,0,0 AXIS
     function rotateY(radians) {
-
         let y = point.y;
         point.y = (y * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
         point.z = (y * Math.sin(radians)) + (point.z * Math.cos(radians));
     }
-
     function rotateX(radians) {
-
         let x = point.x;
         point.x = (x * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
         point.z = (x * Math.sin(radians)) + (point.z * Math.cos(radians));
     }
-
     function rotateZ(radians) {
-
         let x = point.x;
         point.x = (x * Math.cos(radians)) + (point.y * Math.sin(radians) * -1.0);
         point.y = (x * Math.sin(radians)) + (point.y * Math.cos(radians));
     }
-
+    
+    //function used to map numbers from int into a radian range
+    function mapNumber (number, min1, max1, min2, max2) {
+        return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
+    };
 
     function clearFullScreen() {
 
