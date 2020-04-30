@@ -1,5 +1,4 @@
-//Press space to start animation
-
+alert('--Controls--\nSpace To Pause Animation\nA to toggle auto-rotate/mouse lock\nMouse Wheel to zoom in/out')
 const pi = Math.PI; //shortcut because is gets used alot
 
 //i like to create all my html elements in JS so this code can be run by simplying adding it in a script tag of an empty HTML file
@@ -180,7 +179,7 @@ let canvas = document.createElement('canvas');
                 context.lineTo(n2.x, n2.y)
                 context.stroke()
 
-                context.strokeStyle = 'white';
+                context.strokeStyle = `hsl(${p.x}, ${p.z}%, 50%)`;
                 
                 renderPoint(p)
             }
