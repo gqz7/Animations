@@ -12,9 +12,9 @@ let canvas = document.createElement('canvas');
 
     radius = height/2,
 
-    renderPaused = true, //user can toggle animation
+    renderPaused = false, //user can toggle animation
 
-    autoRotate = false, //user can toggle if the sphere locks to mouse position or auto rotates
+    autoRotate = true, //user can toggle if the sphere locks to mouse position or auto rotates
 
     mosPos = {
         x: 0,
