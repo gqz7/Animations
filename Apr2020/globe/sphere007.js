@@ -99,7 +99,7 @@ let canvas = document.createElement('canvas');
 
         spherePoints = [];
 
-        let reso = 5 +  frames/100,//resolution of sphere coord detail
+        let reso = 42//5+frames/100,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
@@ -155,20 +155,29 @@ let canvas = document.createElement('canvas');
 
             for (let j = 0; j < spherePoints[i].length; j++) {
                 
-                let p = spherePoints[i][j], nextPoint;
+                let p = spherePoints[i][j], n1, n2;
 
                 if (spherePoints[i][j+1]) {
 
-                    nextPoint = spherePoints[i][j+1];
+                    n1 = spherePoints[i][j+1];
                     
                 } else {
-                    nextPoint = spherePoints[i][0];
+                    n1 = spherePoints[i][0];
                 }
+
+                if (spherePoints[i+1]) {
+                    n2 = spherePoints[i+1][j]
+                } else {
+                    n2 = spherePoints[i][j]
+                }
+
                 context.strokeStyle = 'grey';
 
                 context.beginPath()
                 context.moveTo(p.x, p.y)
-                context.lineTo(nextPoint.x, nextPoint.y)
+                context.lineTo(n1.x, n1.y)
+                context.moveTo(p.x, p.y)
+                context.lineTo(n2.x, n2.y)
                 context.stroke()
 
                 context.strokeStyle = 'white';
