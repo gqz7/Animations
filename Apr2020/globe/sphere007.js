@@ -10,7 +10,7 @@ let canvas = document.createElement('canvas');
 
     frames = 0, //keep count of how many render cycles have occured
 
-    radius = height/2,
+    radius = height/2.3,
 
     renderPaused = false, //user can toggle animation
 
@@ -98,7 +98,7 @@ let canvas = document.createElement('canvas');
 
         spherePoints = [];
 
-        let reso = 42//5+frames/100,//resolution of sphere coord detail
+        let reso = 1+frames/100,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
@@ -126,13 +126,12 @@ let canvas = document.createElement('canvas');
                 }
 
                 if (autoRotate) {
-                    rotateZ(frames/(55))
-                    rotateX(frames/93)
-                    rotateY(frames/77)
+                    rotateZ(frames/(555))
+                    rotateX(frames/333)
+                    rotateY(frames/777)
                 } else {
                     let xRotation = mosPos.x/343 - Math.PI,
-                    yRotation = -mosPos.y/343 - Math.PI*3/5;
-                
+                        yRotation = -mosPos.y/343 - Math.PI*3/5;
                     rotateX(xRotation)
                     rotateY(yRotation)
                 }
@@ -170,16 +169,21 @@ let canvas = document.createElement('canvas');
                     n2 = spherePoints[i][j]
                 }
 
-                context.strokeStyle = 'grey';
+                let light = (p.z/radius) * 50 > 0 ? (p.z/radius) * 50 : 0;
 
-                context.beginPath()
-                context.moveTo(p.x, p.y)
-                context.lineTo(n1.x, n1.y)
-                context.moveTo(p.x, p.y)
-                context.lineTo(n2.x, n2.y)
-                context.stroke()
+                if (light > 0) {
 
-                context.strokeStyle = `hsl(${p.x}, ${p.z}%, 50%)`;
+                     context.strokeStyle = `hsl(0, 0%, ${light}%)`;
+
+                    context.beginPath()
+                    context.moveTo(p.x, p.y)
+                    context.lineTo(n1.x, n1.y)
+                    context.moveTo(p.x, p.y)
+                    context.lineTo(n2.x, n2.y)
+                    context.stroke()
+                }
+
+                context.strokeStyle = `hsl(${p.x/3+(frames*2)}, ${p.z}%, 50%)`;
                 
                 renderPoint(p)
             }
