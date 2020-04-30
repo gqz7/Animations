@@ -1,5 +1,5 @@
-//Press space to start animation
 
+alert('--Controls--\nSpace To Pause Animation\nA to toggle auto-rotate/mouse lock\nMouse Wheel to zoom in/out')
 const pi = Math.PI; //shortcut because is gets used alot
 
 //i like to create all my html elements in JS so this code can be run by simplying adding it in a script tag of an empty HTML file
@@ -36,6 +36,7 @@ let canvas = document.createElement('canvas');
 
 
     canvas.onmousemove = findObjectCoords;
+    canvas.onwheel = mouseWheelMoved;
     
     //event listener for user input
     document.addEventListener('keydown', (evn) => {
@@ -61,8 +62,9 @@ let canvas = document.createElement('canvas');
 
     context.translate(width/2, height/2)
 
-    context.fillStyle = 'white';
+    context.fillStyle = 'black'
    
+    context.lineWidth = 2;
    //ANIMATION CYCLE
      render()
 
@@ -91,7 +93,7 @@ let canvas = document.createElement('canvas');
 
     function createSphere() {
 
-        let reso = frames/100 + 15 < 72 ? frames/100 + 15 : 72,//resolution of sphere coord detail
+        let reso = 77//frames/33 +13< 72 ? frames/33+13: 72,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
@@ -115,39 +117,51 @@ let canvas = document.createElement('canvas');
             point = {
                 x: x,
                 y: y,
-                z: z
+                z: z,
+                lo: lon,
+                la: lat
             }
 
 
-            let xRotation = mosPos.x/343 - Math.PI,
-                yRotation = -mosPos.y/343 - Math.PI*3/5;
-            
+           
             //rotate the points to give the illusion of 3d
-            rotateX(xRotation)
-            rotateY(yRotation)
+            
 
             if (autoRotate) {
-                rotateZ(frames/777)
+                rotateZ(frames/(55))
+                rotateX(frames/93)
+                rotateY(frames/77)
+            } else {
+                 let xRotation = mosPos.x/343 - Math.PI,
+                yRotation = -mosPos.y/343 - Math.PI*3/5;
+            
+                rotateX(xRotation)
+                rotateY(yRotation)
             }
 
-            renderPoint(point)
+            renderPoint(point, reso)
 
             }
             
         }
     }
 
-    function renderPoint(origin) {
+    function renderPoint(origin, resolution) {
 
-        let light = (origin.z/radius/2) * 100 > 40 ? (origin.z/radius/2) * 100 : 40;
+        let light = (origin.z/radius/2) * 50 > 40 ? (origin.z/radius/2) * 50 : 40;
 
-        context.strokeStyle = `hsl(${origin.y}, 100%, ${light}%)`
+        context.strokeStyle =`hsl(${((origin.lo*origin.la)*resolution/2)+(origin.x/10)-frames}, 100%, ${light}%)` //`hsl(${origin.z*2+(frames*2)}, 100%, ${light}%)`
 
-        let size = origin.z/177 > .9 ? origin.z/177 : .9;
+        let size = (origin.z/radius/2) * 300/resolution > 0 ? (origin.z/radius/2) * 300/resolution : 0;
         
-        context.beginPath()
-        context.arc(origin.x,origin.y,Math.abs(origin.z)/10,0, pi*2)
-        context.stroke()
+        if (size > 0) {
+
+            context.beginPath()
+            context.arc(origin.x,origin.y,size*(frames/50),0, pi*2)
+            context.stroke()
+
+        }
+        
     
     }
 
@@ -208,5 +222,13 @@ let canvas = document.createElement('canvas');
         mosPos.x = xpos
         mosPos.y = ypos
 
+    }
+
+    function mouseWheelMoved(evn) {
+        
+        let move = evn.deltaY * -10;
+
+        radius = radius + move > 10 && radius + move < height ? radius + move : radius;
+        
     }
 
