@@ -11,15 +11,15 @@ let canvas = document.createElement('canvas');
 
     frames = 0, //keep count of how many render cycles have occured
 
-    radius = height/4,
+    radius = height/2,
 
     renderPaused = true, //user can toggle animation
 
     autoRotate = false, //user can toggle if the sphere locks to mouse position or auto rotates
 
     mosPos = {
-        x: width/2,
-        y: height/2,
+        x: 0,
+        y: 0,
     },
 
     point = { //obj to keep track of points when roating sphere
@@ -99,12 +99,14 @@ let canvas = document.createElement('canvas');
 
         spherePoints = [];
 
-        let reso = 42,//resolution of sphere coord detail
+        let reso = 5 +  frames/100,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
     //first loop tracks longitude then the nested loop tracks latitude
         for (let i = 0; i < reso; i++) {
+
+            spherePoints.push([]);
             
             let lon = mapNumber(i , 0, reso, 0, pi)
 
@@ -113,9 +115,9 @@ let canvas = document.createElement('canvas');
                 let lat = mapNumber(j , 0, reso, 0, pi*2),
 
                 //formula for finding  xyz position based on polar angle in a xy system
-                x = (r * Math.sin(lat) * Math.cos(lon)),
-                y = (r * Math.sin(lat) * Math.sin(lon)),
-                z = r * Math.cos(lat);
+                x = (r * Math.sin(lon) * Math.cos(lat)),
+                y = (r * Math.sin(lon) * Math.sin(lat)),
+                z = r * Math.cos(lon);
 
                 //store the points calculated
                 point = {
@@ -136,27 +138,43 @@ let canvas = document.createElement('canvas');
                     rotateY(yRotation)
                 }
 
-                spherePoints.push(point)
+                spherePoints[i].push(point)
 
             }
             
         }
-
+        // console.log(spherePoints);
+        
         renderSphere()        
     }
 
     function renderSphere() {
         
-        for (let i = 1; i < spherePoints.length; i++) {
+        for (let i = 0; i < spherePoints.length; i++) {
 
-            let p = spherePoints[i]
 
-            context.beginPath()
-            context.moveTo(p.x, p.y)
-            context.lineTo(spherePoints[i-1].x, spherePoints[i-1].y)
-            context.stroke()
-            renderPoint(p)
-            
+            for (let j = 0; j < spherePoints[i].length; j++) {
+                
+                let p = spherePoints[i][j], nextPoint;
+
+                if (spherePoints[i][j+1]) {
+
+                    nextPoint = spherePoints[i][j+1];
+                    
+                } else {
+                    nextPoint = spherePoints[i][0];
+                }
+                context.strokeStyle = 'grey';
+
+                context.beginPath()
+                context.moveTo(p.x, p.y)
+                context.lineTo(nextPoint.x, nextPoint.y)
+                context.stroke()
+
+                context.strokeStyle = 'white';
+                
+                renderPoint(p)
+            }
         }
     }
 
