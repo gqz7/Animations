@@ -110,7 +110,7 @@ let canvas = document.createElement('canvas');
                 //formula for finding  xyz position based on polar angle in a xy system
                 x = (r * Math.sin(lon) * Math.cos(lat)),
                 y = (r * Math.sin(lon) * Math.sin(lat)),
-                z = r * Math.cos(lon);
+                z = r * Math.cos(lon)/(1+frames/1000);
 
                 //store the points calculated
                 point = {
@@ -148,10 +148,12 @@ let canvas = document.createElement('canvas');
             for (let j = 0; j < spherePoints[i].length; j++) {
 
                 let p = spherePoints[i][j], 
-                    light = (p.z/radius) * 100 > 0 ? (p.z/radius) * 100 : 0;
 
-                    p.x = p.x/(1+frames/1000)
-                    p.y = p.y/(1+frames/1000)
+                    modRad = radius /(1+frames/1000)
+                    light = (p.z/modRad) * 100 > 0 ? (p.z/modRad) * 100 : 0;
+
+                    // p.x = p.x/(1+frames/1000)
+                    // p.y = p.y/(1+frames/1000)
 
                 if (light > 0) {
 
@@ -166,10 +168,10 @@ let canvas = document.createElement('canvas');
                         n3 = spherePoints[i+1][0]
                     }
 
-                    let color = ((i)*20)+frames/3;
+                    let color = ((i)*3)+frames/1;
 
-                    context.fillStyle = `hsl(${color}, ${120-light}%, ${light/1.2}%)`;
-                    context.strokeStyle = `hsl(${color}, ${120-light}%, ${light/1.2}%)`;
+                    context.fillStyle = `hsl(${color}, ${120-light}%, ${light/1.5}%)`;
+                    context.strokeStyle = `hsl(${color}, ${120-light}%, ${light/1.5}%)`;
 
                     context.beginPath()
                     context.moveTo(p.x, p.y)
