@@ -92,7 +92,7 @@ let canvas = document.createElement('canvas');
 
         spherePoints = [];
 
-        let reso = 33+frames/277 < 72 ? 33+frames/277 : 72,//resolution of sphere coord detail
+        let reso = 53+frames/277 < 72 ? 53+frames/277 : 72,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
@@ -149,7 +149,10 @@ let canvas = document.createElement('canvas');
 
                 let p = spherePoints[i][j], 
                     light = (p.z/radius) * 100 > 0 ? (p.z/radius) * 100 : 0;
-                
+
+                    p.x = p.x/(1+frames/1000)
+                    p.y = p.y/(1+frames/1000)
+
                 if (light > 0) {
 
                     let 
@@ -163,10 +166,10 @@ let canvas = document.createElement('canvas');
                         n3 = spherePoints[i+1][0]
                     }
 
-                    let color = ((p.x*p.y*i)/22222)+frames/3;
+                    let color = ((i)*20)+frames/3;
 
-                    context.fillStyle = `hsl(${color}, ${120-light}%, ${light/2}%)`;
-                    context.strokeStyle = `hsl(${color}, ${120-light}%, ${light/2}%)`;
+                    context.fillStyle = `hsl(${color}, ${120-light}%, ${light/1.2}%)`;
+                    context.strokeStyle = `hsl(${color}, ${120-light}%, ${light/1.2}%)`;
 
                     context.beginPath()
                     context.moveTo(p.x, p.y)
