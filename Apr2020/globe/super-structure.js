@@ -1,4 +1,4 @@
-console.log(`Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'G' to toggle view in grayscale\n\nPress 'O' to decrease speed that complexity is being added to the object 'P' to increase speed\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nPress 'F' to toggle flipping of structure's latitude and logitude coordinates\n\nPress 'I' to display current settings`);
+console.log(`Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'I' to display current settings\n\nPress 'M' to cycle through 4 color modes\n\nPress 'G' to toggle view in grayscale\n\nPress 'O' to decrease speed that complexity is being added to the object 'P' to increase speed\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nPress 'F' to toggle flipping of structure's latitude and logitude coordinates`);
 
 alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
@@ -28,6 +28,8 @@ let canvas = document.createElement('canvas');
     cmplxSpd = 77,//user can control how quickly more points will be added to object, range(0-333)
 
     SSindex = 0, //controls what structure is being displayed on the canvas
+
+    colorMode = 0, //controls what variable determins the color of a given point
     
     coordinates = {   //obj to keep track of points when roating sphere
         x: 0,
@@ -162,6 +164,9 @@ let canvas = document.createElement('canvas');
     canvas.style = `display: block; position: static; top: 0px; left: 0px; cursor: none; margin:auto`
     //event listener for mouse tracking 
     canvas.onmousemove = findObjectCoords;
+    
+    //event listener for mouser wheel
+    canvas.onwheel = mouseWheelMoved;
 
     //event listener for user input
     document.addEventListener('keydown', takeUserInput, false)
@@ -207,7 +212,7 @@ let canvas = document.createElement('canvas');
 
             r = radius; //radius of sphere
 
-        if (reso > 72) {
+        if (reso > 88) {
             frames = 1;
         }
 
@@ -247,7 +252,7 @@ let canvas = document.createElement('canvas');
 
             if (lockPos) {
                 
-                xRotation = mosPos.x/343 - Math.PI,
+                xRotation = mosPos.x/177 - Math.PI,
                 yRotation = -mosPos.y/177 - Math.PI*3/5;
 
             } else {
@@ -261,7 +266,7 @@ let canvas = document.createElement('canvas');
             rotateX(xRotation)
             rotateY(yRotation)
             
-            renderPoint(coordinates)
+            renderPoint(coordinates, j, i)
 
             }
             
@@ -270,20 +275,33 @@ let canvas = document.createElement('canvas');
     }
 
     //render an object's point's position onto the canvas
-    function renderPoint(origin) {
+    function renderPoint(origin, j, i) {
 
         let light = (origin.z/radius) * 100 > viewLimit + 20 ? (origin.z/radius) * 100 : viewLimit + 20;
 
         if (light > 5) {
             
             let color = grayScale ? 0 : 100,
-                size  = origin.z/117>.97 ? origin.z/117 : .97;
+                size  = origin.z/107>.88 ? origin.z/107 : .88;
 
-        context.fillStyle = `hsl(${origin.x}, ${color}%, ${light}%)`
-        
-        context.beginPath()
-        context.arc(origin.x,origin.y,size,0, pi*2)
-        context.fill()
+            switch (colorMode) {
+                case 0:
+                context.fillStyle = `hsl(${origin.x}, ${color}%, ${light}%)`
+                    break;
+                case 1:
+                context.fillStyle = `hsl(${origin.y}, ${color}%, ${light}%)`
+                    break;
+                case 2:
+                context.fillStyle = `hsl(${i*10}, ${color}%, ${light}%)`
+                    break;
+                case 3:
+                context.fillStyle = `hsl(${j*10}, ${color}%, ${light}%)`
+                    break;
+            }
+            
+            context.beginPath()
+            context.arc(origin.x,origin.y,size,0, pi*2)
+            context.fill()
             
         }
         
@@ -356,7 +374,7 @@ let canvas = document.createElement('canvas');
             break;
             case 'Comma':
 
-                SSindex = SSindex > 1 ? SSindex - 1: superSpos.length-1;
+                SSindex = SSindex > 0 ? SSindex - 1: superSpos.length-1;
             break;
             case 'ArrowRight':
 
@@ -377,9 +395,13 @@ let canvas = document.createElement('canvas');
 
             break
 
+            case 'KeyM':
+
+                colorMode = colorMode < 3 ? colorMode + 1: 0;
+
             case 'KeyI':
 
-            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nGrayscale Mode: ${grayScale}\nCamera Locked To Mouse: ${lockPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}\nObject Complexity Increase Speed: ${333-cmplxSpd}`);
+            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nColor Mode: ${colorMode+1}\nGrayscale Mode: ${grayScale}\nCamera Locked To Mouse: ${lockPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}\nObject Complexity Increase Speed: ${333-cmplxSpd}`);
             
             break;
 
@@ -413,4 +435,15 @@ let canvas = document.createElement('canvas');
         mosPos.x = xpos
         mosPos.y = ypos
 
+    }
+    //mouse wheel
+    function mouseWheelMoved(evn) {
+
+        console.log(radius);
+        
+        
+        let move = evn.deltaY * -7;
+
+        radius = radius + move > 50 && radius + move < height/2 ? radius + move : radius;
+        
     }
