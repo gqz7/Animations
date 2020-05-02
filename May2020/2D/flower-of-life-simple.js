@@ -55,13 +55,15 @@ function userInputEvent(input) {
 
         render()
 
-      function render() {
+        function render() {
 
         clearFullScreen()
 
-        time++
+        time = time < height ? time + 1: 0;
 
-        createFlower(height-100)
+        createFlower(time)
+
+        context.rotate(.01)
 
         if (!pauseAnimation) {
             setTimeout(window.requestAnimationFrame, 30, render)
@@ -72,20 +74,28 @@ function userInputEvent(input) {
 function createFlower(d) {
 
     let r = d/2;
-    
+
     context.beginPath()
-    context.arc(0,0,r,0,Math.PI*2)
+    context.arc(0,0,r/3,0,Math.PI*2)
     context.stroke()
 
    for (let y = 0; y < 6; y++) {
 
-        for (let z = -2; z < 2; z++) {
-            
-            context.beginPath()
-            context.arc(r/3*z,0,r/3,0,Math.PI*2)
-            context.stroke()
-           
-        }
+        context.beginPath()
+        context.arc(r/3,0,r/3,0,Math.PI*2)
+        context.stroke()
+        context.beginPath()
+        context.arc(r/3*2,0,r/3,0,Math.PI*2)
+        context.stroke()
+        context.beginPath()
+        context.arc(0, (r*19/33),r/3,Math.PI*4/6,Math.PI*7/3)
+        context.stroke()
+        context.beginPath()
+        context.arc(0, 2*(r*19/33),r/3,Math.PI*4/3,Math.PI*5/3)
+        context.stroke()
+        context.beginPath()
+        context.arc(r,0,r/3,Math.PI/3*2,Math.PI/3*4)
+        context.stroke()
 
         context.rotate(Math.PI/3)
        
