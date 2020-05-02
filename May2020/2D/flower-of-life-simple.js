@@ -51,7 +51,6 @@ function userInputEvent(input) {
 //SET THE CANVAS ORIGIN TO THE MIDDLE OF THE WINDOW
       context.translate(width/2, height/2)
 
-
 //ANIMAITON CYCLE
 
         render()
@@ -77,6 +76,20 @@ function createFlower(d) {
     context.beginPath()
     context.arc(0,0,r,0,Math.PI*2)
     context.stroke()
+
+   for (let y = 0; y < 6; y++) {
+
+        for (let z = -2; z < 2; z++) {
+            
+            context.beginPath()
+            context.arc(r/3*z,0,r/3,0,Math.PI*2)
+            context.stroke()
+           
+        }
+
+        context.rotate(Math.PI/3)
+       
+   }     
 }
 
 function clearFullScreen() {
