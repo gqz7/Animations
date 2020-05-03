@@ -126,9 +126,9 @@ let canvas = document.createElement('canvas');
                 }
 
                 if (autoRotate) {
-                    rotateZ(frames/(555))
+                    rotateZ(frames/(355))
                     rotateX(frames/333)
-                    rotateY(frames/777)
+                    rotateY(frames/377)
                 } else {
                     let xRotation = mosPos.x/343 - Math.PI,
                         yRotation = -mosPos.y/343 - Math.PI*3/5;
