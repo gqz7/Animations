@@ -78,7 +78,7 @@ let canvas = document.createElement('canvas');
 
         createSphere() //render the sphere
 
-        context.rotate(.01)
+        // context.rotate(.01)
 
         //counts how many frames have occured
         frames++
@@ -139,16 +139,16 @@ let canvas = document.createElement('canvas');
             
         }
         // console.log(spherePoints);
-        context.save()
-        context.translate(0,-r*Math.sqrt(3)/2)
+        // context.save()
+        // context.translate(0,-r*Math.sqrt(3)/2)
         renderSphere(r)    
-        context.restore()
-        context.save()
-        context.translate(r,r*Math.sqrt(3)/2)
-        renderSphere(r) 
-        context.translate(-r*2,0)
-        renderSphere(r) 
-        context.restore()
+        // context.restore()
+        // context.save()
+        // context.translate(r,r*Math.sqrt(3)/2)
+        // renderSphere(r) 
+        // context.translate(-r*2,0)
+        // renderSphere(r) 
+        // context.restore()
 
     }
 
@@ -179,7 +179,7 @@ let canvas = document.createElement('canvas');
                         n3 = spherePoints[i+1][0]
                     }
 
-                    let color = ((i*(p.x*p.y/300))/(r/70))+frames*4;
+                    let color = ((i*(p.x*p.y/3000))/(r/200))+frames*7;
 
                     context.fillStyle = `hsl(${color}, ${120-light}%, ${light/1.5}%)`;
                     context.strokeStyle = `hsla(${color}, ${120-light}%, ${light/1.5}%`;
@@ -190,9 +190,8 @@ let canvas = document.createElement('canvas');
                     context.lineTo(n3.x,n3.y)
                     context.lineTo(n2.x, n2.y)
                     context.lineTo(p.x, p.y)
-                    context.fill()
                     context.stroke()
-
+                    context.fill()
                     // context.strokeStyle ='black';
                     // renderPoint(p)
                 }
