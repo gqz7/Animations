@@ -14,7 +14,7 @@ let canvas = document.createElement('canvas');
 
     renderPaused = false, //user can toggle animation
 
-    autoRotate = false, //user can toggle if the sphere locks to mouse position or auto rotates
+    autoRotate = true, //user can toggle if the sphere locks to mouse position or auto rotates
 
     mosPos = {
         x: 1000,
@@ -78,6 +78,8 @@ let canvas = document.createElement('canvas');
 
         createSphere() //render the sphere
 
+        context.rotate(.01)
+
         //counts how many frames have occured
         frames++
 
@@ -94,7 +96,7 @@ let canvas = document.createElement('canvas');
 
         let reso = 72,//resolution of sphere coord detail
 
-            r = radius * (frames/10) < height/2 ? radius * (frames/1000) : height/2; //radius of sphere
+            r = radius * (frames/1000) < height/2 ? radius * (frames/1000) : height/2; //radius of sphere
 
     //first loop tracks longitude then the nested loop tracks latitude
         for (let i = 0; i < reso; i++) {
@@ -120,9 +122,9 @@ let canvas = document.createElement('canvas');
                 }
 
                 if (autoRotate) {
-                    rotateZ(frames/(555))
-                    rotateX(frames/333)
-                    rotateY(frames/777)
+                    rotateZ(frames/(55))
+                    rotateX(frames/33)
+                    rotateY(frames/77)
                 } else {
                     let xRotation = mosPos.x/243 - Math.PI,
                         yRotation = -mosPos.y/243 - Math.PI*3/5;
@@ -177,7 +179,7 @@ let canvas = document.createElement('canvas');
                         n3 = spherePoints[i+1][0]
                     }
 
-                    let color = ((i*p.x)/10)+frames*4;
+                    let color = ((i*(p.x*p.y/300))/(r/70))+frames*4;
 
                     context.fillStyle = `hsl(${color}, ${120-light}%, ${light/1.5}%)`;
                     context.strokeStyle = `hsla(${color}, ${120-light}%, ${light/1.5}%`;

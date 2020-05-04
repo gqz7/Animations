@@ -5,9 +5,9 @@ This is my animation portfolio, I create them for fun and because I like the cha
 
 ![](gg1.gif)
 
-![](gg2.gif)
-
 ![](globe.gif)
+
+![](gg2.gif)
 
 Flower Of Life - Sacred Geometry
 
@@ -19,7 +19,13 @@ sirpinski triangle
 
 ![](tri-fractal-bnw.gif)
 
-CHECKERBOARD ANIMATIONS
+Star Feild
+
+![](starsv1.gif)
+
+![](starsv2.gif)
+
+Checkerboard Animation
 
 ![](infinity_v1.gif)
 
