@@ -52,29 +52,24 @@ let canvas = document.createElement('canvas');
 
     document.body.appendChild(canvas);
 
-    context.translate(0, 0)
-
     context.strokeStyle = 'white';
 
     context.lineWidth = .8;
    
    //ANIMATION CYCLE
 
-     createLandscape()
      render()
 
       function render() {
 
         // console.log(frames);
 
-        clearFullScreen() //clear the canvas of previous animation cycle
-
-        renderLandscape()
-
-        // context.rotate(.01)
-
         //counts how many frames have occured
         frames++
+
+        clearFullScreen()
+
+        createGrid()
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
@@ -83,123 +78,32 @@ let canvas = document.createElement('canvas');
 
       }
 
-    function createLandscape() {
+    function createGrid() {
 
-        let reso = 100,
-
-            maxW = width,
-            maxH = height,
-
-            iCount = 0;
-
-            landscapePoints = [];
-
-        for (let i = 0; i <= maxW; i+= reso) {
+        for (let i = 2; i < height/2; i*=(1+ height/7000) + frames/40000) {
             
-            let lat = i,
+            context.beginPath()
+            context.moveTo(0,height/2 + i)
+            context.lineTo(width,height/2 + i)
+            context.stroke()
 
-                jCount = 0;
-
-            landscapePoints.push([])
-
-            for (let j = reso; j <= maxH*2; j+= reso) {
-                
-                let lon = j;
-
-                x = lat;
-                y = lon;
-                // x = mapNumber(i, 0, reso, 0, maxW);
-                // y = mapNumber(j, 0, reso, 0, maxH);
-
-
-                z = 0//Math.random() * 10;
-
-                point = {
-                    x: x,
-                    y: y,
-                    z: z
-                }
-
-                rotateY(Math.PI/2.3)
-
-                landscapePoints[iCount].push(point)
-
-                jCount++
-                
-            }
-
-            iCount++
             
         }
 
-    }
-
-    function renderLandscape() {
-
-        modPoints()
-
-        for (let i = 0; i < landscapePoints.length; i++) {
+        for (let i = 10; i < width/2; i+=20) {
             
-            for (let j = 0; j < landscapePoints[i].length; j++) {
+            context.beginPath()
+            context.moveTo(width/2 - i,height/2+2)
+            context.lineTo(width/2 - i*2.5,height)
+            context.stroke()
 
-                let p = landscapePoints[i][j];
-
-                // console.log(p);
-
-                    let 
-                        n1 = landscapePoints[i][j+1] ? landscapePoints[i][j+1] : landscapePoints[i][0],
-                        
-                        n2 = landscapePoints[i+1] ? landscapePoints[i+1][j] : landscapePoints[i][j],
-
-                        n3 = landscapePoints[i+1] && landscapePoints[i+1][j+1] ? landscapePoints[i+1][j+1] : landscapePoints[i][0];
-
-                    if (n3 == landscapePoints[i][0] && landscapePoints[i+1]) {
-                        n3 = landscapePoints[i+1][0]
-                    }
-
-
-                    context.beginPath()
-                    context.moveTo(p.x, p.y)
-                    context.lineTo(n1.x, n1.y)
-                    context.lineTo(n3.x,n3.y)
-                    context.lineTo(n2.x, n2.y)
-                    context.lineTo(p.x, p.y)
-                    context.stroke()
-                
-            
-                // context.beginPath()
-                // context.arc(p.x, p.y, 1, 0, Math.PI*2)
-                // context.stroke()
-                
-            }
-            
+            context.beginPath()
+            context.moveTo(width/2 + i,height/2+2)
+            context.lineTo(width/2 + i*2.5,height)
+            context.stroke()
         }
+
     }
-
-    function modPoints() {
-        for (let i = 0; i < landscapePoints.length; i++) {
-            
-          for (let j = 0; j < landscapePoints[i].length; j++) {
-
-              landscapePoints[i][j].y *= 1.03;
-            landscapePoints[i][j].z *= 1.03;
-
-
-          }
-        }
-    }
-
-    function rotateY(radians) {
-        let y = point.y,
-            z = point.z;
-        point.y = (y * Math.cos(radians)) + (z * Math.sin(radians) * -1.0);
-        point.z = (y * Math.sin(radians)) + (z * Math.cos(radians));
-    }
-    
-    //function used to map numbers from int into a radian range
-    function mapNumber (number, min1, max1, min2, max2) {
-        return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
-    };
 
     function clearFullScreen() {
 
