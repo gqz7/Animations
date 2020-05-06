@@ -68,7 +68,7 @@ let canvas = document.createElement('canvas');
         // console.log(frames);
 
         //counts how many frames have occured
-        frames++
+        frames = frames < 2000 ? frames+1 : 0;
 
         clearFullScreen()
 
