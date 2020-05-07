@@ -125,11 +125,13 @@ function createClover(d) {
 
     context.save()
 
-    while (r > minRadius/2) {
+    while (r > minRadius) {
 
-        color = count * 7 +time+144;
+        color = (count * 15) +time+144;
 
         context.fillStyle = count%2==0? 'white' : 'black';
+
+        context.strokeStyle = `hsl(${color},100%,70%)`;
  
         context.beginPath()
         context.arc(0,-Math.sqrt(3)*r,r,Math.PI*2/3,Math.PI*7/3)
@@ -138,9 +140,13 @@ function createClover(d) {
 
         context.arc(-r,0,r,Math.PI*6/3,Math.PI*5/3)
 
+        context.moveTo(0,0)
+
         context.arc(-r*2,0,r*2,Math.PI*2,Math.PI/3)
         context.arc(r*2,0,r*2,Math.PI*2/3,Math.PI)
         context.fill()
+
+        context.stroke()
 
         r -= radiusSub;
         count++
@@ -150,7 +156,7 @@ function createClover(d) {
     if (showDot) {
         context.fillStyle = 'hotpink';
         context.beginPath()
-        context.arc(0,-r/2,r/2,0,Math.PI*2)
+        context.arc(0,-minRadius/2,minRadius/2,0,Math.PI*2)
         context.fill()
     }
 
