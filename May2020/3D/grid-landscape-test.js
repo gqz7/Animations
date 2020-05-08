@@ -76,7 +76,7 @@ let canvas = document.createElement('canvas');
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
-            setTimeout(window.requestAnimationFrame, 0, render)
+            setTimeout(window.requestAnimationFrame, 30, render)
         }
 
       }
@@ -87,7 +87,7 @@ let canvas = document.createElement('canvas');
         context.rect(0,0,width,height/2)
         context.fill()
 
-        for (let i = 2; i < height/2; i*=(1+ height/7000) + frames/2000) {
+        for (let i = 1; i < height/2; i*=(1+ height/7000)) {
             
             context.beginPath()
             context.moveTo(0,height/2 + i)
@@ -97,16 +97,16 @@ let canvas = document.createElement('canvas');
             
         }
 
-        for (let i = (10+(frames/100))/2; i < width/2; i+=10+(frames/100)) {
+        for (let i = (20)/2; i < width/2; i+=20) {
             
             context.beginPath()
             context.moveTo(width/2 - i,height/2+2)
-            context.lineTo(width/2 - i*(2*(1+frames/100)),height)
+            context.lineTo(width/2 - i*2,height)
             context.stroke()
 
             context.beginPath()
             context.moveTo(width/2 + i,height/2+2)
-            context.lineTo(width/2 + i*(2*(1+frames/100)),height)
+            context.lineTo(width/2 + i*2,height)
             context.stroke()
         }
 

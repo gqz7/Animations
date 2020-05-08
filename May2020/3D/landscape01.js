@@ -47,8 +47,8 @@ let canvas = document.createElement('canvas');
 
     }, false)
 
-    canvas.onmousemove = findObjectCoords;
-    canvas.onwheel = mouseWheelMoved;
+    // canvas.onmousemove = findObjectCoords;
+    // canvas.onwheel = mouseWheelMoved;
 
     document.body.style.backgroundColor = 'black';
 
@@ -67,11 +67,11 @@ let canvas = document.createElement('canvas');
 
       function render() {
 
-        // console.log(frames);
+        console.log(frames);
 
         clearFullScreen() //clear the canvas of previous animation cycle
 
-        // createLandscape() //render the landscape
+        createLandscape() //render the landscape
 
         renderLandscape()
 
@@ -91,56 +91,44 @@ let canvas = document.createElement('canvas');
 
         let reso = 100,
 
-            maxW = width,
-            maxH = height,
+            maxW = width/2,
+            maxH = height/2,
 
-            iCount = 0;
+            xCount = 0;
 
             landscapePoints = [];
 
-        for (let i = 0; i <= maxW; i+= reso) {
+        for (let x = 10; x < maxW; x+=20) {
+
+
+            landscapePoints.push([]);
+
+            let yCount = 0;
             
-            let lat = i,
-
-                jCount = 0;
-
-            landscapePoints.push([])
-
-            for (let j = reso; j <= maxH*2; j+= reso) {
+            for (let y = 1; y < maxH; y*=(1+ maxH/4000)) {
                 
-                let lon = j;
-
-                x = lat * (1 + lon/1000);
-                y = lon * (.7+ lon/1000);
-                // x = mapNumber(i, 0, reso, 0, maxW);
-                // y = mapNumber(j, 0, reso, 0, maxH);
-
-
-                z = 0//Math.random() * 10;
-
+                
                 point = {
                     x: x,
-                    y: y,
-                    z: z
-                }
+                    y: y+height/2,
+                    z: 0
+                };
 
-                rotateY(Math.PI/2.3)
+                landscapePoints[xCount][yCount] = point;
 
-                landscapePoints[iCount].push(point)
+                yCount++
 
-                jCount++
-                
             }
 
-            iCount++
+            xCount++
             
         }
+
+        // console.log(landscapePoints);
 
     }
 
     function renderLandscape() {
-
-        modPoints()
 
         for (let i = 0; i < landscapePoints.length; i++) {
             
@@ -171,34 +159,25 @@ let canvas = document.createElement('canvas');
                     context.stroke()
                 
             
-                // context.beginPath()
-                // context.arc(p.x, p.y, 1, 0, Math.PI*2)
-                // context.stroke()
+                context.beginPath()
+                context.arc(p.x, p.y, 1, 0, Math.PI*2)
+                context.stroke()
+
+                
                 
             }
             
         }
     }
 
-    function modPoints() {
-        for (let i = 0; i < landscapePoints.length; i++) {
+    function rotateY(p, radians) {
+        let y = p.y,
+            z = p.z;
             
-          for (let j = 0; j < landscapePoints[i].length; j++) {
+            p.y = (y * Math.cos(radians)) + (z * Math.sin(radians) * -1.0);
+            p.z = (y * Math.sin(radians)) + (z * Math.cos(radians));
 
-              landscapePoints[i][j].y += .3;
-
-          }
-        }
-
-
-        
-    }
-
-    function rotateY(radians) {
-        let y = point.y,
-            z = point.z;
-        point.y = (y * Math.cos(radians)) + (z * Math.sin(radians) * -1.0);
-        point.z = (y * Math.sin(radians)) + (z * Math.cos(radians));
+        return p
     }
     
     //function used to map numbers from int into a radian range
