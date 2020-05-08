@@ -7,9 +7,11 @@ let canvas = document.createElement('canvas');
     width = canvas.width = window.innerWidth,
     height = canvas.height = window.innerHeight,
 
-    frames = 0, //keep count of how many render cycles have occured
+    frames = 48, //keep count of how many render cycles have occured
 
     renderPaused = true, //user can toggle animation
+
+    framesUp = true;
 
     mosPos = {
         x: 1000,
@@ -56,7 +58,7 @@ let canvas = document.createElement('canvas');
 
     context.translate(0, 0)
 
-    context.strokeStyle = 'white';
+    context.strokeStyle = 'lightgrey';
 
     context.lineWidth = .8;
    
@@ -67,7 +69,8 @@ let canvas = document.createElement('canvas');
 
       function render() {
 
-        console.log(frames);
+        //   console.log(frames);
+          
 
         clearFullScreen() //clear the canvas of previous animation cycle
 
@@ -75,10 +78,16 @@ let canvas = document.createElement('canvas');
 
         renderLandscape()
 
-        // context.rotate(.01)
-
-        //counts how many frames have occured
-        frames++
+        //counts how many frames have occured and increase/decrease control
+        if (framesUp && frames < 777) {
+            frames*=1.007
+        } else if (framesUp && frames >= 777) {
+            framesUp = false;
+        } if (!framesUp && frames > 47) {
+            frames/=1.007
+        } else {
+            framesUp = true;
+        }
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
@@ -91,26 +100,24 @@ let canvas = document.createElement('canvas');
 
         let reso = 100,
 
-            maxW = width/2,
-            maxH = height/2,
+            maxW = width/4+(frames*10) < width/2+10 ? width/4+(frames*10) :  width/2+10,
+            maxH = height/3 + (frames / 1) < height*3/4 ? height/3 + (frames / 1) : height*3/4;
 
             xCount = 0;
 
             landscapePoints = [];
 
-        for (let x = 10; x < maxW; x+=20) {
-
+        for (let x = 0; x < maxW; x+=17) {
 
             landscapePoints.push([]);
 
             let yCount = 0;
             
-            for (let y = 1; y < maxH; y*=(1+ maxH/4000)) {
-                
+            for (let y = 1; y < maxH*1.5; y*=(1+ maxH/3333) + frames/1111) {
                 
                 point = {
-                    x: x,
-                    y: y+height/2,
+                    x: x*(1 +((frames/4.3)*(y*2)/4444)),
+                    y: y,
                     z: 0
                 };
 
@@ -130,13 +137,17 @@ let canvas = document.createElement('canvas');
 
     function renderLandscape() {
 
+        context.save()
+
+        context.translate(width/2,height/2)
+
         for (let i = 0; i < landscapePoints.length; i++) {
             
             for (let j = 0; j < landscapePoints[i].length; j++) {
 
                 let p = landscapePoints[i][j];
 
-                // console.log(p);
+                if (true) {
 
                     let 
                         n1 = landscapePoints[i][j+1] ? landscapePoints[i][j+1] : landscapePoints[i][0],
@@ -145,10 +156,9 @@ let canvas = document.createElement('canvas');
 
                         n3 = landscapePoints[i+1] && landscapePoints[i+1][j+1] ? landscapePoints[i+1][j+1] : landscapePoints[i][0];
 
-                    if (n3 == landscapePoints[i][0] && landscapePoints[i+1]) {
-                        n3 = landscapePoints[i+1][0]
-                    }
-
+                        if (n3 == landscapePoints[i][0] && landscapePoints[i+1]) {
+                            n3 = landscapePoints[i+1][0]
+                        }
 
                     context.beginPath()
                     context.moveTo(p.x, p.y)
@@ -157,17 +167,58 @@ let canvas = document.createElement('canvas');
                     context.lineTo(n2.x, n2.y)
                     context.lineTo(p.x, p.y)
                     context.stroke()
-                
-            
-                context.beginPath()
-                context.arc(p.x, p.y, 1, 0, Math.PI*2)
-                context.stroke()
 
-                
+                    context.beginPath()
+                    context.moveTo(-p.x, p.y)
+                    context.lineTo(-n1.x, n1.y)
+                    context.lineTo(-n3.x,n3.y)
+                    context.lineTo(-n2.x, n2.y)
+                    context.lineTo(-p.x, p.y)
+                    context.stroke()
+
+                    // context.save()
+
+                    // context.rotate(Math.PI)
+                    // context.translate(0,100)
+
+                    // context.beginPath()
+                    // context.moveTo(p.x, p.y)
+                    // context.lineTo(n1.x, n1.y)
+                    // context.lineTo(n3.x,n3.y)
+                    // context.lineTo(n2.x, n2.y)
+                    // context.lineTo(p.x, p.y)
+                    // context.stroke()
+
+                    // context.beginPath()
+                    // context.moveTo(-p.x, p.y)
+                    // context.lineTo(-n1.x, n1.y)
+                    // context.lineTo(-n3.x,n3.y)
+                    // context.lineTo(-n2.x, n2.y)
+                    // context.lineTo(-p.x, p.y)
+                    // context.stroke()
+                    // context.restore()
+                    
+                    // context.beginPath()
+                    // context.arc(p.x, p.y, 1, 0, Math.PI*2)
+                    // context.stroke()
+
+                    // context.beginPath()
+                    // context.arc(-p.x, p.y, 1, 0, Math.PI*2)
+                    // context.stroke()
+
+                    
+                } else {
+                    // console.log('oob');
+                    
+                }
                 
             }
             
         }
+
+
+        context.restore()
+
     }
 
     function rotateY(p, radians) {
