@@ -86,7 +86,7 @@ let canvas = document.createElement('canvas');
         context.rect(0,(height/2)+2,width,height)
         context.fill()
 
-        moveStars(42)
+        moveStars((frames/1000)+10)
 
         createGrid()
 
@@ -180,9 +180,8 @@ let canvas = document.createElement('canvas');
 
         for (let i = 0; i < 100; i++) {
 
-            let  
-                x =  (width * Math.random()) - width/2,
-                y =  (height * Math.random()) - height/2,
+            let x = (width * Math.random())-width/2,
+                y = (height/2 * Math.random())-height/4,
 
                 lightness = 10;
              
@@ -207,7 +206,6 @@ let canvas = document.createElement('canvas');
         }
 
         context.restore()
-
 
     }
 
@@ -242,24 +240,12 @@ let canvas = document.createElement('canvas');
 
     function addStar() { //when one star dies another is born
 
-        let  
-        ranAngle = Math.random() * 100   
-        radius = 10;
-        randomX1 = (Math.cos(ranAngle) * radius),
-        randomY1 = (Math.sin(ranAngle) * radius),
-        randomX2 = (Math.cos(ranAngle) * radius * 4),
-        randomY2 = (Math.sin(ranAngle) * radius * 4),
-
-        ranNum = (Math.random() * 17) + 1,
-
-        x =  (randomX2 * ranNum) + (randomX1 * ranNum) * Math.random(),
-        y =  (randomY2 * ranNum) + (randomY1 * ranNum) * Math.random() * 5,
+        let x = (width * Math.random())-width/2,
+            y = (height/2 * Math.random())-height/4,
 
         lightness = 10;
 
         // console.log(radius);
-        
-
         Stars.push({
             x: x, y: y, lightness: lightness
         });
