@@ -1,6 +1,6 @@
 # AnimationPorfolio
-This is my animation portfolio, I create them for fun and because I like the challange it gives me to try to create complex animations that combined a love for coding and mathematics 
-
+## Gifs to represent programs created in pure JavaScript
+### They are seperated into categories
 3D Sphere
 
 ![](gg1.gif)
