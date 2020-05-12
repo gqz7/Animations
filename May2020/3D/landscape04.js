@@ -83,7 +83,7 @@ let canvas = document.createElement('canvas');
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
-            setTimeout(window.requestAnimationFrame, 30, render)
+            setTimeout(window.requestAnimationFrame, 0, render)
         }
 
       }
@@ -142,9 +142,9 @@ let canvas = document.createElement('canvas');
 
         context.translate(width/2,height/2)
 
-        for (let i = 0; i < landscapePoints.length-1; i++) {
+        for (let i = landscapePoints.length-2; i >= 0; i--) {
             
-            for (let j = 0; j < landscapePoints[i].length-1; j++) {
+            for (let j = landscapePoints[i].length-2; j >= 0; j--) {
 
                 let p = landscapePoints[i][j];
 
@@ -152,7 +152,14 @@ let canvas = document.createElement('canvas');
                     
                     n2 = landscapePoints[i+1][j],
 
-                    n3 = landscapePoints[i+1][j+1];
+                    n3 = landscapePoints[i+1][j+1],
+
+                    light = p.y/5 < 70 ? p.y/5 : 70;
+
+
+                    context.fillStyle = `hsl(${i*14+j},100%,${light}%)`;
+                    context.strokeStyle = `hsl(${i*14+j},100%,${light}%)`;
+
 
                     context.beginPath()
                     context.moveTo(p.x, p.y)
@@ -160,6 +167,7 @@ let canvas = document.createElement('canvas');
                     context.lineTo(n3.x,n3.y)
                     context.lineTo(p.x, p.y)
                     context.stroke()
+                    context.fill()
 
 
                     context.beginPath()
@@ -168,6 +176,7 @@ let canvas = document.createElement('canvas');
                     context.lineTo(n3.x,n3.y)
                     context.lineTo(p.x, p.y)
                     context.stroke()
+                    context.fill()
 
                     context.beginPath()
                     context.moveTo(-p.x, p.y)
@@ -175,7 +184,7 @@ let canvas = document.createElement('canvas');
                     context.lineTo(-n3.x,n3.y)
                     context.lineTo(-p.x, p.y)
                     context.stroke()
-
+                    context.fill()
 
                     context.beginPath()
                     context.moveTo(-p.x, p.y)
@@ -183,6 +192,7 @@ let canvas = document.createElement('canvas');
                     context.lineTo(-n3.x,n3.y)
                     context.lineTo(-p.x, p.y)
                     context.stroke()
+                    context.fill()
                 
             }
             
