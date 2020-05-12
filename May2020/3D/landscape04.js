@@ -106,7 +106,7 @@ let canvas = document.createElement('canvas');
             for (let y = 1; y < maxH*1.5; y*=(1+ maxH/7333)) {
                 
                 point = {
-                    x: x*(1 +((y*2)/4444)*frames/1000),
+                    x: x*(1 +((y*4)/4444)*frames/100),
                     y: y,
                     z: Math.random()*(y/30)*(x/1000)
                 };
@@ -142,71 +142,47 @@ let canvas = document.createElement('canvas');
 
         context.translate(width/2,height/2)
 
-        for (let i = 0; i < landscapePoints.length; i+=4) {
+        for (let i = 0; i < landscapePoints.length-1; i++) {
             
-            for (let j = 0; j < landscapePoints[i].length; j+=4) {
+            for (let j = 0; j < landscapePoints[i].length-1; j++) {
 
                 let p = landscapePoints[i][j];
 
-                if (true) {
+                    n1 = landscapePoints[i][j+1],
+                    
+                    n2 = landscapePoints[i+1][j],
 
-                    let 
-                        n1 = landscapePoints[i][j+1] ? landscapePoints[i][j+1] : landscapePoints[i][0],
-                        
-                        n2 = landscapePoints[i+1] ? landscapePoints[i+1][j] : landscapePoints[i][j],
+                    n3 = landscapePoints[i+1][j+1];
 
-                        n3 = landscapePoints[i+1] && landscapePoints[i+1][j+1] ? landscapePoints[i+1][j+1] : landscapePoints[i][0];
-
-                        if (n3 == landscapePoints[i][0] && landscapePoints[i+1]) {
-                            n3 = landscapePoints[i+1][0]
-                        }
-
-                    // context.beginPath()
-                    // context.moveTo(p.x, p.y)
-                    // context.lineTo(n1.x, n1.y)
-                    // context.lineTo(n3.x,n3.y)
-                    // context.lineTo(p.x, p.y)
-                    // context.stroke()
-
-                    // context.beginPath()
-                    // context.moveTo(-p.x, p.y)
-                    // context.lineTo(-n1.x, n1.y)
-                    // context.lineTo(-n3.x,n3.y)
-                    // context.lineTo(-n2.x, n2.y)
-                    // context.lineTo(-p.x, p.y)
-                    // context.stroke()
-
-                    context.strokeStyle = 'blue'
                     context.beginPath()
-                    context.arc(p.x, p.y, 2, 0, Math.PI*2)
                     context.moveTo(p.x, p.y)
                     context.lineTo(n1.x, n1.y)
+                    context.lineTo(n3.x,n3.y)
+                    context.lineTo(p.x, p.y)
                     context.stroke()
 
-                    context.strokeStyle = 'red'
+
                     context.beginPath()
-                    context.arc(n1.x, n1.y, 2, 0, Math.PI*2)
+                    context.moveTo(p.x, p.y)
+                    context.lineTo(n2.x, n2.y)
+                    context.lineTo(n3.x,n3.y)
+                    context.lineTo(p.x, p.y)
                     context.stroke()
-                    
-                    context.strokeStyle = 'white'
+
                     context.beginPath()
-                    context.arc(n2.x, n2.y, 2, 0, Math.PI*2)
+                    context.moveTo(-p.x, p.y)
+                    context.lineTo(-n1.x, n1.y)
+                    context.lineTo(-n3.x,n3.y)
+                    context.lineTo(-p.x, p.y)
                     context.stroke()
 
-                    context.strokeStyle = 'yellow'
+
                     context.beginPath()
-                    context.arc(n3.x, n3.y, 2, 0, Math.PI*2)
+                    context.moveTo(-p.x, p.y)
+                    context.lineTo(-n2.x, n2.y)
+                    context.lineTo(-n3.x,n3.y)
+                    context.lineTo(-p.x, p.y)
                     context.stroke()
-
-                    // context.beginPath()
-                    // context.arc(-p.x, p.y, 1, 0, Math.PI*2)
-                    // context.stroke()
-
-                    
-                } else {
-                    // console.log('oob');
-                    
-                }
                 
             }
             
