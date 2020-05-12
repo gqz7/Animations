@@ -59,7 +59,7 @@ let canvas = document.createElement('canvas');
     context.translate(0, 0)
 
     context.strokeStyle = 'deeppink';
-    context.fillStyle = `hsl(${frames/2 + 37}, 100%, 40%)`;
+    context.fillStyle = `indigo`;
 
     context.lineWidth = .8;
    
@@ -75,35 +75,23 @@ let canvas = document.createElement('canvas');
 
         clearFullScreen() //clear the canvas of previous animation cycle
 
-        createLandscape() //render the landscape
+        createLandscape() //create all the positions in an array
 
-        renderLandscape()
+        renderLandscape() //render lines and shapes based on positions
 
-        context.strokeStyle = 'deeppink';
-        context.fillStyle = `hsl(${frames/2 + 37}, 100%, 40%)`;
-
-        //counts how many frames have occured and increase/decrease control
-        if (framesUp && frames < 333) {
-            frames+=1.7
-        } else if (framesUp && frames >= 333) {
-            framesUp = false;
-        } if (!framesUp && frames > 47) {
-            frames-=1.3
-        } else {
-            framesUp = true;
-        }
+        frames+=10
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
-            setTimeout(window.requestAnimationFrame, 0, render)
+            setTimeout(window.requestAnimationFrame, 30, render)
         }
 
       }
 
     function createLandscape() {
 
-        let maxW = width/4+(frames*10) < width/2+10 ? width/4+(frames*10) :  width/2+10,
-            maxH = height/3 + (frames / 1) < height*3/4 ? height/3 + (frames / 1) : height*3/4;
+        let maxW = width/2,
+            maxH = height + (frames / 1);
 
             xCount = 0;
 
@@ -115,19 +103,17 @@ let canvas = document.createElement('canvas');
 
             let yCount = 0;
             
-            for (let y = 1; y < maxH*1.5; y*=(1+ maxH/3333) + frames/1111) {
+            for (let y = 1; y < maxH*1.5; y*=(1+ maxH/7333)) {
                 
                 point = {
-                    x: x*(1 +((frames/4.3)*(y*2)/4444)),
+                    x: x*(1 +((y*2)/4444)*frames/1000),
                     y: y,
-                    z: 0
+                    z: Math.random()*(y/30)*(x/1000)
                 };
 
-                landscapePoints[xCount][yCount] = point;
+                rotateY(Math.PI/2.7)
 
-                // let yRotation =  Math.PI/(Math.abs(height/2-mosPos.y)/544);
-                //     // rotateX(xRotation)
-                //     rotateY(yRotation)
+                landscapePoints[xCount][yCount] = point;
 
                 yCount++
 
@@ -147,8 +133,6 @@ let canvas = document.createElement('canvas');
         //create background 
         context.beginPath()
 
-        context.rect(0,0,width, height/2-227)
-
         context.rect(0,height/2,width, height)
 
         context.fill()
@@ -158,9 +142,9 @@ let canvas = document.createElement('canvas');
 
         context.translate(width/2,height/2)
 
-        for (let i = 0; i < landscapePoints.length; i++) {
+        for (let i = 0; i < landscapePoints.length; i+=4) {
             
-            for (let j = 0; j < landscapePoints[i].length; j++) {
+            for (let j = 0; j < landscapePoints[i].length; j+=4) {
 
                 let p = landscapePoints[i][j];
 
@@ -177,47 +161,42 @@ let canvas = document.createElement('canvas');
                             n3 = landscapePoints[i+1][0]
                         }
 
-                    context.beginPath()
-                    context.moveTo(p.x, p.y)
-                    context.lineTo(n1.x, n1.y)
-                    context.lineTo(n3.x,n3.y)
-                    context.lineTo(n2.x, n2.y)
-                    context.lineTo(p.x, p.y)
-                    context.stroke()
-
-                    context.beginPath()
-                    context.moveTo(-p.x, p.y)
-                    context.lineTo(-n1.x, n1.y)
-                    context.lineTo(-n3.x,n3.y)
-                    context.lineTo(-n2.x, n2.y)
-                    context.lineTo(-p.x, p.y)
-                    context.stroke()
-
-                    context.save()
-
-                    context.rotate(Math.PI)
-                    context.translate(0,227)
-
-                    context.beginPath()
-                    context.moveTo(p.x, p.y)
-                    context.lineTo(n1.x, n1.y)
-                    context.lineTo(n3.x,n3.y)
-                    context.lineTo(n2.x, n2.y)
-                    context.lineTo(p.x, p.y)
-                    context.stroke()
-
-                    context.beginPath()
-                    context.moveTo(-p.x, p.y)
-                    context.lineTo(-n1.x, n1.y)
-                    context.lineTo(-n3.x,n3.y)
-                    context.lineTo(-n2.x, n2.y)
-                    context.lineTo(-p.x, p.y)
-                    context.stroke()
-                    context.restore()
-                    
                     // context.beginPath()
-                    // context.arc(p.x, p.y, 1, 0, Math.PI*2)
+                    // context.moveTo(p.x, p.y)
+                    // context.lineTo(n1.x, n1.y)
+                    // context.lineTo(n3.x,n3.y)
+                    // context.lineTo(p.x, p.y)
                     // context.stroke()
+
+                    // context.beginPath()
+                    // context.moveTo(-p.x, p.y)
+                    // context.lineTo(-n1.x, n1.y)
+                    // context.lineTo(-n3.x,n3.y)
+                    // context.lineTo(-n2.x, n2.y)
+                    // context.lineTo(-p.x, p.y)
+                    // context.stroke()
+
+                    context.strokeStyle = 'blue'
+                    context.beginPath()
+                    context.arc(p.x, p.y, 2, 0, Math.PI*2)
+                    context.moveTo(p.x, p.y)
+                    context.lineTo(n1.x, n1.y)
+                    context.stroke()
+
+                    context.strokeStyle = 'red'
+                    context.beginPath()
+                    context.arc(n1.x, n1.y, 2, 0, Math.PI*2)
+                    context.stroke()
+                    
+                    context.strokeStyle = 'white'
+                    context.beginPath()
+                    context.arc(n2.x, n2.y, 2, 0, Math.PI*2)
+                    context.stroke()
+
+                    context.strokeStyle = 'yellow'
+                    context.beginPath()
+                    context.arc(n3.x, n3.y, 2, 0, Math.PI*2)
+                    context.stroke()
 
                     // context.beginPath()
                     // context.arc(-p.x, p.y, 1, 0, Math.PI*2)
