@@ -71,6 +71,8 @@ function userInputEvent(input) {
 
 function createFlower(d) {
 
+        context.strokeStyle = `white`;
+
     let r = d/2;
 
     //render circle to contain FoL
@@ -79,13 +81,15 @@ function createFlower(d) {
     context.stroke()
 
     //one inner seed is needed to create the FoL
+
     createSeed(r/3, 0)
 
     for (let y = 0; y < 6; y++) {
 
+    context.strokeStyle = `hsl(${y*60 + (time*7*(1+time/1000))}, 100%, 50%)`;
+
     //create 6 outter seeds of life
        createSeed(r/3, r)
-
     
        renderPetal({
            x: r/Math.sqrt(3)/1.15,
@@ -102,8 +106,6 @@ function createFlower(d) {
 function createSeed(arc, origin) {
 
     //create outter 6 petals of seed
-
-
 
     for (let i = 0; i < 6; i++) {
 
@@ -146,8 +148,6 @@ function createSeed(arc, origin) {
 function renderPetal(p) { //p {x, y, size, angle}
 
     let a1 = Math.PI - Math.PI/6, a2 = Math.PI + Math.PI/6;
-
-    context.strokeStyle = `hsl(${Math.random()*360}, 100%, 50%)`;
 
     context.save();
 
