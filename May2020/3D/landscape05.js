@@ -1,3 +1,5 @@
+alert('Press Space to Pause, Press S Key to Switch Between viewing options')
+
 const pi = Math.PI; //shortcut because is gets used alot
 
 //simplex noise alg import
@@ -12,14 +14,11 @@ let canvas = document.createElement('canvas');
 
     frames = 2, //keep count of how many render cycles have occured
 
-    renderPaused = true, //user can toggle animation
+    switchDis = 2, //changes how the display looks, user can press S to cycle through options
 
-    framesUp = true;
+    renderPaused = false, //user can toggle animation
 
-    mosPos = {
-        x: width/2,
-        y: height/2,
-    },
+    framesUp = false;
 
     point = { //obj to keep track of points when roating sphere
         x: 0,
@@ -47,6 +46,9 @@ let canvas = document.createElement('canvas');
                 }
 
                 break;
+            case 'KeyS': 
+                switchDis = switchDis < 2 ?  switchDis+1 : 0;
+                break;
         
         }
 
@@ -72,18 +74,18 @@ let canvas = document.createElement('canvas');
         renderLandscape() //render lines and shapes based on positions
 
         if (framesUp && frames < 2077) {
-            frames+=27
+            frames+=17
         } else if (framesUp && frames >= 2077) {
             framesUp = false;
-        } if (!framesUp && frames > 2) {
-            frames-=23
+        } if (!framesUp && frames > -333) {
+            frames-=11
         } else {
             framesUp = true;
         }
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
-            setTimeout(window.requestAnimationFrame, 0, render)
+            setTimeout(window.requestAnimationFrame, 3, render)
         }
 
       }
@@ -107,10 +109,10 @@ let canvas = document.createElement('canvas');
             
             for (let y = 1; y < maxH; y*= 1.2 * (1 + inc/10)) {
 
-                let z = Noise(Math.abs(xCount-100)/20-inc, yCount/10)*70  + x*2
+                let z = Noise(Math.abs(xCount-100)/(22+frames/100)-inc, yCount/10)*70  + x*(5+frames/170)
                 
                 point = {
-                    x: (x*13)*(1 +((y*4)/1444)),
+                    x: (x*13)*(1 +((y*4)/734)),
                     y: y,
                     z: z
                 };
@@ -150,17 +152,36 @@ let canvas = document.createElement('canvas');
                     context.fillStyle = `hsl(${color},50%,${light}%)`;
                     context.strokeStyle = `hsl(${color},50%,${strokeLight}%)`;
 
-                    // createTri(p,n1,n3,p)
-                    // createTri(p,n2,n3,p)
-                    createSquare(p,n1,n3,n2)
+
+                    if (switchDis == 0) {
+                        createSquare(p,n1,n3,n2)
+
+                    } else if (switchDis == 1) {
+                        createTri(p,n1,n3,p)
+                        createTri(p,n2,n3,p)
+
+                    } else {
+                        
+                        context.strokeStyle = `hsl(${color},50%,${light}%)`;
+                        createOutline(p,n1,n3,n2)
+                    }
+                    
 
                     context.save()
 
                     context.rotate(Math.PI)
-                    context.translate(0,222)
-                    createSquare(p,n1,n3,n2)
-                    // createTri(p,n1,n3,p)
-                    // createTri(p,n2,n3,p)
+                    context.translate(0,height/4)
+
+                     if (switchDis == 0) {
+                        createSquare(p,n1,n3,n2)
+
+                    } else if (switchDis == 1) {
+                        createTri(p,n1,n3,p)
+                        createTri(p,n2,n3,p)
+
+                    } else {
+                        createOutline(p,n1,n3,n2)
+                    }
 
                     context.restore()
             }   
@@ -174,22 +195,7 @@ let canvas = document.createElement('canvas');
         point.y = (y * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
         point.z = (y * Math.sin(radians)) + (point.z * Math.cos(radians));
     }
-    function rotateX(radians) {
-        
-        let x = point.x;
-        point.x = (x * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
-        point.z = (x * Math.sin(radians)) + (point.z * Math.cos(radians));
-    }
-    function rotateZ(radians) {
-        let x = point.x;
-        point.x = (x * Math.cos(radians)) + (point.y * Math.sin(radians) * -1.0);
-        point.y = (x * Math.sin(radians)) + (point.y * Math.cos(radians));
-    }
-    
-    //function used to map numbers from int into a radian range
-    function mapNumber (number, min1, max1, min2, max2) {
-        return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
-    };
+
 
     function clearFullScreen() {
 
@@ -240,5 +246,25 @@ let canvas = document.createElement('canvas');
         context.stroke()
         context.fill()
         
+    }
+
+    function createOutline(p1,p2,p3,p4) {
+
+        context.beginPath()
+        context.moveTo(p1.x, p1.y)
+        context.lineTo(p2.x, p2.y)
+        context.lineTo(p3.x, p3.y)
+        context.lineTo(p4.x, p4.y)
+        context.lineTo(p1.x, p1.y)
+        context.stroke()
+
+        context.beginPath()
+        context.moveTo(-p1.x, p1.y)
+        context.lineTo(-p2.x, p2.y)
+        context.lineTo(-p3.x, p3.y)
+        context.lineTo(-p4.x, p4.y)
+        context.lineTo(-p1.x, p1.y)
+        context.stroke()
+
     }
 
