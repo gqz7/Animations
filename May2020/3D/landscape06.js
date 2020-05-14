@@ -14,7 +14,9 @@ let canvas = document.createElement('canvas');
 
     renderPaused = false, //user can toggle animation
 
-    framesUp = true;
+    framesUp = true,
+
+    noiseSeed = Math.random(), //generates a random number to make each viewing of this animation unique
 
     mosPos = {
         x: width/2,
@@ -76,7 +78,7 @@ let canvas = document.createElement('canvas');
         } else if (framesUp && frames >= 2777) {
             framesUp = false;
         } if (!framesUp && frames > -111) {
-            frames-=27
+            frames-=20
         } else {
             framesUp = true;
         }
@@ -91,7 +93,7 @@ let canvas = document.createElement('canvas');
     function createLandscape() {
 
         let wlim = (width/44),
-            maxH = (height) *1.71,
+            maxH = (height) *.8,
 
             inc = frames/3000;
 
@@ -109,7 +111,7 @@ let canvas = document.createElement('canvas');
 
                 let xVar = xCount < 3 ? 0 : xCount/3; 
 
-                    z = Noise(xCount/10, yCount/13-inc)*(yCount*xVar/2) + xVar*15.7;
+                    z = Noise((xCount/20) + noiseSeed, (yCount/23-inc*10) + noiseSeed)*(xCount*xVar/3) + xVar*7.7;
                 
                 point = {
                     x: (x*2)*(1 +((y*14)/77)),
@@ -151,8 +153,7 @@ let canvas = document.createElement('canvas');
                     color = (p.z)-p.y,
                     strokeLight = i+20<light ? i+20 : light;
 
-                    context.fillStyle = `hsl(${color},50%,${light}%)`;
-                    context.strokeStyle = `hsl(${color},50%,${light}%)`;
+                    context.strokeStyle = `hsl(${color+144},50%,${light}%)`;
 
                     // createSquare(p,n1,n3,n2)
                     createTri(p,n1,n3,p)
@@ -161,7 +162,7 @@ let canvas = document.createElement('canvas');
                     context.save()
 
                     context.rotate(pi)
-                    context.translate(0,222)
+                    context.translate(0,frames/10 + 272)
                     createSquare(p,n1,n3,n2)
 
                     context.restore()
