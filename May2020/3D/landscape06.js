@@ -10,7 +10,7 @@ let canvas = document.createElement('canvas');
     width = canvas.width = window.innerWidth,
     height = canvas.height = window.innerHeight,
 
-    frames = -333, //keep count of how many render cycles have occured
+    frames = 0, //keep count of how many render cycles have occured
 
     renderPaused = false, //user can toggle animation
 
@@ -71,12 +71,12 @@ let canvas = document.createElement('canvas');
 
         renderLandscape() //render lines and shapes based on positions
 
-        if (framesUp && frames < 3777) {
-            frames+=12
-        } else if (framesUp && frames >= 3777) {
+        if (framesUp && frames < 2777) {
+            frames+=13
+        } else if (framesUp && frames >= 2777) {
             framesUp = false;
         } if (!framesUp && frames > -111) {
-            frames-=23
+            frames-=27
         } else {
             framesUp = true;
         }
@@ -90,10 +90,10 @@ let canvas = document.createElement('canvas');
 
     function createLandscape() {
 
-        let wlim = (width/2)/13,
+        let wlim = (width/44),
             maxH = (height) *1.71,
 
-            inc = frames/1000;
+            inc = frames/3000;
 
             xCount = 0;
 
@@ -105,19 +105,21 @@ let canvas = document.createElement('canvas');
 
             let yCount = 0;
             
-            for (let y = 1; y < maxH; y*= 1.2 * (1 + inc/10)) {
+            for (let y = 1; y < maxH; y*= 1.2*(1+inc/20)) {
 
-                let z = Noise(Math.abs(xCount-100)/12-inc, yCount/20)*70+x*(frames/1000)*17
+                let xVar = xCount < 3 ? 0 : xCount/3; 
+
+                    z = Noise(xCount/10, yCount/13-inc)*(yCount*xVar/2) + xVar*15.7;
                 
                 point = {
-                    x: (x*23)*(1 +((y*4)/77)),
+                    x: (x*2)*(1 +((y*14)/77)),
                     y: y,
                     z: z
                 };
 
-                rotateY(pi/3)
-                rotateX(pi/7)
-                rotateZ(pi/4-frames/17000)
+                rotateY(pi/4)
+                // rotateX(pi/7)
+                // rotateZ(pi/4-frames/17000)
 
                 landscapePoints[x][yCount] = point;
 
@@ -146,13 +148,15 @@ let canvas = document.createElement('canvas');
                     n3 = landscapePoints[i+1][j+1],
 
                     light = p.y/70+45<60 ? p.y/70+ 45 : 60,
-                    color = (p.z/(2+p.y/200))*(p.x/3)*(p.y/2)/12000+frames/17+134,
+                    color = (p.z)-p.y,
                     strokeLight = i+20<light ? i+20 : light;
 
                     context.fillStyle = `hsl(${color},50%,${light}%)`;
                     context.strokeStyle = `hsl(${color},50%,${light}%)`;
 
-                    createSquare(p,n1,n3,n2)
+                    // createSquare(p,n1,n3,n2)
+                    createTri(p,n1,n3,p)
+                    createTri(p,n2,n3,p)
 
                     context.save()
 
@@ -218,5 +222,25 @@ let canvas = document.createElement('canvas');
         context.stroke()
         // context.fill()
         
+    }
+
+       function createTri(p1,p2,p3,p4) {
+
+        context.beginPath()
+        context.moveTo(p1.x, p1.y)
+        context.lineTo(p2.x, p2.y)
+        context.lineTo(p3.x, p3.y)
+        context.lineTo(p4.x, p4.y)
+        context.stroke()
+        // context.fill()
+
+        context.beginPath()
+        context.moveTo(-p1.x, p1.y)
+        context.lineTo(-p2.x, p2.y)
+        context.lineTo(-p3.x, p3.y)
+        context.lineTo(-p4.x, p4.y)
+        context.stroke()
+        // context.fill()
+
     }
 
