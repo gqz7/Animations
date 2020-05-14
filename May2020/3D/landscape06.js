@@ -14,9 +14,9 @@ let canvas = document.createElement('canvas');
 
     renderPaused = false, //user can toggle animation
 
-    framesUp = true,
+    framesUp = false,
 
-    noiseSeed = Math.random(), //generates a random number to make each viewing of this animation unique
+    noiseSeed = Math.random()*3, //generates a random number to make each viewing of this animation unique
 
     mosPos = {
         x: width/2,
@@ -32,6 +32,9 @@ let canvas = document.createElement('canvas');
     landscapePoints = []; // array to contain sphere points before they are rendered
 
     //set styling 
+
+    console.log(noiseSeed);
+    
 
     document.body.style = 'margin: 0px;';
 
@@ -73,12 +76,12 @@ let canvas = document.createElement('canvas');
 
         renderLandscape() //render lines and shapes based on positions
 
-        if (framesUp && frames < 2777) {
-            frames+=13
-        } else if (framesUp && frames >= 2777) {
+        if (framesUp && frames < 597) {
+            frames+=2
+        } else if (framesUp && frames >= 597) {
             framesUp = false;
-        } if (!framesUp && frames > -111) {
-            frames-=20
+        } if (!framesUp && frames > -444) {
+            frames-=5
         } else {
             framesUp = true;
         }
@@ -109,14 +112,17 @@ let canvas = document.createElement('canvas');
             
             for (let y = 1; y < maxH; y*= 1.2*(1+inc/20)) {
 
-                let xVar = xCount < 3 ? 0 : xCount/3; 
+                let xVar = xCount < 3 ? 0 : xCount/3,
 
-                    z = Noise((xCount/20) + noiseSeed, (yCount/23-inc*10) + noiseSeed)*(xCount*xVar/3) + xVar*7.7;
+                    xNoise = (xCount/20) + noiseSeed,
+                    yNoise =  (yCount/23-inc*7) + noiseSeed,
+
+                    z = Noise(xNoise,yNoise);
                 
                 point = {
-                    x: (x*2)*(1 +((y*14)/77)),
+                    x: (x)*(1 +y*14/727)*(1+z*4),
                     y: y,
-                    z: z
+                    z: z * (xCount*xVar/2.7) + xVar*6.9
                 };
 
                 rotateY(pi/4)
@@ -150,21 +156,22 @@ let canvas = document.createElement('canvas');
                     n3 = landscapePoints[i+1][j+1],
 
                     light = p.y/70+45<60 ? p.y/70+ 45 : 60,
-                    color = (p.z)-p.y,
+                    color = ((p.z)-p.y)*.77,
                     strokeLight = i+20<light ? i+20 : light;
 
-                    context.strokeStyle = `hsl(${color+144},50%,${light}%)`;
+                    context.strokeStyle = `hsl(${color+frames/2},50%,${light}%)`;
 
-                    // createSquare(p,n1,n3,n2)
-                    createTri(p,n1,n3,p)
-                    createTri(p,n2,n3,p)
+                    createSquare(p,n1,n3,n2)
+                    // createTri(p,n1,n3,p)
+                    // createTri(p,n2,n3,p)
 
                     context.save()
 
                     context.rotate(pi)
-                    context.translate(0,frames/10 + 272)
+                    context.translate(0,342)
+                    // createTri(p,n1,n3,p)
+                    // createTri(p,n2,n3,p)
                     createSquare(p,n1,n3,n2)
-
                     context.restore()
             }   
         }
