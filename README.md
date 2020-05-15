@@ -3,31 +3,39 @@
 ### They are seperated into categories
 3D Sphere
 
-![](gg1.gif)
+![](GIFs/gg1.gif)
 
-![](globe.gif)
+![](GIFs/globe.gif)
 
-![](gg2.gif)
+![](GIFs/gg2.gif)
+
+3D Terrain
+
+![](GIFs/3D-terrain-v1.gif)
+
+![](GIFs/3D-terrain-v2.gif)
+
+![](GIFs/3D-terrain-v3.gif)
 
 Flower Of Life - Sacred Geometry
 
 flower of life
-![](flwrOfLyf.gif)
+![](GIFs/flwrOfLyf.gif)
 
 sirpinski triangle
-![](sirpinski-v2.gif)
+![](GIFs/sirpinski-v2.gif)
 
-![](tri-fractal-bnw.gif)
+![](GIFs/tri-fractal-bnw.gif)
 
 Star Feild
 
-![](starsv1.gif)
+![](GIFs/starsv1.gif)
 
-![](starsv2.gif)
+![](GIFs/starsv2.gif)
 
 Checkerboard Animation
 
-![](infinity_v1.gif)
+![](GIFs/infinity_v1.gif)
 
 <!-- ![](src.gif)
 ![](src.gif) -->
