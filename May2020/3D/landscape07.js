@@ -56,7 +56,7 @@ let canvas = document.createElement('canvas');
 
     document.body.appendChild(canvas);
 
-    context.translate(width/2,height-300)
+    context.translate(width/2,height/2+111)
 
    //ANIMATION CYCLE
 
