@@ -12,9 +12,9 @@ let canvas = document.createElement('canvas');
 
     frames = 0, //keep count of how many render cycles have occured
 
-    renderPaused = false, //user can toggle animation
+    renderPaused = true, //user can toggle animation
 
-    framesUp = false,
+    framesUp = true,
 
     noiseSeed = Math.random()*3, //generates a random number to make each viewing of this animation unique
 
@@ -112,24 +112,25 @@ let canvas = document.createElement('canvas');
             
             for (let y = 1; y < maxH; y*= 1.2*(1+inc/20)) {
 
-                let xVar = xCount < 3 ? 0 : xCount/3,
+                let xVar = xCount < 3 ? 0 : xCount/13,
 
                     xNoise = (xCount/20) + noiseSeed,
-                    yNoise =  (yCount/23-inc*7) + noiseSeed,
+                    yNoise =  (yCount/23-inc*17) + noiseSeed,
 
                     z = Noise(xNoise,yNoise);
                 
                 point = {
-                    x: (x)*(1 +y*14/727)*(1+z*4),
-                    y: y,
-                    z: z * (xCount*xVar/2.7) + xVar*6.9
+                    x: (x)*(1 +y*14/(frames+111)),
+                    y: y/(1+z/1),
+                    z: z * (xCount*xVar/2.7) + xCount*3.9,
+                    yC: yCount
                 };
 
-                rotateY(pi/4)
+                rotateY(pi/3)
                 // rotateX(pi/7)
                 // rotateZ(pi/4-frames/17000)
 
-                landscapePoints[x][yCount] = point;
+                landscapePoints[xCount][yCount] = point;
 
                 yCount++
 
@@ -145,7 +146,7 @@ let canvas = document.createElement('canvas');
 
         for (let i = landscapePoints.length-2; i >= 0; i--) {
             
-            for (let j = 0; j <= landscapePoints[i].length-2; j++) {
+            for (let j = landscapePoints[i].length-2; j >= 0; j--) {
 
                 let p = landscapePoints[i][j];
 
@@ -155,20 +156,22 @@ let canvas = document.createElement('canvas');
 
                     n3 = landscapePoints[i+1][j+1],
 
-                    light = p.y/70+45<60 ? p.y/70+ 45 : 60,
-                    color = ((p.z)-p.y)*.77,
-                    strokeLight = i+20<light ? i+20 : light;
+                    light = Math.pow(p.yC+3,1.4) < 60 ? Math.pow(p.yC+3,1.4) : 60;
+                    color = ((p.z)-p.y)*.77;
 
                     context.strokeStyle = `hsl(${color+frames/2},50%,${light}%)`;
+
+                    context.lineWidth = light < 60 ? light/100 : 1;
+                    context.save()
+                    context.translate(0,-frames/2)
 
                     createSquare(p,n1,n3,n2)
                     // createTri(p,n1,n3,p)
                     // createTri(p,n2,n3,p)
 
-                    context.save()
 
                     context.rotate(pi)
-                    context.translate(0,342)
+                    context.translate(0,342-frames)
                     // createTri(p,n1,n3,p)
                     // createTri(p,n2,n3,p)
                     createSquare(p,n1,n3,n2)
