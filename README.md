@@ -11,9 +11,9 @@
 
 3D Terrain
 
-![](GIFs/3D-Terrain/Natural-Terrain/landspace7.2)
+![](GIFs/3D-Terrain/Natural-Terrain/landspace7.2.gif)
 
-![](GIFs/3D-terrain-v2.gif)
+![](GIFs/3D-Terrain/Natural-Terrain/3D-terrain-v1.gif)
 
 ![](GIFs/3D-terrain-v3.gif)
 

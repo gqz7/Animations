@@ -197,7 +197,7 @@ let canvas = document.createElement('canvas');
 
         context.save()
 
-        context.translate(width/2, height/4)
+        context.translate(width/2, height/1-frames/1)
 
         for (let i = 0; i < Stars.length; i++) {
             
@@ -240,8 +240,8 @@ let canvas = document.createElement('canvas');
 
     function addStar() { //when one star dies another is born
 
-        let x = (width * Math.random())-width/2,
-            y = (height/2 * Math.random())-height/4,
+        let x = (width*1.2 * Math.random())-width/1.42 ,
+            y = (height/1.5 * Math.random())-height/4,
 
         lightness = 10;
 
