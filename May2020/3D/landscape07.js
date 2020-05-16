@@ -167,8 +167,7 @@ let canvas = document.createElement('canvas');
 
                     n3 = landscapePoints[i+1][j+1];
 
-                    context.strokeStyle = 'hotpink';
-
+                    context.strokeStyle = `hsl(${time/20+330},100%,50%)`;
                     context.beginPath()
                     context.moveTo(p.x, p.y)
                     context.lineTo(n1.x, n1.y)
@@ -185,7 +184,7 @@ let canvas = document.createElement('canvas');
                     context.stroke()
                     context.fill()
 
-                    context.strokeStyle = 'aqua';
+                    context.strokeStyle =  `hsl(${time/20+180},100%,50%)`;//
 
                     context.beginPath()
                     context.moveTo(-p.x, p.y)
