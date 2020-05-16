@@ -3,15 +3,15 @@
 ### They are seperated into categories
 3D Sphere
 
-![](GIFs/gg1.gif)
+![](GIFs/Globe/gg1.gif)
 
-![](GIFs/globe.gif)
+![](GIFs/Globe/globe.gif)
 
-![](GIFs/gg2.gif)
+![](GIFs/Globe/gg2.gif)
 
 3D Terrain
 
-![](GIFs/3D-terrain-v1.gif)
+![](GIFs/3D-Terrain/Natural-Terrain/landspace7.2)
 
 ![](GIFs/3D-terrain-v2.gif)
 
