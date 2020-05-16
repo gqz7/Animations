@@ -10,9 +10,9 @@ let canvas = document.createElement('canvas');
     width = canvas.width = window.innerWidth,
     height = canvas.height = window.innerHeight,
 
-    frames = 2, //keep count of how many render cycles have occured
+    frames = 48, //keep count of how many render cycles have occured
 
-    renderPaused = true, //user can toggle animation
+    renderPaused = false , //user can toggle animation
 
     framesUp = true;
 
@@ -27,8 +27,9 @@ let canvas = document.createElement('canvas');
         z: 0
     },
 
-    landscapePoints = []; // array to contain sphere points before they are rendered
+    landscapePoints = [], // array to contain sphere points before they are rendered
 
+    Stars = []; //array to contain star positions
     //set styling 
 
     document.body.style = 'margin: 0px;';
@@ -56,34 +57,47 @@ let canvas = document.createElement('canvas');
 
     document.body.appendChild(canvas);
 
-    context.translate(width/2,height/2+111)
+    context.translate(width/2,height/1.2)
 
+    context.strokeStyle = 'deeppink';
+    context.fillStyle = `indigo`;
+
+    context.lineWidth = .5;
+
+    let time = 0;
+   
    //ANIMATION CYCLE
-
-     createLandscape()
-     render()
+     createStars()
 
       function render() {
+
+          addStar()
+
+        time+=10
 
         clearFullScreen() //clear the canvas of previous animation cycle
 
         createLandscape() //create all the positions in an array
 
+        renderStars()
+
+        moveStars(42)
+
         renderLandscape() //render lines and shapes based on positions
 
-        if (framesUp && frames < 7377) {
-            frames+=23
-        } else if (framesUp && frames >= 7377) {
+        if (framesUp && frames < 2077) {
+            frames+=17
+        } else if (framesUp && frames >= 2077) {
             framesUp = false;
-        } if (!framesUp && frames > 2) {
-            frames-=23
+        } if (!framesUp && frames > 47) {
+            frames-=13
         } else {
             framesUp = true;
         }
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
-            setTimeout(window.requestAnimationFrame, 3, render)
+            setTimeout(window.requestAnimationFrame, 0, render)
         }
 
       }
@@ -91,7 +105,7 @@ let canvas = document.createElement('canvas');
     function createLandscape() {
 
         let wlim = (width/2)/13,
-            maxH = (height) *1.71,
+            maxH = (height) *2.62 +frames/4,
 
             inc = frames/1000;
 
@@ -105,31 +119,41 @@ let canvas = document.createElement('canvas');
 
             let yCount = 0;
             
-            for (let y = 1; y < maxH; y*= 1.2 * (1 + inc/10)) {
+            for (let y = 1; y < maxH; y*= 1.2 * (1 + frames/30000)) {
 
-                let z = Noise(Math.abs(xCount-100)/20-inc, yCount/10)*70+x*7
+                let xDis = x - 10 < 0 ? 0 : x-10;
+                    z = Noise(xCount/10, yCount/10 - inc)*(yCount*xDis/17) + xDis*5.7;
+
+                if (yCount == 0) {
+                    z = Noise(xCount, 1)*frames/50
+                }
+
                 
                 point = {
-                    x: (x*13)*(1 +((y*4)/777)),
+                    x: (x*13)*(1 +((y*4)/1444)),
                     y: y,
                     z: z
                 };
 
-                rotateY(Math.PI/3)
-
+                rotateY(Math.PI/2.1)
                 landscapePoints[x][yCount] = point;
 
                 yCount++
 
             }
-
             xCount++
-            
         }
-
     }
-
     function renderLandscape() {
+
+        context.beginPath()
+        context.moveTo(0, -20*frames/1000)
+        context.lineTo(42*frames/1000, 42*frames/1000)
+        context.lineTo(-42*frames/1000, 42*frames/1000)
+        context.lineTo(0, -20*frames/1000)
+        context.fill()
+        context.lineTo(0, 0)
+        context.stroke()
 
         for (let i = landscapePoints.length-2; i >= 0; i--) {
             
@@ -141,28 +165,46 @@ let canvas = document.createElement('canvas');
                     
                     n2 = landscapePoints[i+1][j],
 
-                    n3 = landscapePoints[i+1][j+1],
+                    n3 = landscapePoints[i+1][j+1];
 
-                    light = p.y/70+45<60 ? p.y/70+ 45 : 60,
-                    color = (p.z/(2+p.y/200))*(p.x/3)*(p.y/2)/12000+frames/17-60,
-                    strokeLight = i+20<light ? i+20 : light;
+                    context.strokeStyle = 'hotpink';
 
-                    context.fillStyle = `hsl(${color},50%,${light}%)`;
-                    context.strokeStyle = `hsl(${color},50%,${light}%)`;
+                    context.beginPath()
+                    context.moveTo(p.x, p.y)
+                    context.lineTo(n1.x, n1.y)
+                    context.lineTo(n3.x,n3.y)
+                    context.lineTo(p.x, p.y)
+                    context.stroke()
+                    context.fill()
 
-                    createSquare(p,n1,n3,n2)
+                    context.beginPath()
+                    context.moveTo(p.x, p.y)
+                    context.lineTo(n2.x, n2.y)
+                    context.lineTo(n3.x,n3.y)
+                    context.lineTo(p.x, p.y)
+                    context.stroke()
+                    context.fill()
 
-                    context.save()
+                    context.strokeStyle = 'aqua';
 
-                    context.rotate(Math.PI)
-                    context.translate(0,222)
-                    createSquare(p,n1,n3,n2)
+                    context.beginPath()
+                    context.moveTo(-p.x, p.y)
+                    context.lineTo(-n1.x, n1.y)
+                    context.lineTo(-n3.x,n3.y)
+                    context.lineTo(-p.x, p.y)
+                    context.stroke()
+                    context.fill()
 
-                    context.restore()
+                    context.beginPath()
+                    context.moveTo(-p.x, p.y)
+                    context.lineTo(-n2.x, n2.y)
+                    context.lineTo(-n3.x,n3.y)
+                    context.lineTo(-p.x, p.y)
+                    context.stroke()
+                    context.fill()
             }   
         }
     }
-
     //FUNCTIONS ROTATE A GIVEN POINT ABOUT THE 0,0,0 AXIS
     function rotateY(radians) {
 
@@ -170,23 +212,23 @@ let canvas = document.createElement('canvas');
         point.y = (y * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
         point.z = (y * Math.sin(radians)) + (point.z * Math.cos(radians));
     }
-    function rotateX(radians) {
-        
-        let x = point.x;
-        point.x = (x * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
-        point.z = (x * Math.sin(radians)) + (point.z * Math.cos(radians));
-    }
-    function rotateZ(radians) {
-        let x = point.x;
-        point.x = (x * Math.cos(radians)) + (point.y * Math.sin(radians) * -1.0);
-        point.y = (x * Math.sin(radians)) + (point.y * Math.cos(radians));
-    }
-    
-    //function used to map numbers from int into a radian range
-    function mapNumber (number, min1, max1, min2, max2) {
-        return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
-    };
+    function createStars() {
+        for (let i = 0; i < 30; i++) {
 
+            let x = 3000*Math.random()-1500,//(width * Math.random())-width/2,
+                y = 3000*Math.random()-1500,//(height/2 * Math.random())-height/4,
+
+                lightness = 70;
+             
+            Stars.push({
+                x: x, y: y, lightness: lightness
+            });
+            
+        }
+
+        render()
+    }
+   
     function clearFullScreen() {
 
         context.save();
@@ -195,26 +237,104 @@ let canvas = document.createElement('canvas');
         context.restore();
         
     }
+    function create_star_streak(x, y, lightness, index) {
 
-    function createSquare(p1,p2,p3,p4) {
+        // context.save()
 
-        context.beginPath()
-        context.moveTo(p1.x, p1.y)
-        context.lineTo(p2.x, p2.y)
-        context.lineTo(p3.x, p3.y)
-        context.lineTo(p4.x, p4.y)
-        context.lineTo(p1.x, p1.y)
-        context.stroke()
-        // context.fill()
+        x = x< 0 ? (x  - width/(time*2) - time/1000) : (x  + width/(time*2) + time/1000);
+            
+        let 
+        x1 = x,
+        y1 = y,
+        x2 = x*(1 + lightness/1300),
+        y2 = y*(1 + lightness/1300);
 
-        context.beginPath()
-        context.moveTo(-p1.x, p1.y)
-        context.lineTo(-p2.x, p2.y)
-        context.lineTo(-p3.x, p3.y)
-        context.lineTo(-p4.x, p4.y)
-        context.lineTo(-p1.x, p1.y)
-        context.stroke()
-        // context.fill()
+        // console.log(x1, y1, x2, y2);
         
+        // return
+        let
+        grad = context.createLinearGradient(x1, y1, x2, y2);
+
+        //set up gradient
+        grad.addColorStop(1, `hsl(0, 100%, ${lightness}%)`);
+        grad.addColorStop(6/7, `hsl(45, 100%, ${lightness}%)`);
+        grad.addColorStop(5/7, `hsl(90, 100%, ${lightness}%)`);
+        grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
+        grad.addColorStop(3/7, `hsl(180, 100%, ${lightness}%)`);
+        grad.addColorStop(2/7, `hsl(245, 100%, ${lightness}%)`);
+        grad.addColorStop(1/7, `hsl(305, 100%, ${lightness}%)`);
+        
+        context.strokeStyle = grad;
+        
+        //gradient line stroke 
+        context.beginPath();
+        context.moveTo(x1,y1);
+        context.lineTo(x2,y2);
+
+        context.lineWidth = (lightness/100) + .5;
+       
+        context.stroke();
+
+        // context.restore()
+
     }
 
+    function renderStars() {
+
+        context.save()
+
+        context.translate(0, -height/2-height/3-frames/10);
+
+        // console.log(Stars);
+        
+
+        for (let i = 0; i < Stars.length; i++) {
+            
+            create_star_streak(Stars[i].x, Stars[i].y, Stars[i].lightness, i);
+            
+        }
+
+        context.restore()
+
+    }
+    function moveStars(speed) {
+
+        for (let i = 0; i < Stars.length; i++) {
+
+            let NewX = Stars[i].x * (.979 + speed/4700 + Stars[i].lightness/1700),
+                NewY = Stars[i].y * (.979 + speed/4700 + Stars[i].lightness/1700);
+
+
+            if (NewX > width || NewX < -width || NewY > width/.5 || NewY < -width/.5) {
+
+                Stars.splice(i, 1); //if it goes off screen, delete it from the stars to be rendered
+
+                addStar() // then add a new one to replace it
+
+                i--
+
+            } else {
+
+                Stars[i].x = NewX;
+                Stars[i].y = NewY;
+
+                Stars[i].lightness = Stars[i].lightness <= 77 ? Stars[i].lightness * 1.02 : 77;
+
+            }
+           
+        }
+        
+    }
+    function addStar() { //when one star dies another is born
+
+        let x = (width * Math.random())-width/2,
+            y = (height * Math.random())-height/2,
+
+        lightness = 10;
+
+        // console.log(radius);
+        Stars.push({
+            x: x, y: y, lightness: lightness
+        });
+        
+    }
