@@ -3,43 +3,59 @@
 ### They are seperated into categories
 3D Sphere
 
-![](GIFs/Globe/gg1.gif)
+[See Globe Animations](https://github.com/GabrielQSherman//Animations/GIFs/Globe/readme.md)
+
+<!-- ![](GIFs/Globe/gg1.gif)
 
 ![](GIFs/Globe/globe.gif)
 
-![](GIFs/Globe/gg2.gif)
+![](GIFs/Globe/gg2.gif) -->
 
 3D Terrain
 
+[See 3D Terrain Animations](https://github.com/GabrielQSherman//Animations/GIFs/3D-Terrain/readme.md)
+
+<!-- 
 ![](GIFs/3D-Terrain/Natural-Terrain/landspace7.2.gif)
 
-![](GIFs/3D-Terrain/Natural-Terrain/3D-terrain-v1.gif)
-
-![](GIFs/3D-terrain-v3.gif)
+![](GIFs/3D-Terrain/Natural-Terrain/3D-terrain-v1.gif) -->
 
 Flower Of Life - Sacred Geometry
 
-flower of life
-![](GIFs/flwrOfLyf.gif)
+[See Sacred Geometry Animations](https://github.com/GabrielQSherman//Animations/GIFs/Sacred-Geometry/readme.md)
+
+<!-- ![](GIFs/Sacred-Geometry/flwrOfLyf.gif)
 
 sirpinski triangle
-![](GIFs/sirpinski-v2.gif)
+![](GIFs/Sacred-Geometry/sirpinski-v2.gif)
 
-![](GIFs/tri-fractal-bnw.gif)
+![](GIFs/Sacred-Geometry/tri-fractal-bnw.gif) -->
 
 Star Feild
 
-![](GIFs/starsv1.gif)
+[See Sacred Geometry Animations](https://github.com/GabrielQSherman//Animations/GIFs/Stars/readme.md)
 
-![](GIFs/starsv2.gif)
+
+<!-- ![](GIFs/Stars/starsv1.gif) -->
 
 Checkerboard Animation
 
-![](GIFs/infinity_v1.gif)
+[See Checkerboard Animations](https://github.com/GabrielQSherman//Animations/GIFs/Checkerboard/readme.md)
 
+<!-- ![](GIFs/infinity_v1.gif) -->
+
+Ying Yang
+
+[See Ying Yang Animations](https://github.com/GabrielQSherman//Animations/GIFs/YingYang/readme.md)
+<!-- 
+![](GIFs/YingYang/tri-yinyang.gif)
+![](GIFs/YingYang/tri-yinyang.gif)
+![](GIFs/YingYang/tri-yinyang.gif) -->
+<!-- ![](GIFs/$Category/$src.gif) -->
 <!-- ![](src.gif)
 ![](src.gif) -->
-My inspiration for many of these animations comes from natures itself. I am very facinates by the fractals that appear in the phenomonal world. These are all the animations I have created in my journey as a delevopler and digital artist.
+
+<!-- My inspiration for many of these animations comes from natures itself. I am very facinates by the fractals that appear in the phenomonal world. These are all the animations I have created in my journey as a delevopler and digital artist.
 
 Notes
 
@@ -60,4 +76,4 @@ i made substancial progess working with the idea of a checkerboard that can be a
 
 In the past couple months ive gone onto some experimental projects, trying out diffrent techniques to see what works and what doesnt, I have found some cool designs and finished up my checkerboard animations although I would love to get back into thoes. 
 
-I've made great progress on an idea i had wanted to try out for a really long time. Moving stars in space. I started with just circles in random locations and moved up to gradient ranbows that appear to whizz past the viewer. My next step in this field is calculating positions in 3 dimensions. So far I have only worked with two but I need to step up the challenge
+I've made great progress on an idea i had wanted to try out for a really long time. Moving stars in space. I started with just circles in random locations and moved up to gradient ranbows that appear to whizz past the viewer. My next step in this field is calculating positions in 3 dimensions. So far I have only worked with two but I need to step up the challenge -->
