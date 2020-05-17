@@ -3,59 +3,31 @@
 ### They are seperated into categories
 3D Sphere
 
-[See Globe Animations](https://github.com/GabrielQSherman//Animations/GIFs/Globe)
+[See Globe Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Globe)
 
-<!-- ![](GIFs/Globe/gg1.gif)
-
-![](GIFs/Globe/globe.gif)
-
-![](GIFs/Globe/gg2.gif) -->
 
 3D Terrain
 
-[See 3D Natural Terrain Animations](https://github.com/GabrielQSherman//Animations/GIFs/3D-Terrain/Natural-Terrain)
+[See 3D Natural Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Natural-Terrain)
 
-[See 3D Abstract Terrain Animations](https://github.com/GabrielQSherman//Animations/GIFs/3D-Terrain/Abstract-Terrain)
-
-<!-- 
-![](GIFs/3D-Terrain/Natural-Terrain/landspace7.2.gif)
-
-![](GIFs/3D-Terrain/Natural-Terrain/3D-terrain-v1.gif) -->
+[See 3D Abstract Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Abstract-Terrain)
 
 Flower Of Life - Sacred Geometry
 
-[See Sacred Geometry Animations](https://github.com/GabrielQSherman//Animations/GIFs/Sacred-Geometry)
-
-<!-- ![](GIFs/Sacred-Geometry/flwrOfLyf.gif)
-
-sirpinski triangle
-![](GIFs/Sacred-Geometry/sirpinski-v2.gif)
-
-![](GIFs/Sacred-Geometry/tri-fractal-bnw.gif) -->
+[See Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry)
 
 Star Feild
 
-[See Sacred Geometry Animations](https://github.com/GabrielQSherman//Animations/GIFs/Stars)
+[See Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Stars)
 
 
-<!-- ![](GIFs/Stars/starsv1.gif) -->
+Checkerboard
 
-Checkerboard Animation
-
-[See Checkerboard Animations](https://github.com/GabrielQSherman//Animations/GIFs/Checkerboard)
-
-<!-- ![](GIFs/infinity_v1.gif) -->
+[See Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard)
 
 Ying Yang
 
-[See Ying Yang Animations](https://github.com/GabrielQSherman//Animations/GIFs/YingYang)
-<!-- 
-![](GIFs/YingYang/tri-yinyang.gif)
-![](GIFs/YingYang/tri-yinyang.gif)
-![](GIFs/YingYang/tri-yinyang.gif) -->
-<!-- ![](GIFs/$Category/$src.gif) -->
-<!-- ![](src.gif)
-![](src.gif) -->
+[See Ying Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/YingYang)
 
 <!-- My inspiration for many of these animations comes from natures itself. I am very facinates by the fractals that appear in the phenomonal world. These are all the animations I have created in my journey as a delevopler and digital artist.
 
