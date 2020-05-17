@@ -3,7 +3,7 @@
 ### They are seperated into categories
 3D Sphere
 
-[See Globe Animations](https://github.com/GabrielQSherman//Animations/GIFs/Globe/readme.md)
+[See Globe Animations](https://github.com/GabrielQSherman//Animations/GIFs/Globe)
 
 <!-- ![](GIFs/Globe/gg1.gif)
 
@@ -13,7 +13,9 @@
 
 3D Terrain
 
-[See 3D Terrain Animations](https://github.com/GabrielQSherman//Animations/GIFs/3D-Terrain/readme.md)
+[See 3D Natural Terrain Animations](https://github.com/GabrielQSherman//Animations/GIFs/3D-Terrain/Natural-Terrain)
+
+[See 3D Abstract Terrain Animations](https://github.com/GabrielQSherman//Animations/GIFs/3D-Terrain/Abstract-Terrain)
 
 <!-- 
 ![](GIFs/3D-Terrain/Natural-Terrain/landspace7.2.gif)
@@ -22,7 +24,7 @@
 
 Flower Of Life - Sacred Geometry
 
-[See Sacred Geometry Animations](https://github.com/GabrielQSherman//Animations/GIFs/Sacred-Geometry/readme.md)
+[See Sacred Geometry Animations](https://github.com/GabrielQSherman//Animations/GIFs/Sacred-Geometry)
 
 <!-- ![](GIFs/Sacred-Geometry/flwrOfLyf.gif)
 
@@ -33,20 +35,20 @@ sirpinski triangle
 
 Star Feild
 
-[See Sacred Geometry Animations](https://github.com/GabrielQSherman//Animations/GIFs/Stars/readme.md)
+[See Sacred Geometry Animations](https://github.com/GabrielQSherman//Animations/GIFs/Stars)
 
 
 <!-- ![](GIFs/Stars/starsv1.gif) -->
 
 Checkerboard Animation
 
-[See Checkerboard Animations](https://github.com/GabrielQSherman//Animations/GIFs/Checkerboard/readme.md)
+[See Checkerboard Animations](https://github.com/GabrielQSherman//Animations/GIFs/Checkerboard)
 
 <!-- ![](GIFs/infinity_v1.gif) -->
 
 Ying Yang
 
-[See Ying Yang Animations](https://github.com/GabrielQSherman//Animations/GIFs/YingYang/readme.md)
+[See Ying Yang Animations](https://github.com/GabrielQSherman//Animations/GIFs/YingYang)
 <!-- 
 ![](GIFs/YingYang/tri-yinyang.gif)
 ![](GIFs/YingYang/tri-yinyang.gif)
