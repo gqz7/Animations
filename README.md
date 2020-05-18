@@ -20,7 +20,7 @@
 
 [Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard)
 
-[Ying Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Ying-Yang)
+[Yin Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Yin-Yang)
 
 <!-- My inspiration for many of these animations comes from natures itself. I am very facinates by the fractals that appear in the phenomonal world. These are all the animations I have created in my journey as a delevopler and digital artist.
 
