@@ -1,4 +1,7 @@
-# AnimationPorfolio
+# Gabriel Sherman's Javascript Animation Porfolio
+
+<p>&nbsp<p>
+
 ## Explore the many categories bellow and view gifs representive to the JavaScript animations in this repository.
 
 <p>&nbsp<p><p>&nbsp<p><p>&nbsp<p>
@@ -6,23 +9,18 @@
 #### click links to see all GIFs in a given category
 
 [3D Sphere Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Globe)
-<p>&nbsp<p>
 
 [3D Natural Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Natural-Terrain)
 
 [3D Abstract Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Abstract-Terrain)
-<p>&nbsp<p>
 
 [Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry)
-<p>&nbsp<p>
 
 [Star Field Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Stars)
-<p>&nbsp<p>
 
 [Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard)
-<p>&nbsp<p>
 
-[Ying Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/YingYang)
+[Ying Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Ying-Yang)
 
 <!-- My inspiration for many of these animations comes from natures itself. I am very facinates by the fractals that appear in the phenomonal world. These are all the animations I have created in my journey as a delevopler and digital artist.
 
