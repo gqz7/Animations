@@ -1,3 +1,5 @@
+[Back To Categories](https://github.com/GabrielQSherman/Animations/tree/master)
+
 # Checkerboard Animations
 
 ![](infinity.gif)
