@@ -7,20 +7,25 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      strokeW = 13,
+      strokeW = 1,
       
-      pauseAnimation = false;
+      pauseAnimation = false,
+
+      colorIndex = 0,
+
+      colorPairs = [['hotpink', 'lime'], ['lightsalmon', 'skyblue'], ['darkslategrey', 'lightgoldenrodyellow'], ['plum', 'yellow']];
 
 context.strokeStyle = 'white';
+context.fillStyle = 'white';
 
 context.lineWidth = strokeW;
 
 canvas.style = ` display: block;
-            position: static;
-            top: 0px;
-            left: 0px;
-            cursor: none;
-            margin:auto`;
+                position: static;
+                top: 0px;
+                left: 0px;
+                cursor: none;
+                margin:auto`;
 
 canvas.style = `display: block;
                 // position: static;
@@ -58,29 +63,45 @@ function userInputEvent(input) {
         function render() {
 
 
-        time = time < 3 ? time+.03: 0;
+        time = time < 3.14 ? time+.01: 0;
+
+        if (time == 0 ) {
+            colorIndex = colorIndex < 3 ? colorIndex+1 : 0;
+        }
 
         clearFullScreen()
 
-        // context.rotate(.01d)
-        createImg(100)
+        context.save()
+        createImg(time*100 + 7)
+        context.translate(-time*200-10,0)
+        createImg(time*100 + 7)
+        context.translate(time*400+20,0)
+        createImg(time*100 + 7)
+        context.restore()
 
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame, 30, render)
+            setTimeout(window.requestAnimationFrame, 0, render)
         }
 
       }
 
 function createImg(size) { 
 
+    let nsw = strokeW+size/5;
+
+    context.lineWidth = nsw;
+
     context.save()
 
     for (let i = 0; i < 6; i++) {
 
         if (i%2==0) {
-            context.strokeStyle = 'hotpink'
+            context.strokeStyle = colorPairs[colorIndex][0]
+            context.fillStyle = colorPairs[colorIndex][0]
+
         } else {
-            context.strokeStyle = 'limegreen'
+            context.strokeStyle = colorPairs[colorIndex][1]
+            context.fillStyle = colorPairs[colorIndex][1]
         }
 
         context.beginPath()
@@ -90,10 +111,21 @@ function createImg(size) {
         
         context.stroke()
 
+        context.beginPath()
+
+        // context.arc(size+(Math.sqrt(3)*nsw/4) , -Math.sqrt(3)*size/3+nsw/4, 1, 0,Math.PI*2)
+        context.moveTo( size+(Math.sqrt(3)*nsw/2) , -Math.sqrt(3)*size/3 -nsw/2 );
+        context.lineTo(size,-Math.sqrt(3)*size/3-nsw/2)
+        context.lineTo(size-5,-Math.sqrt(3)*size/3)
+        context.lineTo(size+(Math.sqrt(3)*nsw/4) , -Math.sqrt(3)*size/3+nsw/4)
+        context.lineTo(size+(Math.sqrt(3)*nsw/2) , -Math.sqrt(3)*size/3 -nsw/2)
+
+        context.fill()
+
         context.rotate(Math.PI/3)
     }
     
-    context.strokeStyle = 'hotpink'
+    context.strokeStyle = colorPairs[colorIndex][0]
     
     context.beginPath()
 
@@ -101,8 +133,6 @@ function createImg(size) {
         context.lineTo(0,-Math.sqrt(3)*size/3)
         
     context.stroke()
-
-
 
     context.restore()
     
