@@ -1,10 +1,12 @@
 # AnimationPorfolio
-## Gifs to represent programs created in pure JavaScript
-### They are seperated into categories
+## Explore the many categories bellow and view gifs representive to the JavaScript animations in this repository.
+#### links will lead to gifs of animations on a given category
+
+<p>&nbsp<p><p>&nbsp<p><p>&nbsp<p>
+
 3D Sphere
 
 [See Globe Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Globe)
-
 
 3D Terrain
 
