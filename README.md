@@ -1,35 +1,28 @@
 # AnimationPorfolio
 ## Explore the many categories bellow and view gifs representive to the JavaScript animations in this repository.
-#### links will lead to gifs of animations on a given category
 
 <p>&nbsp<p><p>&nbsp<p><p>&nbsp<p>
 
-3D Sphere
+#### click links to see all GIFs in a given category
 
-[See Globe Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Globe)
+[3D Sphere Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Globe)
+<p>&nbsp<p>
 
-3D Terrain
+[3D Natural Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Natural-Terrain)
 
-[See 3D Natural Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Natural-Terrain)
+[3D Abstract Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Abstract-Terrain)
+<p>&nbsp<p>
 
-[See 3D Abstract Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Abstract-Terrain)
+[Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry)
+<p>&nbsp<p>
 
-Flower Of Life - Sacred Geometry
+[Star Field Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Stars)
+<p>&nbsp<p>
 
-[See Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry)
+[Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard)
+<p>&nbsp<p>
 
-Star Feild
-
-[See Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Stars)
-
-
-Checkerboard
-
-[See Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard)
-
-Ying Yang
-
-[See Ying Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/YingYang)
+[Ying Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/YingYang)
 
 <!-- My inspiration for many of these animations comes from natures itself. I am very facinates by the fractals that appear in the phenomonal world. These are all the animations I have created in my journey as a delevopler and digital artist.
 
