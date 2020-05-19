@@ -57,7 +57,7 @@ let canvas = document.createElement('canvas');
 
     document.body.appendChild(canvas);
 
-    context.translate(width/2,height/1.2)
+    context.translate(width/2,height/2.1)
 
     context.strokeStyle = 'deeppink';
     context.fillStyle = `indigo`;
@@ -78,9 +78,9 @@ let canvas = document.createElement('canvas');
 
         renderLandscape() //render lines and shapes based on positions
 
-        if (framesUp && frames < 2077) {
+        if (framesUp && frames < 20077) {
             frames+=27
-        } else if (framesUp && frames >= 2077) {
+        } else if (framesUp && frames >= 20077) {
             framesUp = false;
         } if (!framesUp && frames > 47) {
             frames-=23
@@ -97,8 +97,9 @@ let canvas = document.createElement('canvas');
 
     function createLandscape() {
 
-        let wlim = (width/2)/13,
-            maxH = (height) *2.62 +frames/4,
+
+        let wlim = (width)/22,
+            hlim = (height)/14,
 
             inc = frames/1000;
 
@@ -106,30 +107,24 @@ let canvas = document.createElement('canvas');
 
             landscapePoints = [];
 
-        for (let x = 0; x < wlim; x++) {
+        for (let x = 1; x < wlim; x++) {
 
             landscapePoints.push([]);
 
             let yCount = 0;
             
-            for (let y = 1; y < maxH; y*= 1.2 * (1 + frames/30000)) {
+            for (let y = 1; y < hlim; y++) {
 
-                let xDis = x - 10 < 0 ? 0 : x-10;
-                    z = Noise(xCount/10, yCount/10 - inc)*(yCount*xDis/17) + xDis*5.7;
-
-                if (yCount == 0) {
-                    z = Noise(xCount, 1)*frames/50
-                }
-
+                let z = Noise(xCount/10+inc, yCount/10)*(120/hlim+3-y);
                 
                 point = {
-                    x: (x*13)*(1 +((y*4)/1444)),
-                    y: y,
+                    x: x*23-50,
+                    y: y*26,
                     z: z
                 };
 
-                rotateY(Math.PI/2.1)
-                landscapePoints[x][yCount] = point;
+                rotateY((Math.PI/2.5))
+                landscapePoints[xCount][yCount] = point;
 
                 yCount++
 
@@ -138,16 +133,11 @@ let canvas = document.createElement('canvas');
         }
     }
 
-    function renderLandscape() {
+    function renderLandscape() { 
 
-        context.beginPath()
-        context.moveTo(0, -20*frames/1000)
-        context.lineTo(42*frames/1000, 42*frames/1000)
-        context.lineTo(-42*frames/1000, 42*frames/1000)
-        context.lineTo(0, -20*frames/1000)
-        context.fill()
-        context.lineTo(0, 0)
-        context.stroke()
+        context.save()
+
+        context.translate(-width/2,0)
 
         for (let i = landscapePoints.length-2; i >= 0; i--) {
             
@@ -179,25 +169,27 @@ let canvas = document.createElement('canvas');
                     context.stroke()
                     context.fill()
 
-                    context.strokeStyle = 'aqua';
+                    // context.strokeStyle = 'aqua';
 
-                    context.beginPath()
-                    context.moveTo(-p.x, p.y)
-                    context.lineTo(-n1.x, n1.y)
-                    context.lineTo(-n3.x,n3.y)
-                    context.lineTo(-p.x, p.y)
-                    context.stroke()
-                    context.fill()
+                    // context.beginPath()
+                    // context.moveTo(-p.x, p.y)
+                    // context.lineTo(-n1.x, n1.y)
+                    // context.lineTo(-n3.x,n3.y)
+                    // context.lineTo(-p.x, p.y)
+                    // context.stroke()
+                    // context.fill()
 
-                    context.beginPath()
-                    context.moveTo(-p.x, p.y)
-                    context.lineTo(-n2.x, n2.y)
-                    context.lineTo(-n3.x,n3.y)
-                    context.lineTo(-p.x, p.y)
-                    context.stroke()
-                    context.fill()
+                    // context.beginPath()
+                    // context.moveTo(-p.x, p.y)
+                    // context.lineTo(-n2.x, n2.y)
+                    // context.lineTo(-n3.x,n3.y)
+                    // context.lineTo(-p.x, p.y)
+                    // context.stroke()
+                    // context.fill()
             }   
         }
+
+        context.restore()
     }
 
     //FUNCTIONS ROTATE A GIVEN POINT ABOUT THE 0,0,0 AXIS
@@ -211,7 +203,7 @@ let canvas = document.createElement('canvas');
     function createStars() {
         for (let i = 0; i < 1000; i++) {
             
-            Stars.push({x: Math.random()*width, y: Math.random()*height})
+            Stars.push({x: Math.random()*width*2, y: Math.random()*height})
             
         }
     }
@@ -222,8 +214,8 @@ let canvas = document.createElement('canvas');
 
             let s = Stars[i],
 
-            x = s.x-width/2,
-            y = s.y-height/1.2 - frames/10;
+            x = s.x-width/2 - frames/40,
+            y = s.y-height/1.2;
             
             context.beginPath()
             context.arc(x,y,.3,0,Math.PI*2);
