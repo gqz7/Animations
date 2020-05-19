@@ -14,7 +14,9 @@ let canvas = document.createElement('canvas');
 
     renderPaused = true, //user can toggle animation
 
-    framesUp = true;
+    framesUp = true,
+
+    noiseSeed = Math.random()*10,
 
     mosPos = {
         x: width/2,
@@ -57,7 +59,7 @@ let canvas = document.createElement('canvas');
 
     document.body.appendChild(canvas);
 
-    context.translate(width/2,height/2.1)
+    context.translate(width/2,height/2)
 
     context.strokeStyle = 'deeppink';
     context.fillStyle = `indigo`;
@@ -98,7 +100,7 @@ let canvas = document.createElement('canvas');
     function createLandscape() {
 
 
-        let wlim = (width)/22,
+        let wlim = (width)/14,
             hlim = (height)/14,
 
             inc = frames/1000;
@@ -115,7 +117,7 @@ let canvas = document.createElement('canvas');
             
             for (let y = 1; y < hlim; y++) {
 
-                let z = Noise(xCount/10+inc, yCount/10)*(120/hlim+3-y);
+                let z = Noise(xCount/10+inc, yCount/10+noiseSeed)*(360/(y+4));
                 
                 point = {
                     x: x*23-50,
@@ -124,6 +126,8 @@ let canvas = document.createElement('canvas');
                 };
 
                 rotateY((Math.PI/2.5))
+                rotateX(.5)
+
                 landscapePoints[xCount][yCount] = point;
 
                 yCount++
@@ -200,6 +204,13 @@ let canvas = document.createElement('canvas');
         point.z = (y * Math.sin(radians)) + (point.z * Math.cos(radians));
     }
 
+    function rotateX(radians) {
+
+        let x = point.x;
+        point.x = (x * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
+        point.z = (x * Math.sin(radians)) + (point.z * Math.cos(radians));
+    }
+
     function createStars() {
         for (let i = 0; i < 1000; i++) {
             
@@ -214,7 +225,7 @@ let canvas = document.createElement('canvas');
 
             let s = Stars[i],
 
-            x = s.x-width/2 - frames/40,
+            x = s.x-width/2 - frames/12,
             y = s.y-height/1.2;
             
             context.beginPath()
