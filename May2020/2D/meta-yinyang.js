@@ -15,16 +15,39 @@ let canvas = document.createElement('canvas');
      render()
 
       function render() {
-        time = time < 200 ? time + 1 : 200;
+        time = time < Math.PI*2 ? time + .01 : 0;
 
         clearFullScreen()
 
-        yinyang(200)
-        context.rotate(.01)
+        metaYY(200)
 
         setTimeout(window.requestAnimationFrame, 0, render)
 
       }
+
+    function metaYY(size) {
+
+        context.save()
+
+            context.rotate(time)
+
+            context.translate(-size,0)
+
+            context.save()
+            context.rotate(-time*2)
+            yinyang(size)
+            context.restore();
+
+            context.translate(size*2,0)
+
+            context.save()
+            context.rotate(-time*2)
+            yinyang(size)
+            context.restore();
+
+        context.restore();
+
+    }
 
     function yinyang(radius) {
 
