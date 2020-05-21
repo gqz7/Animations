@@ -13,16 +13,18 @@ canvas.style = `display: block;
                 left: 0px;
                 cursor: none;
                 margin:auto;
-                background-color: hsl(0,0%,27%)`;
+                background-color: hsl(177,77%,57%)`;
 
 document.body.style = `margin: 0`;
 
 
 document.body.appendChild(canvas)
 
-context.translate(width/2, height);
+context.translate(width/2, height-70);
 
 context.strokeStyle = "white";
+
+context.lineWidth = 2;
 
 context.beginPath();
 context.moveTo(0,100);
@@ -55,9 +57,11 @@ let startLength = 100,
 
         let tempNoise = Noise(time/100,time/100+seed),
             tempSize = time/3 + bLim,
-            tempAngle = branchAngle+time/1000-tempNoise/30;
+            tempAngle = branchAngle+time/1000-tempNoise/70;
 
-            // blim = 20 + tempNoise;
+            blim = 20 + tempNoise*1000;
+
+        createBackground()
 
         create_tree(tempAngle, tempSize, tempNoise);
         //user can toggle pausing of animation via 'spacebar'
@@ -70,8 +74,10 @@ let startLength = 100,
 
 function create_tree(angle, length, noise) { //recersive fractal tree function
     //first a line is created to be the trunk. each branch will be a new 'trunk'
-    context.strokeStyle = `hsl(${time*2+length}, 100%, 70%)`;
-    
+    let light = 100-length < 50 ? 50 : 100-length;
+    context.strokeStyle = `hsl(${time/2+length/2}, 100%, ${light}%)`;
+    context.lineWidth = length/10;
+
     context.save()
 
         context.beginPath()
@@ -118,6 +124,16 @@ function create_tree(angle, length, noise) { //recersive fractal tree function
         }
 
     context.restore()
+}
+
+function createBackground() {
+
+    context.fillStyle = `hsl(133, 60%, 40%)`;
+
+    context.beginPath()
+    context.rect(-width/2,80,width,-100)
+    context.fill()
+
 }
 
 function clearFullScreen() { 
