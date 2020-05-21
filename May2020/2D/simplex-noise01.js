@@ -22,15 +22,7 @@ context.fillStyle = 'white';
 
 context.lineWidth = strokeW;
 
-canvas.style = ` display: block;
-                position: static;
-                top: 0px;
-                left: 0px;
-                cursor: none;
-                margin:auto`;
-
 canvas.style = `display: block;
-                // position: static;
                 top: 0px;
                 left: 0px;
                 cursor: none;
