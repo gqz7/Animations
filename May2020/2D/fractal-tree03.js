@@ -22,6 +22,9 @@ document.body.appendChild(canvas)
 
 context.translate(width/2, height-70);
 
+context.rotate(-Math.PI)
+
+
 context.strokeStyle = "white";
 
 context.lineWidth = 2;
@@ -35,9 +38,11 @@ let startLength = 100,
     time = 0,
     pauseAnimation = true,
     timeForward = true,
-    branchAngle = Math.PI / 4,
-    divisor = .72,
-    bLim = 20,
+    branchAngle = Math.PI/2,
+    divisor = .82,
+    tempNoise1,
+    tempNoise2,
+    bLim = 40,
 
     branchPos; //array of objects, all positions of the individual branches 
 
@@ -47,9 +52,9 @@ let startLength = 100,
 
         clearFullScreen()
 
-        if (timeForward && time < 777) {
-            time++
-        } else if (timeForward && time >= 777) {
+        if (timeForward && time < 1000) {
+            time+=2
+        } else if (timeForward && time >= 1000) {
             timeForward = false;
         } if (!timeForward && time > 0) {
             time--
@@ -61,7 +66,7 @@ let startLength = 100,
 
         startTree();
 
-        return
+        // return
 
         if (!pauseAnimation) {
             setTimeout(window.requestAnimationFrame, 0, render);
@@ -71,20 +76,22 @@ let startLength = 100,
 
 function startTree() {
 
-    let tempNoise = Noise(time/100,time/100+seed),
-    tempSize = time/3 + bLim-tempNoise*3,
-    tempAngle = branchAngle+time/1000-tempNoise/70;
+    tempNoise1 = Noise(time/300,time/300+seed);
+    tempNoise2 = Noise(time/300,time/300-seed);
 
-    blim = 20 + tempNoise*1000;
+    let 
+    tempSize = time/8 + bLim-tempNoise1*3,
+    tempAngle = branchAngle-time/1000-tempNoise1/70;
+
+    blim = 20 + tempNoise1*1000;
 
     branchPos = [];
     
-    create_tree(tempAngle, 200, {s: {x:0, y:0} , e: {x:0, y:0} });
+    create_tree(tempAngle, tempSize, {s: {x:0, y:0} , e: {x:0, y:0} });
     //user can toggle pausing of animation via 'spacebar'
 
     context.save()
 
-    context.rotate(-Math.PI)
     
     branchPos.push({s: {x:0, y:-200} , e: {x:0, y:0}, l:200})
     context.translate(0,200)
@@ -92,15 +99,15 @@ function startTree() {
 
     context.restore();
 
-    console.log(branchPos);
+    // console.log(branchPos);
 
 }
 
 
 function create_tree(angle, length, last) { 
     
-    let endX = last.e.x + length * Math.cos(angle), 
-        endY = last.e.y + length * Math.sin(angle),
+    let endX = (last.e.x + length * Math.sin(angle)),//*(.5+time/400), 
+        endY = (last.e.y + length * Math.cos(angle)),//*(.5+time/400),
         startX = last.e.x, 
         startY = last.e.y,
 
@@ -116,27 +123,11 @@ function create_tree(angle, length, last) {
 
         if(length > bLim) { //if the branch length is still large enough two more branches will be appended to the trunk
     
-            create_tree(angle, length, branchObj ); //the right branch is created all the way down before the left side will continue
+            create_tree(angle*(tempNoise1/2+.8), length, branchObj ); //the right branch is created all the way down before the left side will continue
 
-            create_tree(-angle, length, branchObj);
+            create_tree(-angle*(tempNoise2/2+.8), length, branchObj);
 
-        } else {
-
-            // let g = mapNumber(length/bLim, divisor, 1, 0, 1);
-            
-            // context.rotate(-angle*g)
-            // context.beginPath()
-            // context.moveTo(0, 0)
-            // context.lineTo(0, -length*g)
-            // context.stroke()
-
-            // context.rotate(angle*2*g)
-            // context.beginPath()
-            // context.moveTo(0, 0)
-            // context.lineTo(0, -length*g)
-            // context.stroke()
-
-        }
+        } 
 
 }
 
@@ -149,7 +140,7 @@ function render_tree() {
         color = time/2+b.l/2;
 
         context.strokeStyle = `hsl(${color}, 100%, ${light}%)`;
-        // context.lineWidth = b.l/10;
+        context.lineWidth = b.l/10;
        
         context.beginPath()
         context.moveTo(-b.s.x, b.s.y)
@@ -170,7 +161,7 @@ function createBackground() {
     context.fillStyle = `hsl(133, 60%, 40%)`;
 
     context.beginPath()
-    context.rect(-width/2,80,width,-100)
+    context.rect(-width/2,80,width,-150)
     context.fill()
 
 }
