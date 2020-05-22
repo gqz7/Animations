@@ -35,7 +35,7 @@ let startLength = 100,
     time = 0,
     pauseAnimation = true,
     timeForward = true,
-    branchAngle = Math.PI / 17,
+    branchAngle = Math.PI / 4,
     divisor = .72,
     bLim = 20,
 
@@ -57,77 +57,112 @@ let startLength = 100,
             timeForward = true;
         }
 
-        let tempNoise = Noise(time/100,time/100+seed),
-            tempSize = time/3 + bLim-tempNoise*3,
-            tempAngle = branchAngle+time/1000-tempNoise/70;
+        createBackground();
 
-            blim = 20 + tempNoise*1000;
+        startTree();
 
-        createBackground()
+        return
 
-        create_tree(tempAngle, tempSize, tempNoise);
-        //user can toggle pausing of animation via 'spacebar'
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame, 0, render)
+            setTimeout(window.requestAnimationFrame, 0, render);
         }
 
       }
 
+function startTree() {
 
-function create_tree(angle, length, last) { //recersive fractal tree function
-    //first a line is created to be the trunk. each branch will be a new 'trunk'
-    let light = 100-length < 50 ? 50 : 100-length,
-        color = 120;//time/2+length/2;
+    let tempNoise = Noise(time/100,time/100+seed),
+    tempSize = time/3 + bLim-tempNoise*3,
+    tempAngle = branchAngle+time/1000-tempNoise/70;
 
-    context.strokeStyle = `hsl(${color}, 100%, ${light}%)`;
-    context.lineWidth = length/10;
+    blim = 20 + tempNoise*1000;
+
+    branchPos = [];
+    
+    create_tree(tempAngle, 200, {s: {x:0, y:0} , e: {x:0, y:0} });
+    //user can toggle pausing of animation via 'spacebar'
 
     context.save()
 
-        context.beginPath()
-        context.moveTo(0, 0)
-        context.lineTo(0, -length)
-        context.stroke()
+    context.rotate(-Math.PI)
+    
+    branchPos.push({s: {x:0, y:-200} , e: {x:0, y:0}, l:200})
+    context.translate(0,200)
+    render_tree()
 
-        // context.translate(0, -length);
+    context.restore();
+
+    console.log(branchPos);
+
+}
+
+
+function create_tree(angle, length, last) { 
+    
+    let endX = last.e.x + length * Math.cos(angle), 
+        endY = last.e.y + length * Math.sin(angle),
+        startX = last.e.x, 
+        startY = last.e.y,
+
+        branchObj = {
+        s: {x: startX, y: startY},
+        e: {x: endX, y: endY},
+        l: length
+    }
+
+    branchPos.push(branchObj)
+
         length *= divisor;
 
         if(length > bLim) { //if the branch length is still large enough two more branches will be appended to the trunk
-        //saving position before right branch is made
-        // context.save()
-        context.rotate(angle)
-        create_tree(angle, length); //the right branch is created all the way down before the left side will continue
-        
-        // context.restore()
-        ///////////////
-        
-        //////////////
-        // context.save()
+    
+            create_tree(angle, length, branchObj ); //the right branch is created all the way down before the left side will continue
 
-        context.rotate(-angle)
-        create_tree(-angle, length);
-        // context.restore()
+            create_tree(-angle, length, branchObj);
 
-        -angle
         } else {
 
-            let g = mapNumber(length/bLim, divisor, 1, 0, 1);
+            // let g = mapNumber(length/bLim, divisor, 1, 0, 1);
             
-            context.rotate(-angle*g)
-            context.beginPath()
-            context.moveTo(0, 0)
-            context.lineTo(0, -length*g)
-            context.stroke()
+            // context.rotate(-angle*g)
+            // context.beginPath()
+            // context.moveTo(0, 0)
+            // context.lineTo(0, -length*g)
+            // context.stroke()
 
-            context.rotate(angle*2*g)
-            context.beginPath()
-            context.moveTo(0, 0)
-            context.lineTo(0, -length*g)
-            context.stroke()
+            // context.rotate(angle*2*g)
+            // context.beginPath()
+            // context.moveTo(0, 0)
+            // context.lineTo(0, -length*g)
+            // context.stroke()
 
         }
 
-    context.restore()
+}
+
+function render_tree() {
+    for (let i = 0; i < branchPos.length; i++) {
+
+        let b = branchPos[i];
+
+        let light = 100-b.l < 50 ? 50 : 100-b.l,
+        color = time/2+b.l/2;
+
+        context.strokeStyle = `hsl(${color}, 100%, ${light}%)`;
+        // context.lineWidth = b.l/10;
+       
+        context.beginPath()
+        context.moveTo(-b.s.x, b.s.y)
+        context.lineTo(-b.e.x, b.e.y)
+        context.stroke()
+
+        context.beginPath()
+        context.moveTo(b.s.x, b.s.y)
+        context.lineTo(b.e.x, b.e.y)
+        context.stroke()
+
+        
+    }
 }
 
 function createBackground() {
