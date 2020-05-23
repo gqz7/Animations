@@ -92,13 +92,23 @@ function create_branch_objs(agl, len, b, end) {
         leftB = {
             x1: b.x, y1: -b.y,
             x2:X, y2:-Y,
-            l: len
         },
         rightB = {
             x1: -b.x, y1: -b.y,
             x:-X, y:-Y,
-            l: len
         };
+
+        leftB.l = len; rightB.l = len;
+
+        
+
+        // leftB.curve1 = {x:curveNoise,y:curveNoise}//{x:Noise(time/10,time/10)*10,y:Noise(time/10,time/10)*10}
+        // rightB.curve1 = {x:curveNoise,y:curveNoise}//{x:Noise(time+7/10,time+7/10)*10,y:Noise(time+7/10,time+7/10)*10}
+        
+        // leftB.curve2 = {x:curveNoise,y:curveNoise}//{x:Noise(time+2/10,time+2/10)*10,y:Noise(time+2/10,time+2/10)*10}
+        // rightB.curve2 = {x:curveNoise,y:curveNoise}//{x:Noise(time+5/10,time+5/10)*10,y:Noise(time+5/10,time+5/10)*10}
+
+
 
     branchObjs.push(leftB)
     branchObjs.push(rightB)
@@ -115,7 +125,7 @@ function create_branch_objs(agl, len, b, end) {
 
     } else if (!end) {
 
-        let g = mapNumber(len/bLim, divisor, 1, 0, 1);
+        let g = mapNumber(time/bLim, divisor, 1, 0, 1);
 
         create_branch_objs((agl-bAngl*g), (len*divisor)*g, newB, true)
         create_branch_objs((agl+bAngl*g), (len*divisor)*g, newB, true)
@@ -140,7 +150,9 @@ function render_tree() {
 
                 context.moveTo( b.x1, b.y1)
 
-                context.bezierCurveTo(b.x1-2, b.y1+12, b.x2+7, b.y2-4, b.x2, b.y2);
+                let curveNoise = 100//Noise(time/100,time/100)*10;
+
+                context.bezierCurveTo(b.x1-curveNoise, b.y1+curveNoise, b.x2+curveNoise, b.y2-curveNoise, b.x2, b.y2);
 
                 // context.moveTo( b.x1, b.y1)
                 // context.lineTo( b.x2, b.y2)
