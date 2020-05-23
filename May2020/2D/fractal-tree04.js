@@ -92,23 +92,13 @@ function create_branch_objs(agl, len, b, end) {
         leftB = {
             x1: b.x, y1: -b.y,
             x2:X, y2:-Y,
+            l: len
         },
         rightB = {
             x1: -b.x, y1: -b.y,
             x:-X, y:-Y,
+            l: len
         };
-
-        leftB.l = len; rightB.l = len;
-
-        
-
-        // leftB.curve1 = {x:curveNoise,y:curveNoise}//{x:Noise(time/10,time/10)*10,y:Noise(time/10,time/10)*10}
-        // rightB.curve1 = {x:curveNoise,y:curveNoise}//{x:Noise(time+7/10,time+7/10)*10,y:Noise(time+7/10,time+7/10)*10}
-        
-        // leftB.curve2 = {x:curveNoise,y:curveNoise}//{x:Noise(time+2/10,time+2/10)*10,y:Noise(time+2/10,time+2/10)*10}
-        // rightB.curve2 = {x:curveNoise,y:curveNoise}//{x:Noise(time+5/10,time+5/10)*10,y:Noise(time+5/10,time+5/10)*10}
-
-
 
     branchObjs.push(leftB)
     branchObjs.push(rightB)
@@ -125,7 +115,7 @@ function create_branch_objs(agl, len, b, end) {
 
     } else if (!end) {
 
-        let g = mapNumber(time/bLim, divisor, 1, 0, 1);
+        let g = mapNumber(len/bLim, divisor, 1, 0, 1);
 
         create_branch_objs((agl-bAngl*g), (len*divisor)*g, newB, true)
         create_branch_objs((agl+bAngl*g), (len*divisor)*g, newB, true)
@@ -137,26 +127,41 @@ function render_tree() {
     context.save()
     context.translate(width/2, height);
     context.rotate(bAngl-Math.PI/2)
-        for (let i = branchObjs.length-1; i >= 0 ; i--) {
+        for (let i = 0; i < branchObjs.length ; i++) {
             
             const b = branchObjs[i],
-                  length = b.l,
-                  light = 100-length < 50 ? 50 : 100-length;
+                  length = b.l/2,
+                  light = 100-length < 50 ? 50 : 100-length,
+
+                  curvePoint1 = {
+                      x: b.x1*1.1 + 20* Math.cos(45),
+                      y: b.y1*1.1 + 20* Math.cos(45),
+                  },
+                  curvePoint2 = {
+                        x: b.x1*1.1 - 20* Math.cos(45),
+                        y: b.y1*1.1 - 20* Math.cos(45),
+                  };
             
-                context.strokeStyle = `hsl(${70 + (time/2+length/14)%60}, 100%, ${light}%)`;
+                context.strokeStyle = `hsl(${70 + (time/2)}, 100%, ${light}%)`;
                 context.lineWidth = length/10;
             
                 context.beginPath()
 
-                context.moveTo( b.x1, b.y1)
+                context.moveTo(b.x1, b.y1)
 
-                let curveNoise = 100//Noise(time/100,time/100)*10;
+                context.bezierCurveTo(curvePoint1.x, curvePoint1.y,curvePoint2.x, curvePoint2.y, b.x2, b.y2);
 
-                context.bezierCurveTo(b.x1-curveNoise, b.y1+curveNoise, b.x2+curveNoise, b.y2-curveNoise, b.x2, b.y2);
-
-                // context.moveTo( b.x1, b.y1)
                 // context.lineTo( b.x2, b.y2)
+
                 context.stroke()   
+
+                // context.beginPath()
+                // context.arc(curvePoint1.x, curvePoint1.y, 2, 0, Math.PI*2)
+                // context.stroke()
+
+                // context.beginPath()
+                // context.arc(curvePoint2.x, curvePoint2.y, 2, 0, Math.PI*2)
+                // context.stroke()
         }
     context.restore()
 }
