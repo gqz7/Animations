@@ -45,15 +45,15 @@ function render() {
 
 clearFullScreen()
 
-if (timeForward && time < 400) {
-    time++
-} else if (timeForward && time >= 400) {
-    timeForward = false;
-} if (!timeForward && time > 0) {
-    time--
-} else {
-    timeForward = true;
-}
+    if (timeForward && time < 500) {
+        time++
+    } else if (timeForward && time >= 500) {
+        timeForward = false;
+    } if (!timeForward && time > 0) {
+        time--
+    } else {
+        timeForward = true;
+    }
 
     tempNoise = Noise(time/100,time/100+seed);
     bAngl = ogAgl+time/700-tempNoise/700;
@@ -61,87 +61,91 @@ if (timeForward && time < 400) {
     blim = 20 + tempNoise*1000;
 
 // createBackground()
-fractal_tree(bAngl)
+fractal_tree()
 
 //user can toggle pausing of animation via 'spacebar'
 if (!pauseAnimation) {
-    setTimeout(window.requestAnimationFrame, 0, render)
-}
+
+        setTimeout(window.requestAnimationFrame, 0, render)
+    }
 
 }
 
 function fractal_tree () {
 
-branchObjs = [];
+    branchObjs = [];
 
-let root = {x:0, y:0},
+    let root = {x:0, y:0},
 
-size = time/1.7 - tempNoise*10;
+    size = time/1.7 - tempNoise*10;
 
-create_branch_objs(bAngl, size, root); //fills the array will all updated branch objects
+    create_branch_objs(bAngl, size, root); //fills the array will all updated branch objects
 
-render_tree()
+    render_tree()
 
 }
 
 function create_branch_objs(agl, len, b, end) {
 
-let X = b.x + len * Math.cos(agl), Y = (b.y + len * Math.sin(agl));
+    let X = b.x + len * Math.cos(agl), Y = (b.y + len * Math.sin(agl));
 
-let 
-leftB = {
-    x1: b.x, y1: -b.y,
-    x2:X, y2:-Y,
-    l: len
-},
-rightB = {
-    x1: -b.x, y1: -b.y,
-    x:-X, y:-Y,
-    l: len
-};
+    let 
+    leftB = {
+        x1: b.x, y1: -b.y,
+        x2:X, y2:-Y,
+        l: len
+    },
+    rightB = {
+        x1: -b.x, y1: -b.y,
+        x:-X, y:-Y,
+        l: len
+    };
 
-branchObjs.push(leftB)
-branchObjs.push(rightB)
+    branchObjs.push(leftB)
+    branchObjs.push(rightB)
 
-let newB = {
-x: X,
-y: Y
-}
+    let newB = {
+        x: X,
+        y: Y
+    }
 
-if (len > bLim) {
+    if (len > bLim) {
 
-create_branch_objs(agl-bAngl, len*divisor, newB)
-create_branch_objs(agl+bAngl, len*divisor, newB)
+        create_branch_objs(agl-bAngl, len*divisor, newB)
+        create_branch_objs(agl+bAngl, len*divisor, newB)
 
-} else if (!end) {
+    } else if (!end) {
 
-let g = mapNumber(len/bLim, divisor, 1, 0, 1);
+        let g = mapNumber(len/bLim, divisor, 1, 0, 1);
 
-create_branch_objs((agl-bAngl*g), (len*divisor)*g, newB, true)
-create_branch_objs((agl+bAngl*g), (len*divisor)*g, newB, true)
+        create_branch_objs((agl-bAngl*g), (len*divisor)*g, newB, true)
+        create_branch_objs((agl+bAngl*g), (len*divisor)*g, newB, true)
 
-}
+    }
 }
 
 function render_tree() {
-context.save()
-context.translate(width/2, height);
-context.rotate(bAngl-Math.PI/2)
+    
+    context.save()
+    context.translate(width/2, height);
+    context.rotate(bAngl-Math.PI/2);
+
 for (let i = 0; i < branchObjs.length ; i++) {
     
     const b = branchObjs[i],
           length = b.l/2,
           light = 100-length < 50 ? 50 : 100-length,
+          
+        curvePoint1 = {
+            x: b.x1 - b.x1/20,
+            y: b.y1 + b.y1/20 
+            
+        },
+        curvePoint2 = {
+              x: b.x2 + b.x2/20,
+              y: b.y2 - b.y2/20
+        };
 
-          curvePoint1 = {
-              x: b.x1*1.1 + 20* Math.cos(45),
-              y: b.y1*1.1 + 20* Math.cos(45),
-          },
-          curvePoint2 = {
-                x: b.x1*1.1 - 20* Math.cos(45),
-                y: b.y1*1.1 - 20* Math.cos(45),
-          };
-    
         context.strokeStyle = `hsl(${70 + (time/2)}, 100%, ${light}%)`;
         context.lineWidth = length/10;
     
@@ -163,14 +167,14 @@ for (let i = 0; i < branchObjs.length ; i++) {
         // context.arc(curvePoint2.x, curvePoint2.y, 2, 0, Math.PI*2)
         // context.stroke()
 }
-context.restore()
+    context.restore()
 }
 
 function clearFullScreen() { 
-context.save();
-context.setTransform(1, 0, 0, 1, 0, 0);
-context.clearRect(0, 0, canvas.width, canvas.height);
-context.restore();
+    context.save();
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.restore();
 }
 
 //USER INPUT EVENT LISTENER
@@ -179,17 +183,18 @@ document.addEventListener('keydown', userInputEvent, false);
 //USER INPUT LOGIC
 function userInputEvent(input) {
 
-if (input.code == 'Space') {
-pauseAnimation = !pauseAnimation;
+    if (input.code == 'Space') {
+        
+        pauseAnimation = !pauseAnimation;
 
-if (!pauseAnimation) {
-    render()
-}
+        if (!pauseAnimation) {
+            render()
+        }
 
-}
+    }
 
 }
 
 function mapNumber (number, min1, max1, min2, max2) {
-return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
+    return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
 };
