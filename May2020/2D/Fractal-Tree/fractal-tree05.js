@@ -77,7 +77,7 @@ function fractal_tree () {
 
     let root = {x:0, y:0},
 
-    size = time/1.7 - tempNoise*10;
+    size = 200//time/1.7 - tempNoise*10;
 
     create_branch_objs(bAngl, size, root); //fills the array will all updated branch objects
 
@@ -93,12 +93,14 @@ function create_branch_objs(agl, len, b, end) {
     leftB = {
         x1: b.x, y1: -b.y,
         x2:X, y2:-Y,
-        l: len
+        l: len,
+        side: 'l'
     },
     rightB = {
         x1: -b.x, y1: -b.y,
         x:-X, y:-Y,
-        l: len
+        l: len,
+        side: 'r'
     };
 
     branchObjs.push(leftB)
@@ -134,17 +136,27 @@ for (let i = 0; i < branchObjs.length ; i++) {
     
     const b = branchObjs[i],
           length = b.l/2,
-          light = 100-length < 50 ? 50 : 100-length,
+          light = 100-length < 50 ? 50 : 100-length;
+    
+    let curvePoint1 = {}, curvePoint2 = {};
           
-        curvePoint1 = {
-            x: b.x1 - b.x1/20,
-            y: b.y1 + b.y1/20 
-            
-        },
-        curvePoint2 = {
-              x: b.x2 + b.x2/20,
-              y: b.y2 - b.y2/20
-        };
+        if (b.side == 'l') {
+
+            curvePoint1.x = b.x1 - b.x1/20;
+            curvePoint1.y = b.y1 + b.y1/20;
+
+            curvePoint2.x = b.x2 + b.x2/20;
+            curvePoint2.y = b.y2 - b.y2/20;
+
+        } else {
+
+            curvePoint1.x = b.x1 + b.x1/20;
+            curvePoint1.y = b.y1 - b.y1/20 ;
+
+            curvePoint2.x = b.x2 - b.x2/20;
+            curvePoint2.y = b.y2 + b.y2/20;
+
+        }
 
         context.strokeStyle = `hsl(${70 + (time/2)}, 100%, ${light}%)`;
         context.lineWidth = length/10;
