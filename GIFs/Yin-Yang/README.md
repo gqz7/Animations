@@ -10,12 +10,12 @@
 <p>&nbsp<p><p>&nbsp<p>
 
 ![](meta-yyv1.gif)
-[source code](https://github.com/GabrielQSherman/Animations/tree/master/May2020/2D/meta-yinyang.js)
+[source code](https://github.com/GabrielQSherman/Animations/tree/master/May2020/2D/Yin-Yang/meta-yinyang.js)
 
 <p>&nbsp<p><p>&nbsp<p>
 
 ![](meta-yyv2.gif)
-[source code](https://github.com/GabrielQSherman/Animations/tree/master/May2020/2D/meta-yinyang-v2.js)
+[source code](https://github.com/GabrielQSherman/Animations/tree/master/May2020/2D/Yin-Yang/meta-yinyang-v2.js)
 
 <p>&nbsp<p><p>&nbsp<p>
 
