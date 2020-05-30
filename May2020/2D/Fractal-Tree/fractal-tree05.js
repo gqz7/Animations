@@ -27,6 +27,7 @@ context.lineWidth = 2;
 
 let startLength = 100,
 time = 0,
+counter = 0,
 pauseAnimation = true,
 timeForward = true,
 
@@ -77,7 +78,9 @@ function fractal_tree () {
 
     let root = {x:0, y:0},
 
-    size = 200//time/1.7 - tempNoise*10;
+    size = time/1.7 - tempNoise*10 + 77;
+
+    counter = 0
 
     create_branch_objs(bAngl, size, root); //fills the array will all updated branch objects
 
@@ -87,21 +90,33 @@ function fractal_tree () {
 
 function create_branch_objs(agl, len, b, end) {
 
-    let X = b.x + len * Math.cos(agl), Y = (b.y + len * Math.sin(agl));
+    counter+=10
 
     let 
-    leftB = {
-        x1: b.x, y1: -b.y,
-        x2:X, y2:-Y,
-        l: len,
-        side: 'l'
-    },
-    rightB = {
-        x1: -b.x, y1: -b.y,
-        x:-X, y:-Y,
-        l: len,
-        side: 'r'
-    };
+        X = b.x + len * Math.cos(agl), 
+        Y = (b.y + len * Math.sin(agl)),
+        sideNoise1 = Noise(counter+seed, counter+seed*1.7)*(1),
+        sideNoise2 = Noise(counter+seed/2, counter+seed*1.5+.3)*(1),
+        sideNoise3 = Noise(counter+seed+.2, counter+seed*1.4+2)*(1),
+        sideNoise4 = Noise(counter+seed*1.2, counter+seed*2)*(1);
+
+    // console.log(counter, b);
+    const side1 = sideNoise1 + sideNoise3 > 0 ? 'l' : 'r',
+          side2 = sideNoise2 + sideNoise4 > 0 ? 'l' : 'r'; 
+
+    let 
+        leftB = {
+            x1: b.x, y1: -b.y,
+            x2:X, y2:-Y,
+            l: len,
+            side: side1
+        },
+        rightB = {
+            x1: -b.x, y1: -b.y,
+            x:-X, y:-Y,
+            l: len,
+            side: side2
+        };
 
     branchObjs.push(leftB)
     branchObjs.push(rightB)
@@ -123,6 +138,8 @@ function create_branch_objs(agl, len, b, end) {
         create_branch_objs((agl-bAngl*g), (len*divisor)*g, newB, true)
         create_branch_objs((agl+bAngl*g), (len*divisor)*g, newB, true)
 
+    } else {
+        counter = 0
     }
 }
 
@@ -133,33 +150,49 @@ function render_tree() {
     context.rotate(bAngl-Math.PI/2);
 
 for (let i = 0; i < branchObjs.length ; i++) {
+
+    // console.log(i);
+    
     
     const b = branchObjs[i],
           length = b.l/2,
           light = 100-length < 50 ? 50 : 100-length;
     
     let curvePoint1 = {}, curvePoint2 = {};
-          
+
         if (b.side == 'l') {
 
-            curvePoint1.x = b.x1 - b.x1/20;
-            curvePoint1.y = b.y1 + b.y1/20;
+            curvePoint1.x = b.x1
+            curvePoint1.y = b.y1
 
-            curvePoint2.x = b.x2 + b.x2/20;
-            curvePoint2.y = b.y2 - b.y2/20;
+            curvePoint2.x = b.x2
+            curvePoint2.y = b.y2
 
         } else {
 
-            curvePoint1.x = b.x1 + b.x1/20;
-            curvePoint1.y = b.y1 - b.y1/20 ;
+            curvePoint1.x = b.x1 
+            curvePoint1.y = b.y1 
+            
+            curvePoint2.x = b.x2 
+            curvePoint2.y = b.y2 
+            
+            // curvePoint1.x = (b.x1 + b.x2/100) -(Math.pow(b.x1 - b.x2, 2)/(4.2*b.l))
+            // curvePoint1.y = b.y1 -(Math.pow(b.y1 - b.y2, 2)/(4.2*b.l))
 
-            curvePoint2.x = b.x2 - b.x2/20;
-            curvePoint2.y = b.y2 + b.y2/20;
+            // curvePoint2.x = b.x2 - (Math.pow(b.x2 - b.x1, 2)/(4.2*b.l))
+            // curvePoint2.y = (b.y1 + b.y2/100) -(Math.pow(b.y2 - b.y1, 2)/(5.2*b.l))
+
+
+            // curvePoint1.x = b.x1//(b.x1 + b.l/3)/(1-(b.l/1000));
+            // curvePoint1.y = b.y1//(b.y1 - b.l/3)/(1-(b.l/1000));
+
+            // curvePoint2.x = b.x2//(b.x2 - b.l/3)/(1-(b.l/1000));
+            // curvePoint2.y = b.y2//(b.y2 + b.l/3)/(1-(b.l/1000));
 
         }
 
         context.strokeStyle = `hsl(${70 + (time/2)}, 100%, ${light}%)`;
-        context.lineWidth = length/10;
+        context.lineWidth = length/80;
     
         context.beginPath()
 
@@ -167,17 +200,10 @@ for (let i = 0; i < branchObjs.length ; i++) {
 
         context.bezierCurveTo(curvePoint1.x, curvePoint1.y,curvePoint2.x, curvePoint2.y, b.x2, b.y2);
 
-        // context.lineTo( b.x2, b.y2)
+        context.lineTo( b.x2, b.y2)
 
         context.stroke()   
 
-        // context.beginPath()
-        // context.arc(curvePoint1.x, curvePoint1.y, 2, 0, Math.PI*2)
-        // context.stroke()
-
-        // context.beginPath()
-        // context.arc(curvePoint2.x, curvePoint2.y, 2, 0, Math.PI*2)
-        // context.stroke()
 }
     context.restore()
 }
