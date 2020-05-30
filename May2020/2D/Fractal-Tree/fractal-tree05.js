@@ -5,8 +5,9 @@ context = canvas.getContext('2d'),
 width = canvas.width = window.innerWidth,
 height = canvas.height =window.innerHeight,
 
-Noise = toxi.math.noise.simplexNoise.noise,
-seed = Math.random();
+Noise = toxi.math.noise.simplexNoise.noise;
+
+let seed = Math.random();
 
 canvas.style = `display: block;
         top: 0px;
@@ -26,7 +27,7 @@ context.lineWidth = 2;
 
 
 let startLength = 100,
-time = 0,
+time = 11,
 counter = 0,
 pauseAnimation = true,
 timeForward = true,
@@ -46,14 +47,17 @@ function render() {
 
 clearFullScreen()
 
-    if (timeForward && time < 500) {
+    if (timeForward && time < 444) {
         time++
-    } else if (timeForward && time >= 500) {
+    } else if (timeForward && time >= 444) {
         timeForward = false;
-    } if (!timeForward && time > 0) {
+    } if (!timeForward && time > 3) {
         time--
-    } else {
+    } else if ( time <= 3 ) {
+
+        seed = Math.random();
         timeForward = true;
+        time = 5
     }
 
     tempNoise = Noise(time/100,time/100+seed);
@@ -78,17 +82,18 @@ function fractal_tree () {
 
     let root = {x:0, y:0},
 
-    size = time/1.7 - tempNoise*10 + 77;
+    size = time/1.7 - tempNoise + 17;
 
     counter = 0
 
-    create_branch_objs(bAngl, size, root); //fills the array will all updated branch objects
+
+    create_branch_objs(bAngl, size, root, false, 1); //fills the array will all updated branch objects
 
     render_tree()
 
 }
 
-function create_branch_objs(agl, len, b, end) {
+function create_branch_objs(agl, len, b, end, lvl) {
 
     counter+=10
 
@@ -96,26 +101,37 @@ function create_branch_objs(agl, len, b, end) {
         X = b.x + len * Math.cos(agl), 
         Y = (b.y + len * Math.sin(agl)),
         sideNoise1 = Noise(counter+seed, counter+seed*1.7)*(1),
-        sideNoise2 = Noise(counter+seed/2, counter+seed*1.5+.3)*(1),
-        sideNoise3 = Noise(counter+seed+.2, counter+seed*1.4+2)*(1),
-        sideNoise4 = Noise(counter+seed*1.2, counter+seed*2)*(1);
+        sideNoise2 = Noise(counter+seed+3, counter+seed*1.7+3)*(1);
 
-    // console.log(counter, b);
-    const side1 = sideNoise1 + sideNoise3 > 0 ? 'l' : 'r',
-          side2 = sideNoise2 + sideNoise4 > 0 ? 'l' : 'r'; 
+    // console.log(sideNoise1, sideNoise2);
+    let side1 = sideNoise1 > 0 ? 'l' : 'r',
+          side2 = sideNoise2 > 0 ? 'r' : 'l'; 
 
+
+    if (side1 == side2) {
+        
+        // console.log(true);
+
+        // side2 = side2 == 'r' ? 'l' : 'r';
+        
+    } else {
+        // console.log(false);
+        
+    }
     let 
         leftB = {
             x1: b.x, y1: -b.y,
             x2:X, y2:-Y,
             l: len,
-            side: side1
+            side: side1,
+            num: lvl
         },
         rightB = {
             x1: -b.x, y1: -b.y,
             x:-X, y:-Y,
             l: len,
-            side: side2
+            side: side2,
+            num: lvl
         };
 
     branchObjs.push(leftB)
@@ -128,15 +144,15 @@ function create_branch_objs(agl, len, b, end) {
 
     if (len > bLim) {
 
-        create_branch_objs(agl-bAngl, len*divisor, newB)
-        create_branch_objs(agl+bAngl, len*divisor, newB)
+        create_branch_objs(agl-bAngl, len*divisor, newB, false, lvl+1)
+        create_branch_objs(agl+bAngl, len*divisor, newB, false, lvl+1)
 
     } else if (!end) {
 
         let g = mapNumber(len/bLim, divisor, 1, 0, 1);
 
-        create_branch_objs((agl-bAngl*g), (len*divisor)*g, newB, true)
-        create_branch_objs((agl+bAngl*g), (len*divisor)*g, newB, true)
+        create_branch_objs((agl-bAngl*g), (len*divisor)*g, newB, true, lvl+1)
+        create_branch_objs((agl+bAngl*g), (len*divisor)*g, newB, true, lvl+1)
 
     } else {
         counter = 0
@@ -151,30 +167,28 @@ function render_tree() {
 
 for (let i = 0; i < branchObjs.length ; i++) {
 
-    // console.log(i);
-    
     
     const b = branchObjs[i],
           length = b.l/2,
           light = 100-length < 50 ? 50 : 100-length;
-    
+
     let curvePoint1 = {}, curvePoint2 = {};
 
         if (b.side == 'l') {
 
-            curvePoint1.x = b.x1
-            curvePoint1.y = b.y1
+            curvePoint1.x = b.x1 - (length * Math.cos(90))/(4-b.num/50)
+            curvePoint1.y = b.y1 + (length * Math.sin(90))/(4-b.num/50)
 
-            curvePoint2.x = b.x2
-            curvePoint2.y = b.y2
+            curvePoint2.x = b.x2 + (length * Math.cos(90))/(4-b.num/50)
+            curvePoint2.y = b.y2 - (length * Math.sin(90))/(4-b.num/50)
 
         } else {
 
-            curvePoint1.x = b.x1 
-            curvePoint1.y = b.y1 
-            
-            curvePoint2.x = b.x2 
-            curvePoint2.y = b.y2 
+            curvePoint1.x = b.x1 + (length * Math.cos(90))/(4-b.num/50)
+            curvePoint1.y = b.y1 - (length * Math.sin(90))/(4-b.num/50)
+
+            curvePoint2.x = b.x2 - (length * Math.cos(90))/(4-b.num/50)
+            curvePoint2.y = b.y2 + (length * Math.sin(90))/(4-b.num/50)
             
             // curvePoint1.x = (b.x1 + b.x2/100) -(Math.pow(b.x1 - b.x2, 2)/(4.2*b.l))
             // curvePoint1.y = b.y1 -(Math.pow(b.y1 - b.y2, 2)/(4.2*b.l))
@@ -192,7 +206,7 @@ for (let i = 0; i < branchObjs.length ; i++) {
         }
 
         context.strokeStyle = `hsl(${70 + (time/2)}, 100%, ${light}%)`;
-        context.lineWidth = length/80;
+        context.lineWidth = length/17;
     
         context.beginPath()
 
@@ -200,7 +214,14 @@ for (let i = 0; i < branchObjs.length ; i++) {
 
         context.bezierCurveTo(curvePoint1.x, curvePoint1.y,curvePoint2.x, curvePoint2.y, b.x2, b.y2);
 
-        context.lineTo( b.x2, b.y2)
+        // context.lineTo( b.x2, b.y2)
+
+        // context.arc(curvePoint1.x, curvePoint1.y,Math.abs(length/10), 0, Math.PI*2)
+        // context.stroke()   
+        
+        // context.beginPath()
+
+        // context.arc(curvePoint2.x, curvePoint2.y,Math.abs(length/10), 0, Math.PI*2)
 
         context.stroke()   
 
