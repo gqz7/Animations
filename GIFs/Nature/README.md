@@ -5,3 +5,5 @@
 ### Fractal Tree
 
 ![](fractal-tree.gif)
+
+![](fractal-tree2.gif)
