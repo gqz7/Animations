@@ -106,7 +106,7 @@ function createImg(size) {
     context.arc(0,0,size,0,Math.PI*2)
     context.stroke()
 
-    const light = mapNumber(time, 0, timeMax, 0, 100);
+    const light = mapNumber(time, 0, timeMax, 0, 140);
 
     console.log(light);
     
@@ -115,7 +115,7 @@ function createImg(size) {
 
         context.save()
 
-            context.strokeStyle = `hsl(0, 0%, ${light})`
+            context.strokeStyle = `hsl(0, 0%, ${light}%)`
 
             //vertical poles
             context.beginPath()
@@ -123,7 +123,7 @@ function createImg(size) {
             context.lineTo(0,size*4)
             context.stroke()
 
-            context.strokeStyle = `hsl(0, 0%, ${light-10})`
+            context.strokeStyle = `hsl(0, 0%, ${light-10}%)`
 
             //first innercircle one d (2r) away from origin (center screen)
             context.translate(0,size*2)
@@ -138,14 +138,14 @@ function createImg(size) {
             context.moveTo(0,0)
             context.lineTo(size*Math.sqrt(3),-size)
 
-            context.strokeStyle = `hsl(0, 0%, ${light-20})`
+            context.strokeStyle = `hsl(0, 0%, ${light-20}%)`
             context.stroke()
 
             //second innercircle
             context.translate(0,size*2)
             context.beginPath()
             context.arc(0,0,size,0,Math.PI*2)
-            context.strokeStyle = `hsl(0, 0%, ${light-30})`
+            context.strokeStyle = `hsl(0, 0%, ${light-30}%)`
             context.stroke()
 
             context.rotate(Math.PI*2/3)
@@ -155,7 +155,7 @@ function createImg(size) {
             context.moveTo(0,0)
             context.lineTo(0,size*4)
 
-            context.strokeStyle = `hsl(0, 0%, ${light-40})`
+            context.strokeStyle = `hsl(0, 0%, ${light-40}%)`
             context.stroke()
 
             //line from level 3 inner-circles to level 2 inner-circles
@@ -165,7 +165,7 @@ function createImg(size) {
             context.moveTo(0,0)
             context.lineTo(0,size*6.93)
 
-            context.strokeStyle = `hsl(0, 0%, ${light-50})`
+            context.strokeStyle = `hsl(0, 0%, ${light-50}%)`
             context.stroke()
 
             context.rotate(Math.PI/16.5)
@@ -174,7 +174,7 @@ function createImg(size) {
             context.moveTo(0,0)
             context.lineTo(0,size*5.3)
 
-            context.strokeStyle = `hsl(0, 0%, ${light-60})`
+            context.strokeStyle = `hsl(0, 0%, ${light-60}%)`
             context.stroke()
 
             context.rotate(Math.PI/4.7)
@@ -183,7 +183,7 @@ function createImg(size) {
             context.moveTo(0,0)
             context.lineTo(0,size*5.3)
 
-            context.strokeStyle = `hsl(0, 0%, ${light-70})`
+            context.strokeStyle = `hsl(0, 0%, ${light-70}%)`
             context.stroke()
 
         context.restore()
