@@ -67,10 +67,11 @@ function userInputEvent(input) {
         function render() {
 
         if (timeForward && time < timeMax) {
-            time+=.3
+            time+=.37
             // console.log('time++', time);
         } else if (timeForward && time >= timeMax) {
-            timeForward = false;
+
+            setTimeout(()=>{timeForward = false;}, 500)
 
         } else if (!timeForward && time > 1) {
             time-=.3
@@ -91,31 +92,64 @@ function userInputEvent(input) {
 
       }
 
-function createImg(size) { 
+function createImg(s) { 
+
+    let m = 6.93;
+
+    // s = 100
+
+    // time = 50
+
+    context.save()
+
+    context.translate(-s*m, 0)
+    createMetatron(s)
+    context.translate(s*m, 0)
+    createMetatron(s)
+    context.translate(s*m, 0)
+    createMetatron(s)
+
+    context.restore()
+
+    context.save()
+
+    context.translate(-s*m/2, -s*m*Math.sqrt(3)/2)
+    createMetatron(s)
+    context.translate(0, s*12)
+    createMetatron(s)
+
+    context.restore()
+
+    context.save()
+
+    context.translate(s*m/2, -s*m*Math.sqrt(3)/2)
+    createMetatron(s)
+    context.translate(0, s*12)
+    createMetatron(s)
+
+    context.restore()
+
+}
+
+function createMetatron(size) {
     
+    const light = mapNumber(time, 0, timeMax, 0, 120);
+
     context.save()
 
     context.rotate(Math.PI)
 
-    const angle_1 = mapNumber(time, 0, timeMax, Math.PI/4, Math.PI/5);
-
-//     context.lineWidth = 17;
-
-    context.strokeStyle = `hsl(0, 0%, 100)`
+    context.strokeStyle = `hsl(0, 0%, ${light}%)`
     context.beginPath()
     context.arc(0,0,size,0,Math.PI*2)
     context.stroke()
-
-    const light = mapNumber(time, 0, timeMax, 0, 140);
-
-    console.log(light);
     
 
     for (let i = 0; i < 6; i++) {
 
         context.save()
 
-            context.strokeStyle = `hsl(0, 0%, ${light}%)`
+            context.strokeStyle = `hsl(0, 0%, ${light-10}%)`
 
             //vertical poles
             context.beginPath()
@@ -123,7 +157,7 @@ function createImg(size) {
             context.lineTo(0,size*4)
             context.stroke()
 
-            context.strokeStyle = `hsl(0, 0%, ${light-10}%)`
+            context.strokeStyle = `hsl(0, 0%, ${light-15}%)`
 
             //first innercircle one d (2r) away from origin (center screen)
             context.translate(0,size*2)
@@ -192,7 +226,6 @@ function createImg(size) {
     }
 
     context.restore()
-
 }
 
 
