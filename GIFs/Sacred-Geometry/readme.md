@@ -31,4 +31,14 @@ These shapes arise when points are distributed oddly on a sphere and contour lin
 
 These three gifs were made using the same interactive animation. The source code can be found [here](https://github.com/GabrielQSherman/Animations/tree/master/Apr2020/triangles/fractal-tri04.js)
 
+### Metatron's Cube
+
+One Metatron Cube Structure
+![](metatronv1.gif)
+[source](https://github.com/GabrielQSherman/Animations/tree/master/Jun2020/metatron.js)
+
 <p>&nbsp<p><p>&nbsp<p>
+
+Seven Metatron Cube Structure
+![](metatronv2.gif)
+[source](https://github.com/GabrielQSherman/Animations/tree/master/Jun2020/metatron.js)
