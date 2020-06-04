@@ -1,3 +1,4 @@
+alert('CONTROLS\nPress R to toggle object rotation\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nPress T to show ( 1 / 7 ) Metatron Cubes')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
@@ -13,8 +14,16 @@ let canvas = document.createElement('canvas'),
 
       strokeW = 1,
       
+      showArcs = true,
+
+      autoRotate = false,
+
+      showLines = true,
+      
       pauseAnimation = false,
 
+      Meta = 0,
+      
       colorIndex = 0,
 
       colorPairs = [['hotpink', 'lime'], ['lightsalmon', 'skyblue'], ['darkslategrey', 'lightgoldenrodyellow'], ['plum', 'yellow']];
@@ -49,11 +58,42 @@ document.addEventListener('keydown', userInputEvent, false);
 //USER INPUT LOGIC
 function userInputEvent(input) {
 
-    pauseAnimation = !pauseAnimation;
+    switch (input.code) {
+        case 'KeyO':
 
-    if (!pauseAnimation) {
-        render()
+            showArcs = !showArcs;
+            
+            break;
+        case 'KeyP':
+
+            showLines = !showLines;
+
+            break;
+
+        case 'KeyT':
+
+            Meta = Meta == 0 ? 1 : 0;
+
+            break;
+    
+        case 'KeyR':
+
+            autoRotate = !autoRotate;
+
+            break;
+        case 'Space':
+
+            pauseAnimation = !pauseAnimation;
+
+            if (!pauseAnimation) {
+                render()
+            }
+            
+            break;
+    
     }
+
+    
     
 }
 
@@ -71,7 +111,7 @@ function userInputEvent(input) {
             // console.log('time++', time);
         } else if (timeForward && time >= timeMax) {
 
-            setTimeout(()=>{timeForward = false;}, 500)
+            setTimeout(()=>{timeForward = false;}, 100)
 
         } else if (!timeForward && time > 1) {
             time-=.3
@@ -85,9 +125,8 @@ function userInputEvent(input) {
 
         createImg(time)
 
-
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame, 10, render)
+            setTimeout(window.requestAnimationFrame, 0, render)
         }
 
       }
@@ -100,34 +139,45 @@ function createImg(s) {
 
     // time = 50
 
-    context.save()
+    if (Meta == 0) {
+        createMetatron(s)    
+    } else {
 
-    context.translate(-s*m, 0)
-    createMetatron(s)
-    context.translate(s*m, 0)
-    createMetatron(s)
-    context.translate(s*m, 0)
-    createMetatron(s)
+        context.save()
 
-    context.restore()
+        context.translate(-s*m, 0)
+        createMetatron(s)
+        context.translate(s*m, 0)
+        createMetatron(s)
+        context.translate(s*m, 0)
+        createMetatron(s)
 
-    context.save()
+        context.restore()
 
-    context.translate(-s*m/2, -s*m*Math.sqrt(3)/2)
-    createMetatron(s)
-    context.translate(0, s*12)
-    createMetatron(s)
+        context.save()
 
-    context.restore()
+        context.translate(-s*m/2, -s*m*Math.sqrt(3)/2)
+        createMetatron(s)
+        context.translate(0, s*12)
+        createMetatron(s)
 
-    context.save()
+        context.restore()
 
-    context.translate(s*m/2, -s*m*Math.sqrt(3)/2)
-    createMetatron(s)
-    context.translate(0, s*12)
-    createMetatron(s)
+        context.save()
 
-    context.restore()
+        context.translate(s*m/2, -s*m*Math.sqrt(3)/2)
+        createMetatron(s)
+        context.translate(0, s*12)
+        createMetatron(s)
+
+        context.restore()
+    }
+
+    if (autoRotate) {
+        
+        context.rotate(.01)
+        
+    }
 
 }
 
@@ -139,33 +189,42 @@ function createMetatron(size) {
 
     context.rotate(Math.PI)
 
-    context.strokeStyle = `hsl(0, 0%, ${light}%)`
+    context.strokeStyle = `hsl(0, 0%, ${light-10}%)`
     context.beginPath()
     context.arc(0,0,size,0,Math.PI*2)
-    context.stroke()
+    if (showArcs) {
+        context.stroke()
+    }
     
 
     for (let i = 0; i < 6; i++) {
 
         context.save()
 
-            context.strokeStyle = `hsl(0, 0%, ${light-10}%)`
+            context.strokeStyle = `hsl(0, 0%, ${light-50}%)`
 
             //vertical poles
             context.beginPath()
             context.moveTo(0,0)
             context.lineTo(0,size*4)
-            context.stroke()
 
-            context.strokeStyle = `hsl(0, 0%, ${light-15}%)`
+            if (showLines) {
+                context.stroke()
+            }
+
+            context.strokeStyle = `hsl(0, 0%, ${light-20}%)`
 
             //first innercircle one d (2r) away from origin (center screen)
             context.translate(0,size*2)
             context.beginPath()
             
             context.arc(0,0,size,0,Math.PI*2)
-            
+            if (showArcs) {
+                context.stroke()
+            }
+
             //line out to other inner circles on second and third level
+            context.beginPath()
             context.moveTo(0,0)
             context.lineTo(size*1.73,-Math.sqrt(3)*size*1.73)
             
@@ -173,14 +232,18 @@ function createMetatron(size) {
             context.lineTo(size*Math.sqrt(3),-size)
 
             context.strokeStyle = `hsl(0, 0%, ${light-20}%)`
-            context.stroke()
+            if (showLines) {
+                context.stroke()
+            }
 
             //second innercircle
             context.translate(0,size*2)
             context.beginPath()
             context.arc(0,0,size,0,Math.PI*2)
             context.strokeStyle = `hsl(0, 0%, ${light-30}%)`
-            context.stroke()
+            if (showArcs) {
+                context.stroke()
+            }
 
             context.rotate(Math.PI*2/3)
 
@@ -190,7 +253,9 @@ function createMetatron(size) {
             context.lineTo(0,size*4)
 
             context.strokeStyle = `hsl(0, 0%, ${light-40}%)`
-            context.stroke()
+            if (showLines) {
+                context.stroke()
+            }
 
             //line from level 3 inner-circles to level 2 inner-circles
             context.rotate(Math.PI/6)
@@ -200,7 +265,9 @@ function createMetatron(size) {
             context.lineTo(0,size*6.93)
 
             context.strokeStyle = `hsl(0, 0%, ${light-50}%)`
-            context.stroke()
+            if (showLines) {
+                context.stroke()
+            }
 
             context.rotate(Math.PI/16.5)
 
@@ -209,7 +276,9 @@ function createMetatron(size) {
             context.lineTo(0,size*5.3)
 
             context.strokeStyle = `hsl(0, 0%, ${light-60}%)`
-            context.stroke()
+            if (showLines) {
+                context.stroke()
+            }
 
             context.rotate(Math.PI/4.7)
 
@@ -218,7 +287,9 @@ function createMetatron(size) {
             context.lineTo(0,size*5.3)
 
             context.strokeStyle = `hsl(0, 0%, ${light-70}%)`
-            context.stroke()
+            if (showLines) {
+                context.stroke()
+            }
 
         context.restore()
 
