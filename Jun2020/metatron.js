@@ -1,3 +1,6 @@
+const Noise = toxi.math.noise.simplexNoise.noise;
+let seed = Math.random();
+
 alert('CONTROLS\nPress R to toggle object rotation\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nPress T to show ( 1 / 7 ) Metatron Cubes')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
@@ -8,7 +11,7 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      timeMax = 77,
+      timeMax = 177,
 
       timeForward = true,
 
@@ -72,7 +75,7 @@ function userInputEvent(input) {
 
         case 'KeyT':
 
-            Meta = Meta == 0 ? 1 : 0;
+            Meta = Meta < 2 ? Meta+1 : 0;
 
             break;
     
@@ -119,6 +122,7 @@ function userInputEvent(input) {
 
             timeForward = true;
             time = 1.1
+            seed = Math.random()
         }
 
         clearFullScreen()
@@ -133,44 +137,33 @@ function userInputEvent(input) {
 
 function createImg(s) { 
 
-    let m = 6.93;
-
     // s = 100
 
     // time = 50
 
     if (Meta == 0) {
         createMetatron(s)    
+    } else if (Meta == 1) {
+
+        let mNoise = Noise(s/300+seed,s/300+seed)*10;
+        
+        context.save()
+
+        context.translate(Math.cos(mNoise)*40,Math.sin(mNoise)*40)
+        createMetatron(s)
+
+        context.restore()
+        context.save()
+
+        context.translate(-Math.cos(mNoise)*40,-Math.sin(mNoise)*40)
+        createMetatron(s)
+
+        context.restore()
+
+
     } else {
 
-        context.save()
-
-        context.translate(-s*m, 0)
-        createMetatron(s)
-        context.translate(s*m, 0)
-        createMetatron(s)
-        context.translate(s*m, 0)
-        createMetatron(s)
-
-        context.restore()
-
-        context.save()
-
-        context.translate(-s*m/2, -s*m*Math.sqrt(3)/2)
-        createMetatron(s)
-        context.translate(0, s*12)
-        createMetatron(s)
-
-        context.restore()
-
-        context.save()
-
-        context.translate(s*m/2, -s*m*Math.sqrt(3)/2)
-        createMetatron(s)
-        context.translate(0, s*12)
-        createMetatron(s)
-
-        context.restore()
+        seven_meta_cubes(s)
     }
 
     if (autoRotate) {
@@ -181,9 +174,44 @@ function createImg(s) {
 
 }
 
+function seven_meta_cubes(s) {
+
+    let m = 6.93;
+
+    context.save()
+
+        context.translate(-s*m, 0)
+        createMetatron(s)
+        context.translate(s*m, 0)
+        createMetatron(s)
+        context.translate(s*m, 0)
+        createMetatron(s)
+
+    context.restore()
+
+    context.save()
+
+        context.translate(-s*m/2, -s*m*Math.sqrt(3)/2)
+        createMetatron(s)
+        context.translate(0, s*12)
+        createMetatron(s)
+
+    context.restore()
+
+    context.save()
+
+        context.translate(s*m/2, -s*m*Math.sqrt(3)/2)
+        createMetatron(s)
+        context.translate(0, s*12)
+        createMetatron(s)
+
+    context.restore()
+
+}
+
 function createMetatron(size) {
     
-    const light = mapNumber(time, 0, timeMax, 0, 120);
+    const light = mapNumber(time*2, 0, timeMax, 0, 100);
 
     context.save()
 
@@ -200,17 +228,6 @@ function createMetatron(size) {
     for (let i = 0; i < 6; i++) {
 
         context.save()
-
-            context.strokeStyle = `hsl(0, 0%, ${light-50}%)`
-
-            //vertical poles
-            context.beginPath()
-            context.moveTo(0,0)
-            context.lineTo(0,size*4)
-
-            if (showLines) {
-                context.stroke()
-            }
 
             context.strokeStyle = `hsl(0, 0%, ${light-20}%)`
 
@@ -275,7 +292,7 @@ function createMetatron(size) {
             context.moveTo(0,0)
             context.lineTo(0,size*5.3)
 
-            context.strokeStyle = `hsl(0, 0%, ${light-60}%)`
+            context.strokeStyle = `hsl(0, 0%, ${light-50}%)`
             if (showLines) {
                 context.stroke()
             }
@@ -286,12 +303,23 @@ function createMetatron(size) {
             context.moveTo(0,0)
             context.lineTo(0,size*5.3)
 
-            context.strokeStyle = `hsl(0, 0%, ${light-70}%)`
+            context.strokeStyle = `hsl(0, 0%, ${light-50}%)`
             if (showLines) {
                 context.stroke()
             }
 
         context.restore()
+
+        context.strokeStyle = `hsl(0, 0%, ${light-50}%)`
+
+            //vertical poles
+            context.beginPath()
+            context.moveTo(0,0)
+            context.lineTo(0,size*4)
+
+            if (showLines) {
+                context.stroke()
+            }
 
         context.rotate(Math.PI/3)
     }
