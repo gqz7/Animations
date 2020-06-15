@@ -28,7 +28,7 @@ let canvas = document.createElement('canvas'),
       
       pauseAnimation = false,
 
-      Meta = 0,
+      Meta = 4,
       
       colorIndex = 0,
 
@@ -180,9 +180,31 @@ function createImg(s) {
             context.rotate(mNoise/3)
             seven_meta_cubes(s)
             context.restore()
-    } else if (Meta == 2) {
-
+    } else if (Meta == 3) {
+        context.save()
+            context.rotate(-mNoise/3)
+            createRombi(s)
+        context.restore()
+        context.save()
+            context.rotate(mNoise/3)
+            createRombi(s)
+        context.restore()
+        context.save()
+            context.rotate(-mNoise/3+Math.PI/2)
+            createRombi(s)
+        context.restore()
+        context.save()
+            context.rotate(mNoise/3-Math.PI/2)
+            createRombi(s)
+        context.restore()
     } else {
+        
+       for (let index = 0; index <s/8; index++) {
+            context.save()
+            context.rotate(Math.PI/index)
+            createRombi(s)
+            context.restore()
+       }
         
     }
 
