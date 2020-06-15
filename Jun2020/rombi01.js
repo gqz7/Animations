@@ -18,11 +18,13 @@ let canvas = document.createElement('canvas'),
 
       strokeW = 1,
       
-      showArcs = true,
+      showArcs = false,
 
       autoRotate = false,
 
       showLines = true,
+
+      clearScreen = true,
       
       pauseAnimation = false,
 
@@ -85,6 +87,11 @@ function userInputEvent(input) {
             autoRotate = !autoRotate;
 
             break;
+        case 'KeyS':
+
+            clearScreen = !clearScreen;
+    
+            break;
         case 'Space':
 
             pauseAnimation = !pauseAnimation;
@@ -126,9 +133,9 @@ function userInputEvent(input) {
             seed = Math.random()
         }
 
-        // clearFullScreen()
+        if(clearScreen) clearFullScreen()
 
-        createImg(Math.pow(time,2))
+        createImg(time)
 
         if (!pauseAnimation) {
             setTimeout(window.requestAnimationFrame, 0, render)
@@ -138,36 +145,36 @@ function userInputEvent(input) {
 
 function createImg(s) { 
 
+    const mNoise = Noise(s/300+seed,s/300+seed)*10;
+
     // s = 100
 
     // time = 50
 
-    createRombi(s) 
+    // createRombi(s) 
 
-    // if (Meta == 0) {
-    //     createRombi(s)    
-    // } else if (Meta == 1) {
+    if (Meta == 0) {
+        context.save()
+            context.rotate(-mNoise/3)
+            createRombi(s)
+        context.restore()
+        context.save()
+            context.rotate(mNoise/3)
+            createRombi(s)
+        context.restore()
+    } else if (Meta == 1) {
+        context.save()
+            context.translate(Math.cos(mNoise)*40,Math.sin(mNoise)*40)
+            createRombi(s)
+        context.restore()
+        context.save()
+            context.translate(-Math.cos(mNoise)*40,-Math.sin(mNoise)*40)
+            createRombi(s)
+        context.restore()
+    } else if (Meta == 2) {
 
-    //     let mNoise = Noise(s/300+seed,s/300+seed)*10;
-        
-    //     context.save()
-
-    //     context.translate(Math.cos(mNoise)*40,Math.sin(mNoise)*40)
-    //     createRombi(s)
-
-    //     context.restore()
-    //     context.save()
-
-    //     context.translate(-Math.cos(mNoise)*40,-Math.sin(mNoise)*40)
-    //     createRombi(s)
-
-    //     context.restore()
-
-
-    // } else {
-
-    //     seven_meta_cubes(s)
-    // }
+        seven_meta_cubes(s)
+    } 
 
     if (autoRotate) {
         
