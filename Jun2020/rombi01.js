@@ -78,7 +78,7 @@ function userInputEvent(input) {
 
         case 'KeyT':
 
-            Meta = Meta < 2 ? Meta+1 : 0;
+            Meta = Meta < 4 ? Meta+1 : 0;
 
             break;
     
@@ -172,9 +172,19 @@ function createImg(s) {
             createRombi(s)
         context.restore()
     } else if (Meta == 2) {
+        context.save()
+            context.rotate(-mNoise/3)
+            seven_meta_cubes(s)
+            context.restore()
+        context.save()
+            context.rotate(mNoise/3)
+            seven_meta_cubes(s)
+            context.restore()
+    } else if (Meta == 2) {
 
-        seven_meta_cubes(s)
-    } 
+    } else {
+        
+    }
 
     if (autoRotate) {
         
@@ -222,39 +232,26 @@ function seven_meta_cubes(s) {
 function createRombi(size) {
     
     const light = mapNumber(time*2, 0, timeMax, 0, 100);
-
     context.save()
-
     // context.rotate(Math.PI)
-
-    // context.strokeStyle = `hsl(0, 0%, ${light-10}%)`
+    context.strokeStyle = `hsl(0, 0%, ${light-10}%)`
     context.beginPath()
     context.arc(0,0,size,0,Math.PI*2)
     if (showArcs) {
         context.stroke()
     }
 
-
         context.save()
-
             context.beginPath()
-
             context.moveTo(size/2,0);
-
             context.lineTo(0,-size)
-
             context.lineTo(-size/2,0)
-
             context.lineTo(0,size)
-
             context.lineTo(size/2,0)
-
             if (showLines) {
                 context.stroke()
             }
-
         context.restore()
-    
 
     context.restore()
 }
