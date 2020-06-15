@@ -2,7 +2,7 @@
 const Noise = toxi.math.noise.simplexNoise.noise;
 let seed = Math.random();
 
-alert('CONTROLS\nPress R to toggle object rotation\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nPress T to show ( 1 / 7 ) Metatron Cubes')
+// alert('CONTROLS\nPress R to toggle object rotation\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nPress T to show ( 1 / 7 ) Metatron Cubes')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
@@ -126,9 +126,9 @@ function userInputEvent(input) {
             seed = Math.random()
         }
 
-        clearFullScreen()
+        // clearFullScreen()
 
-        createImg(time)
+        createImg(Math.pow(time,2))
 
         if (!pauseAnimation) {
             setTimeout(window.requestAnimationFrame, 0, render)
@@ -218,14 +218,35 @@ function createRombi(size) {
 
     context.save()
 
-    context.rotate(Math.PI)
+    // context.rotate(Math.PI)
 
-    context.strokeStyle = `hsl(0, 0%, ${light-10}%)`
+    // context.strokeStyle = `hsl(0, 0%, ${light-10}%)`
     context.beginPath()
     context.arc(0,0,size,0,Math.PI*2)
     if (showArcs) {
         context.stroke()
     }
+
+
+        context.save()
+
+            context.beginPath()
+
+            context.moveTo(size/2,0);
+
+            context.lineTo(0,-size)
+
+            context.lineTo(-size/2,0)
+
+            context.lineTo(0,size)
+
+            context.lineTo(size/2,0)
+
+            if (showLines) {
+                context.stroke()
+            }
+
+        context.restore()
     
 
     context.restore()
