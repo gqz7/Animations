@@ -2,7 +2,7 @@
 const Noise = toxi.math.noise.simplexNoise.noise;
 let seed = Math.random();
 
-// alert('CONTROLS\nPress R to toggle object rotation\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nPress T to show ( 1 / 7 ) Metatron Cubes')
+alert('CONTROLS\nPress R to toggle object rotation\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
@@ -28,7 +28,7 @@ let canvas = document.createElement('canvas'),
       
       pauseAnimation = false,
 
-      Meta = 6,
+      Meta = 5,
       
       colorIndex = 0,
 
@@ -153,70 +153,7 @@ function createImg(s) {
     let mNoise = Noise(s/300+seed,s/300+seed)*10;
 
     // s = 130
-
     // time = 150
-    // if (Meta == 0) {
-    //     context.save()
-    //         context.rotate(-mNoise/3)
-    //         createRombi({size: s})
-    //     context.restore()
-    //     context.save()
-    //         context.rotate(mNoise/3)
-    //         createRombi({size: s})
-    //     context.restore()
-    // } else if (Meta == 3) {
-    //     mNoise/=2;
-    //     // mNoise = 0;
-    //     seven_meta_cubes(s, mNoise)
-    //     seven_meta_cubes(s, mNoise+Math.PI/3)
-    //     seven_meta_cubes(s, mNoise-Math.PI/3)
-
-    //     seven_meta_cubes(s, -mNoise)
-    //     seven_meta_cubes(s, -mNoise+Math.PI/3)
-    //     seven_meta_cubes(s, -mNoise-Math.PI/3)
-
-    // } else if (Meta == 2) {
-
-    //     mNoise/=2;
-    //     seven_meta_cubes(s, mNoise)
-    //     seven_meta_cubes(s, mNoise+Math.PI)
-    //     seven_meta_cubes(s, -mNoise)
-    //     seven_meta_cubes(s, -mNoise+Math.PI)
- 
-    // } else if (Meta == 1) {
-
-    //     createRombi({size: s, angle: -mNoise/2})
-    //     createRombi({size: s, angle: mNoise/2})
-    //     createRombi({size: s, angle: mNoise/2+Math.PI/2})
-    //     createRombi({size: s, angle: -mNoise/2+Math.PI/2})
-
-    // } else if (Meta == 4) {
-    //    for (let i = 2; i <50; i++) {
-    //         createRombi({size: (s/(1+i/7)+3)*3*1.07})
-    //    }
-    // } else if (Meta == 5) {
-        
-    //     for (let i = 200; i > 1; i/=1.5/(.7+time/300)) {
-    //         let light = i*3*1.07; 
-    //         context.save()
-    //         createRombi({size: (s/(1+i/7)+3)*8, light: light})
-    //         context.restore()
-    //    }
-         
-    //  } else if (Meta == 6) {
-
-    //     for (let i = 200; i > 1; i/=1.5/(.7+time/300)) {
-    //         let light = i*3*1.07; 
-    //         createRombi({size: (s/(1+i/7)+3)*8, light: light})
-    //    }
-    // } else {
-    //     for (let i = 1; i < 777; i*=1+(.7+time/300)) {
-    //         context.save()
-    //         context.rotate(Math.PI*(i/777))
-    //         createRombi({size: (s/(1+i/7)+3)*3*1.07})
-    //         context.restore()
-    //     } 
-    // }
 
     switch (Meta) {
         case 0:
