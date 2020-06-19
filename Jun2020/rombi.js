@@ -225,6 +225,13 @@ function createImg(s) {
             
             break;
         case 9:
+
+            for (let i = 1; i < 1000+time/1; i*=1+(.7+time/2222)) {
+                context.save()
+                context.rotate(Math.PI*(i/12222)*(1+time/100))
+                createRombi({size: (s/(1+i/70)+3)*3*1.07})
+                context.restore()
+            }
             
             break;
     
