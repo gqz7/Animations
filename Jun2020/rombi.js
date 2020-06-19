@@ -2,7 +2,7 @@
 const Noise = toxi.math.noise.simplexNoise.noise;
 let seed = Math.random();
 
-alert('CONTROLS\nPress R to toggle object rotation\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
+// alert('CONTROLS\nPress R to toggle object rotation\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
@@ -28,7 +28,7 @@ let canvas = document.createElement('canvas'),
       
       pauseAnimation = false,
 
-      Meta = 5,
+      Meta = 8,
       
       colorIndex = 0,
 
@@ -83,7 +83,7 @@ function userInputEvent(input) {
             break;
         case 'KeyY':
 
-            Meta = Meta < 7 ? Meta+1 : 0;
+            Meta = Meta < 11 ? Meta+1 : 0;
             console.log(Meta);         
             break;
     
@@ -214,6 +214,14 @@ function createImg(s) {
             }
             break;
         case 8:
+
+            context.rotate(time/1111)
+            for (let i = 1; i < 1000+time/1; i*=1+(.2+time/2222)) {
+                context.save()
+                context.rotate(Math.PI*(i/12222)*(1+time/100))
+                createRombi({size: (s/(1+i/70)+3)*3*1.07})
+                context.restore()
+            }
             
             break;
         case 9:
