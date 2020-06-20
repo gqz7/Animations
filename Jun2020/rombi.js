@@ -2,7 +2,7 @@
 const Noise = toxi.math.noise.simplexNoise.noise;
 let seed = Math.random();
 
-// alert('CONTROLS\nPress R to toggle object rotation\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
+alert('CONTROLS\nPress R to toggle object rotation\nPress S to toggle frame screen clear\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
@@ -12,7 +12,7 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      timeMax = 200,
+      timeMax = 777,
 
       timeForward = true,
 
@@ -27,6 +27,8 @@ let canvas = document.createElement('canvas'),
       clearScreen = true,
       
       pauseAnimation = false,
+
+      tiltWindow = false,
 
       Meta = 8,
       
@@ -97,6 +99,14 @@ function userInputEvent(input) {
             clearScreen = !clearScreen;
     
             break;
+        case 'KeyE':
+
+            tiltWindow = !tiltWindow;
+
+            console.log(tiltWindow);
+            
+    
+            break;
         case 'Space':
 
             pauseAnimation = !pauseAnimation;
@@ -152,8 +162,19 @@ function createImg(s) {
 
     let mNoise = Noise(s/300+seed,s/300+seed)*10;
 
+    context.lineWidth = 1.5;
+
+    light = rombiObj.light ? rombiObj.light : mapNumber(time, 0, timeMax, 0, 100);
+
+    context.strokeStyle = `hsl(0, 0%, ${light}%)`
+
     // s = 130
     // time = 150
+    // console.log(Meta);
+    
+    context.save()
+
+    if (tiltWindow) context.rotate(Math.PI/2);
 
     switch (Meta) {
         case 0:
@@ -214,15 +235,25 @@ function createImg(s) {
             }
             break;
         case 8:
-
-            context.rotate(time/1111)
-            for (let i = 1; i < 1000+time/1; i*=1+(.2+time/2222)) {
-                context.save()
-                context.rotate(Math.PI*(i/12222)*(1+time/100))
-                createRombi({size: (s/(1+i/70)+3)*3*1.07})
-                context.restore()
-            }
-            
+        context.save()
+            context.rotate(Math.PI/2)
+            context.lineWidth = .8;
+            const divd = time/17;
+            for (let z = 0; z < divd; z++) {
+                // context.strokeStyle = `hsl(0,0%,${z})`
+                context.rotate(Math.PI/divd)
+                for (let i = 1; i < 1000+time/1; i*=1+(.2+time/2222)) {
+                    context.strokeStyle = 'white'//`hsl(0,0%,${z+i})`
+                    context.save()
+                    context.rotate(Math.PI*(i/12222)*(1+time/100))
+                    createRombi({size: (s/(1+i/70)+3)*3*1.07})
+                    context.restore()
+                }
+            }    
+            context.beginPath()
+            context.arc(0,0,1,0,7)
+            context.stroke()
+        context.restore()
             break;
         case 9:
 
@@ -238,6 +269,8 @@ function createImg(s) {
         default:
             break;
     }
+
+    context.restore()
 
     if (autoRotate) {
         
@@ -285,22 +318,15 @@ function seven_meta_cubes(s, a) {
 }
 
 function createRombi(rombiObj) {
-
-    const {size, angle} = rombiObj,
-    
-    light = rombiObj.light ? rombiObj.light : mapNumber(time, 0, timeMax, 0, 100);
-    
+    const {size, angle} = rombiObj;
     context.save()
-
     if (angle) context.rotate(angle);
-    // context.rotate(Math.PI)
-    context.strokeStyle = `hsl(0, 0%, ${light}%)`
-    context.beginPath()
-    context.arc(0,0,size,0,Math.PI*2)
+        context.beginPath()
+        context.arc(0,0,size,0,Math.PI*2)
     if (showArcs) {
         context.stroke()
     }
-
+    if (showLines) {
         context.save()
             context.beginPath()
             context.moveTo(size/2,0);
@@ -308,11 +334,9 @@ function createRombi(rombiObj) {
             context.lineTo(-size/2,0)
             context.lineTo(0,size)
             context.lineTo(size/2,0)
-            if (showLines) {
                 context.stroke()
-            }
         context.restore()
-
+    }
     context.restore()
 }
 
