@@ -12,7 +12,7 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      timeMax = 777,
+      timeMax = 111,
 
       timeForward = true,
 
@@ -30,7 +30,7 @@ let canvas = document.createElement('canvas'),
 
       tiltWindow = false,
 
-      Meta = 8,
+      Meta = 9,
       
       colorIndex = 0,
 
@@ -269,11 +269,17 @@ function createImg(s) {
             break;
         case 9:
 
-            for (let i = 1; i < 1000+time/1; i*=1+(.7+time/2222)) {
-                context.save()
-                context.rotate(Math.PI*(i/12222)*(1+time/100))
-                createRombi({size: (s/(1+i/70)+3)*3*1.07})
-                context.restore()
+            mNoise/=10;
+            const maxIt = 200;
+            for (let i = maxIt; i > 0; i-=2) {
+                const noiseNum = i/1000+Math.abs(mNoise);
+                const newNoise = Noise(noiseNum,noiseNum)*17;
+                let light = mapNumber(i, 0, maxIt, 0, 100);
+                context.strokeStyle = `hsl(0, 0%, ${light}%)`;
+                seven_meta_cubes(i, newNoise)
+                seven_meta_cubes(i, newNoise+Math.PI)
+                seven_meta_cubes(i, -newNoise)
+                seven_meta_cubes(i, -newNoise+Math.PI)
             }
             
             break;
