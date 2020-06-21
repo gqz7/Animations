@@ -12,7 +12,7 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      timeMax = 111,
+      timeMax = 222,
 
       timeForward = true,
 
@@ -30,7 +30,7 @@ let canvas = document.createElement('canvas'),
 
       tiltWindow = false,
 
-      Meta = 9,
+      Meta = 10,
       
       colorIndex = 0,
 
@@ -146,6 +146,7 @@ function userInputEvent(input) {
             timeForward = true;
             time = 1.1
             seed = Math.random()
+            
         }
 
         if(clearScreen) clearFullScreen()
@@ -268,12 +269,11 @@ function createImg(s) {
             context.restore()
             break;
         case 9:
-
-            mNoise/=10;
-            const maxIt = 200;
-            for (let i = maxIt; i > 0; i-=2) {
+                mNoise/=10;
+                const maxIt = 150;
+            for (let i = maxIt; i > 0; i--) {
                 const noiseNum = i/1000+Math.abs(mNoise);
-                const newNoise = Noise(noiseNum,noiseNum)*17;
+                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 0, 22);
                 let light = mapNumber(i, 0, maxIt, 0, 100);
                 context.strokeStyle = `hsl(0, 0%, ${light}%)`;
                 seven_meta_cubes(i, newNoise)
@@ -281,7 +281,22 @@ function createImg(s) {
                 seven_meta_cubes(i, -newNoise)
                 seven_meta_cubes(i, -newNoise+Math.PI)
             }
-            
+            break;
+        case 10:
+                mNoise/=10;
+                const itterations = 150;
+            for (let i = itterations; i > 1; i-=itterations/(i*2)) {
+                const noiseNum = i/1000+Math.abs(mNoise);
+                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 2, 33);
+                let light = mapNumber(i, 0, itterations, 0, 100);
+                context.strokeStyle = `hsl(0, 0%, ${light}%)`;
+                seven_meta_cubes(i, newNoise)
+                seven_meta_cubes(i, newNoise+Math.PI/3)
+                seven_meta_cubes(i, newNoise-Math.PI/3)
+                seven_meta_cubes(i, -newNoise)
+                seven_meta_cubes(i, -newNoise+Math.PI/3)
+                seven_meta_cubes(i, -newNoise-Math.PI/3)
+            }
             break;
     
         default:
