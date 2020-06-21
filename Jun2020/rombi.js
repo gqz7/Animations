@@ -30,7 +30,7 @@ let canvas = document.createElement('canvas'),
 
       tiltWindow = false,
 
-      Meta = 4,
+      Meta = 8,
       
       colorIndex = 0,
 
@@ -247,11 +247,15 @@ function createImg(s) {
         context.save()
             context.rotate(Math.PI/2)
             context.lineWidth = .8;
-            const divd = time/17;
-            for (let z = 0; z < divd; z++) {
+            context.strokeStyle = 'white';
+            const divd = time/30 + 1;
+            for (let z = divd; z > 1; z--) {
                 context.rotate(Math.PI/divd)
+
                 for (let i = 1; i < 1000+time/1; i*=1+(.2+time/2222)) {
-                    context.strokeStyle = 'white'//`hsl(0,0%,${z+i})`
+
+                    if (z-1<1) context.lineWidth = divd%1;
+
                     context.save()
                     context.rotate(Math.PI*(i/12222)*(1+time/100))
                     createRombi({size: (s/(1+i/70)+3)*3*1.07})
@@ -261,7 +265,7 @@ function createImg(s) {
             context.beginPath()
             context.arc(0,0,1,0,7)
             context.stroke()
-        context.restore()
+            context.restore()
             break;
         case 9:
 
