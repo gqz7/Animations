@@ -2,7 +2,7 @@
 const Noise = toxi.math.noise.simplexNoise.noise;
 let seed = Math.random();
 
-alert('CONTROLS\nPress R to toggle object rotation\nPress S to toggle frame screen clear\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
+// alert('CONTROLS\nPress R to toggle object rotation\nPress S to toggle frame screen clear\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
@@ -30,7 +30,7 @@ let canvas = document.createElement('canvas'),
 
       tiltWindow = false,
 
-      Meta = 8,
+      Meta = 4,
       
       colorIndex = 0,
 
@@ -160,12 +160,12 @@ function userInputEvent(input) {
 
 function createImg(s) { 
 
-    let mNoise = Noise(s/300+seed,s/300+seed)*10;
+    
+
+    let mNoise = Noise(s/300+seed,s/300+seed)*10,
+        light = mapNumber(time, 0, timeMax, 0, 100);
 
     context.lineWidth = 1.5;
-
-    light = rombiObj.light ? rombiObj.light : mapNumber(time, 0, timeMax, 0, 100);
-
     context.strokeStyle = `hsl(0, 0%, ${light}%)`
 
     // s = 130
@@ -207,18 +207,27 @@ function createImg(s) {
             seven_meta_cubes(s, -mNoise-Math.PI/3)
             break;
         case 4:
-            for (let i = 2; i <50; i++) {
-                createRombi({size: (s/(1+i/7)+3)*3*1.07})
+            const maxSize = time/5+10 < height ? time/5+10 : height;
+            context.rotate(mNoise/4)
+            for (let i = 2; i <maxSize; i*= (1.2)* (1+Math.abs(mNoise/50))) {
+                const light = maxSize-i,
+                    size = (i*10);
+                    
+                createRombi({size: size, light: light})
             }
             break;
         case 5:
-            for (let i = 200; i > 1; i/=1.5/(.7+time/300)) {
-                let light = i*3.07; 
-                createRombi({size: (s/(1+i/7)+3)*8, light: light})
+            const mNoise2 = Noise(s/170+seed,s/170+seed)*17
+            let count = 0, intDiv = 1/(time/100) > 1.4 * (1+mNoise2/100)? 1/(time/100) :1.4 * (1+mNoise2/100);
+            for (let i = 100; i > 1 && count < 1000 ; i/= intDiv) {
+                count++
+                let light = i*3;
+                context.lineWidth = i/10 < 2 ? i/10 : 2;
+                createRombi({size: (s/(1+i/7)+3)*3, light: light})
             }
             break;
         case 6:
-            for (let i = 1+s/1000; i < width; i*=1.27*(1+time/500)) {
+            for (let i = 1+s/1000; i < width; i*=1.27*(1+s/500)) {
                 let light = 50-i/200; 
                 context.save()
                 context.rotate(Math.PI/2)
@@ -240,7 +249,6 @@ function createImg(s) {
             context.lineWidth = .8;
             const divd = time/17;
             for (let z = 0; z < divd; z++) {
-                // context.strokeStyle = `hsl(0,0%,${z})`
                 context.rotate(Math.PI/divd)
                 for (let i = 1; i < 1000+time/1; i*=1+(.2+time/2222)) {
                     context.strokeStyle = 'white'//`hsl(0,0%,${z+i})`
@@ -318,8 +326,11 @@ function seven_meta_cubes(s, a) {
 }
 
 function createRombi(rombiObj) {
-    const {size, angle} = rombiObj;
+    const {size, angle, light} = rombiObj;
     context.save()
+    if (light) {
+        context.strokeStyle = `hsl(0,0%,${light}%)`;
+    }
     if (angle) context.rotate(angle);
         context.beginPath()
         context.arc(0,0,size,0,Math.PI*2)
