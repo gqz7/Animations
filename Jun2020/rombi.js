@@ -80,12 +80,12 @@ function userInputEvent(input) {
 
         case 'KeyT':
 
-            Meta = Meta > 0 ? Meta-1 : 7;
+            Meta = Meta > 0 ? Meta-1 : 14;
             console.log(Meta);         
             break;
         case 'KeyY':
 
-            Meta = Meta < 11 ? Meta+1 : 0;
+            Meta = Meta < 14 ? Meta+1 : 0;
             console.log(Meta);         
             break;
     
@@ -269,7 +269,7 @@ function createImg(s) {
             context.restore()
             break;
         case 9:
-                mNoise/=10;
+                mNoise/=5;
                 const maxIt = 150;
             for (let i = maxIt; i > 0; i--) {
                 const noiseNum = i/1000+Math.abs(mNoise);
@@ -283,17 +283,18 @@ function createImg(s) {
             }
             break;
         case 10:
-                mNoise/=10;
-                const itterations = 150;
-            for (let i = itterations; i > 1; i-=itterations/(i*2)) {
-                const noiseNum = i/1000+Math.abs(mNoise);
-                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 2, 33);
-                let light = mapNumber(i, 0, itterations, 0, 100);
+                mNoise/=5;
+                const itterations = 167;
+            for (let i = itterations; i > 1; i = i/1.01-.5) {
+                const noiseNum = i/500+Math.abs(mNoise);
+                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 2, 17);
+                let light = mapNumber(i, 0, itterations, 5, 90);
+                context.lineWidth = mapNumber(i, 0, itterations, .1, 1);
                 context.strokeStyle = `hsl(0, 0%, ${light}%)`;
-                seven_meta_cubes(i, newNoise)
+                seven_meta_cubes(i, newNoise/2)
                 seven_meta_cubes(i, newNoise+Math.PI/3)
                 seven_meta_cubes(i, newNoise-Math.PI/3)
-                seven_meta_cubes(i, -newNoise)
+                seven_meta_cubes(i, -newNoise/2)
                 seven_meta_cubes(i, -newNoise+Math.PI/3)
                 seven_meta_cubes(i, -newNoise-Math.PI/3)
             }
@@ -323,9 +324,9 @@ function seven_meta_cubes(s, a) {
 
         context.translate(-s*m/4*1.07, 0)
         createRombi({size: s, angle: a})
-        context.translate(s*m/4*1.07, 0)
-        createRombi({size: s, angle: a})
-        context.translate(s*m/4*1.07, 0)
+        context.translate(s*m/4*1.07*2, 0)
+        // createRombi({size: s, angle: a})
+        // context.translate(s*m/4*1.07, 0)
         createRombi({size: s, angle: a})
         
     context.restore()
