@@ -30,7 +30,7 @@ let canvas = document.createElement('canvas'),
 
       tiltWindow = false,
 
-      Meta = 10,
+      Meta = 11,
       
       colorIndex = 0,
 
@@ -177,6 +177,8 @@ function createImg(s) {
 
     if (tiltWindow) context.rotate(Math.PI/2);
 
+    let maxIter;
+
     switch (Meta) {
         case 0:
             createRombi({size: s, angle: mNoise/3})
@@ -269,12 +271,12 @@ function createImg(s) {
             context.restore()
             break;
         case 9:
-                mNoise/=5;
-                const maxIt = 150;
-            for (let i = maxIt; i > 0; i--) {
+                mNoise/=10;
+                maxIter = 150;
+            for (let i = maxIter; i > 0; i--) {
                 const noiseNum = i/1000+Math.abs(mNoise);
                 const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 0, 22);
-                let light = mapNumber(i, 0, maxIt, 0, 100);
+                let light = mapNumber(i, 0, maxIter, 0, 100);
                 context.strokeStyle = `hsl(0, 0%, ${light}%)`;
                 seven_meta_cubes(i, newNoise)
                 seven_meta_cubes(i, newNoise+Math.PI)
@@ -284,12 +286,12 @@ function createImg(s) {
             break;
         case 10:
                 mNoise/=5;
-                const itterations = 167;
-            for (let i = itterations; i > 1; i = i/1.01-.5) {
+                maxIter = 167;
+            for (let i = maxIter; i > 1; i = i/1.01-.5) {
                 const noiseNum = i/500+Math.abs(mNoise);
                 const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 2, 17);
-                let light = mapNumber(i, 0, itterations, 5, 90);
-                context.lineWidth = mapNumber(i, 0, itterations, .1, 1);
+                let light = mapNumber(i, 0, maxIter, 5, 90);
+                context.lineWidth = mapNumber(i, 0, maxIter, .1, 1);
                 context.strokeStyle = `hsl(0, 0%, ${light}%)`;
                 seven_meta_cubes(i, newNoise/2)
                 seven_meta_cubes(i, newNoise+Math.PI/3)
@@ -297,6 +299,20 @@ function createImg(s) {
                 seven_meta_cubes(i, -newNoise/2)
                 seven_meta_cubes(i, -newNoise+Math.PI/3)
                 seven_meta_cubes(i, -newNoise-Math.PI/3)
+            }
+            break;
+        case 11:
+                mNoise/=10;
+                maxIter = 167;
+            for (let i = maxIter; i > 0; i-=.5) {
+                const noiseNum = i/1000+Math.abs(mNoise);
+                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 0, 44);
+                let light = mapNumber(i, 0, maxIter, 90, 3);
+                context.strokeStyle = `hsl(0, 0%, ${light}%)`;
+                seven_meta_cubes(i, newNoise)
+                seven_meta_cubes(i, newNoise+Math.PI)
+                seven_meta_cubes(i, -newNoise)
+                seven_meta_cubes(i, -newNoise+Math.PI)
             }
             break;
     
