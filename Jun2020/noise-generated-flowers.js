@@ -17,7 +17,7 @@ let canvas = document.createElement('canvas'),
 
       pauseAnimation = false,
 
-      tiltWindow = false,
+      tiltWindow = true,
 
       colorIndex = 0,
 
@@ -66,6 +66,7 @@ function userInputEvent(input) {
         case 'KeyE':
 
             tiltWindow = !tiltWindow;
+            clearFullScreen()
     
             break;
         case 'Space':
@@ -110,7 +111,7 @@ function userInputEvent(input) {
 
 function createImg(s) { 
 
-    let mNoise = Noise(s/333+seed,s/333+seed)*11,
+    let mNoise = Noise(s/333+seed,s/333+seed)*11*(1+seed/10),
         light = mapNumber(time, 0, timeMax, 0, 100);
 
     context.lineWidth = 1.5;
@@ -137,7 +138,7 @@ function seven_meta_cubes(s, a) {
         context.translate(-s*m/4*1.07, 0)
         createRombi({size: s, angle: a})
         context.translate(s*m/4*1.07, 0)
-        createRombi({size: s, angle: a})
+        createRombi({size: s*1.5, angle: a*2})
         context.translate(s*m/4*1.07, 0)
         createRombi({size: s, angle: a})
         
@@ -199,10 +200,3 @@ function clearFullScreen() {
 function mapNumber (number, min1, max1, min2, max2) {
     return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
 };
-
-            // seven_meta_cubes(s, mNoise)
-            // seven_meta_cubes(s, (mNoise+Math.PI)/3)
-            // seven_meta_cubes(s, mNoise-Math.PI/3)
-            // seven_meta_cubes(s, -mNoise)
-            // seven_meta_cubes(s, -(mNoise+Math.PI)/3)
-            // seven_meta_cubes(s, -mNoise-Math.PI/3)
