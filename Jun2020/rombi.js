@@ -303,30 +303,37 @@ function createImg(s) {
             break;
         case 11:
                 mNoise/=10;
-                maxIter = 167;
-            for (let i = maxIter; i > 0; i-=.7) {
+                maxIter = 147;
+
+                context.rotate(time/100)
+            for (let i = maxIter; i > 0; i-=.7*(1+i/1000)) {
                 const noiseNum = i/1000+Math.abs(mNoise);
-                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 0, 22);
+                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 7, 22);
                 let light = mapNumber(i, 0, maxIter, 95, 5);
                 context.strokeStyle = `hsl(0, 0%, ${light}%)`;
                 seven_meta_cubes(i, newNoise)
                 seven_meta_cubes(i, newNoise+Math.PI)
                 seven_meta_cubes(i, -newNoise)
                 seven_meta_cubes(i, -newNoise+Math.PI)
+
+                context.rotate(.001)
             }
             break;
         case 12:
                 mNoise/=10;
                 maxIter = 167;
-            for (let i = maxIter; i > 0; i-=.7) {
+                context.rotate(time/100)
+            for (let i = maxIter; i > 0; i-=.7*(1+i/1000)) {
                 const noiseNum = i/1000+Math.abs(mNoise);
-                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 0, 77);
-                let light = mapNumber(i, 0, maxIter, 90, 0);
+                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 7, 22);
+                let light = mapNumber(i, 0, maxIter, 95, 5);
                 context.strokeStyle = `hsl(0, 0%, ${light}%)`;
                 seven_meta_cubes(i, newNoise)
                 seven_meta_cubes(i, newNoise+Math.PI)
                 seven_meta_cubes(i, -newNoise)
                 seven_meta_cubes(i, -newNoise+Math.PI)
+
+                context.rotate(.001)
             }
             break;
     
