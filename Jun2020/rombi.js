@@ -337,7 +337,7 @@ function createImg(s) {
             }
             break;
          case 13:
-                context.lineWidth = .4;
+                context.lineWidth = .3;
                 mNoise/=7;
                 maxIter = 150;
                 context.rotate(time/100)
@@ -351,7 +351,7 @@ function createImg(s) {
                 seven_meta_cubes(i, -newNoise)
                 seven_meta_cubes(i, -newNoise+Math.PI)
 
-                context.rotate(mapNumber(i, 0, maxIter*1.25, -.5, -(timeMax/300 - time/300))/i*2)
+                context.rotate(mapNumber(i, 0, maxIter, 0, -(timeMax/300 - time/300))/i*2)
             }
             break;
     
