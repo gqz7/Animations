@@ -30,7 +30,7 @@ let canvas = document.createElement('canvas'),
 
       tiltWindow = false,
 
-      Meta = 13,
+      Meta = 14,
       
       colorIndex = 0,
 
@@ -352,6 +352,24 @@ function createImg(s) {
                 seven_meta_cubes(i, -newNoise+Math.PI)
 
                 context.rotate(mapNumber(i, 0, maxIter, 0, -(timeMax/300 - time/300))/i*2)
+            }
+            break;
+        case 14:
+                context.lineWidth = .3;
+                mNoise/=7;
+                maxIter = 150;
+                context.rotate(time/100)
+            for (let i = maxIter; i > 0; i-=.5) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
+                const noiseNum = i/300+(mNoise);
+                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 1, 11); 
+                let light = mapNumber(i, 0, maxIter, 95, 0);
+                context.strokeStyle = `hsl(${i-time}, 50%, ${light}%)`;
+                seven_meta_cubes(i, newNoise)
+                seven_meta_cubes(i, newNoise+Math.PI)
+                seven_meta_cubes(i, -newNoise)
+                seven_meta_cubes(i, -newNoise+Math.PI)
+
+                context.rotate(i/(100+time*10))
             }
             break;
     
