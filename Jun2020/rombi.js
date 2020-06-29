@@ -10,7 +10,7 @@ let canvas = document.createElement('canvas'),
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
 
-      time = 200,
+      time = 0,
 
       timeMax = 222,
 
@@ -133,7 +133,7 @@ function userInputEvent(input) {
         function render() {
 
         if (timeForward && time < timeMax) {
-            time+=.37
+            time+=.5
             // console.log('time++', time);
         } else if (timeForward && time >= timeMax) {
 
@@ -163,7 +163,7 @@ function createImg(s) {
 
     
 
-    let mNoise = Noise(s/300+seed,s/300+seed)*10,
+    let mNoise = Noise(s/300+seed,s/300+seed+.1)*10,
         light = mapNumber(time, 0, timeMax, 0, 100);
 
     context.lineWidth = 1.5;
@@ -355,24 +355,20 @@ function createImg(s) {
             }
             break;
         case 14:
-                context.lineWidth = .3;
+                context.lineWidth = .4;
                 mNoise/=7;
-                maxIter = 150;
-                context.rotate(time/100)
-            for (let i = maxIter; i > 0; i-=.5) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
+                maxIter = 137;
+                context.rotate(-mNoise/2)
+            for (let i = maxIter; i > 0; i-=.7) {
                 const noiseNum = i/300+(mNoise);
-                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 1, 11); 
+                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(i, 0, maxIter, 7, 0);
                 let light = mapNumber(i, 0, maxIter, 95, 0);
-                context.strokeStyle = `hsl(${i-time}, 50%, ${light}%)`;
-                seven_meta_cubes(i, newNoise)
-                seven_meta_cubes(i, newNoise+Math.PI)
-                seven_meta_cubes(i, -newNoise)
-                seven_meta_cubes(i, -newNoise+Math.PI)
-
-                let rotate = i/(2000+time*30);
-                console.log(rotate);
-                
-                context.rotate(rotate)
+                context.strokeStyle = `hsl(${i*1.2+(mNoise*117+134)}, 70%, ${light}%)`;
+                seven_meta_cubes(i, newNoise);
+                seven_meta_cubes(i, newNoise+Math.PI);
+                seven_meta_cubes(i, -newNoise);
+                seven_meta_cubes(i, -newNoise+Math.PI);
+                context.rotate(.0004*(mNoise*20))
             }
             break;
     
