@@ -2,7 +2,7 @@
 const Noise = toxi.math.noise.simplexNoise.noise;
 let seed = Math.random();
 
-// alert('CONTROLS\nPress R to toggle object rotation\nPress S to toggle frame screen clear\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
+// alert('CONTROLS\nPress E to adjust object orientation\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
@@ -12,17 +12,13 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      timeMax = 222,
+      timeMax = 777,
 
       timeForward = true,
 
       strokeW = 1,
-      
-      showArcs = false,
 
-      autoRotate = false,
-
-      showLines = true,
+      speed = .37,
 
       clearScreen = true,
       
@@ -30,11 +26,7 @@ let canvas = document.createElement('canvas'),
 
       tiltWindow = false,
 
-      Meta = 14,
-      
-      colorIndex = 0,
-
-      colorPairs = [['hotpink', 'lime'], ['lightsalmon', 'skyblue'], ['darkslategrey', 'lightgoldenrodyellow'], ['plum', 'yellow']];
+      rombiPick = 14;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -67,56 +59,33 @@ document.addEventListener('keydown', userInputEvent, false);
 function userInputEvent(input) {
 
     switch (input.code) {
-        case 'KeyO':
-
-            showArcs = !showArcs;
-            
-            break;
-        case 'KeyP':
-
-            showLines = !showLines;
-
-            break;
 
         case 'KeyT':
-
-            Meta = Meta > 0 ? Meta-1 : 14;
-            console.log(Meta);         
-            break;
+            rombiPick = rombiPick > 0 ? rombiPick-1 : 14;
+            // console.log(rombiPick);         
+        break;
         case 'KeyY':
-
-            Meta = Meta < 14 ? Meta+1 : 0;
-            console.log(Meta);         
-            break;
-    
-        case 'KeyR':
-
-            autoRotate = !autoRotate;
-
-            break;
+            rombiPick = rombiPick < 14 ? rombiPick+1 : 0;
+            // console.log(rombiPick);         
+        break;
         case 'KeyS':
-
             clearScreen = !clearScreen;
-    
-            break;
+        break;
         case 'KeyE':
-
             tiltWindow = !tiltWindow;
-
-            console.log(tiltWindow);
-            
-    
-            break;
+            // console.log(tiltWindow);    
+        break;
         case 'Space':
-
             pauseAnimation = !pauseAnimation;
-
             if (!pauseAnimation) {
                 render()
             }
-            
-            break;
-    
+        break;
+        case 'ArrowUp':
+            speed = speed < 1 ? speed+.1 : 1;
+        break;
+        case "ArrowDown":
+            speed = speed > .2 ? speed-.1 : .2;
     }
 
     
@@ -133,14 +102,14 @@ function userInputEvent(input) {
         function render() {
 
         if (timeForward && time < timeMax) {
-            time+=.5
+            time+=speed
             // console.log('time++', time);
         } else if (timeForward && time >= timeMax) {
 
             setTimeout(()=>{timeForward = false;}, 100)
 
         } else if (!timeForward && time > 1) {
-            time-=.3
+            time-=speed
         } else if ( time <= 1){
 
             timeForward = true;
@@ -161,25 +130,19 @@ function userInputEvent(input) {
 
 function createImg(s) { 
 
-    
-
     let mNoise = Noise(s/300+seed,s/300+seed+.1)*10,
         light = mapNumber(time, 0, timeMax, 0, 100);
 
-    context.lineWidth = 1.5;
-    context.strokeStyle = `hsl(0, 0%, ${light}%)`
+        context.lineWidth = 1.5;
+        context.strokeStyle = `hsl(0, 0%, ${light}%)`
 
-    // s = 130
-    // time = 150
-    // console.log(Meta);
-    
     context.save()
 
     if (tiltWindow) context.rotate(Math.PI/2);
 
     let maxIter;
 
-    switch (Meta) {
+    switch (rombiPick) {
         case 0:
             createRombi({size: s, angle: mNoise/3})
             createRombi({size: s, angle: -mNoise/3})
@@ -194,20 +157,22 @@ function createImg(s) {
             break;
         case 2:
             mNoise/=2;
-            seven_meta_cubes(s, mNoise)
-            seven_meta_cubes(s, mNoise+Math.PI)
-            seven_meta_cubes(s, -mNoise)
-            seven_meta_cubes(s, -mNoise+Math.PI)
-            
+            s/=1.3
+            seven_rombi(s, mNoise)
+            seven_rombi(s, mNoise+Math.PI)
+            seven_rombi(s, -mNoise)
+            seven_rombi(s, -mNoise+Math.PI)
+
             break;
         case 3:
             mNoise/=2;
-            seven_meta_cubes(s, mNoise)
-            seven_meta_cubes(s, mNoise+Math.PI/3)
-            seven_meta_cubes(s, mNoise-Math.PI/3)
-            seven_meta_cubes(s, -mNoise)
-            seven_meta_cubes(s, -mNoise+Math.PI/3)
-            seven_meta_cubes(s, -mNoise-Math.PI/3)
+            s/=1.3
+            seven_rombi(s, mNoise)
+            seven_rombi(s, mNoise+Math.PI/3)
+            seven_rombi(s, mNoise-Math.PI/3)
+            seven_rombi(s, -mNoise)
+            seven_rombi(s, -mNoise+Math.PI/3)
+            seven_rombi(s, -mNoise-Math.PI/3)
             break;
         case 4:
             const maxSize = time/5+10 < height ? time/5+10 : height;
@@ -278,10 +243,10 @@ function createImg(s) {
                 const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 0, 22);
                 let light = mapNumber(i, 0, maxIter, 0, 100);
                 context.strokeStyle = `hsl(0, 0%, ${light}%)`;
-                seven_meta_cubes(i, newNoise)
-                seven_meta_cubes(i, newNoise+Math.PI)
-                seven_meta_cubes(i, -newNoise)
-                seven_meta_cubes(i, -newNoise+Math.PI)
+                seven_rombi(i, newNoise)
+                seven_rombi(i, newNoise+Math.PI)
+                seven_rombi(i, -newNoise)
+                seven_rombi(i, -newNoise+Math.PI)
             }
             break;
         case 10:
@@ -293,12 +258,12 @@ function createImg(s) {
                 let light = mapNumber(i, 0, maxIter, 5, 90);
                 context.lineWidth = mapNumber(i, 0, maxIter, .1, 1);
                 context.strokeStyle = `hsl(0, 0%, ${light}%)`;
-                seven_meta_cubes(i, newNoise/2)
-                seven_meta_cubes(i, newNoise+Math.PI/3)
-                seven_meta_cubes(i, newNoise-Math.PI/3)
-                seven_meta_cubes(i, -newNoise/2)
-                seven_meta_cubes(i, -newNoise+Math.PI/3)
-                seven_meta_cubes(i, -newNoise-Math.PI/3)
+                seven_rombi(i, newNoise/2)
+                seven_rombi(i, newNoise+Math.PI/3)
+                seven_rombi(i, newNoise-Math.PI/3)
+                seven_rombi(i, -newNoise/2)
+                seven_rombi(i, -newNoise+Math.PI/3)
+                seven_rombi(i, -newNoise-Math.PI/3)
             }
             break;
         case 11:
@@ -311,10 +276,10 @@ function createImg(s) {
                 const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 7, 22);
                 let light = mapNumber(i, 0, maxIter, 95, 5);
                 context.strokeStyle = `hsl(0, 0%, ${light}%)`;
-                seven_meta_cubes(i, newNoise)
-                seven_meta_cubes(i, newNoise+Math.PI)
-                seven_meta_cubes(i, -newNoise)
-                seven_meta_cubes(i, -newNoise+Math.PI)
+                seven_rombi(i, newNoise)
+                seven_rombi(i, newNoise+Math.PI)
+                seven_rombi(i, -newNoise)
+                seven_rombi(i, -newNoise+Math.PI)
 
                 context.rotate(.001)
             }
@@ -326,12 +291,12 @@ function createImg(s) {
             for (let i = maxIter; i > 0; i-=1*(1+i/2000)) {
                 const noiseNum = i/1000+(mNoise);
                 const newNoise = Noise(noiseNum,noiseNum)*22
-                let light = mapNumber(i, 0, maxIter, 95, 0);
+                let light = mapNumber(i, 0, maxIter, 90, 0);
                 context.strokeStyle = `hsl(${i-time}, 50%, ${light}%)`;
-                seven_meta_cubes(i, newNoise)
-                seven_meta_cubes(i, newNoise+Math.PI)
-                seven_meta_cubes(i, -newNoise)
-                seven_meta_cubes(i, -newNoise+Math.PI)
+                seven_rombi(i, newNoise)
+                seven_rombi(i, newNoise+Math.PI)
+                seven_rombi(i, -newNoise)
+                seven_rombi(i, -newNoise+Math.PI)
 
                 context.rotate(mNoise/20)
             }
@@ -340,34 +305,38 @@ function createImg(s) {
                 context.lineWidth = .3;
                 mNoise/=7;
                 maxIter = 150;
-                context.rotate(time/100)
+                context.rotate(mNoise)
             for (let i = maxIter; i > 0; i-=.5) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
                 const noiseNum = i/300+(mNoise);
-                const newNoise = Noise(noiseNum,noiseNum)*mapNumber(time, 0, timeMax, 1, 11); 
+                const newNoise = Noise(noiseNum,noiseNum)*(9/(1+i/100)); 
                 let light = mapNumber(i, 0, maxIter, 95, 0);
                 context.strokeStyle = `hsl(${i-time}, 50%, ${light}%)`;
-                seven_meta_cubes(i, newNoise)
-                seven_meta_cubes(i, newNoise+Math.PI)
-                seven_meta_cubes(i, -newNoise)
-                seven_meta_cubes(i, -newNoise+Math.PI)
+                seven_rombi(i, newNoise)
+                seven_rombi(i, newNoise+Math.PI)
+                seven_rombi(i, -newNoise)
+                seven_rombi(i, -newNoise+Math.PI)
 
-                context.rotate(mapNumber(i, 0, maxIter, 0, -(timeMax/300 - time/300))/i*2)
+                context.rotate(mapNumber(i, 0, maxIter, 0, -(timeMax/777 - time/777))/i)
             }
             break;
         case 14:
                 context.lineWidth = .4;
                 mNoise/=7;
-                maxIter = 137;
-                context.rotate(-mNoise/2)
-            for (let i = maxIter; i > 0; i-=.7) {
+                maxIter = height/9;
+                context.rotate(-mNoise/2+time/100)
+                context.strokeStyle = `hsl(${mNoise*117+134}, 70%%, 70%)`;;
+                context.beginPath()
+                context.arc(0,0,2,0,Math.PI*2)
+                context.fill()
+            for (let i = maxIter; i > 1; i-=.77) {
                 const noiseNum = i/300+(mNoise);
                 const newNoise = Noise(noiseNum,noiseNum)*mapNumber(i, 0, maxIter, 7, 0);
                 let light = mapNumber(i, 0, maxIter, 95, 0);
-                context.strokeStyle = `hsl(${i*1.2+(mNoise*117+134)}, 70%, ${light}%)`;
-                seven_meta_cubes(i, newNoise);
-                seven_meta_cubes(i, newNoise+Math.PI);
-                seven_meta_cubes(i, -newNoise);
-                seven_meta_cubes(i, -newNoise+Math.PI);
+                context.strokeStyle = `hsl(${i*1.17+(mNoise*117+134)}, 70%, ${light}%)`;
+                seven_rombi(i, newNoise);
+                seven_rombi(i, newNoise+Math.PI);
+                seven_rombi(i, -newNoise);
+                seven_rombi(i, -newNoise+Math.PI);
                 context.rotate(.0004*(mNoise*20))
             }
             break;
@@ -378,45 +347,37 @@ function createImg(s) {
 
     context.restore()
 
-    if (autoRotate) {
-        
-        context.rotate(.01)
-        
-    }
 
 }
 
-function seven_meta_cubes(s, a) {
-
+function seven_rombi(s, a) {
     let m = 6.93;
-
     a/=2;
-
     context.save()
 
-        context.translate(-s*m/4*1.07, 0)
+        context.translate(-s*m/3.42, 0)
         createRombi({size: s, angle: a})
-        context.translate(s*m/4*1.07*2, 0)
+        context.translate(s*m/3.42*2, 0)
         // createRombi({size: s, angle: a})
-        // context.translate(s*m/4*1.07, 0)
+        // context.translate(s*m/3.42, 0)
         createRombi({size: s, angle: a})
         
     context.restore()
 
     context.save()
 
-        context.translate(-s*m/8*1.0714, -s*m*Math.sqrt(3)/8*1.2)
+        context.translate(-s*m/6.9, -s*m*Math.sqrt(3)/8*1.17)
         createRombi({size: s, angle: a})
-        context.translate(0, s*3*1.2)
+        context.translate(0, s*3*1.17)
         createRombi({size: s, angle: a})
         
     context.restore()
 
     context.save()
 
-        context.translate(s*m/8*1.0714, -s*m*Math.sqrt(3)/8*1.2)
+        context.translate(s*m/6.9, -s*m*Math.sqrt(3)/8*1.17)
         createRombi({size: s, angle: a})
-        context.translate(0, s*3*1.2)
+        context.translate(0, s*3*1.17)
         createRombi({size: s, angle: a})
         
     context.restore()
@@ -425,27 +386,21 @@ function seven_meta_cubes(s, a) {
 
 function createRombi(rombiObj) {
     const {size, angle, light} = rombiObj;
-    context.save()
     if (light) {
         context.strokeStyle = `hsl(0,0%,${light}%)`;
     }
-    if (angle) context.rotate(angle);
+    context.save()
+
+        if (angle) context.rotate(angle)
+
         context.beginPath()
-        context.arc(0,0,size,0,Math.PI*2)
-    if (showArcs) {
+        context.moveTo(size/2,0);
+        context.lineTo(0,-size)
+        context.lineTo(-size/2,0)
+        context.lineTo(0,size)
+        context.lineTo(size/2,0)
         context.stroke()
-    }
-    if (showLines) {
-        context.save()
-            context.beginPath()
-            context.moveTo(size/2,0);
-            context.lineTo(0,-size)
-            context.lineTo(-size/2,0)
-            context.lineTo(0,size)
-            context.lineTo(size/2,0)
-                context.stroke()
-        context.restore()
-    }
+ 
     context.restore()
 }
 
