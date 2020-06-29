@@ -10,7 +10,7 @@ let canvas = document.createElement('canvas'),
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
 
-      time = 0,
+      time = 200,
 
       timeMax = 222,
 
@@ -369,7 +369,10 @@ function createImg(s) {
                 seven_meta_cubes(i, -newNoise)
                 seven_meta_cubes(i, -newNoise+Math.PI)
 
-                context.rotate(i/(100+time*10))
+                let rotate = i/(2000+time*30);
+                console.log(rotate);
+                
+                context.rotate(rotate)
             }
             break;
     
