@@ -1,4 +1,4 @@
-[Back To Categories](https://github.com/GabrielQSherman/Animations/tree/master)
+[Back To Categories](https://github.com/GabrielQSherman/Animations/tree/master#readme)
 
 # Yin Yang Animations
 
