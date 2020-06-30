@@ -8,19 +8,19 @@
 
 #### click links to see all GIFs in a given category
 
-[3D Sphere Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Globe)
+[3D Sphere Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Globe#readme)
 
-[3D Natural Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Natural-Terrain)
+[3D Natural Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Natural-Terrain#readme)
 
-[3D Abstract Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Abstract-Terrain)
+[3D Abstract Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Abstract-Terrain#readme)
 
-[Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry)
+[Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry#readme)
 
-[Star Field Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Stars)
+[Star Field Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Stars#readme)
 
-[Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard)
+[Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard#readme)
 
-[Yin Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Yin-Yang)
+[Yin Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Yin-Yang#readme)
 
 <!-- My inspiration for many of these animations comes from natures itself. I am very facinates by the fractals that appear in the phenomonal world. These are all the animations I have created in my journey as a delevopler and digital artist.
 Notes -->
