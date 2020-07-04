@@ -11,7 +11,7 @@ let canvas = document.createElement('canvas'),
 
       timeForward = true,
 
-      strokeW = 11,
+      strokeW = 1,
       
       pauseAnimation = false;
 
@@ -91,14 +91,17 @@ function createImg(size) {
 
 
     const saturation = 100;
-    context.strokeStyle = `hsl(0, ${saturation}%, 50%)`;
+    context.strokeStyle = `hsl(144, ${saturation}%, 100%)`;
 
  context.save()
 
     context.beginPath()
 
-    context.moveTo(0,-size)
-    context.lineTo(0,size)
+    context.moveTo(0,-size/2)
+    context.lineTo(0,size/2)
+    context.lineTo(-size,size/2)
+    context.lineTo(-size,-size/2)
+    context.lineTo(0,-size/2)
     
     context.stroke()
 
