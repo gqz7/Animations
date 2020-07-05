@@ -26,7 +26,7 @@ let canvas = document.createElement('canvas'),
 
       tiltWindow = false,
 
-      rombiPick = 14;
+      rombiPick = 1;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
