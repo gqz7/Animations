@@ -1,9 +1,9 @@
 [Back To Categories](https://github.com/GabrielQSherman/Animations/tree/master#readme)
 
-# Tree Animations
+# Flower Animations
 
-### Fractal Tree
+### Flower Structures Created Using The Simplex Noise Algorithm
 
-![](fractal-tree.gif)
+![](flower-simplexnoise.gif)
 
-![](fractal-tree2.gif)
+[source code](https://github.com/GabrielQSherman/Animations/tree/master/Jul2020/flowers-living.js)
