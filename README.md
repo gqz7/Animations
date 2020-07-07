@@ -16,6 +16,8 @@
 
 [Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry#readme)
 
+[Nature Inspired Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Nature#readme)
+
 [Star Field Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Stars#readme)
 
 [Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard#readme)
