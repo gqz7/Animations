@@ -112,10 +112,10 @@ function userInputEvent(input) {
 function createImg(s) { 
 
     let mNoise = Noise(s/333+seed,s/333+seed)*11*(1+seed/10),
-        light = mapNumber(time, 0, timeMax, 0, 100);
+        light = mapNumber(time-40, 0, timeMax, 50, 90);
 
     context.lineWidth = 1.5;
-    context.strokeStyle = `hsl(0, 0%, ${light}%)`
+    context.strokeStyle = `hsl(${s*3}, 70%, ${light}%)`
 
     context.save()
 
@@ -165,11 +165,9 @@ function seven_meta_cubes(s, a) {
 }
 
 function createRombi(rombiObj) {
-    const {size, angle, light} = rombiObj;
+    const {size, angle} = rombiObj;
     context.save()
-    if (light) {
-        context.strokeStyle = `hsl(0,0%,${light}%)`;
-    }
+
     if (angle) context.rotate(angle);
         context.beginPath()
         context.arc(0,0,size,0,Math.PI*2)
