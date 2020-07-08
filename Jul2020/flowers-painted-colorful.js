@@ -1,6 +1,6 @@
 
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed = .861//Math.random();
+let seed = Math.random();
 
 // alert('CONTROLS\nPress R to toggle object rotation\nPress S to toggle frame screen clear\nPress O to ( Hide / Show ) circles\nPress P to ( Hide / Show ) lines\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
@@ -9,7 +9,7 @@ let canvas = document.createElement('canvas'),
 
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
-      timeMax = 133,
+      timeMax = 143,
       
       time = timeMax,
 
@@ -98,7 +98,7 @@ function userInputEvent(input) {
                         startColor = Math.random() * 360; 
                         pauseAnimation = false; 
                         render()
-                    }, 20000)
+                    }, 2000)
             }
         if (!pauseAnimation) {
             setTimeout(window.requestAnimationFrame, 0, render)
@@ -108,14 +108,14 @@ function userInputEvent(input) {
 
 function createImg(s) { 
 
-    let mNoise = Noise(s/333+seed,s/333+seed)*15*(1+seed/10),
+    let mNoise = Noise(s/333+seed,s/333+seed)*(23*mapNumber(time, 0, timeMax, 1*(1+seed), 0)),
         light = mapNumber(time-40, 0, timeMax, 55, 80);
 
     context.lineWidth = 1.5;
-    context.strokeStyle = `hsl(${(s*7%157) +157}, 41%, ${light}%)`
+    context.strokeStyle = `hsl(${(s*7) +startColor}, 41%, ${light}%)`
 
     context.save()
-
+    context.rotate(-mNoise/200);
     if (tiltWindow) context.rotate(Math.PI/2);
             mNoise/=2;
             seven_meta_cubes(s, (mNoise)/2)
