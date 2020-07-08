@@ -21,6 +21,10 @@ let canvas = document.createElement('canvas'),
 
       colorIndex = 0,
 
+      startColor = Math.random() * 360,
+      
+      greyScale = false,
+
       colorPairs = [['hotpink', 'lime'], ['lightsalmon', 'skyblue'], ['darkslategrey', 'lightgoldenrodyellow'], ['plum', 'yellow']];
 
 context.strokeStyle = 'white';
@@ -54,13 +58,8 @@ document.addEventListener('keydown', userInputEvent, false);
 function userInputEvent(input) {
 
     switch (input.code) {
-        case 'KeyO':
-            showArcs = !showArcs;
-            break;
-        case 'KeyP':
-
-            showLines = !showLines;
-
+        case 'KeyG':
+            greyScale = !greyScale;
             break;
 
         case 'KeyE':
@@ -99,6 +98,7 @@ function userInputEvent(input) {
                         time = timeMax;  
                         clearFullScreen(); 
                         seed = Math.random(); 
+                        startColor = Math.random() * 360; 
                         pauseAnimation = false; 
                         render()
                     }, 2000)
@@ -112,10 +112,10 @@ function userInputEvent(input) {
 function createImg(s) { 
 
     let mNoise = Noise(s/333+seed,s/333+seed)*11*(1+seed/10),
-        light = mapNumber(time-40, 0, timeMax, 50, 90);
+        light = greyScale ? mapNumber(time, 0, timeMax, 0, 100) : mapNumber(time-40, 0, timeMax, 50, 90);
 
     context.lineWidth = 1.5;
-    context.strokeStyle = `hsl(${s*3}, 70%, ${light}%)`
+    context.strokeStyle = greyScale ? `hsl(0, 0%, ${light}%)` : `hsl(${s*3+startColor}, 70%, ${light}%)`
 
     context.save()
 
