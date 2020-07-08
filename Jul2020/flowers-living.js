@@ -12,13 +12,13 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      timeMax = 777,
+      timeMax = 333,
 
       timeForward = true,
 
       strokeW = 1,
 
-      speed = .37,
+      speed = .57,
 
       clearScreen = true,
       
@@ -123,7 +123,7 @@ function userInputEvent(input) {
         createImg(time)
 
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame, 0, render)
+            setTimeout(window.requestAnimationFrame, 3, render)
         }
 
       }
@@ -175,7 +175,7 @@ function createImg(s) {
                 const noiseNum = i/300+(mNoise);
                 const newNoise = Noise(noiseNum,noiseNum)*mapNumber(i, 0, maxIter, 7, 0);
                 let light = mapNumber(i, 0, maxIter, 95, 0);
-                context.strokeStyle = `hsl(${i*1.17+(mNoise*117+134)}, 70%, ${light}%)`;
+                context.strokeStyle = `hsl(${i*1.37+(mNoise*317+134)}, 100%, ${light}%)`;
                 seven_rombi(i, newNoise);
                 seven_rombi(i, newNoise+Math.PI);
                 seven_rombi(i, -newNoise);
@@ -201,8 +201,6 @@ function seven_rombi(s, a) {
         context.translate(-s*m/3.42, 0)
         createRombi({size: s, angle: a})
         context.translate(s*m/3.42*2, 0)
-        // createRombi({size: s, angle: a})
-        // context.translate(s*m/3.42, 0)
         createRombi({size: s, angle: a})
         
     context.restore()
@@ -228,10 +226,8 @@ function seven_rombi(s, a) {
 }
 
 function createRombi(rombiObj) {
-    const {size, angle, light} = rombiObj;
-    if (light) {
-        context.strokeStyle = `hsl(0,0%,${light}%)`;
-    }
+    const {size, angle} = rombiObj;
+
     context.save()
 
         if (angle) context.rotate(angle)
