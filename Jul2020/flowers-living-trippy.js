@@ -9,7 +9,7 @@ let canvas = document.createElement('canvas'),
 
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
-      timeMax = 400,
+      timeMax = 200,
       
       time = timeMax,
 
@@ -27,9 +27,7 @@ let canvas = document.createElement('canvas'),
 
       colorPairs = [['hotpink', 'lime'], ['lightsalmon', 'skyblue'], ['darkslategrey', 'lightgoldenrodyellow'], ['plum', 'yellow']];
 
-context.strokeStyle = 'white';
-context.fillStyle = 'white';
-
+      
 context.lineWidth = strokeW;
 
 canvas.style = ` display: block;
@@ -120,7 +118,7 @@ function createImg() {
         const size = i;
 
         let mNoise = Noise(size/333+seed,size/333+seed)*(23*mapNumber(size, 0, timeMax, 1, 0)),
-        light = mapNumber(size-40, 0, timeMax, 55, 100);
+        light = mapNumber(size-40, 0, timeMax, 55, 77);
         context.lineWidth = 1.5
         context.strokeStyle = `hsl(${(size*7)-time}, 41%, ${light}%)`
         context.save()
