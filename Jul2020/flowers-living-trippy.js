@@ -9,7 +9,7 @@ let canvas = document.createElement('canvas'),
 
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
-      timeMax = 143,
+      timeMax = 400,
       
       time = timeMax,
 
@@ -91,22 +91,22 @@ function userInputEvent(input) {
 
             createImg()
 
-            seed+=.001
-            time++
-            // if (time > 1) {
-                
-            //     time-=.7
-            // } else if ( time <= 1){
-            //     pauseAnimation = true;
-            //         setTimeout(()=> { 
-            //             time = timeMax;  
-            //             clearFullScreen(); 
-            //             seed = Math.random(); 
-            //             startColor = Math.random() * 360; 
-            //             pauseAnimation = false; 
-            //             render()
-            //         }, 2000)
-            // }
+            if (time > 1) {
+ 
+                seed+=.001
+            
+                time++
+            } else if ( time <= 1){
+            pauseAnimation = true;
+                setTimeout(()=> { 
+                    time = timeMax;  
+                    clearFullScreen(); 
+                    seed = Math.random(); 
+                    startColor = Math.random() * 360; 
+                    pauseAnimation = false; 
+                    render()
+                }, 2000)
+            }
         if (!pauseAnimation) {
             setTimeout(window.requestAnimationFrame, 0, render)
         }
@@ -120,25 +120,19 @@ function createImg() {
         const size = i;
 
         let mNoise = Noise(size/333+seed,size/333+seed)*(23*mapNumber(size, 0, timeMax, 1, 0)),
-        light = mapNumber(size-40, 0, timeMax, 55, 80);
-
-        context.lineWidth = 1.5;
+        light = mapNumber(size-40, 0, timeMax, 55, 100);
+        context.lineWidth = 1.5
         context.strokeStyle = `hsl(${(size*7)-time}, 41%, ${light}%)`
-
         context.save()
-        context.rotate(-mNoise/200);
-        if (tiltWindow) context.rotate(Math.PI/2);
-            
-            mNoise/=2;
+        context.rotate(-mNoise/200)
+        if (tiltWindow) context.rotate(Math.PI/2)
+            mNoise/=2
             seven_meta_cubes(size, (mNoise)/2)
             seven_meta_cubes(size, (mNoise+Math.PI)/2)
             seven_meta_cubes(size, -(mNoise)/2)
             seven_meta_cubes(size, -(mNoise+Math.PI)/2)
-
         context.restore()
-        
     }
-
 }
 
 function seven_meta_cubes(s, a) {
