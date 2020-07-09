@@ -107,6 +107,24 @@ function createImg(size) {
 
  context.restore()
 
+ context.save()
+
+ context.translate(100, -100);
+ context.scale(.8,.8)
+
+ context.beginPath()
+
+ context.moveTo(0,-size/2)
+ context.lineTo(0,size/2)
+ context.lineTo(-size,size/2)
+ context.lineTo(-size,-size/2)
+ context.lineTo(0,-size/2)
+ 
+ context.stroke()
+
+context.restore()
+ 
+
 }
 
 
