@@ -9,7 +9,7 @@ let canvas = document.createElement('canvas'),
 
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
-      timeMax = 200,
+      timeMax = 157,
       
       time = timeMax,
 
@@ -113,16 +113,18 @@ function userInputEvent(input) {
 
 function createImg() { 
 
-    for (let i = timeMax; i > 0; i-=.7) {
+    context.rotate(.002)
+
+    for (let i = timeMax; i > 0; i-= .67) {
         
         const size = i;
 
-        let mNoise = Noise(size/333+seed,size/333+seed)*(23*mapNumber(size, 0, timeMax, 1, 0)),
+        let mNoise = Noise(size/333+seed,size/333+seed)*(33*mapNumber(size, 0, timeMax, 1, 0)),
         light = mapNumber(size-40, 0, timeMax, 55, 77);
         context.lineWidth = 1.5
-        context.strokeStyle = `hsl(${(size*7)-time}, 41%, ${light}%)`
+        context.strokeStyle = `hsl(${(size*7)-time*2}, 41%, ${light}%)`
         context.save()
-        context.rotate(-mNoise/200)
+        context.rotate(-mNoise/20)
         if (tiltWindow) context.rotate(Math.PI/2)
             mNoise/=2
             seven_meta_cubes(size, (mNoise)/2)
