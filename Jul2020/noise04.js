@@ -131,10 +131,11 @@ function createImg(s) {
 
     context.translate(width/4,height/4)
 
-    let pixSize = 8;
+    let pixSize = 4;
     let xCount = 0;
-    let nRes = s/3+15 < 55 ? s/3+15 : 55;
-    let transX = nRes == 55 ? (s/3-40)/10 : 0;
+    let baseNoiseRes = s/1+15;
+    let nRes = baseNoiseRes < 78 ? baseNoiseRes : 78;
+    let transX = nRes == 78 ? (s/1-63)/30 : 0;
 
     for (let x = 0; x < width/2; x+=pixSize) {
         // console.log(x);
@@ -143,11 +144,11 @@ function createImg(s) {
         for (let y = 0; y < height/2; y+=pixSize) {
 
           const offX = (mapNumber(nRes, 3, timeMax, 0, width*4)/nRes)+transX,
-                offY = mapNumber(nRes, 2.5, timeMax, 0, height*4)/nRes,
+                offY = (mapNumber(nRes, 2.5, timeMax, 0, height*4)/nRes),
                 noiseX = ((xCount)/nRes)+offX+seed,
                 noiseY = ((yCount)/nRes)+offY+seed,
                 light = Math.abs((Noise(noiseX, noiseY)*100 )) % 100,
-                color = Math.abs((Noise(noiseX, noiseY)*100 )+100)*10;
+                color = Math.abs((Noise(noiseX, noiseY)*100 )+s*2)*12;
 
             context.strokeStyle = `hsl(${color}, 100%, ${light}%)`; //Math.random()*100
 
