@@ -120,11 +120,11 @@ function createImg() {
         const size = i;
 
         let mNoise = Noise(size/333+seed,size/333+seed)*(33*mapNumber(size, 0, timeMax, 1, 0)),
-        light = mapNumber(size-40, 0, timeMax, 55, 77);
+        light = mapNumber(size-40, 0, timeMax, 50, 100);
         context.lineWidth = 1.5
-        context.strokeStyle = `hsl(${(size*7)-time*2}, 41%, ${light}%)`
+        context.strokeStyle = `hsl(${(size*7)-time*5}, 41%, ${light}%)`
         context.save()
-        context.rotate(-mNoise/20)
+        context.rotate(-mNoise/30)
         if (tiltWindow) context.rotate(Math.PI/2)
             mNoise/=2
             seven_meta_cubes(size, (mNoise)/2)
