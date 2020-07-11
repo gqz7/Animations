@@ -127,7 +127,7 @@ function createImg(s) {
 
     let mNoise = Noise(seed,seed+.1)*1;
 
-    let pixSize = 7;
+    let pixSize = 4;
     let xCount = 0;
     let nRes = s+5 < 44 ? s+5 : 44;
     let transX = nRes == 44 ? (s-39)/10 : 0;
@@ -144,7 +144,7 @@ function createImg(s) {
                 noiseY = ((yCount)/nRes)+offY+seed,
                 light = Math.abs((Noise(noiseX, noiseY)*100 )+ s*7) % 100;
 
-            context.strokeStyle = `hsl(${s-100}, 100%, ${light}%)`; //Math.random()*100
+            context.strokeStyle = `hsl(${light*10}, 100%, ${light}%)`; //Math.random()*100
 
             context.lineWidth = pixSize;
            
