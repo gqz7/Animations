@@ -118,33 +118,38 @@ function userInputEvent(input) {
         // return
 
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame, 0, render)
+            setTimeout(window.requestAnimationFrame,  0, render)
         }
 
       }
 
 function createImg(s) { 
 
-    let mNoise = Noise(seed,seed+.1)*1;
+    // let mNoise = Noise(seed,seed+.1)*1;
+    
+    context.save()
 
-    let pixSize = 4;
+    context.translate(width*1.5/4,height*1.5/4)
+
+    let pixSize = 2 ;
     let xCount = 0;
-    let nRes = s+5 < 44 ? s+5 : 44;
-    let transX = nRes == 44 ? (s-39)/10 : 0;
+    let nRes = s/3+15 < 44 ? s/3+15 : 44;
+    let transX = nRes == 44 ? (s/3-29)/10 : 0;
 
-    for (let x = 0; x < width; x+=pixSize) {
+    for (let x = 0; x < width/4; x+=pixSize) {
         // console.log(x);
         let yCount = 0;
 
-        for (let y = 0; y < height; y+=pixSize) {
+        for (let y = 0; y < height/4; y+=pixSize) {
 
           const offX = (mapNumber(nRes, 1.2, timeMax, 0, width*4)/nRes)+transX,
                 offY = mapNumber(nRes, 1.3, timeMax, 0, height*4)/nRes,
                 noiseX = ((xCount)/nRes)+offX+seed,
                 noiseY = ((yCount)/nRes)+offY+seed,
-                light = Math.abs((Noise(noiseX, noiseY)*100 )+ s*7) % 100;
+                light = Math.abs((Noise(noiseX, noiseY)*100 )+ s*7) % 100,
+                color = Math.abs((Noise(noiseX, noiseY)*100 )+ s*3)*10;
 
-            context.strokeStyle = `hsl(${light*10}, 100%, ${light}%)`; //Math.random()*100
+            context.strokeStyle = `hsl(${color}, 100%, ${light}%)`; //Math.random()*100
 
             context.lineWidth = pixSize;
            
@@ -161,6 +166,9 @@ function createImg(s) {
         xCount++
         
     }
+
+    context.restore()
+
 
 
 }
