@@ -24,9 +24,8 @@ let canvas = document.createElement('canvas'),
       
       pauseAnimation = false,
 
-      tiltWindow = false,
-
-      rombiPick = 1;
+      viewWidth = 25,
+      viewHeight = 750;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -107,11 +106,11 @@ function userInputEvent(input) {
 
             timeForward = true;
             time = 1.1
-            seed = Math.random()
+            seed = Math.random()*100
             
         }
 
-        if(clearScreen) clearFullScreen()
+        // if(clearScreen) clearFullScreen()
 
         createImg(time)
 
@@ -129,26 +128,33 @@ function createImg(s) {
     
     context.save()
 
-    context.translate(width/4,height/4)
+    s = -s;
 
-    let pixSize = 4;
+    // context.translate(width/2-viewWidth/2,height/2-viewHeight/2)
+
+    let pixSize = 2;
     let xCount = 0;
-    let baseNoiseRes = s/1+15;
-    let nRes = baseNoiseRes < 78 ? baseNoiseRes : 78;
-    let transX = nRes == 78 ? (s/1-63)/30 : 0;
+    let nRes = time/3;
+    let transX = nRes == 77 ? s/30 : 0;
 
-    for (let x = 0; x < width/2; x+=pixSize) {
+    console.log(nRes);
+
+    context.translate(s*5.4+width,height/2-viewHeight/2)
+
+
+    for (let x = 0; x < viewWidth; x+=pixSize) {
         // console.log(x);
         let yCount = 0;
 
-        for (let y = 0; y < height/2; y+=pixSize) {
+        for (let y = 0; y < viewHeight; y+=pixSize) {
 
           const offX = (mapNumber(nRes, 3, timeMax, 0, width*4)/nRes)+transX,
                 offY = (mapNumber(nRes, 2.5, timeMax, 0, height*4)/nRes),
                 noiseX = ((xCount)/nRes)+offX+seed,
                 noiseY = ((yCount)/nRes)+offY+seed,
-                light = (Math.abs((Noise(noiseX, noiseY)*100 )) % 10)*10,
-                color = Math.abs((Noise(noiseX, noiseY)*100 ) % 10)*100;
+                divid = time < 40 ? time : 40,
+                light = (Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+nRes/1.5,
+                color = Math.abs((Noise(noiseX, noiseY)*divid ) % 10)*divid;
 
             context.strokeStyle = `hsl(${color}, 50%, ${light}%)`; //Math.random()*100
 
