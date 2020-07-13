@@ -25,7 +25,7 @@ let canvas = document.createElement('canvas'),
       
       pauseAnimation = false,
 
-      viewWidth = 15,
+      viewWidth = 5,
       viewHeight = height ;
 
 context.strokeStyle = 'white';
@@ -113,10 +113,10 @@ function userInputEvent(input) {
             
         }
 
-        // if(clearScreen) clearFullScreen()
         const tX1 = -time*3.5+20, tX2 = (time*4-20)*3.5/2, tY = 0;
 
         context.save()
+            context.scale(1,1-time/500)
             context.translate(tX1,tY)
             createImg(time, 1)
             context.translate(tX2,0)
@@ -124,7 +124,7 @@ function userInputEvent(input) {
         context.restore()
 
         context.save()
-            context.scale(1,-1)
+            context.scale(1,-1+time/500)
             context.translate(tX1,tY)
             createImg(time, 1)
             context.translate(tX2,0)
@@ -134,14 +134,12 @@ function userInputEvent(input) {
         // return
 
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame,  30, render)
+            setTimeout(window.requestAnimationFrame,  0, render)
         }
 
       }
 
 function createImg(s, num) { 
-
-    let mNoise = Noise(seed,seed+.1)*1;
     
     // context.save()
 
@@ -153,7 +151,8 @@ function createImg(s, num) {
     const pixSize = 2,
           nRes = time*1.7,
           transX = nRes == 77 ? s/30 : 0,
-          seed = num === 1 ? seed1 : seed2;
+          seed = num === 1 ? seed1 : seed2,
+          mNoise = Noise(seed1,seed2+.1)+5;
 
     let xCount = 0;
 
@@ -161,7 +160,7 @@ function createImg(s, num) {
         // console.log(x);
         let yCount = 0;
 
-        for (let y = 0; y < viewHeight; y+=pixSize/mNoise) {
+        for (let y = 0; y < viewHeight; y+=pixSize) {
 
           const offX = (mapNumber(nRes, 3, timeMax, 0, width*4)/nRes)+transX,
                 offY = (mapNumber(nRes, 2.5, timeMax, 0, height*4)/nRes),
@@ -171,7 +170,7 @@ function createImg(s, num) {
                 light = (Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+nRes/3.3+y/12,
                 color = (Math.abs((Noise(noiseX, noiseY)*nRes/5 )*nRes/3));
 
-            context.strokeStyle = `hsl(${((-color*1.5)%270)-50}, 100%, ${100-light}%)`; //Math.random()*100
+            context.strokeStyle = `hsl(${(((-color*1.5)%360)-0)-time*10}, 100%, ${100-light}%)`; //Math.random()*100
 
             context.lineWidth = pixSize;
            
