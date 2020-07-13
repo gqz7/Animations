@@ -13,20 +13,20 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      timeMax = width/4,
+      timeMax = height/6.7,
 
       timeForward = true,
 
       strokeW = 1,
 
-      speed = .47,
+      speed = .27,
 
       clearScreen = true,
       
       pauseAnimation = false,
 
       viewWidth = 15,
-      viewHeight = height;
+      viewHeight = height ;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -41,7 +41,7 @@ canvas.style = `display: block;
                 margin:auto;
                 background-color: black`;
 
-document.body.style = `margin: 0`;
+document.body.style = `margin: 0; backgroundColor: black`;
 
 document.body.appendChild(canvas)
 
@@ -87,7 +87,7 @@ function userInputEvent(input) {
 
 //SET THE CANVAS ORIGIN TO THE MIDDLE OF THE WINDOW
       context.translate(width/2, height/2)   
-    context.rotate(Math.PI)
+    context.rotate(Math.PI/2)
 
 //ANIMAITON CYCLE
 
@@ -114,25 +114,33 @@ function userInputEvent(input) {
         }
 
         // if(clearScreen) clearFullScreen()
-        context.save()
-        context.translate(-time*3.5+20,-viewHeight/2)
-        createImg(time, 1)
-        context.translate((time*4-20)*3.5/2,0)
-        createImg(time, 2)
+        const tX1 = -time*3.5+20, tX2 = (time*4-20)*3.5/2, tY = 0;
 
+        context.save()
+            context.translate(tX1,tY)
+            createImg(time, 1)
+            context.translate(tX2,0)
+            createImg(time, 2)
+        context.restore()
+
+        context.save()
+            context.scale(1,-1)
+            context.translate(tX1,tY)
+            createImg(time, 1)
+            context.translate(tX2,0)
+            createImg(time, 2)
         context.restore()
 
         // return
 
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame,  0, render)
+            setTimeout(window.requestAnimationFrame,  30, render)
         }
 
       }
 
 function createImg(s, num) { 
 
-    // let mNoise = Noise(seed,seed+.1)*1;
     
     // context.save()
 
@@ -142,9 +150,11 @@ function createImg(s, num) {
     // context.translate(width/2-viewWidth/2,height/2-viewHeight/2)
 
     const pixSize = 2,
-          nRes = time,
+          nRes = time*1.7,
           transX = nRes == 77 ? s/30 : 0,
-          seed = num === 1 ? seed1 : seed2;
+          seed = num === 1 ? seed1 : seed2,
+          mNoise = Noise(seed1,seed2+.1)*1;
+
 
     let xCount = 0;
 
@@ -159,10 +169,10 @@ function createImg(s, num) {
                 noiseX = ((xCount)/nRes)+offX+seed,
                 noiseY = ((yCount)/nRes)+offY+seed,
                 divid = time < 40 ? time : 40,
-                light = (Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+nRes/3,
-                color = (Math.abs((Noise(noiseX, noiseY)*divid ) % 10)*divid)+s*3;
+                light = (Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+nRes/3.3+y/12,
+                color = (Math.abs((Noise(noiseX, noiseY)*nRes/5 )*nRes/3));
 
-            context.strokeStyle = `hsl(${color}, 50%, ${light}%)`; //Math.random()*100
+            context.strokeStyle = `hsl(${((-color*1.5)%270)-50}, 100%, ${100-light}%)`; //Math.random()*100
 
             context.lineWidth = pixSize;
            
