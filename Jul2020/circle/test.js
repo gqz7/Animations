@@ -60,7 +60,7 @@ const renderImage = () => {
     for (let i = 0; i < Math.PI*2; i+=Math.PI/35) {
 
         const 
-            x1 =  sin(i) * (width/(7*(1+noise1/373))) ,
+            x1 =  sin(i) * (height/(7*(1+noise1/373))) ,
             x2 =  noise2,
             y1 =  noise3,
             y2 =  cos(i) * (height/(7*(1+noise4/373)));
