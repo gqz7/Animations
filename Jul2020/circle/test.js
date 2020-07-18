@@ -55,7 +55,9 @@ const renderImage = () => {
         noise3 = Noise((time+333)/300,(time+333)/300)*130,
         noise4 = Noise((time+444)/300,(time+444)/300)*130;
 
-    const mult = .1+time/1000;
+    context.translate((noise1-noise3)/100, (noise2-noise4)/100)
+
+    const mult = 1//.1+time/1000;
         
     for (let i = 0; i < Math.PI*2; i+=Math.PI/35) {
 
@@ -81,7 +83,7 @@ const renderImage = () => {
 const render = () => {
     time++
 
-    // clearFullScreen()
+    clearFullScreen()
     renderImage();
 
     context.rotate(.005)
