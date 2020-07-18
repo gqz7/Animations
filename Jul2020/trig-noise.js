@@ -50,7 +50,7 @@ function userInputEvent(input) {
 
 const renderImage = () => {
 
-    const mult = .1+time/3000 < .7 ? .1+time/3000 : .7,
+    const mult = .1+time/3000 < .3 ? .1+time/3000 : .3,
           base = seed + time,
           cInt1 = 347,
           cInt2 = 373,
@@ -61,9 +61,14 @@ const renderImage = () => {
     let noise1 = Noise((base+111)/cInt4,(base+111)/cInt4)*cInt5,
         noise2 = Noise((base+777)/cInt4,(base+777)/cInt4)*cInt5,
         noise3 = Noise((base+333)/cInt4,(base+333)/cInt4)*cInt5,
-        noise4 = Noise((base+444)/cInt4,(base+444)/cInt4)*cInt5;
+        noise4 = Noise((base+444)/cInt4,(base+444)/cInt4)*cInt5,
 
-    // context.translate((noise3-noise1)/10, (noise2-noise4)/10)
+        xTransN = Noise(base/100+412,base/100+1412),
+        xTransN1 = Noise(base/100+123,base/100+5412),
+        yTransN = Noise(base/100+142,base/100+412),
+        yTransN1 = Noise(base/100+124,base/100+142);
+
+    context.translate((xTransN-xTransN1)/10, (yTransN-yTransN1)/10)
 
     for (let i = 0; i < Math.PI*2; i+=Math.PI/cInt3) {
 
@@ -97,7 +102,7 @@ const render = () => {
     clearFullScreen()
     renderImage();
 
-    context.rotate(.005)
+    context.rotate(.003)
 
     if (!pauseAnimation) {
         setTimeout(window.requestAnimationFrame, 0, render)
