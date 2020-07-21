@@ -21,11 +21,31 @@ canvas.style = `display: block;
 document.body.appendChild(canvas);
 
 context.translate(width/2, height/2);
+context.rotate(Math.PI/2);
+
 context.strokeStyle = 'white';
 context.lineWidth = 1;
 
+//constants for spacing calculation 
 const sin = Math.sin;
 const cos = Math.cos;
+
+const 
+cInt1 = 347,
+cInt2 = 373,
+cInt3 = 20,
+cInt4 = 300,
+cInt5 = 37;
+
+let
+mult,
+base, 
+noise1,
+noise2,
+noise3,
+noise4;
+
+
 
 //USER INPUT EVENT LISTENER
 document.addEventListener('keydown', userInputEvent, false);
@@ -51,51 +71,73 @@ function userInputEvent(input) {
 
 const renderImage = () => {
 
-    context.save()
+    let
+        x1 =  sin(1) * (cInt1*(1+(noise1/cInt2))), 
+        x2 =  noise2,
+        y1 =  noise3,
+        y2 =  cos(1) * (cInt1*(1+(noise4/cInt2)));
 
-
+        //center
         renderTrigShape()
-    
-        context.translate(200,0)
-
-        renderTrigShape()
-
-        context.translate(-400,0)
-
-        renderTrigShape()
-    
-        context.translate(200,200)
-
-        renderTrigShape()
-
-        context.translate(0,-400)
-
-        renderTrigShape()
-
-
-    context.restore()
+        
+        //right
+        context.save()
+            context.translate(x1*mult*2.35,0)
+            renderTrigShape()
+        context.restore()
+        //left
+        context.save()
+            context.translate(-x1*mult*2.35,0)
+            renderTrigShape()
+        context.restore()
+        //up
+        context.save()
+            context.translate(0,-y2*mult*3.67)
+            renderTrigShape()
+        context.restore()
+        //down
+        context.save()
+            context.translate(0,y2*mult*3.67)
+            renderTrigShape()
+        context.restore()
+        //right-down
+        context.save()
+            context.translate(x1*mult*2.35,y2*mult*3.67)
+            renderTrigShape()
+        context.restore()
+        //left-down
+        context.save()
+            context.translate(-x1*mult*2.35,y2*mult*3.67)
+            renderTrigShape()
+        context.restore()
+        //left-up
+        context.save()
+            context.translate(-x1*mult*2.35,-y2*mult*3.67)
+            renderTrigShape()
+        context.restore()
+        //right-up
+        context.save()
+            context.translate(x1*mult*2.35,-y2*mult*3.67)
+            renderTrigShape()
+        context.restore()
 }
 
+const renderGrid = () => {
+    let
+    x1 =  sin(1) * (cInt1*(1+(noise1/cInt2))), 
+    x2 =  noise2,
+    y1 =  noise3,
+    y2 =  cos(1) * (cInt1*(1+(noise4/cInt2)));
+
+
+    for (let i = 0; i < 3; i+=.5) {
+
+
+        
+    }
+}
+ 
 const renderTrigShape = () => {
-    const mult = .0+time/3000 < .3 ? .0+time/3000 : .3,
-          base = seed + time,
-          cInt1 = 347,
-          cInt2 = 373,
-          cInt3 = 10,
-          cInt4 = 300,
-          cInt5 = 130;
-
-    let noise1 = Noise((base+111)/cInt4,(base+111)/cInt4)*cInt5,
-        noise2 = Noise((base+777)/cInt4,(base+777)/cInt4)*cInt5,
-        noise3 = Noise((base+333)/cInt4,(base+333)/cInt4)*cInt5,
-        noise4 = Noise((base+444)/cInt4,(base+444)/cInt4)*cInt5,
-
-        xTransN = Noise(base/100+412,base/100+1412),
-        xTransN1 = Noise(base/100+123,base/100+5412),
-        yTransN = Noise(base/100+142,base/100+412),
-        yTransN1 = Noise(base/100+124,base/100+142);
-
-    context.translate((xTransN-xTransN1)/10, (yTransN-yTransN1)/10)
 
     for (let i = 0; i < Math.PI*2; i+=Math.PI/cInt3) {
 
@@ -110,8 +152,6 @@ const renderTrigShape = () => {
         let 
             color = (noise1/289)+(time*3.7)+(Math.abs(x1, y2)/2),
             light = mapNumber(distance(x1, x2, y1, y2), 30, maxDis, 0, 100);
-
-            
 
         context.strokeStyle = `hsl(${color}, 100%, ${light}%)`;
 
@@ -128,6 +168,8 @@ const render = () => {
 
     clearFullScreen()
     renderImage();
+
+    setGlobalVars();
 
     if (!pauseAnimation) {
         setTimeout(window.requestAnimationFrame, 0, render)
@@ -153,9 +195,18 @@ const distance = (x1,x2,y1,y2) => {
     return Math.sqrt( Math.pow(subX, 2) + Math.pow(subY, 2));
 }
 
-function mapNumber (number, min1, max1, min2, max2) {
+const mapNumber = (number, min1, max1, min2, max2) => {
     return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
 };
+
+const setGlobalVars = () => {
+    mult = time/7000 < .3 ? time/7000 : .3;
+    base = seed + time;
+    noise1 = Noise((base+111)/cInt4,(base+111)/cInt4)*cInt5;
+    noise2 = Noise((base+777)/cInt4,(base+777)/cInt4)*cInt5;
+    noise3 = Noise((base+333)/cInt4,(base+333)/cInt4)*cInt5;
+    noise4 = Noise((base+444)/cInt4,(base+444)/cInt4)*cInt5;
+}
 
 
 render()
