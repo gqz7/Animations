@@ -123,18 +123,17 @@ const renderImage = () => {
 }
 
 const renderGrid = () => {
-    let
-    x1 =  sin(1) * (cInt1*(1+(noise1/cInt2))), 
-    x2 =  noise2,
-    y1 =  noise3,
-    y2 =  cos(1) * (cInt1*(1+(noise4/cInt2)));
+    
+    const xT =  sin(1) * (cInt1*(1+(noise1/cInt2)));
+    const yT =  cos(1) * (cInt1*(1+(noise4/cInt2)));
+
+    context.save()
+        for (let i = 0; i < 3; i+=.5) {
 
 
-    for (let i = 0; i < 3; i+=.5) {
-
-
-        
-    }
+            
+        }
+    context.restore()
 }
  
 const renderTrigShape = () => {
@@ -200,7 +199,7 @@ const mapNumber = (number, min1, max1, min2, max2) => {
 };
 
 const setGlobalVars = () => {
-    mult = time/7000 < .3 ? time/7000 : .3;
+    mult = time/7000+.1 < .3 ? time/7000+.1 : .3;
     base = seed + time;
     noise1 = Noise((base+111)/cInt4,(base+111)/cInt4)*cInt5;
     noise2 = Noise((base+777)/cInt4,(base+777)/cInt4)*cInt5;

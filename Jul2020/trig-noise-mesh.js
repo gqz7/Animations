@@ -73,11 +73,11 @@ const renderImage = () => {
 }
 
 const renderTrigShape = () => {
-    const mult = .2+time/3000 < .7 ? .1+time/3000 : .7,
+    const mult = .2+time/3000 < .7 ? .2+time/3000 : .7,
           base = seed + time,
-          cInt1 = 347,
-          cInt2 = 373,
-          cInt3 = time/100,
+          cInt1 = 333,
+          cInt2 = 393,
+          cInt3 = time/92 < 21 ? time/92 : 21,
           cInt4 = 300,
           cInt5 = 130;
 
@@ -86,12 +86,14 @@ const renderTrigShape = () => {
         noise3 = Noise((base+333)/cInt4,(base+333)/cInt4)*cInt5,
         noise4 = Noise((base+444)/cInt4,(base+444)/cInt4)*cInt5,
 
-        xTransN = Noise(base/100+412,base/100+1412),
-        xTransN1 = Noise(base/100+123,base/100+5412),
-        yTransN = Noise(base/100+142,base/100+412),
-        yTransN1 = Noise(base/100+124,base/100+142);
+        xTransN = Noise(base/1321+412,base/1321+1412),
+        xTransN1 = Noise(base/1321+123,base/1321+5412),
+        yTransN = Noise(base/1321+142,base/1321+412),
+        yTransN1 = Noise(base/1321+124,base/1321+142);
 
-    context.translate((xTransN-xTransN1)/10, (yTransN-yTransN1)/10)
+    context.save()
+
+    context.translate((xTransN-xTransN1)*173, (yTransN-yTransN1)*173)
 
     for (let i = 0; i < Math.PI*2; i+=Math.PI/cInt3) {
 
@@ -104,8 +106,8 @@ const renderTrigShape = () => {
             maxDis = distance(cInt1*(1+cInt5/cInt2), 0, 0, cInt1*(1+cInt5/cInt2));
 
         let 
-            color = (noise1/289)+(time*3.7)+(Math.abs(x1, y2)/2),
-            light = mapNumber(distance(x1, x2, y1, y2), 30, maxDis, 0, 100);
+            color = (noise1/29)+(time/1.7)+(Math.abs(x1, y2)/4),
+            light = mapNumber(distance(x1, x2, y1, y2), 30, maxDis, 10, 80);
 
             
 
@@ -117,6 +119,9 @@ const renderTrigShape = () => {
         context.stroke()
 
     }
+
+    context.restore()
+
 }
  
 const render = () => {
@@ -124,6 +129,8 @@ const render = () => {
 
     clearFullScreen()
     renderImage();
+
+    context.rotate(-.003)
 
     if (!pauseAnimation) {
         setTimeout(window.requestAnimationFrame, 0, render)
