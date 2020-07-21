@@ -73,11 +73,11 @@ const renderImage = () => {
 }
 
 const renderTrigShape = () => {
-    const mult = .2+time/3000 < .7 ? .1+time/3000 : .7,
+    const mult = 1-time/300 > 0 ? 1-time/300 : 0,
           base = seed + time,
           cInt1 = 347,
           cInt2 = 373,
-          cInt3 = time/100,
+          cInt3 = 20,
           cInt4 = 300,
           cInt5 = 130;
 
@@ -104,17 +104,23 @@ const renderTrigShape = () => {
             maxDis = distance(cInt1*(1+cInt5/cInt2), 0, 0, cInt1*(1+cInt5/cInt2));
 
         let 
-            color = (noise1/289)+(time*3.7)+(Math.abs(x1, y2)/2),
+            color = (noise1/289)+(time*2)+(Math.abs(x1, y2)/2),
             light = mapNumber(distance(x1, x2, y1, y2), 30, maxDis, 0, 100);
 
             
 
         context.strokeStyle = `hsl(${color}, 100%, ${light}%)`;
+        
+        context.save()
 
-        context.beginPath()
-        context.moveTo(x1*mult, y1*mult)
-        context.lineTo(x2*mult, y2*mult)
-        context.stroke()
+            context.rotate(noise4/1000)
+
+            context.beginPath()
+            context.moveTo(x1*mult, y1*mult)
+            context.lineTo(x2*mult, y2*mult)
+            context.stroke()
+
+        context.restore()
 
     }
 }
@@ -122,7 +128,7 @@ const renderTrigShape = () => {
 const render = () => {
     time++
 
-    clearFullScreen()
+    // clearFullScreen()
     renderImage();
 
     if (!pauseAnimation) {
