@@ -13,7 +13,7 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      timeMax = height/6.7,
+      timeMax = height/6.87,
 
       timeForward = true,
 
@@ -25,8 +25,8 @@ let canvas = document.createElement('canvas'),
       
       pauseAnimation = false,
 
-      viewWidth = 1,
-      viewHeight = height ;
+      viewY = 14,
+      viewX = width/2 ;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -113,10 +113,10 @@ function userInputEvent(input) {
             
         }
 
+        // if(clearScreen) clearFullScreen()
         const tX1 = -time*3.5+20, tX2 = (time*4-20)*3.5/2, tY = 0;
 
         context.save()
-            context.scale(1,1-time/500)
             context.translate(tX1,tY)
             createImg(time, 1)
             context.translate(tX2,0)
@@ -124,7 +124,7 @@ function userInputEvent(input) {
         context.restore()
 
         context.save()
-            context.scale(1,-1+time/500)
+            context.scale(1,-1)
             context.translate(tX1,tY)
             createImg(time, 1)
             context.translate(tX2,0)
@@ -134,43 +134,45 @@ function userInputEvent(input) {
         // return
 
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame,  0, render)
+            setTimeout(window.requestAnimationFrame,  30, render)
         }
 
       }
 
 function createImg(s, num) { 
+
     
     // context.save()
 
     s = -s;
 
 
-    // context.translate(width/2-viewWidth/2,height/2-viewHeight/2)
+    // context.translate(width/2-viewY/2,height/2-viewX/2)
 
     const pixSize = 2,
           nRes = time*1.7,
           transX = nRes == 77 ? s/30 : 0,
           seed = num === 1 ? seed1 : seed2,
-          mNoise = Noise(seed1,seed2+.1)+5;
+          mNoise = Noise(seed1,seed2+.1)*1;
+
 
     let xCount = 0;
 
-    for (let x = 0; x < viewWidth; x+=pixSize) {
+    for (let x = 0; x < viewY; x+=pixSize) {
         // console.log(x);
         let yCount = 0;
 
-        for (let y = 0; y < viewHeight; y+=pixSize) {
+        for (let y = 0; y < viewX; y+=pixSize) {
 
           const offX = (mapNumber(nRes, 3, timeMax, 0, width*4)/nRes)+transX,
                 offY = (mapNumber(nRes, 2.5, timeMax, 0, height*4)/nRes),
                 noiseX = ((xCount)/nRes)+offX+seed,
                 noiseY = ((yCount)/nRes)+offY+seed,
                 divid = time < 40 ? time : 40,
-                light = (Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+nRes/3.3+y/12,
-                color = (Math.abs((Noise(noiseX, noiseY)*(nRes/30))*nRes))%60;
+                light = (Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+nRes/1.3-30,
+                color = (Math.abs((Noise(noiseX, noiseY)*divid ) % 10)*divid)+s*3;
 
-            context.strokeStyle = `hsl(${color}, 100%, ${100-light}%)`; //Math.random()*100
+            context.strokeStyle = `hsl(${color-74}, 50%, ${light}%)`; //Math.random()*100
 
             context.lineWidth = pixSize;
            
