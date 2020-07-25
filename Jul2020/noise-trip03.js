@@ -31,7 +31,7 @@ document.body.appendChild(canvas);
 
 context.translate(width/2, height/2);
 context.strokeStyle = 'white';
-context.lineWidth = 34;
+context.lineWidth = 12;
 
 const sin = Math.sin;
 const cos = Math.cos;
@@ -61,36 +61,40 @@ function userInputEvent(input) {
 const renderImage = () => {
 
 
-    const m = 3 + (time/2000000),
+    const m = 3 + (time/7000000),
           fc = Math.PI*2,
           jm = 30,
           im = 100;
 
     context.save()
 
-    for (let j = jm; j > 0; j--) {
+    for (let j = jm; j > .1; j/=1.1) {
 
         const q = j/jm;
         
-        for (let i = 2; i < im; i*=1.3) {
+        for (let i = 2; i < im; i+=1.5) {
 
             const p = (i/im*2)*360;
     
             const startA = mapNumber(i, 0, im, 0, fc );
-            const endA = mapNumber(i+.1, 0, im, 0, fc );
+            const endA = mapNumber(i+(.07+.002*j), 0, im, 0, fc );
             
-            context.strokeStyle = `hsl(${p+time*5}, 100%, ${80-q*85}%)`;
+            context.lineWidth = j*2;
+            context.strokeStyle = `hsl(${p+time*3}, 100%, ${80-q*85}%)`;
             context.beginPath()
             context.arc(0,0,j*jm/2, startA, endA)
             context.stroke()
     
-            context.rotate(m*38)
+            context.rotate(m*18)
             
         }
             
     }
 
     context.restore()
+
+    context.rotate(-.002)
+
  
 }
 
@@ -100,7 +104,6 @@ const render = () => {
     clearFullScreen()
     renderImage();
 
-    // context.rotate(-.04)
 
     if (!pauseAnimation) {
         setTimeout(window.requestAnimationFrame, 0, render)
