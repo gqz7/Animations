@@ -5,7 +5,7 @@ const width = canvas.width = window.innerWidth;
 const height = canvas.height = window.innerHeight;
 
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed = Math.random()*100,
+let seed = 333 //Math.random()*100,
     time = 0,
     pauseAnimation = false;
 
@@ -50,13 +50,13 @@ function userInputEvent(input) {
 
 const renderImage = () => {
 
-    const mult = .1+time/3000 < .3 ? .1+time/3000 : .3,
-          base = seed + time,
-          cInt1 = 347,
-          cInt2 = 373,
-          cInt3 = 35,
-          cInt4 = 300,
-          cInt5 = 130;
+    const 
+    base = seed + time,
+    cInt1 = 347,
+    cInt2 = 373,
+    cInt3 = 35,
+    cInt4 = 300,
+    cInt5 = 130;
 
     let noise1 = Noise((base+111)/cInt4,(base+111)/cInt4)*cInt5,
         noise2 = Noise((base+777)/cInt4,(base+777)/cInt4)*cInt5,
@@ -71,7 +71,7 @@ const renderImage = () => {
         xT = (xTransN-xTransN1), 
         yT = (yTransN-yTransN1);
 
-    // context.translate(xT, yT);
+    context.translate(xT/20, yT/1.2);
 
     
     for (let i = 0; i < 100; i++) {
@@ -81,12 +81,12 @@ const renderImage = () => {
         const startA = mapNumber(i, 0, 100, 0, fc );
         const endA = mapNumber(i+1, 0, 100, 0, fc );
         
-        context.strokeStyle = `hsl(${p*360+(time*10)}, 100%, 70%)`;
+        context.strokeStyle = `hsl(${p*360+(time*7)}, 90%, 70%)`;
         context.beginPath()
         context.arc(xT, yT,time, startA, endA)
         context.stroke()
 
-        context.rotate(Math.PI* (1+time/1))
+        context.rotate(Math.PI* (1+i))
 
         
     }
