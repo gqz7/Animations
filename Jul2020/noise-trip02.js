@@ -71,7 +71,7 @@ const renderImage = () => {
         xT = (xTransN-xTransN1), 
         yT = (yTransN-yTransN1);
 
-    // context.translate(xT, yT);
+    context.translate(xT/2, yT/2);
 
     
     for (let i = 0; i < 100; i++) {
