@@ -12,7 +12,7 @@ const width = canvas.width = window.innerWidth;
 const height = canvas.height = window.innerHeight;
 
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed = Math.random()*100,
+let seed = 1000//Math.random()*1000,
     time = 0,
     pauseAnimation = false,
     sliderValue = 2;
@@ -31,7 +31,7 @@ document.body.appendChild(canvas);
 
 context.translate(width/2, height/2);
 context.strokeStyle = 'white';
-context.lineWidth = 34;
+context.lineWidth = 4;
 
 const sin = Math.sin;
 const cos = Math.cos;
@@ -63,8 +63,9 @@ const renderImage = () => {
 
     const m = 3 + (time/2000000),
           fc = Math.PI*2,
-          jm = 30,
-          im = 100;
+          jm = 32,
+          im = 80;
+    let t = time;
 
     context.save()
 
@@ -72,16 +73,18 @@ const renderImage = () => {
 
         const q = j/jm;
         
-        for (let i = 2; i < im; i*=1.3) {
+        for (let i = 2 ; i < im; i*=1.3) {
+
+            t++
 
             const p = (i/im*2)*360;
-    
+            const color = ((p+time*2))-100
             const startA = mapNumber(i, 0, im, 0, fc );
-            const endA = mapNumber(i+.1, 0, im, 0, fc );
-            
-            context.strokeStyle = `hsl(${p+time*5}, 100%, ${80-q*85}%)`;
+            const endA = mapNumber(i+.07, 0, im, 0, fc );
+            context.lineWidth = 77*Math.abs(Noise(t/333,time/777+seed));
+            context.strokeStyle = `hsl(${color}, 77%, ${80-q*85}%)`;
             context.beginPath()
-            context.arc(0,0,j*jm/2, startA, endA)
+            context.arc(0,0,j*jm/3, startA, endA)
             context.stroke()
     
             context.rotate(m*38)
@@ -100,7 +103,7 @@ const render = () => {
     clearFullScreen()
     renderImage();
 
-    // context.rotate(-.04)
+    context.rotate(-.003)
 
     if (!pauseAnimation) {
         setTimeout(window.requestAnimationFrame, 0, render)
