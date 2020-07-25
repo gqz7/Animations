@@ -1,13 +1,21 @@
 const canvas = document.createElement('canvas');
 const context = canvas.getContext('2d');
 
+const slider = document.createElement("input");
+      slider.type="range";
+      slider.min=.5;
+      slider.max=3;
+      slider.step=.1
+      slider.value=2;
+
 const width = canvas.width = window.innerWidth;
 const height = canvas.height = window.innerHeight;
 
 const Noise = toxi.math.noise.simplexNoise.noise;
 let seed = Math.random()*100,
     time = 0,
-    pauseAnimation = false;
+    pauseAnimation = false,
+    sliderValue = 2;
 
 document.body.style = `margin: 0`;
 canvas.style = `display: block;
@@ -19,9 +27,11 @@ canvas.style = `display: block;
                 background-color: black`;
 
 document.body.appendChild(canvas);
+// document.body.appendChild(slider);
 
 context.translate(width/2, height/2);
 context.strokeStyle = 'white';
+context.lineWidth = 3;
 
 const sin = Math.sin;
 const cos = Math.cos;
@@ -50,54 +60,55 @@ function userInputEvent(input) {
 
 const renderImage = () => {
 
-    const mult = .1+time/3000 < .3 ? .1+time/3000 : .3,
-          base = seed + time,
-          cInt1 = 347,
-          cInt2 = 373,
-          cInt3 = 35,
-          cInt4 = 300,
-          cInt5 = 130;
 
-    let noise1 = Noise((base+111)/cInt4,(base+111)/cInt4)*cInt5,
-        noise2 = Noise((base+777)/cInt4,(base+777)/cInt4)*cInt5,
-        noise3 = Noise((base+333)/cInt4,(base+333)/cInt4)*cInt5,
-        noise4 = Noise((base+444)/cInt4,(base+444)/cInt4)*cInt5,
+    const m = 2 + (time/1000000),
+          fc = Math.PI*2;
 
-        xTransN = Noise(base/100+412,base/100+1412),
-        xTransN1 = Noise(base/100+123,base/100+5412),
-        yTransN = Noise(base/100+142,base/100+412),
-        yTransN1 = Noise(base/100+124,base/100+142),
+    context.save()
 
-        xT = (xTransN-xTransN1), 
-        yT = (yTransN-yTransN1);
+    for (let j = 0; j < 100; j++) {
+        
+        for (let i = 0; i < 100; i++) {
 
-    context.translate(xT/2, yT/2);
+            const 
+            base = m/i*j;
+  
+      let 
+          xTransN = Noise(base/100+412,base/100+1412),
+          xTransN1 = Noise(base/100+123,base/100+5412),
+          yTransN = Noise(base/100+142,base/100+412),
+          yTransN1 = Noise(base/100+124,base/100+142),
+  
+          xT = (xTransN-xTransN1), 
+          yT = (yTransN-yTransN1);
 
+            const p = i/100;
     
-    for (let i = 0; i < 100; i++) {
-        const p = i/100,
-              fc = Math.PI*2;
-
-        const startA = mapNumber(i, 0, 100, 0, fc );
-        const endA = mapNumber(i+1, 0, 100, 0, fc );
-        
-        context.strokeStyle = `hsl(${p*360+(time*10)}, 100%, 70%)`;
-        context.beginPath()
-        context.arc(xT, yT,time, startA, endA)
-        context.stroke()
-
-        context.rotate(Math.PI* (1+time/1))
-
-        
+            const startA = mapNumber(i, 0, 100, 0, fc );
+            const endA = mapNumber(i+1, 0, 100, 0, fc );
+            
+            context.strokeStyle = `hsl(${p*360}, 100%, 50%)`;
+            context.beginPath()
+            context.arc(xT,yT,j*3, startA, endA)
+            context.stroke()
+    
+            context.rotate(m*19 )
+            
+        }
+            
     }
 
+    context.restore()
+ 
 }
 
 const render = () => {
     time++
 
-    // clearFullScreen()
+    clearFullScreen()
     renderImage();
+
+    context.rotate(-.004)
 
     if (!pauseAnimation) {
         setTimeout(window.requestAnimationFrame, 0, render)
