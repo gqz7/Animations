@@ -5,7 +5,7 @@ const width = canvas.width = window.innerWidth;
 const height = canvas.height = window.innerHeight;
 
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed = Math.random()*100,
+let seed = 3333+Math.random()*100,
     time = 0,
     pauseAnimation = false;
 
@@ -50,54 +50,56 @@ function userInputEvent(input) {
 
 const renderImage = () => {
 
-    const 
-    base = seed + time,
-    cInt1 = 347,
-    cInt2 = 373,
-    cInt3 = 35,
-    cInt4 = 300,
-    cInt5 = 130;
-
-    let noise1 = Noise((base+111)/cInt4,(base+111)/cInt4)*cInt5,
-        noise2 = Noise((base+777)/cInt4,(base+777)/cInt4)*cInt5,
-        noise3 = Noise((base+333)/cInt4,(base+333)/cInt4)*cInt5,
-        noise4 = Noise((base+444)/cInt4,(base+444)/cInt4)*cInt5,
-
-        xTransN = Noise(base/100+412,base/100+1412),
-        xTransN1 = Noise(base/100+123,base/100+5412),
-        yTransN = Noise(base/100+142,base/100+412),
-        yTransN1 = Noise(base/100+124,base/100+142),
-
-        xT = (xTransN-xTransN1), 
-        yT = (yTransN-yTransN1);
-
-    context.translate(xT/20, yT/1.2);
-
+    context.save()
+    for (let j = 0; j < 157; j++) {
     
-    for (let i = 0; i < 100; i++) {
-        const p = i/100,
-              fc = Math.PI*2;
+        const 
+            base = seed + j*2,
+            yTransN = Noise(base/150+142,base/150+412)*(1+j/44);
 
-        const startA = mapNumber(i, 0, 100, 0, fc );
-        const endA = mapNumber(i+1, 0, 100, 0, fc );
-        
-        context.strokeStyle = `hsl(${p*360+(time*7)}, 90%, 70%)`;
-        context.beginPath()
-        context.arc(xT, yT,time, startA, endA)
-        context.stroke()
-
-        context.rotate(Math.PI* (1+i))
+        context.translate(0, yTransN);
 
         
+        for (let i = 0; i < 51; i++) {
+
+            if (i !== 0) {
+
+                
+
+                const p = i/51,
+                      fc = Math.PI*2,
+                      startA = mapNumber(i, 0, 100, 0, fc ),
+                      endA = mapNumber(i+1, 0, 100, 0, fc ),
+                      hue = (-p*360)+Math.abs(yTransN*88)+j*3+time/30;
+                
+                context.strokeStyle = `hsl(${hue}, 80%, ${110-(j*1.1/157)*100}%)`;
+                context.beginPath()
+                context.arc(yTransN, yTransN,j*2, startA, endA)
+                context.stroke()
+
+                context.rotate(Math.PI* (1+i))
+            } else{
+                context.rotate(Math.PI* (1+i))
+
+            }
+            
+        }
+
     }
+
+    context.restore()
+
 
 }
 
 const render = () => {
+    seed-=3
     time++
 
-    // clearFullScreen()
+    clearFullScreen()
     renderImage();
+
+    // context.rotate(-.002)
 
     if (!pauseAnimation) {
         setTimeout(window.requestAnimationFrame, 0, render)
