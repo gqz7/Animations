@@ -23,6 +23,7 @@ document.body.appendChild(canvas);
 context.translate(width/2, height/2);
 context.rotate(Math.PI/2)
 context.strokeStyle = 'white';
+context.lineWidth = 3;
 
 const sin = Math.sin;
 const cos = Math.cos;
@@ -52,12 +53,11 @@ function userInputEvent(input) {
 const renderImage = () => {
 
     context.save()
-    for (let j = 1; j < 130; j*=1.02  ) {
+    for (let j = 1; j < 77; j*=1.02  ) {
     
         const 
             base = seed + j*2,
-            yTransN = Noise(base/150+142,base/150+412)*10,
-            xTransN = Noise(base/150+414,base/150+123)*10;
+            yTransN = Noise(base/150+142,base/150+412)*10;
 
         // context.translate(0, yTransN);
 
@@ -66,17 +66,15 @@ const renderImage = () => {
  
             if (i !== 0) {
 
-                
-
                 const p = i/51,
                       fc = Math.PI*2,
                       startA = mapNumber(i, 0, 100, 0, fc ),
-                      endA = mapNumber(i+1, 0, 100, 0, fc ),
-                      hue = (((-p*60)-(yTransN*100)+j)/(j/30))+144;
+                      endA = mapNumber(i+.4, 0, 100, 0, fc ),
+                      hue = (((-p*77)-(yTransN*(135*p))+j)/(j/55))-111;
                 
-                context.strokeStyle = `hsl(${hue}, 80%, ${90-(j/130)*100}%)`;
+                context.strokeStyle = `hsl(${hue}, 70%, ${77-(j/100)*100}%)`;
                 context.beginPath()
-                context.arc(0,yTransN*10+44 ,j*3 , startA, endA)
+                context.arc(0,yTransN*10+44 ,j*4.3 , startA, endA)
                 context.stroke()
 
                 context.rotate(Math.PI* (1+i))
@@ -95,7 +93,7 @@ const renderImage = () => {
 }
 
 const render = () => {
-    seed-=2
+    seed-=.7
     time++
 
     clearFullScreen()
