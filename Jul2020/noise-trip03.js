@@ -1,21 +1,13 @@
 const canvas = document.createElement('canvas');
 const context = canvas.getContext('2d');
 
-const slider = document.createElement("input");
-      slider.type="range";
-      slider.min=.5;
-      slider.max=3;
-      slider.step=.1
-      slider.value=2;
-
 const width = canvas.width = window.innerWidth;
 const height = canvas.height = window.innerHeight;
 
 const Noise = toxi.math.noise.simplexNoise.noise;
 let seed = Math.random()*100,
     time = 0,
-    pauseAnimation = false,
-    sliderValue = 2;
+    pauseAnimation = false;
 
 document.body.style = `margin: 0`;
 canvas.style = `display: block;
@@ -27,11 +19,9 @@ canvas.style = `display: block;
                 background-color: black`;
 
 document.body.appendChild(canvas);
-// document.body.appendChild(slider);
 
 context.translate(width/2, height/2);
 context.strokeStyle = 'white';
-context.lineWidth = 12;
 
 const sin = Math.sin;
 const cos = Math.cos;
@@ -60,50 +50,54 @@ function userInputEvent(input) {
 
 const renderImage = () => {
 
+    const 
+    base = seed + time,
+    cInt1 = 347,
+    cInt2 = 373,
+    cInt3 = 35,
+    cInt4 = 300,
+    cInt5 = 130;
 
-    const m = 3 + (time/7000000),
-          fc = Math.PI*2,
-          jm = 30,
-          im = 100;
+    let noise1 = Noise((base+111)/cInt4,(base+111)/cInt4)*cInt5,
+        noise2 = Noise((base+777)/cInt4,(base+777)/cInt4)*cInt5,
+        noise3 = Noise((base+333)/cInt4,(base+333)/cInt4)*cInt5,
+        noise4 = Noise((base+444)/cInt4,(base+444)/cInt4)*cInt5,
 
-    context.save()
+        xTransN = Noise(base/100+412,base/100+1412),
+        xTransN1 = Noise(base/100+123,base/100+5412),
+        yTransN = Noise(base/100+142,base/100+412),
+        yTransN1 = Noise(base/100+124,base/100+142),
 
-    for (let j = jm; j > .1; j/=1.1) {
+        xT = (xTransN-xTransN1), 
+        yT = (yTransN-yTransN1);
 
-        const q = j/jm;
+    context.translate(xT/20, yT/1.2);
+
+    
+    for (let i = 0; i < 100; i++) {
+        const p = i/100,
+              fc = Math.PI*2;
+
+        const startA = mapNumber(i, 0, 100, 0, fc );
+        const endA = mapNumber(i+1, 0, 100, 0, fc );
         
-        for (let i = 2; i < im; i+=1.5) {
+        context.strokeStyle = `hsl(${p*360+(time*7)}, 90%, 70%)`;
+        context.beginPath()
+        context.arc(xT, yT,time, startA, endA)
+        context.stroke()
 
-            const p = (i/im*2)*360;
-    
-            const startA = mapNumber(i, 0, im, 0, fc );
-            const endA = mapNumber(i+(.07+.002*j), 0, im, 0, fc );
-            
-            context.lineWidth = j*2;
-            context.strokeStyle = `hsl(${p+time*3}, 100%, ${80-q*85}%)`;
-            context.beginPath()
-            context.arc(0,0,j*jm/2, startA, endA)
-            context.stroke()
-    
-            context.rotate(m*18)
-            
-        }
-            
+        context.rotate(Math.PI* (1+i))
+
+        
     }
 
-    context.restore()
-
-    context.rotate(-.002)
-
- 
 }
 
 const render = () => {
     time++
 
-    clearFullScreen()
+    // clearFullScreen()
     renderImage();
-
 
     if (!pauseAnimation) {
         setTimeout(window.requestAnimationFrame, 0, render)
