@@ -64,7 +64,7 @@ const renderImage = () => {
     const m = 3 + (time/1000000),
           fc = Math.PI*2,
           jm = 32,
-          im = 1000;
+          im = 77;
     let t = time;
 
     context.save()
@@ -78,10 +78,10 @@ const renderImage = () => {
             t++
 
             const p = (i/im)*360;
-            const color = ((p+time)*(1+j/10));
+            const color = ((time)*(1+j/10));
             const startA = mapNumber(i, 0, im, 0, fc );
-            const endA = mapNumber(i+.1*j, 0, im, 0, fc );
-            context.lineWidth = i/3*Math.abs(Noise(j/555*(1+t/2020),t/111+seed))+1;
+            const endA = mapNumber(i+.001*j, 0, im, 0, fc );
+            context.lineWidth = j/1.3*Math.abs(Noise(j/777*(1+t/2020),t/111+seed))*10;
             context.strokeStyle = `hsl(${color}, 100%, ${100-q*100}%)`;
             context.beginPath()
             context.arc(0,0,j*jm/3, startA, endA)
@@ -97,7 +97,6 @@ const renderImage = () => {
 
     context.rotate(-.007)
 
- 
 }
 
 const render = () => {
