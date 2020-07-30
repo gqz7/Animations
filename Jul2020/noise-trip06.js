@@ -72,13 +72,15 @@ const renderImage = () => {
         for (let i = 0; i < 51; i++) {
 
             if (i !== 0 && i%2==1) {
+                context.save()
+                context.translate(0,yTransN*1.2);
 
                 const p = i/51,
                       fc = Math.PI*2,
                       endI = (i+(j/30)),
                       startA = mapNumber(i, 0, 100, 0, fc ),
                       endA = mapNumber(endI, 0, 100, 0, fc ),
-                      hue = (-p*360)+Math.abs(yTransN*88)+j*10,
+                      hue = ((-p*360)+Math.abs(yTransN*88)+j*10)*(1+p),
                       light = 85-(j*1.1/maxj)*100,
                 
                       radius = (j-1)*10;
@@ -90,6 +92,9 @@ const renderImage = () => {
                 context.stroke()
 
                 context.rotate(Math.PI*(1+i))
+
+                context.restore()
+
             } else{
 
                 context.rotate(Math.PI* (1+i))
@@ -115,7 +120,7 @@ const render = () => {
     clearFullScreen()
     renderImage();
 
-    // context.rotate(-.002)
+    context.rotate(-.002)
 
     if (!pauseAnimation) {
         setTimeout(window.requestAnimationFrame, 20, render)
