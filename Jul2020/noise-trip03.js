@@ -5,7 +5,7 @@ const width = canvas.width = window.innerWidth;
 const height = canvas.height = window.innerHeight;
 
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed = 3333+Math.random()*100,
+let seed = 2410//+Math.random()*100,
     time = 0,
     pauseAnimation = false;
 
@@ -22,6 +22,8 @@ document.body.appendChild(canvas);
 
 context.translate(width/2, height/2);
 context.strokeStyle = 'white';
+context.fillStyle = 'white'//`hsl(310, 80%, 50%)`;
+context.lineWidth = 3;
 
 const sin = Math.sin;
 const cos = Math.cos;
@@ -46,54 +48,68 @@ function userInputEvent(input) {
     
 }
 
-//ANIMAITON CYCLE
-
+//frame render
 const renderImage = () => {
 
+    // const mainNoise = Noise(time/150+142,time/150+412)/100;
+
+    const maxj = 100;
+
     context.save()
-    for (let j = 0; j < 157; j++) {
+    for (let j = 1; j < maxj; j+= .5  ) {
     
         const 
             base = seed + j*2,
-            yTransN = Noise(base/150+142,base/150+412)*(1+j/44);
+            cng = 60-j/100-time/500,
+            move = cng > 40 ? cng : 40,
+            yTransN = (Noise(0,base/(move)+412)*(1.2+j/40)*(1+time/1000)) ;
 
-        context.translate(0, yTransN);
+        context.translate(0,yTransN*1.2);
+
+        // console.log(cng);
 
         
         for (let i = 0; i < 51; i++) {
 
-            if (i !== 0) {
-
-                
+            if (i !== 0 && i%2==1) {
 
                 const p = i/51,
                       fc = Math.PI*2,
+                      endI = (i+(j/30)),
                       startA = mapNumber(i, 0, 100, 0, fc ),
-                      endA = mapNumber(i+1, 0, 100, 0, fc ),
-                      hue = (-p*360)+Math.abs(yTransN*88)+j*3+time/30;
+                      endA = mapNumber(endI, 0, 100, 0, fc ),
+                      hue = (-p*360)+Math.abs(yTransN*88)+j*10,
+                      light = 85-(j*1.1/maxj)*100,
                 
-                context.strokeStyle = `hsl(${hue}, 80%, ${110-(j*1.1/157)*100}%)`;
+                      radius = (j-1)*10;
+
+                context.lineWidth = 1.5+j/12;
+                context.strokeStyle = `hsl(${hue}, 80%, ${light}%)`;
                 context.beginPath()
-                context.arc(yTransN, yTransN,j*2, startA, endA)
+                context.arc(0 , 0, radius, startA, endA)
                 context.stroke()
 
-                context.rotate(Math.PI* (1+i))
+                context.rotate(Math.PI*(1+i))
             } else{
-                context.rotate(Math.PI* (1+i))
 
+                context.rotate(Math.PI* (1+i))
             }
-            
         }
 
     }
 
     context.restore()
 
+    context.beginPath()
+    context.arc(0,-2, 1.5*(1+time/1000), 0, Math.PI*2)
+    context.fill()
+
+
 
 }
-
+//ANIMAITON CYCLE
 const render = () => {
-    seed-=3
+    seed-=2
     time++
 
     clearFullScreen()
@@ -102,7 +118,7 @@ const render = () => {
     // context.rotate(-.002)
 
     if (!pauseAnimation) {
-        setTimeout(window.requestAnimationFrame, 0, render)
+        setTimeout(window.requestAnimationFrame, 20, render)
     }
 
 }
