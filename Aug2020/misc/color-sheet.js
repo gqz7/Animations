@@ -1,11 +1,15 @@
 //this file uses the simplex noise algorithm from a library
-alert('CONTROLS\nPress Space to ( Pause / Play ) animation\nUse Arrow keys up and down to adjust speed\nUse O and P to show/hide the lines and dots')
+
 const Noise = toxi.math.noise.simplexNoise.noise,
       pi = Math.PI,
       sqrt = Math.sqrt,
       pow = Math.pow;
 
-let seed = Math.random()*1000;
+let seed = Math.random()*1000,
+    mosPos = {
+        x: 1000,
+        y: 1000,
+    };
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
@@ -14,7 +18,7 @@ let canvas = document.createElement('canvas'),
       time = 0,
       timeMax = Infinity,
       timeForward = true,
-      speed = .37,
+      speed = 1,
       clearScreen = true,
       pauseAnimation = false,
       showLines = true,
@@ -39,6 +43,7 @@ document.body.appendChild(canvas)
 
 //USER INPUT EVENT LISTENER
 document.addEventListener('keydown', userInputEvent, false);
+canvas.onmousemove = findObjectCoords;
 
 //USER INPUT LOGIC
 function userInputEvent(input) {
@@ -50,10 +55,11 @@ function userInputEvent(input) {
             }
         break;
         case 'ArrowUp':
-            speed = speed < 1 ? speed+.1 : 1;
+            speed = speed < 4 ? speed+.1 : 4;
         break;
         case "ArrowDown":
-            speed = speed > .2 ? speed-.1 : .2;
+            speed = speed > .1 ? speed-.1 : .1;
+        break;
         case "KeyL":
             showLines = !showLines;
             if (!showDots && !showLines) showDots = true
@@ -61,6 +67,9 @@ function userInputEvent(input) {
         case "KeyO":
             showDots = !showDots;
             if (!showDots && !showLines) showLines = true
+        break;
+        case "KeyS":
+            clearScreen = !clearScreen;
         break;
         }
 }
@@ -87,6 +96,8 @@ function userInputEvent(input) {
         }
 
         if(clearScreen) clearFullScreen()
+
+        renderMouse()
             
         createImg(time)
         
@@ -102,9 +113,9 @@ function createImg(s) {
         eX: 55,
         sY: 5,
         eY: 40,
-    }
-
-    const points = [];
+    },
+    
+    points = [];
 
         for (let x = limits.sX; x < limits.eX; x++) {
 
@@ -113,14 +124,14 @@ function createImg(s) {
             for (let y = limits.sY; y < limits.eY; y++) {
 
                 const
-                distance = sqrt( pow((x*20)-(width/2), 2) + pow((y*20)-(height/2), 2) ),
-                noiseX = x/20 + seed + s/150, 
-                noiseY = y/20 + seed + s/150,
+                distance = sqrt( pow((x*20)-(mosPos.x), 2) + pow((y*20)-(mosPos.y), 2) ),
+                noiseX = (x/20 + seed ) + s*(distance/113377), 
+                noiseY = (y/20 + seed ) + s*(distance/113377),
                 N1 = Noise(noiseX, noiseY),
                 N2 = Noise(noiseY, noiseX),
                 radius = 2+N1+N2 > 1 ? 2+N1+N2 : 1,
-                X = x*20 + (N1*20+N2*20),
-                Y = y*20 + (N1*20-N2*20),
+                X = x*20 + (N1*20-N2*20),
+                Y = y*20 + (N1*20+N2*20),
 
                 point = {x: X, y: Y, r: radius, dis: distance };
 
@@ -134,6 +145,13 @@ function createImg(s) {
 
 }
 
+function renderMouse() {
+    context.fillStyle = 'white';                  
+    context.beginPath()
+    context.arc(mosPos.x, mosPos.y, 2, 0, pi*2)
+    context.fill()
+}
+
 function renderPoints(arr) {
 
     // const t = Math.ceil(time/20)
@@ -144,7 +162,7 @@ function renderPoints(arr) {
             
             const p = arr[i][j];
 
-            const pColor = `hsl(${p.dis/2*p.r+144-time*2}, 100%, 77%)`;
+            const pColor = `hsl(${(p.dis/3)*p.r+144}, 100%, 77%)`;
 
             if (showLines) {
                 const px = 
@@ -199,3 +217,32 @@ function clearFullScreen() {
 function mapNumber (number, min1, max1, min2, max2) {
     return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
 };
+
+
+function findObjectCoords(mouseEvent) {
+
+    let obj = canvas,
+        obj_left = 0,
+        obj_top = 0,
+        xpos,
+        ypos;
+
+while (obj.offsetParent)
+{
+    obj_left += obj.offsetLeft;
+    obj_top += obj.offsetTop;
+    obj = obj.offsetParent;
+}
+if (mouseEvent)
+{
+    xpos = mouseEvent.pageX;
+    ypos = mouseEvent.pageY;
+}
+
+xpos -= obj_left;
+ypos -= obj_top;
+
+mosPos.x = xpos
+mosPos.y = ypos
+
+}
