@@ -1,6 +1,5 @@
 //this file uses the simplex noise algorithm from a library
 alert('CONTROLS\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse O & L to toggle displaying of lines/dots\nUse Up and Down Arrow Keys to change speed of animation')
-
 const Noise = toxi.math.noise.simplexNoise.noise,
       pi = Math.PI,
       sqrt = Math.sqrt,
@@ -23,7 +22,8 @@ let canvas = document.createElement('canvas'),
       clearScreen = true,
       pauseAnimation = false,
       showLines = true,
-      showDots = true;
+      showDots = true,
+      isInColor = true;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -72,7 +72,11 @@ function userInputEvent(input) {
         case "KeyS":
             clearScreen = !clearScreen;
         break;
+        case "KeyC":
+            isInColor = !isInColor;
+        break;
         }
+        
 }
 
 //SET THE CANVAS ORIGIN TO THE MIDDLE OF THE WINDOW
@@ -126,8 +130,8 @@ function createImg(s) {
 
                 const
                 distance = sqrt( pow((x*20)-(mosPos.x), 2) + pow((y*20)-(mosPos.y), 2) ),
-                noiseX = (x/20 + seed ) + s/100 + (distance/113377), 
-                noiseY = (y/20 + seed ) + s/100 + (distance/113377),
+                noiseX = (x/20 + seed ) - s/120-(pow(distance,2)/9999999), 
+                noiseY = (y/20 + seed ) + s/120+(pow(distance,2)/9999999),
                 N1 = Noise(noiseX, noiseY),
                 N2 = Noise(noiseY, noiseX),
                 radius = 2+N1+N2 > 1 ? 2+N1+N2 : 1,
@@ -156,14 +160,15 @@ function renderMouse() {
 function renderPoints(arr) {
 
     // const t = Math.ceil(time/20)
+    const saturation = isInColor ? 100 : 0;
 
     for (let i = 0; i < arr.length; i++) {
 
         for (let j = 0; j < arr[i].length; j++) {
             
-            const p = arr[i][j];
-
-            const pColor = `hsl(${(p.dis/3)*p.r+144}, 100%, 77%)`;
+            const p = arr[i][j],
+            light = (10*p.r)+50 < 80 ? (10*p.r)+50 : 80,
+            pColor = `hsl(${p.dis/3*p.r+144}, ${saturation}%, ${light}%)`;
 
             if (showLines) {
                 const px = 
