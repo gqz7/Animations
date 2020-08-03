@@ -1,4 +1,5 @@
 //this file uses the simplex noise algorithm from a library
+alert('CONTROLS\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse O & L to toggle displaying of lines/dots\nUse Up and Down Arrow Keys to change speed of animation')
 
 const Noise = toxi.math.noise.simplexNoise.noise,
       pi = Math.PI,
@@ -125,8 +126,8 @@ function createImg(s) {
 
                 const
                 distance = sqrt( pow((x*20)-(mosPos.x), 2) + pow((y*20)-(mosPos.y), 2) ),
-                noiseX = (x/20 + seed ) + s*(distance/113377), 
-                noiseY = (y/20 + seed ) + s*(distance/113377),
+                noiseX = (x/20 + seed ) + s/100 + (distance/113377), 
+                noiseY = (y/20 + seed ) + s/100 + (distance/113377),
                 N1 = Noise(noiseX, noiseY),
                 N2 = Noise(noiseY, noiseX),
                 radius = 2+N1+N2 > 1 ? 2+N1+N2 : 1,
