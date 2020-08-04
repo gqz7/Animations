@@ -102,9 +102,9 @@ function userInputEvent(input) {
 
         if(clearScreen) clearFullScreen()
 
-        renderMouse()
+        // renderMouse()
             
-        // createImg(time)
+        createImg(time)
         
         if (!pauseAnimation) {
             setTimeout(window.requestAnimationFrame, 10, render)
@@ -159,7 +159,7 @@ function renderMouse() {
     const originY = mosPos.y;
 
     const noise1 = (Noise(seed+time/100, seed+time/100));
-    const noise2 = (Noise(seed+100+time/100, seed+100+time /100));
+    const noise2 = (Noise(seed+0.4140+time/100, seed+0.4140+time /100));
 
     context.fillStyle = 'yellow';                  
     context.beginPath()
@@ -167,7 +167,7 @@ function renderMouse() {
     context.fill()
 
     const noise3 = (Noise(seed+333+time/100, seed+333+time/100));
-    const noise4 = (Noise(seed+1000+time/100, seed+1000+time /100));
+    const noise4 = (Noise(seed+0.41400+time/100, seed+0.41400+time /100));
 
     context.fillStyle = 'magenta';                  
     context.beginPath()
@@ -198,9 +198,11 @@ function renderPoints(arr) {
 
         for (let j = 0; j < arr[i].length; j++) {
             
-            const p = arr[i][j];
-            light = (100*p.n)+50 < 80 ? (10*p.n)+50 : 80,
+            const p = arr[i][j],
+            light = (100*p.n)+0.414 < 80 ? (100*p.n)+0.414 : 80,
             pColor = `hsl(${0}, ${0}%, ${light}%)`;
+
+
 
             if (showLines) {
                 const px = 
@@ -217,47 +219,107 @@ function renderPoints(arr) {
                     ? arr[i+1][j+1] 
                     : false;
                 const pm = 
-                    px != undefined 
-                    && py != undefined 
-                    && pxy != undefined 
-                    ? (p.n + pxy.n + px.n + py.n)/4
+                    px
+                    && py
+                    && pxy
+                    ? {
+                        n: (p.n + pxy.n + px.n + py.n)/4,
+                        x: (p.x + px.x)/2,
+                        y: (p.y + py.y)/2
+                    }
                     : false;
 
-                context.strokeStyle = pColor;                  
-                
-                if (px||py||pxy) {
-                    context.beginPath()
-                    context.moveTo(p.x,p.y)
-                    if (px) context.lineTo(px.x, px.y)
-                    if (py) context.lineTo(py.x, py.y)
-                    context.lineTo(p.x,p.y)
-                    if (pxy) context.lineTo(pxy.x, pxy.y)
-                    context.stroke()
-                }
-
-                if (pm) {
+                if (pm && py) {
                     const 
-                    light = (100*pm)+50 < 80 ? (10*pm)+50 : 80,
+                    light = (100*(pm.n+p.n+py.n)/3)+0.414 < 80 ? (100*(pm.n+p.n+py.n)/3)+0.414 : 80,
                     pColor = `hsl(${0}, ${0}%, ${light}%)`;
         
                     context.fillStyle = pColor;                  
                     context.beginPath()
-                    context.arc(p.x+10, p.y+10, Math.abs(pm*3) , 0, pi*2)
+                    context.moveTo(p.x, p.y)
+                    context.lineTo(py.x,py.y)
+                    context.lineTo(pm.x,pm.y)
+                    context.lineTo(p.x, p.y)
+                    context.fill()
+
+                }
+
+                if (pm && px) {
+                    const 
+                    light = (100*(pm.n+p.n+px.n)/3)+0.414 < 80 ? (100*(pm.n+p.n+px.n)/3)+0.414 : 80,
+                    pColor = `hsl(${0}, ${0}%, ${light}%)`;
+        
+                    context.fillStyle = pColor;                  
+                    context.beginPath()
+                    context.moveTo(p.x, p.y)
+                    context.lineTo(px.x,px.y)
+                    context.lineTo(pm.x,pm.y)
+                    context.lineTo(p.x, p.y)
+                    context.fill()
+
+                }
+
+                if (pm && pxy && px) {
+                    const 
+                    light = (100*(pm.n+px.n+pxy.n)/3)+0.414 < 80 ? (100*(pm.n+px.n+pxy.n)/3)+0.414 : 80,
+                    pColor = `hsl(${0}, ${0}%, ${light}%)`;
+        
+                    context.fillStyle = pColor;                  
+                    context.beginPath()
+                    context.moveTo(px.x, px.y)
+                    context.lineTo(pxy.x,pxy.y)
+                    context.lineTo(pm.x,pm.y)
+                    context.lineTo(px.x, px.y)
+                    context.fill()
+
+                }
+
+                if (pm && pxy && py) {
+                    const 
+                    light = (100*(pm.n+py.n+pxy.n)/3)+0.414 < 80 ? (100*(pm.n+py.n+pxy.n)/3)+0.414 : 80,
+                    pColor = `hsl(${0}, ${0}%, ${light}%)`;
+        
+                    context.fillStyle = pColor;                  
+                    context.beginPath()
+                    context.moveTo(py.x, py.y)
+                    context.lineTo(pxy.x,pxy.y)
+                    context.lineTo(pm.x,pm.y)
+                    context.lineTo(py.x, py.y)
+                    context.fill()
+
+                }
+
+
+                if (pm) {
+                    const 
+                    light = (100*pm.n)+0.414 < 80 ? (100*pm.n)+0.414 : 80,
+                    pColor = `hsl(${0}, ${0}%, ${light}%)`;
+        
+                    context.fillStyle = pColor;                  
+                    context.beginPath()
+                    context.arc(pm.x, pm.y, 5, 0, pi*2)
                     context.fill()
                 }
+
+
+
             }
 
-            // if (showDots) {
-            //     context.fillStyle = pColor;                  
-            //     context.beginPath()
-            //     context.arc(p.x, p.y, 2, 0, pi*2)
-            //     context.fill()
-                
-            // }
+            if (showDots) {
+                context.fillStyle = pColor;                  
+                context.beginPath()
+                context.arc(p.x, p.y, 5, 0, pi*2)
+                context.fill()
+            }
+
 
         }
     }
 
+}
+
+function calcColor() {
+    
 }
 
 function clearFullScreen() {
