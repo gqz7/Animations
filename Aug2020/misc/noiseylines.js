@@ -94,10 +94,12 @@ function lines(t) {
 
     for (let i = 0; i < 500; i++) {
 
-        const originX = (Noise(seed/777+i/1000, seed+5321/777+i/1000))*width;
-        const originY = (Noise(seed+1100/777+i/1000, seed+300+t/777+i/1000))*height;
                 
         for (let j = 0; j < colors.length; j++) {
+
+            const originX = (Noise(seed/777+i/1000, seed+5321/777+i/1000))*width;
+            const originY = (Noise(seed+1100/777+i/1000, seed+300+t/777+i/1000))*height;
+    
             
             const noiseConst = seed+t/1000
             const noiseX = Noise(noiseConst+((j+1)*100), noiseConst+((j+1)*200));

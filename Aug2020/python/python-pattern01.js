@@ -23,7 +23,8 @@ let canvas = document.createElement('canvas'),
       pauseAnimation = false,
       showLines = true,
       showDots = true,
-      isInColor = true;
+      isInColor = true,
+      blockSize = 20;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -138,8 +139,8 @@ function createImg(s) {
                 nX = seed+x/37+s/300,
                 nY = seed+y/37 
                 noise = Math.abs(Noise(nX, nY));
-                X = x*20,
-                Y = y*20,
+                X = x*blockSize,
+                Y = y*blockSize,
 
                 point = {x: X, y: Y, n: noise};
 
@@ -199,10 +200,7 @@ function renderPoints(arr) {
         for (let j = 0; j < arr[i].length; j++) {
             
             const p = arr[i][j],
-            light = (100*p.n)+0.414 < 80 ? (100*p.n)+0.414 : 80,
-            pColor = `hsl(${0}, ${0}%, ${light}%)`;
-
-
+            pColor = calcColor(p.n)
 
             if (showLines) {
                 const px = 
@@ -224,15 +222,14 @@ function renderPoints(arr) {
                     && pxy
                     ? {
                         n: (p.n + pxy.n + px.n + py.n)/4,
-                        x: (p.x + px.x)/2,
-                        y: (p.y + py.y)/2
+                        x: p.x + blockSize/2,
+                        y: p.y + blockSize/2
                     }
                     : false;
 
                 if (pm && py) {
-                    const 
-                    light = (100*(pm.n+p.n+py.n)/3)+0.414 < 80 ? (100*(pm.n+p.n+py.n)/3)+0.414 : 80,
-                    pColor = `hsl(${0}, ${0}%, ${light}%)`;
+                    const
+                    pColor = calcColor((pm.n+p.n+py.n)/3);
         
                     context.fillStyle = pColor;                  
                     context.beginPath()
@@ -246,8 +243,7 @@ function renderPoints(arr) {
 
                 if (pm && px) {
                     const 
-                    light = (100*(pm.n+p.n+px.n)/3)+0.414 < 80 ? (100*(pm.n+p.n+px.n)/3)+0.414 : 80,
-                    pColor = `hsl(${0}, ${0}%, ${light}%)`;
+                    pColor = calcColor((pm.n+p.n+px.n)/3);
         
                     context.fillStyle = pColor;                  
                     context.beginPath()
@@ -261,8 +257,7 @@ function renderPoints(arr) {
 
                 if (pm && pxy && px) {
                     const 
-                    light = (100*(pm.n+px.n+pxy.n)/3)+0.414 < 80 ? (100*(pm.n+px.n+pxy.n)/3)+0.414 : 80,
-                    pColor = `hsl(${0}, ${0}%, ${light}%)`;
+                    pColor = calcColor((pm.n+px.n+pxy.n)/3);
         
                     context.fillStyle = pColor;                  
                     context.beginPath()
@@ -276,8 +271,7 @@ function renderPoints(arr) {
 
                 if (pm && pxy && py) {
                     const 
-                    light = (100*(pm.n+py.n+pxy.n)/3)+0.414 < 80 ? (100*(pm.n+py.n+pxy.n)/3)+0.414 : 80,
-                    pColor = `hsl(${0}, ${0}%, ${light}%)`;
+                    pColor = calcColor((pm.n+px.n+pxy.n)/3);
         
                     context.fillStyle = pColor;                  
                     context.beginPath()
@@ -292,8 +286,7 @@ function renderPoints(arr) {
 
                 if (pm) {
                     const 
-                    light = (100*pm.n)+0.414 < 80 ? (100*pm.n)+0.414 : 80,
-                    pColor = `hsl(${0}, ${0}%, ${light}%)`;
+                    pColor = calcColor(pm.n);
         
                     context.fillStyle = pColor;                  
                     context.beginPath()
@@ -318,8 +311,9 @@ function renderPoints(arr) {
 
 }
 
-function calcColor() {
-    
+function calcColor(n) {
+    const light = (100*n) < 90 ? (100*n) : 90;
+    return `hsl(${0}, ${0}%, ${light}%)`
 }
 
 function clearFullScreen() {
