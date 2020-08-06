@@ -30,7 +30,8 @@ let canvas = document.createElement('canvas'),
       showLines = true,
       showDots = true,
       isInColor = true,
-      blockSize = 20;
+      blockSize = 20,
+      colorMult = 2;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -68,6 +69,12 @@ function userInputEvent(input) {
         case "ArrowDown":
             speed = speed > .1 ? speed-.1 : .1;
         break;
+        case 'ArrowLeft':
+            colorMult = colorMult > .5 ? colorMult-.3 : .5;
+        break;
+        case "ArrowRight":
+            colorMult = colorMult < 5 ? colorMult+=.1 : 5;
+          break;
         case "KeyL":
             showLines = !showLines;
             if (!showDots && !showLines) showDots = true
@@ -120,6 +127,7 @@ function userInputEvent(input) {
 function createImg(s) { 
 
     const points = [];
+    const timeNoise = Math.abs(Noise(s/1000 + seed, s/1000 + seed)*1.5);
 
         for (let x = limits.sX; x < limits.eX; x++) {
 
@@ -134,8 +142,8 @@ function createImg(s) {
                 // N1 = Noise(noiseX, noiseY),
                 // N2 = Noise(noiseY, noiseX),
                 // radius = 2+N1+N2 > 1 ? 2+N1+N2 : 1,
-                nX = seed+(x/37)+(s/(pi*100)),
-                nY = seed+y/37+(s/(pi*177)),
+                nX = seed+(x/37*(1.2+timeNoise))+(s/(pi*100)),
+                nY = seed+(y/37*(1.2+timeNoise))+(s/(pi*177)),
                 noise = Math.abs(Noise(nX, nY));
                 X = x*blockSize,
                 Y = y*blockSize,
@@ -360,7 +368,7 @@ function renderPoints(arr) {
 function calcColor(n) {
     const light = (100*n) < 90 ? (100*n) : 90,
           sat = n*100,
-          color = (n * 360 * 3) + time*7;
+          color = (n * 360 * colorMult) + time*7;
     return `hsl(${color}, ${sat}%, ${light}%)`
 }
 
