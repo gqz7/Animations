@@ -312,8 +312,10 @@ function renderPoints(arr) {
 }
 
 function calcColor(n) {
-    const light = (100*n) < 90 ? (100*n) : 90;
-    return `hsl(${0}, ${0}%, ${light}%)`
+    const light = (100*n) < 90 ? (100*n) : 90,
+          sat = n*100,
+          color = (n * 360 * 3) + time*7;
+    return `hsl(${color}, ${sat}%, ${light}%)`
 }
 
 function clearFullScreen() {
