@@ -24,7 +24,7 @@ let canvas = document.createElement('canvas'),
       time = 0,
       timeMax = Infinity,
       timeForward = true,
-      speed = 1,
+      speed = .77,
       clearScreen = true,
       pauseAnimation = false,
       showLines = true,
@@ -134,8 +134,8 @@ function createImg(s) {
                 // N1 = Noise(noiseX, noiseY),
                 // N2 = Noise(noiseY, noiseX),
                 // radius = 2+N1+N2 > 1 ? 2+N1+N2 : 1,
-                nX = seed+x/37+s/300,
-                nY = seed+y/37 
+                nX = seed+(x/37)+(s/(pi*100)),
+                nY = seed+y/37+(s/(pi*177)),
                 noise = Math.abs(Noise(nX, nY));
                 X = x*blockSize,
                 Y = y*blockSize,
@@ -148,9 +148,25 @@ function createImg(s) {
             
         }
 
+        renderCanvasBG()
         renderPoints(points)
         renderBorder()
 
+}
+
+function renderCanvasBG() {
+    const backgroundColor =  `#333`
+
+    context.fillStyle = backgroundColor;
+
+    //limits.sX*blockSize, limits.sY*blockSize, limits.eX*blockSize, limits.eY*blockSize
+    context.rect(
+        limits.sX*blockSize, 
+        limits.sY*blockSize, 
+        limits.eX*blockSize-blockSize-limits.sX*blockSize, 
+        limits.eY*blockSize-blockSize-limits.sY*blockSize
+    );
+    context.fill()
 }
 
 function renderBorder() {
@@ -305,7 +321,7 @@ function renderPoints(arr) {
 
                 if (pm && pxy && py) {
                     const 
-                    pColor = calcColor((pm.n+px.n+pxy.n)/3);
+                    pColor = calcColor((pm.n+py.n+pxy.n)/3);
         
                     context.fillStyle = pColor;                  
                     context.beginPath()
