@@ -3,7 +3,13 @@
 const Noise = toxi.math.noise.simplexNoise.noise,
       pi = Math.PI,
       sqrt = Math.sqrt,
-      pow = Math.pow;
+      pow = Math.pow,
+      limits = {
+        sX: 12,
+        eX: 55,
+        sY: 5,
+        eY: 40,
+    };
 
 let seed = Math.random()*1000,
     mosPos = {
@@ -103,9 +109,8 @@ function userInputEvent(input) {
 
         if(clearScreen) clearFullScreen()
 
-        // renderMouse()
-            
         createImg(time)
+        renderMouse()
         
         if (!pauseAnimation) {
             setTimeout(window.requestAnimationFrame, 10, render)
@@ -114,14 +119,7 @@ function userInputEvent(input) {
 
 function createImg(s) { 
 
-    const limits = {
-        sX: 12,
-        eX: 55,
-        sY: 5,
-        eY: 40,
-    },
-    
-    points = [];
+    const points = [];
 
         for (let x = limits.sX; x < limits.eX; x++) {
 
@@ -151,6 +149,47 @@ function createImg(s) {
         }
 
         renderPoints(points)
+        renderBorder()
+
+}
+
+function renderBorder() {
+    const borderColor = '#111';
+
+    context.fillStyle = borderColor;
+
+    //limits.sX*blockSize, limits.sY*blockSize, limits.eX*blockSize, limits.eY*blockSize
+    context.rect(
+        limits.sX*blockSize-blockSize, 
+        limits.sY*blockSize-blockSize, 
+        limits.eX*blockSize-blockSize-limits.sX*blockSize+blockSize*2, 
+        blockSize
+    );
+    context.fill()
+
+    context.rect(
+        limits.sX*blockSize-blockSize, 
+        limits.eY*blockSize-blockSize, 
+        limits.eX*blockSize-blockSize-limits.sX*blockSize+blockSize*2, 
+        blockSize
+    );
+    context.fill()
+
+    context.rect(
+        limits.sX*blockSize-blockSize, 
+        limits.sY*blockSize-blockSize, 
+        blockSize,
+        limits.eY*blockSize-blockSize-limits.sY*blockSize+blockSize*2
+    );
+    context.fill()
+
+    context.rect(
+        limits.eX*blockSize-blockSize, 
+        limits.sY*blockSize-blockSize, 
+        blockSize,
+        limits.eY*blockSize-blockSize-limits.sY*blockSize+blockSize*2
+    );
+    context.fill()
 
 }
 
@@ -182,11 +221,6 @@ function renderMouse() {
     context.beginPath()
     context.arc(originX+(noise5)*12.7, originY+(noise6)*12.7, 1.5, 0, pi*2)
     context.fill()
-
-    const noise7 = (Noise(seed+888+time/100, seed+888+time/100));
-    const noise8 = (Noise(seed+999+time/100, seed+999+time /100));
-
-
 
 }
 
@@ -282,8 +316,6 @@ function renderPoints(arr) {
                     context.fill()
 
                 }
-
-
                 if (pm) {
                     const 
                     pColor = calcColor(pm.n);
@@ -293,8 +325,6 @@ function renderPoints(arr) {
                     context.arc(pm.x, pm.y, 5, 0, pi*2)
                     context.fill()
                 }
-
-
 
             }
 
