@@ -4,11 +4,15 @@ const Noise = toxi.math.noise.simplexNoise.noise,
       pi = Math.PI,
       sqrt = Math.sqrt,
       pow = Math.pow,
+      blockSize = 23,
+      width = window.innerWidth,
+      height = window.innerHeight,
       limits = {
-        sX: 20,
-        eX: 60,
-        sY: 3,
-        eY: 41,
+        sX: Math.ceil(blockSize/width)+Math.ceil(width/8/blockSize),
+        eX: Math.ceil(width/blockSize)-Math.ceil(width/8/blockSize),
+        sY: Math.ceil(blockSize/window.innerHeight)+Math.ceil(window.innerHeight/17/blockSize),
+        eY: Math.ceil(height/blockSize)-Math.ceil(height/17/blockSize),
+
     };
 
 let seed = Math.random()*10000,
@@ -19,19 +23,20 @@ let seed = Math.random()*10000,
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
-      width = canvas.width = window.innerWidth,
-      height = canvas.height = window.innerHeight,
       time = 0,
       timeMax = Infinity,
       timeForward = true,
-      speed = .5,
+      speed = .1,
       clearScreen = true,
       pauseAnimation = false,
       showLines = true,
       showDots = true,
       isInColor = true,
-      blockSize = 24,
-      colorMult = 1.7;
+      colorMult = 1.79;
+
+      
+    canvas.width = width;
+    canvas.height = height;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -127,7 +132,7 @@ function userInputEvent(input) {
 function createImg(s) { 
 
     const points = [];
-    const timeNoise = Math.abs(Noise(s/1000 + seed, s/1000 + seed)*1.5);
+    const timeNoise = (Noise(s/1000 + seed, s/1000 + seed)*3);
 
         for (let x = limits.sX; x < limits.eX; x++) {
 
@@ -136,11 +141,11 @@ function createImg(s) {
             for (let y = limits.sY; y < limits.eY; y++) {
                 
                 const
-                noiseX = x/19+timeNoise + s/77, 
-                noiseY = y/19+timeNoise + s/77,
+                noiseX = (x/(33+timeNoise)) + s/77, 
+                noiseY = (y/(33+timeNoise)) + s/77,
                 distance = sqrt( pow((x*blockSize)-(width/2), 2) +  pow((y*blockSize)-(height/2), 2) ),
-                N1 = Noise(noiseX, noiseY+seed)*(3.6 -pow(distance,.77)/28),
-                N2 = Noise(noiseY+seed,noiseX)*(3.6 -pow(distance,.77)/28),
+                N1 = Noise(noiseX, noiseY+seed)*(3.5 -pow(distance,.77)/28),
+                N2 = Noise(noiseY+seed,noiseX)*(3.5 -pow(distance,.77)/28),
                 X = x*blockSize+ N1*20+N2*20,
                 Y = y*blockSize+ N1*20-N2*20,
                 noise = Math.abs(N1 + N2)/2 +( 1 * distance/7000),
@@ -152,7 +157,7 @@ function createImg(s) {
             
         }
 
-        renderCanvasBG()
+        // renderCanvasBG()
         renderPoints(points)
         // renderBorder()
 
@@ -174,7 +179,7 @@ function renderCanvasBG() {
 }
 
 function renderBorder() {
-    const borderColor = '#222';
+    const borderColor = 'black';
 
     context.fillStyle = borderColor;
 
@@ -285,13 +290,16 @@ function renderPoints(arr) {
                     const
                     pColor = calcColor((pm.n+p.n+py.n)/3);
         
-                    context.fillStyle = pColor;                  
+                    context.fillStyle = pColor;
+                    context.strokeStyle = pColor;                  
+
                     context.beginPath()
                     context.moveTo(p.x, p.y)
                     context.lineTo(py.x,py.y)
                     context.lineTo(pm.x,pm.y)
                     context.lineTo(p.x, p.y)
                     context.fill()
+                    // context.stroke()
 
                 }
 
@@ -300,12 +308,15 @@ function renderPoints(arr) {
                     pColor = calcColor((pm.n+p.n+px.n)/3);
         
                     context.fillStyle = pColor;                  
+                    context.strokeStyle = pColor;                  
+
                     context.beginPath()
                     context.moveTo(p.x, p.y)
                     context.lineTo(px.x,px.y)
                     context.lineTo(pm.x,pm.y)
                     context.lineTo(p.x, p.y)
                     context.fill()
+                    // context.stroke()
 
                 }
 
@@ -313,13 +324,16 @@ function renderPoints(arr) {
                     const 
                     pColor = calcColor((pm.n+px.n+pxy.n)/3);
         
-                    context.fillStyle = pColor;                  
+                    context.fillStyle = pColor;
+                    context.strokeStyle = pColor;                  
+
                     context.beginPath()
                     context.moveTo(px.x, px.y)
                     context.lineTo(pxy.x,pxy.y)
                     context.lineTo(pm.x,pm.y)
                     context.lineTo(px.x, px.y)
                     context.fill()
+                    // context.stroke()
 
                 }
 
@@ -328,30 +342,33 @@ function renderPoints(arr) {
                     pColor = calcColor((pm.n+py.n+pxy.n)/3);
         
                     context.fillStyle = pColor;                  
+                    context.strokeStyle = pColor;                  
                     context.beginPath()
                     context.moveTo(py.x, py.y)
                     context.lineTo(pxy.x,pxy.y)
                     context.lineTo(pm.x,pm.y)
                     context.lineTo(py.x, py.y)
                     context.fill()
+                    // context.stroke()
 
                 }
                 if (pm && showDots) {
                     const 
                     pColor = calcColor(pm.n);
-        
+                    const size = 10-pm.n*blockSize/2 > 3 ? 10-pm.n*blockSize/2 : 3;    
                     context.fillStyle = pColor;                  
                     context.beginPath()
-                    context.arc(pm.x, pm.y, 5, 0, pi*2)
+                    context.arc(pm.x, pm.y, size, 0, pi*2)
                     context.fill()
                 }
 
             }
 
             if (showDots) {
-                context.fillStyle = pColor;                  
+                context.fillStyle = pColor;   
+                const size = 3-p.n*blockSize/2 > 1 ? 3-p.n*blockSize/2 : 1;                     
                 context.beginPath()
-                context.arc(p.x, p.y, 5, 0, pi*2)
+                context.arc(p.x, p.y, size, 0, pi*2)
                 context.fill()
             }
 
