@@ -4,11 +4,15 @@ const Noise = toxi.math.noise.simplexNoise.noise,
       pi = Math.PI,
       sqrt = Math.sqrt,
       pow = Math.pow,
+      blockSize = 23,
+      swidth = window.innerWidth,
+      sheight = window.innerHeight,
       limits = {
-        sX: 12,
-        eX: 55,
-        sY: 5,
-        eY: 40,
+        sX: Math.ceil(blockSize/swidth)+Math.ceil(swidth/8/blockSize),
+        eX: Math.ceil(swidth/blockSize)-Math.ceil(swidth/8/blockSize),
+        sY: Math.ceil(blockSize/window.innerHeight)+Math.ceil(window.innerHeight/17/blockSize),
+        eY: Math.ceil(sheight/blockSize)-Math.ceil(sheight/17/blockSize),
+
     };
 
 let seed = Math.random()*1000,
@@ -30,7 +34,7 @@ let canvas = document.createElement('canvas'),
       showLines = true,
       showDots = true,
       isInColor = true,
-      blockSize = 20,
+      zoom = 20,
       colorMult = 2;
 
 context.strokeStyle = 'white';
@@ -53,6 +57,7 @@ document.body.appendChild(canvas)
 //USER INPUT EVENT LISTENER
 document.addEventListener('keydown', userInputEvent, false);
 canvas.onmousemove = findObjectCoords;
+canvas.onwheel = mouseWheelMoved;
 
 //USER INPUT LOGIC
 function userInputEvent(input) {
@@ -136,12 +141,12 @@ function createImg(s) {
             for (let y = limits.sY; y < limits.eY; y++) {
 
                 const
-                // distance = sqrt( pow((x*20)-(mosPos.x), 2) + pow((y*20)-(mosPos.y), 2) ),
-                // noiseX = (x/20 + seed ) - s/120-(pow(distance,2)/9999999), 
-                // noiseY = (y/20 + seed ) + s/120+(pow(distance,2)/9999999),
-                // N1 = Noise(noiseX, noiseY),
-                // N2 = Noise(noiseY, noiseX),
-                // radius = 2+N1+N2 > 1 ? 2+N1+N2 : 1,
+                distance = sqrt( pow((x*20)-(mosPos.x), 2) + pow((y*20)-(mosPos.y), 2) ),
+                noiseX = (x+ seed ) - s/120-(pow(distance,2)/9999999), 
+                noiseY = (y+ seed ) + s/120+(pow(distance,2)/9999999),
+                N1 = Noise(noiseX , noiseY ),
+                N2 = Noise(noiseY, noiseX),
+                radius = 2+N1+N2 > 1 ? 2+N1+N2 : 1,
                 nX = seed+(x/37*(1.2+timeNoise))+(s/(pi*100)),
                 nY = seed+(y/37*(1.2+timeNoise))+(s/(pi*177)),
                 noise = Math.abs(Noise(nX, nY));
@@ -155,6 +160,7 @@ function createImg(s) {
             }
             
         }
+        
 
         renderCanvasBG()
         renderPoints(points)
@@ -412,4 +418,15 @@ ypos -= obj_top;
 mosPos.x = xpos
 mosPos.y = ypos
 
+}
+
+
+function mouseWheelMoved(evn) {
+        
+    let move = evn.deltaY * -1;
+
+    zoom = zoom + move > 1 && zoom + move < 188 ? zoom + move : zoom;
+
+    console.log(zoom);
+    
 }
