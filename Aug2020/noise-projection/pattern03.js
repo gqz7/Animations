@@ -19,13 +19,13 @@ let canvas = document.createElement('canvas'),
 
       strokeW = 1,
 
-      speed = .37,
+      speed = .4,
 
       clearScreen = true,
       
       pauseAnimation = false,
 
-      viewWidth = 7,
+      viewWidth = 1,
       viewHeight = width/2;
 
 context.strokeStyle = 'white';
@@ -139,15 +139,15 @@ function createImg(s, num) {
 
         for (let y = 0; y < viewHeight; y+=pixSize) {
 
-          const offX = (mapNumber(nRes, 3, timeMax, 0, width*2)/nRes/4.2)+transX*19,
-                offY = (mapNumber(nRes, 7, timeMax, 0, height*2)/nRes/1.2),
+          const offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/3.4, timeMax, 0, width*2)/nRes/4.2)+transX*19,
+                offY = (mapNumber(nRes, (1+time/40)*(1+y*x/time*1), timeMax, 0, height*2)/nRes/1.2),
                 noiseX = ((xCount*10)/(nRes*20))+offX+seed,
                 noiseY = ((yCount*10)/(nRes*12.7))+offY+seed,
                 divid = time < 40 ? time : 40,
-                light = (Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/1.37)-10,
+                light = 100-((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/1.37)+5),
                 color = (Math.abs((Noise(noiseX, noiseY)*divid ) % 10)*divid)+s*3;
 
-            context.strokeStyle = `hsl(${color}, 40%, ${light}%)`; //Math.random()*100
+            context.strokeStyle = `hsl(${color-100}, 40%, ${light-y/70}%)`; //Math.random()*100
 
             context.lineWidth = pixSize;
            
