@@ -19,7 +19,7 @@ let canvas = document.createElement('canvas'),
 
       strokeW = 1,
 
-      speed = .4,
+      speed = .3,
 
       clearScreen = true,
       
@@ -126,12 +126,12 @@ function createImg(s, num) {
 
     // context.translate(width/2-viewWidth/2,height/2-viewHeight/2)
 
-    const pixSize = 2,
+    const pixSize = 1,
           nRes = time,
           transX = nRes == 77 ? s/30 : 0,
           seed = num === 1 ? seed1 : seed2;
-
     let xCount = 0;
+    context.lineWidth = pixSize;
 
     for (let x = 0; x < viewWidth; x+=pixSize) {
         // console.log(x);
@@ -139,29 +139,30 @@ function createImg(s, num) {
 
         for (let y = 0; y < viewHeight; y+=pixSize) {
 
-          const offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/3.4, timeMax, 0, width*2)/nRes/4.2)+transX*19,
-                offY = (mapNumber(nRes, (1+time/40)*(1+y*x/time*1), timeMax, 0, height*2)/nRes/1.2),
+          const offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/3.4, timeMax, 0, width*2)/nRes/4.2)+transX*9,
+                offY = (mapNumber(nRes, (1+time/400)*(1+y*x/time*.1), timeMax, 0, height*2)/nRes/1.2),
                 noiseX = ((xCount*10)/(nRes*20))+offX+seed,
                 noiseY = ((yCount*10)/(nRes*12.7))+offY+seed,
                 divid = time < 40 ? time : 40,
-                light = 100-((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/1.37)+5),
-                color = (Math.abs((Noise(noiseX, noiseY)*divid ) % 10)*divid)+s*3;
+                light = ((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/1.37)+5)-y/14;
 
-            context.strokeStyle = `hsl(${color-100}, 40%, ${light-y/70}%)`; //Math.random()*100
+            if (light > 1) {
+                const color = (Math.abs((Noise(noiseX, noiseY)*divid ) % 10)*divid)+s*3-88;
+                context.strokeStyle = `hsl(${color}, 40%, ${light}%)`; //Math.random()*100
 
-            context.lineWidth = pixSize;
-           
-            // console.log(x, y);
-            context.beginPath()
-            context.moveTo(x,y)
-            context.lineTo(x+pixSize,y)
-            context.stroke()
-            
-            context.beginPath()
-            context.moveTo(x,-y)
-            context.lineTo(x+pixSize,-y)
-            context.stroke()
-            
+               
+                // console.log(x, y);
+                context.beginPath()
+                    context.moveTo(x,y)
+                    context.lineTo(x+pixSize,y)
+                    
+                    context.moveTo(x,-y)
+                    context.lineTo(x+pixSize,-y)
+                context.stroke()
+                
+    
+            }
+
 
             yCount++
             
