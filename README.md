@@ -20,6 +20,8 @@
 
 [Star Field Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Stars#readme)
 
+[Noise Field Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Noise-Field#readme)
+
 [Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard#readme)
 
 [Yin Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Yin-Yang#readme)
@@ -29,7 +31,7 @@
 <!-- My inspiration for many of these animations comes from natures itself. I am very facinates by the fractals that appear in the phenomonal world. These are all the animations I have created in my journey as a delevopler and digital artist.
 Notes -->
 
-```
+<!-- ```
 //12/14 :
 I have finally got a fibonacci spiral working in Javascript! it had to give up the idea of creating the spiral right from the start as is. the best way for me to take on this challenge was to start with fibonacci sized boxes. once i was able to create a sucessfull recursion and create a box one at a time(each one having a size of the sum of the previous two boxes) i was then able to do some troubleshoot as to why they were not in the correct orientation for the spiral. i got some very cool looking patterns in the process. using context.translate and context.rotate i was able to get the sequence of created boxes looking good. the next step was to create the arc for each box that would make up one portion of the sprial. this took some guess and check but i was able to complete my goal in good time.
 
@@ -46,4 +48,4 @@ i made substancial progess working with the idea of a checkerboard that can be a
 
 In the past couple months ive gone onto some experimental projects, trying out diffrent techniques to see what works and what doesnt, I have found some cool designs and finished up my checkerboard animations although I would love to get back into thoes. 
 
-I've made great progress on an idea i had wanted to try out for a really long time. Moving stars in space. I started with just circles in random locations and moved up to gradient ranbows that appear to whizz past the viewer. My next step in this field is calculating positions in 3 dimensions. So far I have only worked with two but I need to step up the challenge
+I've made great progress on an idea i had wanted to try out for a really long time. Moving stars in space. I started with just circles in random locations and moved up to gradient ranbows that appear to whizz past the viewer. My next step in this field is calculating positions in 3 dimensions. So far I have only worked with two but I need to step up the challenge -->
