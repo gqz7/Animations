@@ -72,10 +72,10 @@ function render() {
 
 function renderNoise() {
 
-    const maxH = 100;
+    const maxH =70;
 
-    viewWidth = 270;
-    const vertRes = .4;
+    viewWidth = 100;
+    const vertRes = .2;
 
     for (let i = 1; i < maxH; i+=vertRes) {
 
