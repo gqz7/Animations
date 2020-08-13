@@ -19,7 +19,7 @@ let canvas = document.createElement('canvas'),
 
       strokeW = 1,
 
-      speed = .3,
+      speed = .1,
 
       clearScreen = true,
       
