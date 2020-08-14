@@ -3,6 +3,8 @@ const Noise = toxi.math.noise.simplexNoise.noise;
 let seed1 = Math.random()*100;
 let seed2 = Math.random()*100;
 
+console.log(`seed 1: ${seed1}\nseed 2: ${seed2}\n`);
+
 // alert('CONTROLS\nPress E to adjust object orientation\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
@@ -19,7 +21,7 @@ let canvas = document.createElement('canvas'),
 
       strokeW = 1,
 
-      speed = .1,
+      speed = .05,
 
       clearScreen = true,
       
@@ -139,10 +141,10 @@ function createImg(s, num) {
 
         for (let y = 0; y < viewHeight; y+=pixSize) {
 
-          const offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/3.4, timeMax, 0, width*2)/nRes/4.2)+transX*9,
+          const offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/1.4, timeMax, 0, width*2)/nRes/4.2)+transX*9,
                 offY = (mapNumber(nRes, (1+time/400)*(1+y*x/time*.1), timeMax, 0, height*2)/nRes/1.2),
-                noiseX = ((xCount*10)/(nRes*20))+offX+seed,
-                noiseY = ((yCount*10)/(nRes*12.7))+offY+seed,
+                noiseX = ((xCount*10)/(nRes*3))+offX+seed,
+                noiseY = ((yCount*10)/(nRes*19.7))+offY+seed,
                 divid = time < 40 ? time : 40,
                 light = ((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/1.37)+5)-y/14;
 
@@ -160,9 +162,7 @@ function createImg(s, num) {
                     context.lineTo(x+pixSize,-y)
                 context.stroke()
                 
-    
             }
-
 
             yCount++
             
