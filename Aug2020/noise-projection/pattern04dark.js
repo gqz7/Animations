@@ -1,6 +1,6 @@
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed1 = 23//(Math.random()*300);
-let seed2 = 42//(Math.random()*400);
+let seed1 = 33//(Math.random()*300);
+let seed2 = 10//(Math.random()*400);
 
 // alert('CONTROLS\nPress E to adjust object orientation\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
@@ -52,7 +52,7 @@ function userInputEvent(input) {
 }
 
 //SET THE CANVAS ORIGIN TO THE MIDDLE OF THE WINDOW
-    context.translate(width/3+80, height/2)   
+    context.translate(width/2, height/2)   
     context.rotate(Math.PI/2)
 
 //ANIMAITON CYCLE
@@ -71,7 +71,7 @@ function renderNoise() {
     const maxH =141,  vertRes = .2;
     for (let i = 1; i < maxH; i+=vertRes) {
         context.save()
-        context.translate(-i*3.5+30,-viewWidth/4)
+        context.translate(-i*3.5+30,0)
         createImg(-i, maxH, seed1)
         context.translate((i*4-30)*3.5/2,0)
         createImg(-i, maxH, seed2)
@@ -81,20 +81,22 @@ function renderNoise() {
 
 function createImg(nRes, max, seed) { 
     for (let y = 0; y < viewWidth; y++) {
-          const offX = (mapNumber(nRes, 12+(nRes/900)/3.4, max, 0, width*2)/nRes/4.2),
+          const 
+                offX = (mapNumber(nRes, 12+(nRes/900)/3.4, max, 0, width*2)/nRes/4.2),
                 offY = (mapNumber(nRes, (1+nRes/5000)*(1+y*1/nRes*.071), max, 0, height*2)/nRes/1.2),
                 noiseX = ((1*10)/(nRes*10))+offX+seed,
-                noiseY = ((y*7)/(nRes*11.7))+offY+seed/3,
+                noiseY = ((y*7)/(nRes*11.7))+offY-seed/3,
                 divid = nRes/1.2 < 20 ? nRes/1.2 : 20,
-                light = ((Math.abs(( Noise(noiseX, noiseY)*divid/2 )) % divid)+(nRes/1.37)+47)+((y/max*70)/6.7);
-                if (light > 3) {
-                    const color = (Math.abs((Noise(noiseX, noiseY)*divid ) % 10)*divid)+nRes*3-60;
+                noise = Noise(noiseX, noiseY),
+                light = ((Math.abs(( noise*divid/2 )) % divid)+(nRes/1.37)+47)+((y/max*70)/6.3);
+                if (light < 95) {
+                    const color = (Math.abs((noise*divid ) % 10)*divid)+nRes*3-40;
                     context.strokeStyle = `hsl(${color}, 50%, ${light}%)`; //Math.random()*100
                     context.beginPath()
-                        context.moveTo(1,y)
-                        context.lineTo(2,y)
                         context.moveTo(1,-y)
-                        context.lineTo(2,-y)
+                        context.lineTo(2,-y-1)
+                        context.moveTo(1,y)
+                        context.lineTo(2,y-1)
                     context.stroke()
                 }
     }
