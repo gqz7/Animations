@@ -65,7 +65,8 @@ function userInputEvent(input) {
 
         time+=speed
 
-        // if(clearScreen) clearFullScreen()
+        // if(clearScreen) 
+        clearFullScreen()
             
         lines(time)
         
@@ -88,22 +89,31 @@ function clearFullScreen() {
 function lines(t) {
 
     
-    const colors = ['limegreen','yellow', 'aqua', 'magenta', 'coral']
+    const colors = [
+        60, 
+        // 120,
+        180,
+        // 240, 
+        300, 
+    ]
 
-    for (let i = 0; i < 1; i++) {
+    const limit = time < 1337 ? time*1.1 : time + 133.7; 
+
+    for (let i = t; i <= limit; i++) {
                 
         for (let j = 0; j < colors.length; j++) {
 
-            const originX = (Noise(seed/777+t/2000, seed+5321/777+t/2000))*width/2;
-            const originY = (Noise(seed+1100/777+t/2000, seed+300+t/777+t/2000))*height/2;
+            const originX = (Noise(seed/777+i/2000, seed+5321/777+i/2000))*width/2;
+            const originY = (Noise(seed+1100/777+i/2000, seed+300+i/777+i/2000))*height/2;
     
             
-            const noiseConst = seed+t/200
+            const noiseConst = seed+i/200
             const noiseX = Noise(noiseConst+((j+1)*100), noiseConst+((j+1)*200));
             const noiseY = Noise(noiseConst+((j+1)*200), noiseConst+((j+1)*400));
-    
             
-            context.fillStyle = colors[j];                  
+            const light = (i/limit*100)-50;
+            
+            context.fillStyle = `hsl(${colors[j]+t/3+i*2}, 100%, ${light}%)`;  
             context.beginPath()
             context.arc(originX+(noiseX)*33.5, originY+(noiseY)*33.5, 1.5, 0, pi*2)
             context.fill()
