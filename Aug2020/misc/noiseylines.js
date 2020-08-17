@@ -89,19 +89,16 @@ function lines(t) {
 
     
     const colors = ['limegreen','yellow', 'aqua', 'magenta', 'coral']
-    
 
-
-    for (let i = 0; i < 500; i++) {
-
+    for (let i = 0; i < 1; i++) {
                 
         for (let j = 0; j < colors.length; j++) {
 
-            const originX = (Noise(seed/777+i/1000, seed+5321/777+i/1000))*width;
-            const originY = (Noise(seed+1100/777+i/1000, seed+300+t/777+i/1000))*height;
+            const originX = (Noise(seed/777+t/2000, seed+5321/777+t/2000))*width/2;
+            const originY = (Noise(seed+1100/777+t/2000, seed+300+t/777+t/2000))*height/2;
     
             
-            const noiseConst = seed+t/1000
+            const noiseConst = seed+t/200
             const noiseX = Noise(noiseConst+((j+1)*100), noiseConst+((j+1)*200));
             const noiseY = Noise(noiseConst+((j+1)*200), noiseConst+((j+1)*400));
     
