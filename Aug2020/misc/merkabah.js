@@ -1,4 +1,4 @@
-//Press space to start animation
+alert('\nControls:\n\nSpace To Pause\n\nA to toggle auto-rotation')
 
 const pi = Math.PI; //shortcut because is gets used alot
 
@@ -12,11 +12,9 @@ let canvas = document.createElement('canvas');
 
     frames = 0, //keep count of how many render cycles have occured
 
-    radius = height/3,
-
     renderPaused = false, //user can toggle animation
 
-    autoRotate = false, //roates z axis, can be toggle by user
+    autoRotate = true, //roates z axis, can be toggle by user
 
     mosPos = {
         x: width/2,
@@ -31,7 +29,7 @@ let canvas = document.createElement('canvas');
 
     //set styling 
 
-    document.body.style = 'cursor: default; margin: 0px;';
+    document.body.style = 'cursor: none; margin: 0px;';
 
     canvas.style = `display: block; position: static; top: 0px; left: 0px; margin:auto`
 
@@ -63,6 +61,7 @@ let canvas = document.createElement('canvas');
     context.translate(width/2, height/2)
 
     context.fillStyle = 'white';
+    context.strokeStyle = 'white';
    
    //ANIMATION CYCLE
      render()
@@ -92,6 +91,8 @@ let canvas = document.createElement('canvas');
 
     function createMerkabah() {
 
+        const points = [];
+
         let count = 0;
 
         merkabahPoint.forEach(p => {
@@ -103,12 +104,13 @@ let canvas = document.createElement('canvas');
                 c: p.c 
             }
             
-            let xRotation = mosPos.x/111 - Math.PI,
-            yRotation = -mosPos.y/111 - Math.PI*3/5;
+            let xRotation = mosPos.x/111,
+            yRotation = mosPos.y/111;
         
             //rotate the points to give the illusion of 3d
             rotateX(xRotation)
             rotateY(yRotation)
+            rotateZ(pi/12)
 
             if (autoRotate) {
                 rotateZ(frames/222)
@@ -116,29 +118,48 @@ let canvas = document.createElement('canvas');
                 rotateY(frames/222)
             }
 
-            renderPoint(point)
+            points.push(point)
 
-            point = {
-                x: -p.x,
-                y: -p.y,
-                z: -p.z,
-                c:  p.c+180 
-            }
+            // point = {
+            //     x: -p.x,
+            //     y: -p.y,
+            //     z: -p.z,
+            //     c:  p.c+180 
+            // }
             
-            //rotate the points to give the illusion of 3d
-            rotateX(xRotation)
-            rotateY(yRotation)
+            // //rotate the points to give the illusion of 3d
+            // rotateX(xRotation)
+            // rotateY(yRotation)
 
-            if (autoRotate) {
-                rotateZ(frames/222)
-                rotateX(frames/222)
-                rotateY(frames/222)
-            }
+            // if (autoRotate) {
+            //     rotateZ(frames/222)
+            //     rotateX(frames/222)
+            //     rotateY(frames/222)
+            // }
 
-            renderPoint(point)
+            // points.push(point)
+
         });
+        
+        renderMerkabah(points)
+        
+    }
+    
+    function renderMerkabah (array) {
 
+        for (let i = 0; i < array.length; i++) {
+            const p = array[i];
 
+            array.forEach(e => {
+                context.beginPath()
+                context.moveTo(p.x, p.y)
+                context.lineTo(e.x, e .y)
+                context.stroke()
+            });
+
+            renderPoint(p)
+            
+        }
     }
 
     function calcPoints() {
@@ -146,13 +167,17 @@ let canvas = document.createElement('canvas');
               size2 = frames/10 < 60 ? frames/10 : 60;
 
         merkabahPoint = [
-            {x: size1, y: size1, z: size1, c: 0},
+            {x: size1, y: size1, z: size1,  c: 0},
             {x: size2, y: size1, z: -size1, c: 45},
-            {x:-size1, y: size2, z: size1, c: 90},
-            {x: size1, y:-size1, z: size2, c: 135},
+            {x:-size1, y: size2, z: size1,  c: 90},
+            {x: size1, y:-size1, z: size2,  c: 135},
  
+            {x: -size1, y: -size1, z: -size1, c: 180},
+            {x: -size2, y: -size1, z: size1,  c: 225},
+            {x: size1,  y: -size2, z: -size1, c: 270},
+            {x: -size1, y: size1,  z: -size2, c: 315},
         
-            {x: 0, y:0, z: 0, c: 123}, //centerpoint
+            // {x: 0, y:0, z: 0, c: 123}, //centerpoint
         
         ]        
 
@@ -160,14 +185,14 @@ let canvas = document.createElement('canvas');
 
     function renderPoint(origin) {
 
-        let light = (origin.z/radius) * 100 > 20 ? (origin.z/radius) * 100 : 20;
+        let light = 50//(origin.z/frames) * 100 > 20 ? (origin.z/frames) * 100 : 20;
 
-        context.fillStyle = `hsl(${origin.c}, 100%, ${50}%)`
+        context.fillStyle = `hsl(${origin.c}, 100%, ${light }%)`
 
-        let size = origin.z/177 > .9 ? origin.z/177 : .9;
-        
+        let size = frames/100 < 6 ? frames/100 : 6;
+
         context.beginPath()
-        context.arc(origin.x,origin.y,3,0, pi*2)
+        context.arc(origin.x,origin.y,size,0, pi*2)
         context.fill()
     
     }
