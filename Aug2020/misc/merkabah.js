@@ -1,4 +1,4 @@
-alert('\nControls:\n\nSpace To Pause\n\nA to toggle auto-rotation')
+alert('\nControls:\n\nSpace To Pause\n\nA to toggle auto-rotation\n\nW to toggle visibilty of lines that pass through center point')
 
 const pi = Math.PI; //shortcut because is gets used alot
 
@@ -12,9 +12,9 @@ let canvas = document.createElement('canvas');
 
     frames = 0, //keep count of how many render cycles have occured
 
-    renderPaused = false, //user can toggle animation
-
-    autoRotate = true, //roates z axis, can be toggle by user
+    renderPaused = false,  //user can toggle animation
+    autoRotate = true,    //roates z axis, can be toggle by user
+    hideMidLines = true, //detirmins if lines through center are shown in render
 
     mosPos = {
         x: width/2,
@@ -33,7 +33,6 @@ let canvas = document.createElement('canvas');
 
     canvas.style = `display: block; position: static; top: 0px; left: 0px; margin:auto`
 
-
     canvas.onmousemove = findObjectCoords;
     
     //event listener for user input
@@ -50,6 +49,10 @@ let canvas = document.createElement('canvas');
         } else if (evn.code == 'KeyA') {
 
             autoRotate = !autoRotate;
+            
+        } else if (evn.code == 'KeyW') {
+
+            hideMidLines = !hideMidLines;
         }
 
     }, false)
@@ -151,10 +154,22 @@ let canvas = document.createElement('canvas');
             const p = array[i];
 
             array.forEach(e => {
-                context.beginPath()
+
+                if (
+                
+                    !hideMidLines
+                    ||
+                    hideMidLines
+                    && p.x != -e.x
+                    && p.y != -e.y
+                    && p.z != -e.z
+                ) {
+                    context.beginPath()
                 context.moveTo(p.x, p.y)
                 context.lineTo(e.x, e .y)
                 context.stroke()
+                }
+                
             });
 
             renderPoint(p)
