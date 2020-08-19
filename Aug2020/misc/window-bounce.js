@@ -11,20 +11,20 @@ let objectPoints = [
         a: pi*2*Math.random(),
         c: 123
     },
-    // {
-    //     x: 10, 
-    //     y: 10, 
-    //     z: 0,
-    //     a: pi*2*Math.random(),
-    //     c: 123
-    // },
-    // {
-    //     x: -10, 
-    //     y: -10, 
-    //     z: 0,
-    //     a: pi*2*Math.random(),
-    //     c: 123
-    // },
+    {
+        x: 10, 
+        y: 10, 
+        z: 0,
+        a: pi*2*Math.random(),
+        c: 123
+    },
+    {
+        x: -10, 
+        y: -10, 
+        z: 0,
+        a: pi*2*Math.random(),
+        c: 123
+    },
 
 ];
 //i like to create all my html elements in JS so this code can be run by simplying adding it in a script tag of an empty HTML file
@@ -48,7 +48,7 @@ let canvas = document.createElement('canvas');
     
     point = {}, //global declaration of var, gets used in the renderObject method
 
-    velocity = 10;
+    velocity = 5;
 
     //set styling 
 
@@ -184,19 +184,9 @@ let canvas = document.createElement('canvas');
             z = p.z,//p.z+velocity,
             a = p.a;
 
-            if (x > width/3 || x < -width/3 || y > height/3 || y < -height/3) {
-                
-                // if (a < pi / 2) {
-                //     a+= pi
-                // } else if (a < pi ) {
-                //     a+= pi/2
-                // } else if (a < pi*1.5 ) {
-                //     a-= pi/2
-                // } else if (a < pi*2 ) {
-                //     a-= pi/2
-                // }
+            if (x > width/4.5 || x < -width/4.5 || y > height/4 || y < -height/4) {
+                a-= pi*Math.random()*.037
 
-                a += pi*Math.random()*.037
             }
 
             return {x: x, y: y, z: z, a: a}
