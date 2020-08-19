@@ -2,7 +2,7 @@ alert('\nControls:\n\nSpace To Pause\n\nA to toggle auto-rotation\n\nW to toggle
 
 const pi = Math.PI; //shortcut because is gets used alot
 
-let merkabahPoints = {};
+let merkabahPoints = [];
 //i like to create all my html elements in JS so this code can be run by simplying adding it in a script tag of an empty HTML file
 let canvas = document.createElement('canvas');
     context = canvas.getContext('2d'),
@@ -130,6 +130,8 @@ let canvas = document.createElement('canvas');
     }
     
     function renderMerkabah (array) {
+
+        array = array.sort( (a,b) => b.z-a.z)
 
         for (let i = 0; i < array.length; i++) {
             const p = array[i];
