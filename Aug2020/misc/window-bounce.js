@@ -46,12 +46,7 @@ let canvas = document.createElement('canvas');
         y: height/2,
     },
     
-    point = { //obj to keep track of points when roating sphere
-        x: 0,
-        y: 0,
-        z: 0,
-        a: pi*2*Math.random()
-    },
+    point = {}, //global declaration of var, gets used in the renderObject method
 
     velocity = 10;
 
@@ -186,9 +181,25 @@ let canvas = document.createElement('canvas');
             let 
             x = p.x+(velocity*Math.sin(p.a)),
             y = p.y+(velocity*Math.cos(p.a)),
-            z = p.z//p.z+velocity,
+            z = p.z,//p.z+velocity,
+            a = p.a;
 
-            return {x: x, y: y, z: z, a: p.a}
+            if (x > width/3 || x < -width/3 || y > height/3 || y < -height/3) {
+                
+                // if (a < pi / 2) {
+                //     a+= pi
+                // } else if (a < pi ) {
+                //     a+= pi/2
+                // } else if (a < pi*1.5 ) {
+                //     a-= pi/2
+                // } else if (a < pi*2 ) {
+                //     a-= pi/2
+                // }
+
+                a += pi*Math.random()*.037
+            }
+
+            return {x: x, y: y, z: z, a: a}
             
         })
 
