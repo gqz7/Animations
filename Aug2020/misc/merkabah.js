@@ -131,7 +131,8 @@ let canvas = document.createElement('canvas');
     
     function renderMerkabah (array) {
 
-        array = array.sort( (a,b) => b.z-a.z)
+        array = array.sort( (a,b) => b.z-a.z);
+        let maxZ = frames/5 < 120 ? frames/5 : 120;
 
         for (let i = 0; i < array.length; i++) {
             const p = array[i];
@@ -145,10 +146,7 @@ let canvas = document.createElement('canvas');
                     && p.y != -e.y
                     && p.z != -e.z
                 ) {
-                    context.beginPath()
-                    context.moveTo(p.x, p.y)
-                    context.lineTo(e.x, e .y)
-                    context.stroke()
+                    renderLine(p, e, maxZ)
                 }
                 
             });
@@ -156,7 +154,7 @@ let canvas = document.createElement('canvas');
         for (let i = 0; i < array.length; i++) {
             const p = array[i];
 
-            renderPoint(p)
+            // renderPoint(p, maxZ)
         }
 
     }
@@ -182,12 +180,10 @@ let canvas = document.createElement('canvas');
 
     }
 
-    function renderPoint(o) {
+    function renderPoint(o, mz) {
 
-        let maxZ = frames/5 < 120 ? frames/5 : 120;
-
-        let light = mapNumber(-o.z, -maxZ, maxZ, 10, 70);
-        let alpha = mapNumber(-o.z, -maxZ, maxZ, .1, 1);
+        let light = mapNumber(-o.z, -mz, mz, 10, 70);
+        let alpha = mapNumber(-o.z, -mz, mz, .1, 1);
 
         context.fillStyle = `hsla(${o.c}, 100%, ${light }%, ${alpha})`
 
@@ -199,6 +195,32 @@ let canvas = document.createElement('canvas');
         context.arc(o.x,o.y,size,0, pi*2)
         context.fill()
     
+    }
+
+    function renderLine(start, end, mz) {
+
+        const segs = 44;//number of line segments that make up one line
+
+        for (let i = 0; i < segs; i++) {
+
+            startX = mapNumber(i/segs, 0, segs/i, start.x, end.x)
+            startY = mapNumber(i/segs, 0, segs/i, start.y, end.y)
+            endX = mapNumber((i+1)/segs, 0, segs/(i+1), start.x, end.x)
+            endY = mapNumber((i+1)/segs, 0, segs/(i+1), start.y, end.y)
+
+            const Z = (start.z + end.z)/2;
+            const alpha = mapNumber(-Z, -mz, mz, .05, 1);
+
+            const color = mapNumber(i, 0, segs, 0, 360)+frames*2;
+            
+            context.strokeStyle = `hsl(${color}, 100%, 50%, ${alpha})`
+
+            context.beginPath()
+            context.moveTo(startX, startY)
+            context.lineTo(endX, endY)
+            context.stroke()
+            
+        }
     }
 
     function rotateY(radians) {
