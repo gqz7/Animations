@@ -1,4 +1,4 @@
-// alert('\nControls:\n\nSpace To Pause\n\nA to toggle auto-rotation\n\nW to toggle visibilty of lines that pass through center point')
+alert('\nControls:\n\nSpace To Pause\n\nA to toggle auto-rotation\n\nQ to toggle mouse based object rotation\n\nLeft/Right Arrow Keys to increase/decrease number of points rendered')
 
 const pi = Math.PI; //shortcut because is gets used alot
 
@@ -25,6 +25,56 @@ let objectPoints = [
         a: pi*2*Math.random(),
         c: 123
     },
+    {
+        x: 42, 
+        y: 70, 
+        z: 0,
+        a: pi*2*Math.random(),
+        c: 123
+    },
+    {
+        x: -23, 
+        y: 69, 
+        z: 0,
+        a: pi*2*Math.random(),
+        c: 123
+    },
+    {
+        x: 42, 
+        y: -30, 
+        z: 0,
+        a: pi*2*Math.random(),
+        c: 123
+    },
+    {
+        x: 100, 
+        y: 10, 
+        z: 0,
+        a: pi*2*Math.random(),
+        c: 123
+    },
+    {
+        x: -10, 
+        y: -100, 
+        z: 0,
+        a: pi*2*Math.random(),
+        c: 123
+    },
+    {
+        x: 0, 
+        y: 100, 
+        z: 0,
+        a: pi*2*Math.random(),
+        c: 123
+    },
+    {
+        x: 100, 
+        y: 100, 
+        z: 0,
+        a: pi*2*Math.random(),
+        c: 123
+    },
+
 
 ];
 //i like to create all my html elements in JS so this code can be run by simplying adding it in a script tag of an empty HTML file
@@ -40,6 +90,7 @@ let canvas = document.createElement('canvas');
     autoRotate = false,    //roates z axis, can be toggle by user
     mouseRotate = false,  //determines if the object should roate based on mouse position on canvas
     hideMidLines = true, //determines if lines through center are shown in render
+    pointsShowing = 1,
 
     mosPos = {
         x: width/2,
@@ -76,7 +127,19 @@ let canvas = document.createElement('canvas');
         } else if (evn.code == 'KeyW') {
 
             hideMidLines = !hideMidLines;
+        } else if (evn.code == 'KeyQ') {
+
+            mouseRotate = !mouseRotate;
+        } else if (evn.code == 'ArrowLeft') {
+
+            pointsShowing = pointsShowing > 1 ? pointsShowing-1 : 1;
+        } else if (evn.code == 'ArrowRight') {
+
+            pointsShowing = pointsShowing < 7 ? pointsShowing+1 : 7;
+
         }
+
+        
 
     }, false)
 
@@ -121,7 +184,9 @@ let canvas = document.createElement('canvas');
 
         // let count = 0;
 
-        objectPoints.forEach(p => {
+        for (let i = 0; i < pointsShowing; i++) {
+    
+            let p = objectPoints[i];
             // count++
             point = {
                 x: p.x,
@@ -149,7 +214,7 @@ let canvas = document.createElement('canvas');
 
             points.push(point)
 
-        });
+        };
         
         renderObject(points)
         
