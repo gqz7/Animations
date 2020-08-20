@@ -13,7 +13,7 @@ let canvas = document.createElement('canvas');
     frames = 1000, //keep count of how many render cycles have occured
 
     renderPaused = false,   //user can toggle animation
-    autoRotate = false,     //roates z axis, can be toggle by user
+    autoRotate = true,     //roates z axis, can be toggle by user
     mouseRotate = false,  //determines if the user can rotate the merkabah my moving the mouse on the canvas
     hideMidLines = true, //determines if lines through center are shown in render
     showPoints = false, //determines if the points of the merkabah will show
@@ -111,6 +111,7 @@ let canvas = document.createElement('canvas');
                 yRotation = mosPos.y/111;
                 rotateX(xRotation)
                 rotateY(yRotation)
+                rotateZ(pi/12)
             } else if (autoRotate) {
                 rotateZ(frames/222)
                 rotateX(frames/222)
@@ -176,19 +177,17 @@ let canvas = document.createElement('canvas');
 
     function renderPoint(o, mz) {
 
-        let light = mapNumber(-o.z, -mz, mz, 10, 70);
-        let alpha = mapNumber(-o.z, -mz, mz, .1, 1);
+        const
+        light = mapNumber(-o.z, -mz, mz, 10, 70),
+        alpha = mapNumber(-o.z, -mz, mz, .1, 1),
+        size = frames/100 < 6 ? frames/100 : 6;
 
         context.fillStyle = `hsla(${o.c}, 100%, ${light }%, ${alpha})`
-
-        let size = frames/100 < 6 ? frames/100 : 6;
-
         context.lineWidth = size/5
 
         context.beginPath()
         context.arc(o.x,o.y,size,0, pi*2)
         context.fill()
-    
     }
 
     function renderLine(start, end, mz) {
@@ -196,16 +195,15 @@ let canvas = document.createElement('canvas');
         const sgs = 37;//number of line segments(sgs) that make up one line
 
         for (let i = 0; i < sgs; i++) {
-
-            startX = mapNumber(i/sgs, 0, sgs/i, start.x, end.x)
-            startY = mapNumber(i/sgs, 0, sgs/i, start.y, end.y)
-            endX = mapNumber((i+1)/sgs, 0, sgs/(i+1), start.x, end.x)
-            endY = mapNumber((i+1)/sgs, 0, sgs/(i+1), start.y, end.y)
-
-            const Z = (start.z + end.z)/2;
-            const alpha = mapNumber(-Z, -mz, mz, .05, 1);
-
-            const color = mapNumber(i, 0, sgs, 0, 360)+frames*2;
+            
+            const
+            startX = mapNumber(i/sgs, 0, sgs/i, start.x, end.x),
+            startY = mapNumber(i/sgs, 0, sgs/i, start.y, end.y),
+            endX = mapNumber((i+1)/sgs, 0, sgs/(i+1), start.x, end.x),
+            endY = mapNumber((i+1)/sgs, 0, sgs/(i+1), start.y, end.y),
+            Z = mapNumber((i+.5)/sgs, 0, sgs/(i+.5), start.z, end.z),
+            alpha = mapNumber(-Z, -mz, mz, .23, 1),
+            color = mapNumber(i, 0, sgs, 0, 360)+frames*2;
             
             context.strokeStyle = `hsl(${color}, 100%, 50%, ${alpha})`
 
@@ -213,7 +211,6 @@ let canvas = document.createElement('canvas');
             context.moveTo(startX, startY)
             context.lineTo(endX, endY)
             context.stroke()
-            
         }
     }
 
