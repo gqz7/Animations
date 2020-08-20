@@ -1,4 +1,4 @@
-alert('\nControls:\n\nSpace To Pause\n\nA to toggle auto-rotation\n\nW to toggle visibilty of lines that pass through center point')
+// alert('\nControls:\n\nSpace To Pause\n\nA to toggle auto-rotation\n\nW to toggle visibilty of lines that pass through center point')
 
 const pi = Math.PI; //shortcut because is gets used alot
 
@@ -135,9 +135,8 @@ let canvas = document.createElement('canvas');
 
         for (let i = 0; i < array.length; i++) {
             const p = array[i];
-
             array.forEach(e => {
-
+                
                 if (
                     !hideMidLines
                     ||
@@ -153,10 +152,13 @@ let canvas = document.createElement('canvas');
                 }
                 
             });
+        }
+        for (let i = 0; i < array.length; i++) {
+            const p = array[i];
 
             renderPoint(p)
-            
         }
+
     }
 
     function calcPoints() {
@@ -182,9 +184,12 @@ let canvas = document.createElement('canvas');
 
     function renderPoint(o) {
 
-        let light = 50//(origin.z/frames) * 100 > 20 ? (origin.z/frames) * 100 : 20;
+        let maxZ = frames/5 < 120 ? frames/5 : 120;
 
-        context.fillStyle = `hsl(${o.c}, 100%, ${light }%)`
+        let light = mapNumber(-o.z, -maxZ, maxZ, 10, 70);
+        let alpha = mapNumber(-o.z, -maxZ, maxZ, .1, 1);
+
+        context.fillStyle = `hsla(${o.c}, 100%, ${light }%, ${alpha})`
 
         let size = frames/100 < 6 ? frames/100 : 6;
 
