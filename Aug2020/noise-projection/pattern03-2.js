@@ -145,8 +145,8 @@ function createImg(s, num) {
                 offY = (mapNumber(nRes, (1+time/400)*(1+y*x/time*.1), timeMax, 0, height*2)/nRes/1.2),
                 noiseX = ((xCount*10)/(nRes*3))+offX+seed,
                 noiseY = ((yCount*10)/(nRes*19.7))+offY+seed,
-                divid = time < 40 ? time : 40,
-                light = ((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/1.37)+5)-y/14;
+                divid = time/2+10 < 70 ? time/2+10 : 70,
+                light = ((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/5.37)+5)-y/24+10;
 
             if (light > 1) {
                 const color = (Math.abs((Noise(noiseX, noiseY)*divid ) % 10)*divid)+s*13-88;
