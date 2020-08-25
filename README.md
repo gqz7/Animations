@@ -28,8 +28,6 @@
 
 [Free Device Background Photos(Computer Renders)](https://github.com/GabrielQSherman/Animations/tree/master/Backgound-Photos#readme)
 
-
-//download my news video on this page
 [Free Videos(Computer Renders)](https://github.com/GabrielQSherman/Animations/tree/master/Videos)
 
 

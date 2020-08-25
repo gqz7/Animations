@@ -1,5 +1,5 @@
 # [Back To Categories](https://github.com/GabrielQSherman/Animations/tree/master#readme)
-## [Back To Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/
+## [Back To Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry#readme)
 
 ### Flower Of Life
 
