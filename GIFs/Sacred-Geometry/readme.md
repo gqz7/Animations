@@ -11,7 +11,7 @@ The journey of of creating my sirpinski triangle zoom lead me to unknowingly cre
 # [Flower Of Life](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry/floweroflife#readme)
 
 My second dive into render 3D shapes came about with my discovery of the merkabah, as soon as I learned of it I was on a mission to recreated it in 3D using vanilla JS and now you can witness what came of that exploration.
-# [Merkabah](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry/metatron#readme)
+# [Merkabah](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry/merkabah#readme)
 
 I recreated the metatron cube in 2D, I hope to be able to recreate it in 3D soon aswell.
-# [Metatron Cube](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry/merkanah#readme)
+# [Metatron Cube](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry/metatron#readme)
