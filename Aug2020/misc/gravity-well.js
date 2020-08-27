@@ -143,13 +143,13 @@ function createImg(s) {
                 const
                 noiseX = (x/(33+timeNoise)) + s/77, 
                 noiseY = (y/(33+timeNoise)) + s/77,
-                distance = sqrt( pow((x*blockSize)-(width/2), 2) +  pow((y*blockSize)-(height/2), 2) ),
+                distance = sqrt( pow((x*blockSize*(1+time/10))-(width/2), 2) +  pow((y*blockSize)-(height/2), 2) ),
                 N1 = Noise(noiseX, noiseY+seed)*(3.5 -pow(distance,.77)/28),
                 N2 = Noise(noiseY+seed,noiseX)*(3.5 -pow(distance,.77)/28),
                 X = x*blockSize+ N1*20+N2*20,
                 Y = y*blockSize+ N1*20-N2*20,
                 noise = Math.abs(N1 + N2)/2 +( 1 * distance/7000),
-                point = {x: X, y: Y, n: noise};
+                point = {x: X, y: Y, n: noise, d: distance};
 
                 points[x-limits.sX].push(point)
                         
@@ -288,7 +288,7 @@ function renderPoints(arr) {
 
                 if (pm && py) {
                     const
-                    pColor = calcColor((pm.n+p.n+py.n)/3);
+                    pColor = calcColor((pm.n+p.n+py.n)/3, p.d);
         
                     context.fillStyle = pColor;
                     context.strokeStyle = pColor;                  
@@ -305,7 +305,7 @@ function renderPoints(arr) {
 
                 if (pm && px) {
                     const 
-                    pColor = calcColor((pm.n+p.n+px.n)/3);
+                    pColor = calcColor((pm.n+p.n+px.n)/3, p.d);
         
                     context.fillStyle = pColor;                  
                     context.strokeStyle = pColor;                  
@@ -322,7 +322,7 @@ function renderPoints(arr) {
 
                 if (pm && pxy && px) {
                     const 
-                    pColor = calcColor((pm.n+px.n+pxy.n)/3);
+                    pColor = calcColor((pm.n+px.n+pxy.n)/3, p.d);
         
                     context.fillStyle = pColor;
                     context.strokeStyle = pColor;                  
@@ -339,7 +339,7 @@ function renderPoints(arr) {
 
                 if (pm && pxy && py) {
                     const 
-                    pColor = calcColor((pm.n+py.n+pxy.n)/3);
+                    pColor = calcColor((pm.n+py.n+pxy.n)/3, p.d);
         
                     context.fillStyle = pColor;                  
                     context.strokeStyle = pColor;                  
@@ -354,7 +354,7 @@ function renderPoints(arr) {
                 }
                 if (pm && showDots) {
                     const 
-                    pColor = calcColor(pm.n);
+                    pColor = calcColor(pm.n, p.d);
                     const size = 10-pm.n*blockSize/2 > 3 ? 10-pm.n*blockSize/2 : 3;    
                     context.fillStyle = pColor;                  
                     context.beginPath()
@@ -378,8 +378,8 @@ function renderPoints(arr) {
 
 }
 
-function calcColor(n) {
-    const light = (100*n) < 90 ? (100*n) : 90,
+function calcColor(n, d) {
+    const light = (100*n-d) < 90 ? (100*n-d) : 90,
           sat = n*100,
           color = (n * 360 * colorMult) + time*3;
     return `hsl(${color}, ${sat}%, ${light}%)`
