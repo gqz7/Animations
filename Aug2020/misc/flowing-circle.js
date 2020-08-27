@@ -88,22 +88,21 @@ function createImg(s) {
 
     context.save();
 
-        for (let x = 0; x < width/20+1; x++) {
+        for (let x = 0; x < width/20+1; x+=.7) {
             
-            for (let y = 0; y < height/20+1; y++) {
+            for (let y = 0; y < height/20+1; y+=.7) {
 
                 const
                 noiseX = x/30 + s/50, 
                 noiseY = y/30,
-                distance = sqrt( pow((x*40)-(width/2), 2) +  pow((y*40)-(height/2), 2) ),
-                radius = 3,//Math.abs(10*N);
+                distance = sqrt( pow((x*20)-(width/2), 2) +  pow((y*20)-(height/2), 2) ),
                 N1 = Noise(noiseX, noiseY),
                 N2 = Noise(noiseY,noiseX),
-                X = x*40+ N1*10+N2*10,
-                Y = y*40+ N1*10-N2*10;
+                radius = 4-distance/300,
+                X = x*20+ N1*(2+time/10)+N2*(2+time/10),
+                Y = y*20+ N1*(2+time/10)-N2*(2+time/10);
 
-                context.fillStyle = `hsl(${0}, 0%, ${100-distance/5}%)`;
-                
+                context.fillStyle = `hsl(0, 0%, ${100-distance/5}%)`;
                 context.beginPath()
                 context.arc(X, Y, radius, 0, pi*2)
                 context.fill()
