@@ -95,12 +95,12 @@ function createImg(s) {
                 const
                 noiseX = x/30 + s/50, 
                 noiseY = y/30,
-                distance = sqrt( pow((x*20)-(width/2), 2) +  pow((y*20)-(height/2), 2) ),
+                distance = sqrt( pow((x*40)-(width/2), 2) +  pow((y*40)-(height/2), 2) ),
                 radius = 3,//Math.abs(10*N);
                 N1 = Noise(noiseX, noiseY),
                 N2 = Noise(noiseY,noiseX),
-                X = x*20+ N1*10+N2*10,
-                Y = y*20+ N1*10-N2*10;
+                X = x*40+ N1*10+N2*10,
+                Y = y*40+ N1*10-N2*10;
 
                 context.fillStyle = `hsl(${0}, 0%, ${100-distance/5}%)`;
                 
