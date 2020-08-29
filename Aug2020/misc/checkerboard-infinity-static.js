@@ -100,7 +100,7 @@ function set_origins() {
 }
 
 
-function create_square(p1,p2,p3,p4) {
+function create_square(p1,p2,p3,p4, c) {
     
     // context.save()
 
@@ -116,7 +116,7 @@ function create_square(p1,p2,p3,p4) {
     if (startWithWhite) {
 
         if (color) {
-            context.fillStyle = 'hsl(' + (time*2) + ', 100%, 70%)';
+            context.fillStyle = 'hsl(' + (time*1.5-c*7-230) + ', 100%, 67%)';
         } else {
             context.fillStyle = 'white';
         }
@@ -139,7 +139,7 @@ function create_row(){
     
 
     while (columnCycles < columnLimit) {
-        create_square(p1,p2,p3,p4);
+        create_square(p1,p2,p3,p4, columnCycles);
         context.translate(size, 0);
         columnCycles++
     }
