@@ -21,7 +21,6 @@ let canvas = document.createElement("canvas"),
     angle = .1903, 
     angleSwitch = false, 
     angleLim = .1903, 
-    color = true,
     columnLimit = 33, // (Math.ceil(width/size) % 2 == 0) ? Math.ceil(width/size) + 1: Math.ceil(width/size),     //how many columns in the grid // logic is included to make sure columnLimit is an odd number, this will make sure each row starts will the opposite of how to previous row started
     rowLimit = 8,
     sizeInc = .021;
@@ -80,12 +79,7 @@ function matrix() {
     zT = 0
     angle = .1903
     angleSwitch = false
-    angleLim = .1903
-    color = true
     size = 8.37
-    columnLimit = 33
-    rowLimit = 8
-    sizeInc = .021
 }
 
 function clear() { 
@@ -101,30 +95,23 @@ function create_square(p1, c) {
     context.beginPath();
     context.rect(p1.x, p1.y, size, size)
 
-    if (startWithWhite) {
-        if (color) {
-            context.fillStyle = 'hsl(' + (zT*1.5-c*7-230+gT*5) + ', 100%, 67%)';
-        } else {
-            context.fillStyle = 'white';
-        }
-    } else {        
-        context.fillStyle = 'black';        
-    }
+    context.fillStyle 
+    = startWithWhite 
+    ? 'hsl(' + (zT*1.5-c*7-230+gT*5) + ', 100%, 67%)' 
+    : 'black' 
+
     startWithWhite = !startWithWhite;
     context.fill();
 }
 
 function create_row(){
-    
 
     while (columnCycles < columnLimit) {
         create_square(p1, columnCycles);
         context.translate(size, 0);
         columnCycles++
     }
-
     columnCycles = 0
-    
 }
 
 function create_grid() {
@@ -141,5 +128,6 @@ function create_grid() {
     rowsCycles = 0;
 
     context.restore()
+    // context.translate(0,size/10*(1+time/1000));
 
 }
