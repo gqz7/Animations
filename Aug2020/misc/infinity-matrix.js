@@ -17,9 +17,6 @@ let canvas = document.createElement("canvas"),
     startWithWhite = false,         //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
     originx = 0, originy = 0,
     p1 = {x: originx, y: originy}, 
-    p2 = {x: size + originx, y: originy}, 
-    p3 = {x: size + originx, y: size + originy}, 
-    p4 = {x: originx, y: size + originy},
     squares = [],
     angle = .1903, 
     angleSwitch = false, 
@@ -59,7 +56,7 @@ window.onload = function() {
 function animate() {
     gT++
     matrix()
-    setTimeout(window.requestAnimationFrame, 20, (animate));
+    setTimeout(window.requestAnimationFrame, 0, (animate));
 }
 
 // FUNCTIONS
@@ -74,7 +71,6 @@ function matrix() {
         
         zT++
         
-        set_origins()
         create_grid()
         
         angle -= angleInc/2;
@@ -99,54 +95,30 @@ function clear() {
     context.restore();
 }
 
-function set_origins() {
-    p1 = {x: originx, y: originy};
-    p2 = {x: size + originx, y: originy};
-    p3 = {x: size + originx, y: size + originy};
-    p4 = {x: originx, y: size + originy}
-}
-
-
-function create_square(p1,p2,p3,p4, c) {
-    
-    // context.save()
-
+function create_square(p1, c) {
     context.rotate(angle);
 
     context.beginPath();
-    context.moveTo(p1.x, p1.y);
-    context.lineTo(p2.x, p2.y);
-    context.lineTo(p3.x, p3.y);
-    context.lineTo(p4.x, p4.y);
-    context.lineTo(p1.x,p1.y);
+    context.rect(p1.x, p1.y, size, size)
 
     if (startWithWhite) {
-
         if (color) {
             context.fillStyle = 'hsl(' + (zT*1.5-c*7-230+gT*5) + ', 100%, 67%)';
         } else {
             context.fillStyle = 'white';
         }
-
-        context.fill();
-        startWithWhite = false;
-    } else {
-
-        context.fillStyle = 'black';
-
-        context.fill();
-        startWithWhite = true;
+    } else {        
+        context.fillStyle = 'black';        
     }
-
-    // context.restore()
-
+    startWithWhite = !startWithWhite;
+    context.fill();
 }
 
 function create_row(){
     
 
     while (columnCycles < columnLimit) {
-        create_square(p1,p2,p3,p4, columnCycles);
+        create_square(p1, columnCycles);
         context.translate(size, 0);
         columnCycles++
     }
