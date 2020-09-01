@@ -104,7 +104,7 @@ function createImg(s) {
 
                 context.fillStyle = `hsl(0, 0%, ${100-distance/5}%)`;
                 context.beginPath()
-                context.arc(X, Y, radius, 0, pi*2)
+                context.arc(X, Y, Math.abs(radius), 0, pi*2)
                 context.fill()
                         
             }
