@@ -51,15 +51,13 @@ window.onload = function() {
 
 //event listener for user input
 document.addEventListener('keydown', (evn) => {
-
     switch (evn.code) {
         case 'Space':
                 renderPaused = !renderPaused;
-        
-                if (!renderPaused) { 
-                    animate()
-                }
-            break;
+            if (!renderPaused) { 
+                animate()
+            }
+        break;
     }
 
 }, false)
@@ -92,8 +90,8 @@ function matrix() {
     context.restore()
 
     zT = 0
-    angle = .1903
-    size = 8.37
+    angle = .1903+gT/5555
+    size = 8.37+gT/1000
 }
 
 function clear() { 
@@ -106,7 +104,7 @@ function clear() {
 function create_square(origin, c) {
     context.fillStyle 
     = startWithWhite 
-    ? 'hsl(' + (zT*1.5-c*7-230+gT*5) + ', 100%, 72%)' 
+    ? 'hsl(' + (zT*1.5-c*7-230-gT*5) + ', 100%, 72%)' 
     : 'black' 
 
     startWithWhite = !startWithWhite;
