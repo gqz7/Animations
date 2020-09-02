@@ -16,10 +16,9 @@ let canvas = document.createElement("canvas"),
     rowsCycles = 0,                  //handles if too many rows of squares have been made on the grid
     startWithWhite = false,         //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
     originx = 0, originy = 0,
-    p1 = {x: originx, y: originy}, 
+    origin = {x: originx, y: originy}, 
     squares = [],
-    angle = .1903, 
-    angleSwitch = false, 
+    angle = .1903,
     angleLim = .1903, 
     columnLimit = 33, // (Math.ceil(width/size) % 2 == 0) ? Math.ceil(width/size) + 1: Math.ceil(width/size),     //how many columns in the grid // logic is included to make sure columnLimit is an odd number, this will make sure each row starts will the opposite of how to previous row started
     rowLimit = 8,
@@ -47,13 +46,14 @@ window.onload = function() {
     for (let i = 0; i < 821; i++) {
         context.scale(-1.0016,-1.0022)   
     }
-    //ANIMATION CYCLE START
+    //START ANIMATION CYCLE 
     animate()
 
 }
     
 function animate() {
     gT++
+    clear()
     matrix()
     setTimeout(window.requestAnimationFrame, 0, (animate));
 }
@@ -78,7 +78,6 @@ function matrix() {
 
     zT = 0
     angle = .1903
-    angleSwitch = false
     size = 8.37
 }
 
@@ -89,25 +88,24 @@ function clear() {
     context.restore();
 }
 
-function create_square(p1, c) {
-    context.rotate(angle);
-
-    context.beginPath();
-    context.rect(p1.x, p1.y, size, size)
-
+function create_square(origin, c) {
     context.fillStyle 
     = startWithWhite 
-    ? 'hsl(' + (zT*1.5-c*7-230+gT*5) + ', 100%, 67%)' 
+    ? 'hsl(' + (zT*1.5-c*7-230+gT*5) + ', 100%, 72%)' 
     : 'black' 
 
     startWithWhite = !startWithWhite;
+    
+    context.rotate(angle);
+    context.beginPath();
+    context.rect(origin.x, origin.y, size, size)
     context.fill();
 }
 
 function create_row(){
 
     while (columnCycles < columnLimit) {
-        create_square(p1, columnCycles);
+        create_square(origin, columnCycles);
         context.translate(size, 0);
         columnCycles++
     }
