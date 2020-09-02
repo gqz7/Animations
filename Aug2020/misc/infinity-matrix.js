@@ -1,30 +1,28 @@
 //INITIAL VARIABLE DECLERATIONS
+const pi = Math.PI;
 
 let canvas = document.createElement("canvas"),
     context = canvas.getContext("2d"),
-    gT = 0, //global time
-    zT = 0, //local time
-    
-    width = canvas.width = window.innerWidth,       //width of the canvas
-    height = canvas.height = window.innerHeight,   //height of the canvas
-    size = 8.37,
-
-    renderPaused = false,   //user can toggle animation
-    columnCycles = 0,                 //handles if too many columns of squares have been made on a row
-    rowsCycles = 0,                  //handles if too many rows of squares have been made on the grid
-    startWithWhite = false,         //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
-    originx = 0, originy = 0,
-    origin = {x: originx, y: originy}, 
-    squares = [],
+    gT = 0,                                         //global time
+    zT = 0,                                        //local time
+    width = canvas.width = window.innerWidth,     //width of the canvas
+    height = canvas.height = window.innerHeight, //height of the canvas
+    size = 8.37,                                // size of each square to start
+    renderPaused = false,                      //user can toggle animation
+    columnCycles = 0,                         //handles if too many columns of squares have been made on a row
+    rowsCycles = 0,                          //handles if too many rows of squares have been made on the grid
+    startWithWhite = false,                 //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
+    originx = 0, originy = 0,              // origin points for squares, so far not minipulated much
+    origin = {x: originx, y: originy},    // object that is accessed in create_square function
+    squares = [],   
     angle = .1903,
     angleLim = .1903, 
-    columnLimit = 33, // (Math.ceil(width/size) % 2 == 0) ? Math.ceil(width/size) + 1: Math.ceil(width/size),     //how many columns in the grid // logic is included to make sure columnLimit is an odd number, this will make sure each row starts will the opposite of how to previous row started
+    columnLimit = 33, 
     rowLimit = 8,
     sizeInc = .021;
 let angleInc = size/17700;
     
 window.onload = function() {
-    
     canvas.style = 
     `display: block;
     position: static;
@@ -35,12 +33,10 @@ window.onload = function() {
     background-color: black`;
     document.body.style = `margin: 0`;
     document.body.appendChild(canvas);
-    
     //BEFORE ANIMATION CYCLE
-    context.rotate(-Math.PI/2)
+    context.rotate(-pi/2)
     context.translate(-height/2, width/2);
-    context.rotate(Math.PI + .4)
-
+    context.rotate(pi + .4)
     for (let i = 0; i < 821; i++) {
         context.scale(-1.0016,-1.0022)   
     }
@@ -74,21 +70,15 @@ function animate() {
 // FUNCTIONS
 
 function matrix() {
-    
     context.save()
     while ( size > 0 ) {
-
         size -= sizeInc;
         context.scale(-1.0016,-1.0022)
-        
         zT++
-        
         create_grid()
-        
         angle -= angleInc/2;
     }
     context.restore()
-
     zT = 0
     angle = .1903+gT/5555
     size = 8.37+gT/1000
@@ -106,9 +96,7 @@ function create_square(origin, c) {
     = startWithWhite 
     ? 'hsl(' + (zT*1.5-c*7-230-gT*5) + ', 100%, 72%)' 
     : 'black' 
-
     startWithWhite = !startWithWhite;
-    
     context.rotate(angle);
     context.beginPath();
     context.rect(origin.x, origin.y, size, size)
