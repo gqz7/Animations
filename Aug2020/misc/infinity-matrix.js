@@ -9,9 +9,7 @@ let canvas = document.createElement("canvas"),
     height = canvas.height = window.innerHeight,   //height of the canvas
     size = 8.37,
 
-    
-
-    // rowLimit = ((height/size) + 2),    //how many rows in the grid
+    renderPaused = false,   //user can toggle animation
     columnCycles = 0,                 //handles if too many columns of squares have been made on a row
     rowsCycles = 0,                  //handles if too many rows of squares have been made on the grid
     startWithWhite = false,         //switches from true to flase for each row to make sure the pattern is alike to a checker/chess board
@@ -50,12 +48,29 @@ window.onload = function() {
     animate()
 
 }
+
+//event listener for user input
+document.addEventListener('keydown', (evn) => {
+
+    switch (evn.code) {
+        case 'Space':
+                renderPaused = !renderPaused;
+        
+                if (!renderPaused) { 
+                    animate()
+                }
+            break;
+    }
+
+}, false)
     
 function animate() {
     gT++
     clear()
     matrix()
-    setTimeout(window.requestAnimationFrame, 0, (animate));
+    if (!renderPaused) {
+        setTimeout(window.requestAnimationFrame, 0, animate)
+    }
 }
 
 // FUNCTIONS
