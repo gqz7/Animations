@@ -9,7 +9,7 @@ let canvas = document.createElement('canvas'),
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
       strokeW = 1,
-      speed = .01,
+      speed = .005,
       pauseAnimation = true,
       viewWidth = width/2;
 
@@ -24,7 +24,7 @@ canvas.style = `display: block;
                 left: 0px;
                 // cursor: none;
                 margin:auto;
-                background-color: white`;
+                background-color: black`;
 
 document.body.style = `margin: 0`;
 
@@ -69,8 +69,8 @@ function render() {
     }
 }
 function renderNoise() {
-    const maxH =141,  vertRes = .2;
-    for (let i = 7.6; i < maxH; i+=vertRes) {
+    const maxH =131,  vertRes = .2;
+    for (let i = 7.6; i < maxH+80; i+=vertRes) {
         context.save()
         context.translate(-i*3.5+30,-viewWidth/4)
         createImg(-i, maxH, seed1)
@@ -81,24 +81,56 @@ function renderNoise() {
 }
 
 function createImg(nRes, max, seed) { 
+    let yCount = 0;
     for (let y = .5; y < viewWidth; y++) {
           const offX = (mapNumber(nRes, 12+(nRes/900)/3.4, max, 0, width*2)/nRes/4.2),
                 offY = (mapNumber(nRes, (1+nRes/5000)*(1+y*1/nRes*.071), max, 0, height*2)/nRes/1.2),
-                noiseX = ((1*10)/(nRes*13))-offX/2+seed,
-                noiseY = ((y*7)/(nRes*19))-offY/13+seed/3,
-                divid = nRes/1.2 < 20 ? nRes/1.2 : 20,
-                light = ((Math.abs(( Noise(noiseX, noiseY)*divid/2 )) % divid)+(nRes/1.37)+70)+((y/max*90)/7.7);
-                if (light < 98) {
-                    const color = (Math.abs((Noise(noiseX, noiseY)*divid ) % 10)*divid/1.2)+nRes*2-60;
-                    
+                noiseX = ((1*10)/(nRes*13))-offX/2+seed+y/1000,
+                noiseY = ((y*7)/(nRes*19))-offY/13+seed/3-y/1000,
+                divid = 10+nRes/1,
+            // divid = nRes/1.2 < 20 ? nRes/1.2 : 20,
+                light = ((Math.abs(( Noise(noiseX, noiseY)*divid/2 )) % divid)+(nRes/2.3)+70)-((y/max*67)/8);
+                if (light > 1) {
+                const color =  Math.abs(Noise(noiseX, noiseY))*(divid*divid)+nRes*1-127+y/3;
+
                     context.strokeStyle = `hsl(${color}, 50%, ${light}%)`; //Math.random()*100
                     context.beginPath()
-                        context.moveTo(1,y)
-                        context.lineTo(2,y)
-                        context.moveTo(1,-y)
-                        context.lineTo(2,-y)
+                        context.moveTo(0,y)
+                        context.lineTo(1,y)
+                        context.moveTo(0,-y)
+                        context.lineTo(1,-y)
                     context.stroke()
                 }
+
+            // const 
+
+            // time = nRes,
+            // transX = nRes == 77 ? s/30 : 0,
+            // x = nRes,
+            // xCount = nRes,
+            // s= nRes,
+
+            // offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/1.4, max, 0, width*2.7-s*2)/nRes/4.2)+transX/9,
+            // offY = (mapNumber(nRes, (1+time/400)*(1+y*x/time*.1), max, 0, height*2.7-s*2)/nRes/1.2),
+            // noiseX = ((xCount*10)/(nRes*3))+offX+seed,
+            // noiseY = ((yCount*10)/(nRes*19.7))+offY+seed,
+            // divid = time/1.3 < 54 ? time/1.3 : 54,
+            // light = ((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/5.33)+5)-y/24+10;
+
+            // if (light > 1) {
+            //     const color =  (Math.abs((Noise(noiseX, noiseY) ))*Math.pow(divid,1.9))+s*1-127+y/1.3;
+            //     context.strokeStyle = `hsl(${color}, 40%, ${light}%)`; //Math.random()*100
+               
+            //     console.log(color);
+            //     context.beginPath()
+            //         context.moveTo(1,y)
+            //         context.lineTo(2,y)
+            //         context.moveTo(1,-y)
+            //         context.lineTo(2,-y)
+            //     context.fill()
+                
+            // }
+            // yCount++
     }
 }
 

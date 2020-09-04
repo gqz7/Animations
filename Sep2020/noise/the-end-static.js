@@ -128,9 +128,6 @@ function createImg(s, num) {
 
     s = -s;
 
-
-    // context.translate(width/2-viewWidth/2,height/2-viewHeight/2)
-
     const pixSize = 1,
           nRes = time,
           transX = nRes == 77 ? s/30 : 0,
@@ -143,13 +140,16 @@ function createImg(s, num) {
         let yCount = 0;
 
         for (let y = 0; y < viewHeight; y+=pixSize) {
-
-          const offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/1.4, timeMax, 0, width*2.7-s*2)/nRes/4.2)+transX/9,
-                offY = (mapNumber(nRes, (1+time/400)*(1+y*x/time*.1), timeMax, 0, height*2.7-s*2)/nRes/1.2),
-                noiseX = ((xCount*10)/(nRes*3))+offX+seed,
-                noiseY = ((yCount*10)/(nRes*19.7))+offY+seed,
-                divid = time/1.3 < 54 ? time/1.3 : 54,
-                light = ((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/5.33)+5)-y/24+10;
+            const
+            offWidth = num === 2 ? width*2.7-s*2 : width*2.7+s*2,
+            offHeight = height*2.7-s*2,
+            
+            offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/1.4, timeMax, 0, offWidth)/nRes/4.2),
+            offY = (mapNumber(nRes, (1+time/400)*(1+y*x/time*.1), timeMax, 0,offHeight)/nRes/1.2),
+            noiseX = ((xCount*10)/(nRes*3))+offX+seed,
+            noiseY = ((yCount*10)/(nRes*19.7))+offY+seed,
+            divid = time/1.3 < 54 ? time/1.3 : 54,
+            light = ((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/5.33)+5)-y/24+10;
 
             if (light > 1) {
                 const color = (Math.abs((Noise(noiseX, noiseY) ))*Math.pow(divid,1.9))+s*1-127+y/1.3;
