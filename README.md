@@ -26,6 +26,8 @@
 
 [Yin Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Yin-Yang#readme)
 
+[Galatic-Trip](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Galatic-Trip#readme)
+
 [Free Device Background Photos(Computer Renders)](https://github.com/GabrielQSherman/Animations/tree/master/Backgound-Photos#readme)
 
 [Free Videos(Computer Renders)](https://github.com/GabrielQSherman/Animations/tree/master/Videos)
