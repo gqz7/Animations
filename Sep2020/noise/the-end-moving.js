@@ -1,22 +1,42 @@
+
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed1 = (Math.random()*300)+3333;
-let seed2 = (Math.random()*400)+7777;
+let seed1 = 95.40114300303621// Math.random()*100;
+let seed2 = 8.222677424127378//Math.random()*100;
+
+// 3.7866918545821027
+// seed 2: 18.83535817399713
+console.log(`seed 1: ${seed1}\nseed 2: ${seed2}\n`);
 
 // alert('CONTROLS\nPress E to adjust object orientation\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
+
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
+
+      time = 4.9,
+
+      timeMax = height/6,
+
+      timeForward = true,
+
       strokeW = 1,
-      speed = .005,
+
+      speed = .05,
+
+      clearScreen = true,
+      pixles = [],
+      
       pauseAnimation = true,
-      viewWidth = width/2;
 
-// context.strokeStyle = 'white';
-// context.fillStyle = 'white';
+      viewWidth = 1,
+      viewHeight = width/2;
 
-// context.lineWidth = strokeW;
+context.strokeStyle = 'white';
+context.fillStyle = 'white';
+
+context.lineWidth = strokeW;
 
 canvas.style = `display: block;
                 position: static;
@@ -35,6 +55,7 @@ document.addEventListener('keydown', userInputEvent, false);
 
 //USER INPUT LOGIC
 function userInputEvent(input) {
+
     switch (input.code) {
 
         case 'Space':
@@ -47,93 +68,95 @@ function userInputEvent(input) {
             speed = speed < 1 ? speed+.1 : 1;
         break;
         case "ArrowDown":
-            speed = speed > .003 ? speed-.1 : .003;
+            speed = speed > .2 ? speed-.1 : .2;
     }
+
+    
+    
 }
 
 //SET THE CANVAS ORIGIN TO THE MIDDLE OF THE WINDOW
-    context.translate(width/3+80, height/2)   
+    context.translate(width/4, height/2)   
     context.rotate(Math.PI/2)
 
 //ANIMAITON CYCLE
-render()
 
-function render() {
-    seed1-=speed;
-    seed2-=speed;
-    // clearFullScreen()
-    renderNoise()
-    // return
-    if (!pauseAnimation) {
-        setTimeout(window.requestAnimationFrame,  0, render)
-    }
+        render()
+
+        function render() {
+        
+        while (time < 209) {
+            time+=.2
+            pixles = [];
+            calculate(-time, 1)
+            calculate(-time, 2)
+            renderPix()
+        }
+        time = 4.9;
+        seed1-=.005
+        seed2-=.005
+
+
+        if (!pauseAnimation) {
+            setTimeout(window.requestAnimationFrame,  0, render)
+        }
+
+      }
+
+function renderPix() {
+    pixles.forEach( p => {
+        context.fillStyle = `hsl(${p.color}, 40%, ${p.light}%)`;                
+        context.beginPath()
+        context.rect(p.xPos,p.yPos-viewHeight,1,1)
+        context.rect(p.xPos,-p.yPos,1,1)
+        context.fill()   
+    });
 }
-function renderNoise() {
-    const maxH =131,  vertRes = .2;
-    for (let i = 7.6; i < maxH+80; i+=vertRes) {
-        context.save()
-        context.translate(-i*3.5+30,-viewWidth/4)
-        createImg(-i, maxH, seed1)
-        context.translate((i*4-30)*3.5/2,0)
-        createImg(-i, maxH, seed2)
-        context.restore()
-    }
-}
 
-function createImg(nRes, max, seed) { 
-    let yCount = 0;
-    for (let y = .5; y < viewWidth; y++) {
-          const offX = (mapNumber(nRes, 12+(nRes/900)/3.4, max, 0, width*2)/nRes/4.2),
-                offY = (mapNumber(nRes, (1+nRes/5000)*(1+y*1/nRes*.071), max, 0, height*2)/nRes/1.2),
-                noiseX = ((1*10)/(nRes*13))-offX/2+seed+y/1000,
-                noiseY = ((y*7)/(nRes*19))-offY/13+seed/3-y/1000,
-                divid = 10+nRes/1,
-            // divid = nRes/1.2 < 20 ? nRes/1.2 : 20,
-                light = ((Math.abs(( Noise(noiseX, noiseY)*divid/2 )) % divid)+(nRes/2.3)+70)-((y/max*67)/8);
-                if (light > 1) {
-                const color =  Math.abs(Noise(noiseX, noiseY))*(divid*divid)+nRes*1-127+y/3;
+function calculate(s, num) {
+    // transX = nRes == 77 ? s/30 : 0,
 
-                    context.strokeStyle = `hsl(${color}, 50%, ${light}%)`; //Math.random()*100
-                    context.beginPath()
-                        context.moveTo(0,y)
-                        context.lineTo(1,y)
-                        context.moveTo(0,-y)
-                        context.lineTo(1,-y)
-                    context.stroke()
-                }
+    const 
+    nRes = time,
+    seed = num === 1 ? seed1 : seed2;
+    
+    let 
+    xCount = 0;
 
-            // const 
+    for (let x = 0; x < viewWidth; x++) {
+        let yCount = 0;
 
-            // time = nRes,
-            // transX = nRes == 77 ? s/30 : 0,
-            // x = nRes,
-            // xCount = nRes,
-            // s= nRes,
+        for (let y = 0; y < viewHeight; y++) {
+            const
+            offWidth = num === 2 ? width*2.7-s*2 : width*2.7+s*2,
+            offHeight =  num === 2 ? height*2.7-s*2 : height*2.7+s,
+            
+            offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/1.4, timeMax, 0, offWidth)/nRes/4.2),
+            offY = (mapNumber(nRes, (1+time/400)*(1+y*x/time*.1), timeMax, 0,offHeight)/nRes/1.2),
+            noiseX = ((xCount*10)/(nRes*3))+offX+seed,
+            noiseY = ((yCount*10)/(nRes*19.7))+offY+seed,
+            divid = time/1.3 < 54 ? time/1.3 : 54,
+            light = ((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/5.33)+5)-y/24+10;
 
-            // offX = (mapNumber(nRes, 12+(time*Math.abs(x/100))/1.4, max, 0, width*2.7-s*2)/nRes/4.2)+transX/9,
-            // offY = (mapNumber(nRes, (1+time/400)*(1+y*x/time*.1), max, 0, height*2.7-s*2)/nRes/1.2),
-            // noiseX = ((xCount*10)/(nRes*3))+offX+seed,
-            // noiseY = ((yCount*10)/(nRes*19.7))+offY+seed,
-            // divid = time/1.3 < 54 ? time/1.3 : 54,
-            // light = ((Math.abs((Noise(noiseX, noiseY)*divid )) % divid)+(nRes/5.33)+5)-y/24+10;
-
-            // if (light > 1) {
-            //     const color =  (Math.abs((Noise(noiseX, noiseY) ))*Math.pow(divid,1.9))+s*1-127+y/1.3;
-            //     context.strokeStyle = `hsl(${color}, 40%, ${light}%)`; //Math.random()*100
-               
-            //     console.log(color);
-            //     context.beginPath()
-            //         context.moveTo(1,y)
-            //         context.lineTo(2,y)
-            //         context.moveTo(1,-y)
-            //         context.lineTo(2,-y)
-            //     context.fill()
+            if (light > 5) {
+                const color = (Math.abs((Noise(noiseX, noiseY) ))*Math.pow(divid,1.9))+s*1-127+y/1.3;
+                const 
+                xPos = num === 1 ? x-time*3.5+20 : (-time*3.5+20)+(time*4-20)*3.5/2,
+                yPos = y-viewHeight/2;
                 
-            // }
-            // yCount++
-    }
-}
+                pixles.push({xPos: xPos, yPos: -yPos, color: color, light: light})
+            }
 
+            yCount++
+            
+        }
+
+        xCount++
+        
+    }
+
+
+}
 
 function clearFullScreen() {
 
