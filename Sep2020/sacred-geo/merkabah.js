@@ -1,22 +1,23 @@
 // alert('\nControls:\n\nSpace To Pause\n\nA to toggle auto-rotation\n\nW to toggle visibility of lines that pass through center point\n\nQ to toggle mouse based object rotation\n\nE to toggle visibility of points')
 
-const pi = Math.PI; //shortcut because is gets used alot
-
-let merkabahPoints = [];
 //i like to create all my html elements in JS so this code can be run by simplying adding it in a script tag of an empty HTML file
-let canvas = document.createElement('canvas');
-    context = canvas.getContext('2d'),
+const canvas = document.createElement('canvas');
+     context = canvas.getContext('2d'),
+     width = canvas.width = window.innerWidth,
+     height = canvas.height = window.innerHeight,
+     pi = Math.PI; //shortcut because is gets used alot
 
-    width = canvas.width = window.innerWidth,
-    height = canvas.height = window.innerHeight,
-
-    frames = 0, //keep count of how many render cycles have occured
+let frames = 1000,//0, //keep count of how many render cycles have occured
 
     renderPaused = false,   //user can toggle animation
     autoRotate = true,     //roates z axis, can be toggle by user
     mouseRotate = false,  //determines if the user can rotate the merkabah my moving the mouse on the canvas
     hideMidLines = true, //determines if lines through center are shown in render
-    showPoints = false, //determines if the points of the merkabah will show
+    showPoints = true,  //determines if the points of the merkabah will show
+    showLines = false,  //determines if the line edges of the merkabah will show
+    fillShape = true, //determines if the line edges of the merkabah will show
+
+    merkabahPoints = [],
 
     mosPos = {
         x: width/2,
@@ -29,15 +30,63 @@ let canvas = document.createElement('canvas');
         z: 0
     };
 
-    //set styling 
+const utils = {
+        mapNumber: (number, min1, max1, min2, max2) => {
+            return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
+        },
+        findObjectCoords: (mouseEvent) => {
+            let 
+            obj = canvas,
+            obj_left = 0,
+            obj_top = 0,
+            xpos,
+            ypos;
+            while (obj.offsetParent) {
+                obj_left += obj.offsetLeft;
+                obj_top += obj.offsetTop;
+                obj = obj.offsetParent;
+            }
+            if (mouseEvent) {
+                xpos = mouseEvent.pageX;
+                ypos = mouseEvent.pageY;
+            }
+            xpos -= obj_left;
+            ypos -= obj_top;
+            mosPos.x = xpos;
+            mosPos.y = ypos;
+        },
+        clearFullScreen: () => {
+            context.save();
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.restore();   
+        },
+        rotateY: (radians) => {
+            let y = point.y;
+            point.y = (y * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
+            point.z = (y * Math.sin(radians)) + (point.z * Math.cos(radians));
+        },
+        rotateX: (radians) => {
+            let x = point.x;
+            point.x = (x * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
+            point.z = (x * Math.sin(radians)) + (point.z * Math.cos(radians));
+        },
+        rotateZ: (radians) => {
+            let x = point.x;
+            point.x = (x * Math.cos(radians)) + (point.y * Math.sin(radians) * -1.0);
+            point.y = (x * Math.sin(radians)) + (point.y * Math.cos(radians));
+        },
+    };
 
-    document.body.style = 'cursor: none; margin: 0px;';
+    //set styling 
+    document.body.style = 'cursor: none; margin: 0px; background-color: black;';
 
     canvas.style = `display: block; position: static; top: 0px; left: 0px; margin:auto`
 
-    canvas.onmousemove = findObjectCoords;
     
     //event listener for user input
+    canvas.onmousemove = utils.findObjectCoords;
+
     document.addEventListener('keydown', (evn) => {
 
         switch (evn.code) {
@@ -62,35 +111,38 @@ let canvas = document.createElement('canvas');
             case 'KeyE':
                     showPoints = !showPoints;
                 break;
+            case 'KeyR':
+                    showLines = !showLines;
+                break;
+            case 'KeyT':
+                    fillShape = !fillShape;
+                break;
         }
 
     }, false)
 
-    document.body.style.backgroundColor = 'black';
-
+    //append canvas element to body
     document.body.appendChild(canvas);
 
+    //translate origin to center of screen (default is top left corner)
     context.translate(width/2, height/2)
-
-    context.fillStyle = 'white';
-    context.strokeStyle = 'white';
-   //ANIMATION CYCLE
+    
+   //ANIMATION CYCLE START
     render()
+
+    //ANIMATION FUNCTIONS
     function render() {
-    clearFullScreen() //clear the canvas of previous animation cycle
-    calcPoints()
-    createMerkabah() 
-    //counts how many frames have occured
-    frames++
-    //user can toggle pausing of animation via 'spacebar'
-    if (!renderPaused) {
-        setTimeout(window.requestAnimationFrame, 0, render)
+        utils.clearFullScreen() //clear the canvas of previous animation cycle
+        calcPoints()
+        createMerkabah() 
+        //counts how many frames have occured
+        frames++
+        //user can toggle pausing of animation via 'spacebar'
+        if (!renderPaused) {
+            setTimeout(window.requestAnimationFrame, 0, render)
+        }
     }
-    }
-    //function used to map numbers from int into a radian range
-    function mapNumber (number, min1, max1, min2, max2) {
-        return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
-    };
+   
     function createMerkabah() {
 
         const points = [];
@@ -109,17 +161,17 @@ let canvas = document.createElement('canvas');
                 let 
                 xRotation = mosPos.x/111,
                 yRotation = mosPos.y/111;
-                rotateX(xRotation)
-                rotateY(yRotation)
-                rotateZ(pi/12)
+                utils.rotateX(xRotation)
+                utils.rotateY(yRotation)
+                utils.rotateZ(pi/12)
             } else if (autoRotate) {
-                rotateZ(frames/222)
-                rotateX(frames/222)
-                rotateY(frames/222)
+                utils.rotateZ(frames/222)
+                utils.rotateX(frames/222)
+                utils.rotateY(frames/222)
             } else  {
-                rotateZ(2.1)
-                rotateY(.75)
-                rotateX(2.2)
+                utils.rotateZ(2.1)
+                utils.rotateY(.75)
+                utils.rotateX(2.2)
             }
             points.push(point)
         });
@@ -131,33 +183,37 @@ let canvas = document.createElement('canvas');
         // context.lineWidth = frames;
         array = array.sort( (a,b) => b.z-a.z);
         const maxZ = frames/5 < 120 ? frames/5 : 120,
-              size = frames/100 < 6 ? frames/100 : 6;
+              size = frames/200 < 3 ? frames/200 : 3;
 
-        context.lineWidth = size/5;
+        context.lineWidth = size/2;
 
         for (let i = 0; i < array.length; i++) {
             const p = array[i];
-            array.forEach(e => {
-                
-                if (
-                    !hideMidLines
-                    ||
-                    hideMidLines
-                    && p.x != -e.x
-                    && p.y != -e.y
-                    && p.z != -e.z
-                ) {
-                    renderLine(p, e, maxZ)
-                }
-                
-            });
-        }
-        if (showPoints) {
-            for (let i = 0; i < array.length; i++) {
-                const p = array[i];
+
+            if (showPoints) {
                 renderPoint(p, maxZ, size)
             }
+
+            if (showLines) {
+                array.forEach(e => {   
+                    if (
+                        !hideMidLines
+                        ||
+                        hideMidLines
+                        && p.x != -e.x
+                        && p.y != -e.y
+                        && p.z != -e.z
+                    ) {
+                        renderLine(p, e, maxZ)
+                    } 
+                });
+            }
+
+            if (fillShape) {
+                fillMerkabah(array)
+            }
         }
+    
     }
 
     function calcPoints() {
@@ -182,8 +238,8 @@ let canvas = document.createElement('canvas');
     function renderPoint(o, mz, s) {
 
         const
-        light = mapNumber(-o.z, -mz, mz, 10, 70),
-        alpha = mapNumber(-o.z, -mz, mz, .1, 1);
+        light = utils.mapNumber(-o.z, -mz, mz, 10, 70),
+        alpha = utils.mapNumber(-o.z, -mz, mz, .1, 1);
 
         context.fillStyle = `hsla(${o.c}, 100%, ${light }%, ${alpha})`
 
@@ -199,13 +255,13 @@ let canvas = document.createElement('canvas');
         for (let i = 0; i < sgs; i++) {
             
             const
-            startX = mapNumber(i/sgs, 0, sgs/i, start.x, end.x),
-            startY = mapNumber(i/sgs, 0, sgs/i, start.y, end.y),
-            endX = mapNumber((i+1)/sgs, 0, sgs/(i+1), start.x, end.x),
-            endY = mapNumber((i+1)/sgs, 0, sgs/(i+1), start.y, end.y),
-            Z = mapNumber((i+.5)/sgs, 0, sgs/(i+.5), start.z, end.z),
-            alpha = mapNumber(-Z, -mz, mz, .23, 1),
-            color = mapNumber(i, 0, sgs, 0, 360)+frames*2;
+            startX = utils.mapNumber(i/sgs, 0, sgs/i, start.x, end.x),
+            startY = utils.mapNumber(i/sgs, 0, sgs/i, start.y, end.y),
+            endX = utils.mapNumber((i+1)/sgs, 0, sgs/(i+1), start.x, end.x),
+            endY = utils.mapNumber((i+1)/sgs, 0, sgs/(i+1), start.y, end.y),
+            Z = utils.mapNumber((i+.5)/sgs, 0, sgs/(i+.5), start.z, end.z),
+            alpha = utils.mapNumber(-Z, -mz, mz, .23, 1),
+            color = utils.mapNumber(i, 0, sgs, 0, 360)+frames*2;
             
             context.strokeStyle = `hsl(${color}, 100%, 50%, ${alpha})`
 
@@ -216,60 +272,17 @@ let canvas = document.createElement('canvas');
         }
     }
 
-    function rotateY(radians) {
-
-        let y = point.y;
-        point.y = (y * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
-        point.z = (y * Math.sin(radians)) + (point.z * Math.cos(radians));
-    }
-
-    function rotateX(radians) {
-
-        let x = point.x;
-        point.x = (x * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
-        point.z = (x * Math.sin(radians)) + (point.z * Math.cos(radians));
-    }
-
-    function rotateZ(radians) {
-
-        let x = point.x;
-        point.x = (x * Math.cos(radians)) + (point.y * Math.sin(radians) * -1.0);
-        point.y = (x * Math.sin(radians)) + (point.y * Math.cos(radians));
-    }
-
-    function clearFullScreen() {
-
-        context.save();
-        context.setTransform(1, 0, 0, 1, 0, 0);
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.restore();
+    function fillMerkabah(arr) {
         
-    }
+        const test = arr[arr.length-1];    
 
-    function findObjectCoords(mouseEvent) {
-
-            let obj = canvas,
-                obj_left = 0,
-                obj_top = 0,
-                xpos,
-                ypos;
-
-        while (obj.offsetParent)
-        {
-            obj_left += obj.offsetLeft;
-            obj_top += obj.offsetTop;
-            obj = obj.offsetParent;
+        for (let i = arr.length-2; i > arr.length-5; i--) {
+            const e = arr[i];
+            renderLine(test, e, .1)
         }
-        if (mouseEvent)
-        {
-            xpos = mouseEvent.pageX;
-            ypos = mouseEvent.pageY;
-        }
-        
-        xpos -= obj_left;
-        ypos -= obj_top;
-        
-        mosPos.x = xpos;
-        mosPos.y = ypos;
 
+        context.fillStyle = 'white';
+        context.beginPath()
+        context.arc(test.x,test.y,10,0, pi*2)
+        context.fill()
     }
