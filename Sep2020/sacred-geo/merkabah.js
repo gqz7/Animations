@@ -137,7 +137,7 @@ const utils = {
         createMerkabah() 
         //counts how many frames have occured
         frames++
-        return
+        // return
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
             setTimeout(window.requestAnimationFrame, 0, render)
@@ -209,9 +209,7 @@ const utils = {
                         renderLine(p, e, maxZ)
                     } 
                 });
-            }
-
-            
+            }  
         }
 
         if (fillShape) {
@@ -278,57 +276,57 @@ const utils = {
 
     function fillMerkabah(arr, m) {
 
-        // arr = merkabahPoint;
-
         const
         pyramid1 = [0, 5, 6, 7],
         pyramid2 = [4, 1, 2, 3],
 
-        coords1 = getFaceCoords(pyramid1, 1),
-        coords2 = getFaceCoords(pyramid2, 2);
+        coords = [getFaceCoords(pyramid1, 1), getFaceCoords(pyramid2, 2)];
         
-        
+        coords.forEach( (pyr, i) => {
+
+            context.fillStyle = i == 0 ? 'hotpink' : 'limegreen';
+            
+            pyr.forEach(points => {
+
+                const 
+                one = arr[points[0]],
+                two = arr[points[1]],
+                three = arr[points[2]];
+                
+                context.beginPath();
+                context.moveTo(one.x, one.y);
+                context.lineTo(two.x, two.y);
+                context.lineTo(three.x, three.y);
+                context.lineTo(one.x, one.y);
+                context.fill()
+                
+            });
+        });
         
 
     }
 
     function getFaceCoords(cArr, num) {
-
         const allCoords = [];
-
-        let total = 0;
-        
         cArr.forEach(e1 => {
-
             cArr.forEach(e2 => {
-
                 if (e1 != e2) {
                     cArr.forEach(e3 => {
                         if (e3 != e1 && e3 != e2) {
-
                             let repeated = false;
-
                             for (let i = 0; i < allCoords.length && !repeated; i++) {
                                 const face = allCoords[i];
-
                                 if (face.includes(e1) && face.includes(e2) && face.includes(e3) ) {
                                     repeated = true
                                 }
-
                             }
-
                             if (!repeated) {
-                                console.log('p'+ num +':', e1, e2, e3);
                                 allCoords.push([e1, e2, e3])
-                                total++
                             }
-
                         }
                     });
                 }
-                
             });
         });
-
-        console.log(total);
+        return allCoords;
     }
