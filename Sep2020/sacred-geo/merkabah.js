@@ -10,9 +10,9 @@ const canvas = document.createElement('canvas');
 let frames = 1000,//0, //keep count of how many render cycles have occured
 
     renderPaused = false,   //user can toggle animation
-    autoRotate = true,     //roates z axis, can be toggle by user
-    mouseRotate = false,  //determines if the user can rotate the merkabah my moving the mouse on the canvas
-    hideMidLines = true, //determines if lines through center are shown in render
+    autoRotate = false,     //roates z axis, can be toggle by user
+    mouseRotate = true,  //determines if the user can rotate the merkabah my moving the mouse on the canvas
+    hideMidLines = false, //determines if lines through center are shown in render
     showPoints = true,  //determines if the points of the merkabah will show
     showLines = false,  //determines if the line edges of the merkabah will show
     fillShape = true, //determines if the line edges of the merkabah will show
@@ -180,6 +180,7 @@ const utils = {
     
     function renderMerkabah (array) {
         
+        const orgArr = [...array];
         // context.lineWidth = frames;
         array = array.sort( (a,b) => b.z-a.z);
         const maxZ = frames/5 < 120 ? frames/5 : 120,
@@ -209,9 +210,11 @@ const utils = {
                 });
             }
 
-            if (fillShape) {
-                fillMerkabah(array)
-            }
+            
+        }
+
+        if (fillShape) {
+            fillMerkabah(array, maxZ)
         }
     
     }
@@ -272,17 +275,21 @@ const utils = {
         }
     }
 
-    function fillMerkabah(arr) {
-        
-        const test = arr[arr.length-1];    
+    function fillMerkabah(arr, m) {
 
-        for (let i = arr.length-2; i > arr.length-5; i--) {
+        // arr = merkabahPoint;
+        
+        const north = arr[0];    
+        const south = arr[arr.length-1];
+
+        for (let i = 1; i < 4; i++) {
             const e = arr[i];
-            renderLine(test, e, .1)
+            renderLine(south, e, m)
         }
 
-        context.fillStyle = 'white';
-        context.beginPath()
-        context.arc(test.x,test.y,10,0, pi*2)
-        context.fill()
+        for (let i = 4; i < arr.length-1; i++) {
+            const e = arr[i];
+            renderLine(north, e, m)
+        }
+
     }
