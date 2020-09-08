@@ -137,6 +137,7 @@ const utils = {
         createMerkabah() 
         //counts how many frames have occured
         frames++
+        return
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
             setTimeout(window.requestAnimationFrame, 0, render)
@@ -214,7 +215,7 @@ const utils = {
         }
 
         if (fillShape) {
-            fillMerkabah(array, maxZ)
+            fillMerkabah(orgArr, maxZ)
         }
     
     }
@@ -278,18 +279,56 @@ const utils = {
     function fillMerkabah(arr, m) {
 
         // arr = merkabahPoint;
+
+        const
+        pyramid1 = [0, 5, 6, 7],
+        pyramid2 = [4, 1, 2, 3],
+
+        coords1 = getFaceCoords(pyramid1, 1),
+        coords2 = getFaceCoords(pyramid2, 2);
         
-        const north = arr[0];    
-        const south = arr[arr.length-1];
+        
+        
 
-        for (let i = 1; i < 4; i++) {
-            const e = arr[i];
-            renderLine(south, e, m)
-        }
+    }
 
-        for (let i = 4; i < arr.length-1; i++) {
-            const e = arr[i];
-            renderLine(north, e, m)
-        }
+    function getFaceCoords(cArr, num) {
 
+        const allCoords = [];
+
+        let total = 0;
+        
+        cArr.forEach(e1 => {
+
+            cArr.forEach(e2 => {
+
+                if (e1 != e2) {
+                    cArr.forEach(e3 => {
+                        if (e3 != e1 && e3 != e2) {
+
+                            let repeated = false;
+
+                            for (let i = 0; i < allCoords.length && !repeated; i++) {
+                                const face = allCoords[i];
+
+                                if (face.includes(e1) && face.includes(e2) && face.includes(e3) ) {
+                                    repeated = true
+                                }
+
+                            }
+
+                            if (!repeated) {
+                                console.log('p'+ num +':', e1, e2, e3);
+                                allCoords.push([e1, e2, e3])
+                                total++
+                            }
+
+                        }
+                    });
+                }
+                
+            });
+        });
+
+        console.log(total);
     }
