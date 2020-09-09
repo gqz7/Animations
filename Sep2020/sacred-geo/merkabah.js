@@ -9,13 +9,13 @@ const canvas = document.createElement('canvas');
 
 let frames = 1000,//0, //keep count of how many render cycles have occured
 
-    renderPaused = false,   //user can toggle animation
+    renderPaused = true,     //user can toggle animation
     autoRotate = false,     //roates z axis, can be toggle by user
-    mouseRotate = true,  //determines if the user can rotate the merkabah my moving the mouse on the canvas
+    mouseRotate = true,    //determines if the user can rotate the merkabah my moving the mouse on the canvas
     hideMidLines = false, //determines if lines through center are shown in render
-    showPoints = true,  //determines if the points of the merkabah will show
+    showPoints = true,   //determines if the points of the merkabah will show
     showLines = false,  //determines if the line edges of the merkabah will show
-    fillShape = true, //determines if the line edges of the merkabah will show
+    fillShape = true,  //determines if the line edges of the merkabah will show
 
     merkabahPoints = [],
 
@@ -278,15 +278,44 @@ const utils = {
 
         const
         pyramid1 = [0, 5, 6, 7],
-        pyramid2 = [4, 1, 2, 3],
+        pyramid2 = [4, 1, 2, 3];
 
-        coords = [getFaceCoords(pyramid1, 1), getFaceCoords(pyramid2, 2)];
+        let coords = [ ...getFaceCoords(pyramid1, 1), ...getFaceCoords(pyramid2, 2)];
+
+        // coords = coords.map( (e, i) => {
+
+
+
+        // })
+
+        // console.log(coords);
+
+        coords = coords.sort( (p1, p2) => {
+                
+            const
+            z1 = ( arr[p1[0]].z, arr[p1[1]].z, arr[p1[2]].z  )/3, 
+            z2 = ( arr[p2[0]].z, arr[p2[1]].z, arr[p2[2]].z  )/3; 
+
+            // z1 = Math.max(arr[p1[0]].z, arr[p1[1]].z, arr[p1[2]].z ), 
+            // z2 = Math.max(arr[p2[0]].z, arr[p2[1]].z, arr[p2[2]].z );
+
+            console.log(z1, z2);
+
+            return z1-z2 
+        })
         
-        coords.forEach( (pyr, i) => {
+        // console.log(coords);
 
-            context.fillStyle = i == 0 ? 'hotpink' : 'limegreen';
-            
-            pyr.forEach(points => {
+        const maxZ = frames/5 < 120 ? frames/5 : 120;
+        
+        coords.forEach( (points, i) => {
+
+
+            const light = utils.mapNumber( ( arr[points[0]].z, arr[points[1]].z, arr[points[2]].z  )/3, -maxZ, maxZ, 0, 100  );
+
+            const color = i*30;
+
+                context.fillStyle = `hsl(${color+frames}, 100%, ${light}%)`
 
                 const 
                 one = arr[points[0]],
@@ -300,9 +329,7 @@ const utils = {
                 context.lineTo(one.x, one.y);
                 context.fill()
                 
-            });
         });
-        
 
     }
 
