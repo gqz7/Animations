@@ -152,9 +152,13 @@ function renderImage() {
   for (let i = 0; i < 360; i++) {
 
     context.strokeStyle = `hsl(${i-44}, 77%, 77%)`
-    
     context.beginPath()
     context.arc(100, 0, frames/10 , 0, pi*2)
+    context.stroke()
+
+    context.strokeStyle = `hsl(${i-144}, 77%, 77%)`
+    context.beginPath()
+    context.arc(100, 0, frames/100 , 0, pi*2)
     context.stroke()
 
     context.rotate(pi/180)
