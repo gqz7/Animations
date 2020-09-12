@@ -7,7 +7,7 @@ const canvas = document.createElement('canvas');
      height = canvas.height = window.innerHeight,
      pi = Math.PI; //shortcut because is gets used alot
 
-let frames = 1000,//0, //keep count of how many render cycles have occured
+let frames = 1,//0, //keep count of how many render cycles have occured
 
     renderPaused = true,     //user can toggle animation
     autoRotate = false,     //roates z axis, can be toggle by user
@@ -147,15 +147,17 @@ const utils = {
    
 function renderImage() {
 
-  context.rotate(frames/100%360)
+  context.rotate(frames/1000%360)
 
   for (let i = 0; i < 360; i++) {
 
-    context.strokeStyle = `hsl(${i}, 77%, 77%)`
+    context.strokeStyle = `hsl(${i-44}, 77%, 77%)`
     
     context.beginPath()
-    context.arc(100, 0, 100, 0, pi*2)
+    context.arc(100, 0, frames/10 , 0, pi*2)
     context.stroke()
+
+    context.rotate(pi/180)
     
   }
   
