@@ -9,7 +9,7 @@ const canvas = document.createElement('canvas');
 
 let frames = 1,//0, //keep count of how many render cycles have occured
 
-    renderPaused = true,     //user can toggle animation
+    renderPaused = false,     //user can toggle animation
     autoRotate = false,     //roates z axis, can be toggle by user
     mouseRotate = true,    //determines if the user can rotate the merkabah my moving the mouse on the canvas
     hideMidLines = false, //determines if lines through center are shown in render
@@ -147,22 +147,29 @@ const utils = {
    
 function renderImage() {
 
-  context.rotate(frames/1000%360)
+    context.save()
 
-  for (let i = 0; i < 360; i++) {
+const angleC = frames/40,
+      limit = angleC < 23 ? angleC : 23;
+      context.rotate(frames/177)
 
-    context.strokeStyle = `hsl(${i-44}, 77%, 77%)`
-    context.beginPath()
-    context.arc(100, 0, frames/10 , 0, pi*2)
-    context.stroke()
-
-    context.strokeStyle = `hsl(${i-144}, 77%, 77%)`
-    context.beginPath()
-    context.arc(100, 0, frames/100 , 0, pi*2)
-    context.stroke()
-
-    context.rotate(pi/180)
+for (let i = 0; i < limit; i++) {
+    context.save()
+    context.rotate((i*(pi*2/limit)))
     
-  }
+    context.strokeStyle = `hsl(${i*13-44}, 77%, 77%)`
+    context.beginPath()
+    context.arc(100, 0, 100 , 0, pi*2)
+    context.stroke()
+
+    // context.strokeStyle = `hsl(${i*13-144}, 77%, 77%)`
+    // context.beginPath()
+    // context.arc(100, 0, 100 , 0, pi*2)
+    // context.stroke()
+
+    
+    context.restore()
+}
+context.restore()
   
 }
