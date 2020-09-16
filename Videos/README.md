@@ -28,5 +28,10 @@
 ### I made three videos from this one js file
 ### [The End Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Sep2020/noise/the-end-moving.js)
 
-# Starfield and YingYang
-## [360 Starfield]
+<!-- # Starfield
+## [360 Starfield] -->
+
+# Spiraling Light
+## [Vimeo Link](https://vimeo.com/458402900)
+![](spiraling-light-preview.jpg)
+### [Spiraling Light Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Jul2020/noisetrip/noise-trip02.js)
