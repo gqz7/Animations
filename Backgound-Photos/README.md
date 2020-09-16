@@ -15,7 +15,7 @@
 #
 ![](infinity-pill.jpg)
 #
-![](cosmicrolo.jpg)
+![](cosmicrolo-4k.jpg)
 #
 ![](blackstar.png)
 #

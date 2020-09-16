@@ -28,8 +28,10 @@
 ### I made three videos from this one js file
 ### [The End Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Sep2020/noise/the-end-moving.js)
 
-<!-- # Starfield
-## [360 Starfield] -->
+# Starfield
+## [360 Starfield](https://www.youtube.com/watch?v=Oy9XKI762rc)
+![](starscape-preview.jpg)
+### [The End Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Sep2020/stars/starscape.js)
 
 # Spiraling Light
 ## [Vimeo Link](https://vimeo.com/458402900)
