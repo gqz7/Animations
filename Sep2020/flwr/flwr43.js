@@ -33,17 +33,7 @@ uti =  {
   uie:  (input) => { switch (input.code) { case 'Space':  animationPaused = !animationPaused; if (!animationPaused) { infinity() }  break; case 'ArrowUp': speed = speed < 1 ? speed+.1 : 1; break; case "ArrowDown": speed = speed > .2 ? speed-.1 : .2; } },
   mpow: (base, expo) => { return Math.pow(base, expo) },
   mmp : (n, min1, max1, min2, max2) => { return ((n - min1) * (max2 - min2) / (max1 - min1) + min2) },
-  ccs:  () => { context.save(); context.setTransform(1, 0, 0, 1, 0, 0); context.clearRect(0, 0, canvas.width, canvas.height); context.restore() },
-  cbp : () => { context.beginPath() }, //-
-  cmc : () => { context.arc }, // x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean
-  cmr : () => { context.rect }, // x: number, y: number, w: number, h: number
-  cmt:  () => { context.moveTo }, // x: number, y: number
-  clt:  () => { context.lineTo }, // x: number, y: number
-  crt:  () => { context.rotate },
-  csv : () => { context.save }, //-
-  crs : () => { context.restore }, //-
-  cfl:  () => { context.fill }, //*
-  csk:  () => { context.stroke },  //*
+  ccs:  () => { context.save(); context.setTransform(1, 0, 0, 1, 0, 0); context.clearRect(0, 0, canvas.width, canvas.height); context.restore() }
 };
 
 
@@ -51,7 +41,7 @@ let
 time = 0,
 seed = uti.mran() * 10000,
 maxTime = 7777,
-maxItterations = 55;
+maxItterations = 137;
 
 window.onload = () => {
 
@@ -65,7 +55,7 @@ window.onload = () => {
   left: 0px;
   cursor: none;
   margin:auto;
-  background-color: blue`;
+  background-color: black`;
   document.body.style = `margin: 0`;
 
   //BEFORE ANIMATION CYCLE
@@ -81,37 +71,37 @@ window.onload = () => {
 
 function infinity () {
 
-time+=speed
+  time+=speed
 
 
-uti.ccs()
+  uti.ccs()
 
-renderPoints(calPoints(time, seed), seed);
+  renderPoints(calPoints(time, seed), seed);
 
-if ( time < maxTime && !animationPaused ) {
-  setTimeout( window.requestAnimationFrame, 37, infinity )
-}
+  if ( time < maxTime && !animationPaused ) {
+    setTimeout( window.requestAnimationFrame, 37, infinity )
+  }
 
 }
 
 function renderPoints (arr, s) {
-context.strokeStyle = 'white';
-context.beginPath()
-context.arc(0, 0, time, 0, uti.mpi*2 )
-context.stroke()
-let mNoise = uti.msn(time/300+s,time/300+s+.1)*1.7;
-context.save()
-// context.rotate(mNoise)
-for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
-  renderRom(arr[i])
-  context.rotate(uti.mmp(i, 0, maxItterations, 0, -(maxTime/1111 - time/1111))/i)/10000
-}
-context.restore()
+  context.strokeStyle = 'white';
+  context.beginPath()
+  context.arc(0, 0, time, 0, uti.mpi*2 )
+  context.stroke()
+  let mNoise = uti.msn(time/300+s,time/300+s+.1)*1.7;
+  context.save()
+  // context.rotate(mNoise)
+  for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
+    renderRom(arr[i])
+    context.rotate(uti.mmp(i, 0, maxItterations, 0, -(maxTime/1111 - time/1111))/i)/10000
+  }
+  context.restore()
 
 }
 
 function calPoints(s) { 
-let mNoise = uti.msn(s/300+seed,s/300+seed+.1)*1.7;
+let mNoise = uti.msn(s/777+seed,s/777+seed+.1)*1.7;
 const allArr=[]; 
   for (let i = maxItterations; i > 0; i-=.5) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     const 
@@ -144,7 +134,7 @@ for (let j = 0; j < angles.length; j++) {
       const 
         data = originData[i],
         hue =  ((s*10) + (idx*10) - time)%360,
-        light = uti.mmp(0, i, maxItterations, 95, 0);
+        light = uti.mmp(0, i, maxItterations, 94, 0);
 
       rombiArr.push( {
         ...rombi,
@@ -165,18 +155,19 @@ return rombus
 }
 
 function renderRom(rombi) { //{x, y, angle, style, size}
-const {x, y, a: angle, style, s: size} = rombi;
-console.log(size);
-context.save() //save
-context.translate(x, y) //translates
-if (angle) context.rotate(angle) //rotates
-context.strokeStyle = style
-context.beginPath() //begin
-context.moveTo(size/2,0); //moveTo
-context.lineTo(0,-size) ///lineTo
-context.lineTo(-size/2,0) //^
-context.lineTo(0,size) //^
-context.lineTo(size/2,0) //^
-context.stroke() //stroke
-context.restore() //restore
+    const {x, y, a: angle, style, s} = rombi;
+    // console.log(size);
+    const size = s//
+    context.save() //save
+      context.translate(x, y) //translates
+      if (angle) context.rotate(angle) //rotates
+      context.strokeStyle = style
+      context.beginPath() //begin
+      context.moveTo(size/2,0); //moveTo
+      context.lineTo(0,-size) ///lineTo
+      context.lineTo(-size/2,0) //^
+      context.lineTo(0,size) //^
+      context.lineTo(size/2,0) //^
+      context.stroke() //stroke
+    context.restore() //restore
 }

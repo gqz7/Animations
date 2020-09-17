@@ -1,6 +1,6 @@
 
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed = 888// Math.random();
+let seed = Math.random();
 
 // alert('CONTROLS\nPress E to adjust object orientation\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
@@ -12,7 +12,7 @@ let canvas = document.createElement('canvas'),
 
       time = 0,
 
-      timeMax = 575,
+      timeMax = 777,
 
       timeForward = true,
 
