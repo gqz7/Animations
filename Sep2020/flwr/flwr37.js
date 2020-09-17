@@ -17,8 +17,6 @@ let canvas = document.createElement('canvas'),
 
       pauseAnimation = false,
 
-      tiltWindow = true,
-
       colorIndex = 0,
 
       startColor = Math.random() * 360;
@@ -34,7 +32,6 @@ canvas.style = ` display: block;
                 margin:auto`;
 
 canvas.style = `display: block;
-                // position: static;
                 top: 0px;
                 left: 0px;
                 cursor: none;
@@ -52,13 +49,6 @@ document.addEventListener('keydown', userInputEvent, false);
 function userInputEvent(input) {
 
     switch (input.code) {
-       
-        case 'KeyE':
-
-            tiltWindow = !tiltWindow;
-            clearFullScreen()
-    
-            break;
         case 'Space':
 
             pauseAnimation = !pauseAnimation;
@@ -74,6 +64,7 @@ function userInputEvent(input) {
 
 //SET THE CANVAS ORIGIN TO THE MIDDLE OF THE WINDOW
       context.translate(width/2, height/2)
+      context.rotate(Math.PI/2)
 
 //ANIMAITON CYCLE
 
@@ -102,7 +93,7 @@ function userInputEvent(input) {
                 }, 2000)
             }
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame, 0, render)
+            setTimeout(window.requestAnimationFrame, 30, render)
         }
 
       }
@@ -116,22 +107,21 @@ function createImg() {
         const size = i;
 
         let mNoise = Noise(size/333+seed,size/333+seed)*(27*mapNumber(size, 0, timeMax, 1, 0)),
-        light = mapNumber(size-40, 0, timeMax, 55, 77);
+        light = mapNumber(size-40, 0, timeMax, 50, 80);
         context.lineWidth = 1.5
-        context.strokeStyle = `hsl(${(size*9)-time*3}, 41%, ${light}%)`
+        context.strokeStyle = `hsl(${(size*7)-time*2}, 41%, ${light}%)`
         context.save()
         // context.rotate(-mNoise/20)
-        if (tiltWindow) context.rotate(Math.PI/2)
             mNoise/=2
-            seven_meta_cubes(size, (mNoise)/2)
-            seven_meta_cubes(size, (mNoise+Math.PI)/2)
-            seven_meta_cubes(size, -(mNoise)/2)
-            seven_meta_cubes(size, -(mNoise+Math.PI)/2)
+            flwr_seven(size, (mNoise)/2)
+            flwr_seven(size, (mNoise+Math.PI)/2)
+            flwr_seven(size, -(mNoise)/2)
+            flwr_seven(size, -(mNoise+Math.PI)/2)
         context.restore()
     }
 }
 
-function seven_meta_cubes(s, a) {
+function flwr_seven(s, a) {
 
     let m = 6.93;
 
@@ -170,19 +160,15 @@ function createRombi(rombiObj) {
     const {size, angle} = rombiObj;
     context.save()
 
-    if (angle) context.rotate(angle);
-        context.beginPath()
-        context.arc(0,0,size,0,Math.PI*2)
+        context.rotate(angle);
 
-    context.save()
         context.beginPath()
         context.moveTo(size/2,0);
         context.lineTo(0,-size)
         context.lineTo(-size/2,0)
         context.lineTo(0,size)
         context.lineTo(size/2,0)
-            context.stroke()
-    context.restore()
+        context.stroke()
 
     context.restore()
 }
