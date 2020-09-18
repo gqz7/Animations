@@ -1,30 +1,23 @@
 
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed = Math.random();
+let seed =  4286.08;
 
-// alert('CONTROLS\nPress E to adjust object orientation\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
+console.log(seed);
+// alert('CONTROLS\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
       context = canvas.getContext('2d'),
 
       width = canvas.width = window.innerWidth,
       height = canvas.height = window.innerHeight,
-
       time = 0,
-
+      m = 6.93,
       timeMax = 777,
-
       timeForward = true,
-
       strokeW = 1,
-
       speed = .57,
-
       clearScreen = true,
-      
-      pauseAnimation = false,
-
-      tiltWindow = false;
+      pauseAnimation = false;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -51,7 +44,7 @@ document.body.style = `margin: 0`;
 document.body.appendChild(canvas)
 
 //USER INPUT EVENT LISTENER
-document.addEventListener('keydown', userInputEvent, false);
+// document.addEventListener('keydown', userInputEvent, false);
 
 //USER INPUT LOGIC
 function userInputEvent(input) {
@@ -60,9 +53,6 @@ function userInputEvent(input) {
 
         case 'KeyS':
             clearScreen = !clearScreen;
-        break;
-        case 'KeyE':
-            tiltWindow = !tiltWindow; 
         break;
         case 'Space':
             pauseAnimation = !pauseAnimation;
@@ -83,6 +73,7 @@ function userInputEvent(input) {
 
 //SET THE CANVAS ORIGIN TO THE MIDDLE OF THE WINDOW
       context.translate(width/2, height/2)
+      context.lineWidth = .3;
 
 //ANIMAITON CYCLE
 
@@ -90,69 +81,61 @@ function userInputEvent(input) {
 
         function render() {
 
-        if (timeForward && time < timeMax) {
-            time+=speed
-            // console.log('time++', time);
-        } else if (timeForward && time >= timeMax) {
+        // if (timeForward && time < timeMax) {
+        //     
+        //     // console.log('time++', time);
+        // } else if (timeForward && time >= timeMax) {
 
-            setTimeout(()=>{timeForward = false;}, 100)
+        //     setTimeout(()=>{timeForward = false;}, 100)
 
-        } else if (!timeForward && time > 1) {
-            time-=speed
-        } else if ( time <= 1){
+        // } else if (!timeForward && time > 1) {
+        //     time-=speed
+        // } else if ( time <= 1){
 
-            timeForward = true;
-            time = 1.1
-            seed = Math.random()
+        //     timeForward = true;
+        //     time = 1.1
+        //     seed = Math.random()
             
-        }
-
-        if(clearScreen) clearFullScreen()
+        // }
+        time+=speed
+        // if(clearScreen) 
+        clearFullScreen()
 
         createImg(time)
 
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame, 3, render)
+            setTimeout(window.requestAnimationFrame, 100, render)
         }
 
       }
 
 function createImg(s) { 
 
-    let mNoise = Noise(s/300+seed,s/300+seed+.1)*10,
-        light = mapNumber(time, 0, timeMax, 0, 100);
-
-        context.lineWidth = 1.5;
-        context.strokeStyle = `hsl(0, 0%, ${light}%)`
+    let mNoise = Noise(s/300+seed,s/300+seed+.1);
 
     context.save()
 
-    if (tiltWindow) context.rotate(Math.PI/2);
 
-    let maxIter;
+    let maxIter = 240;
 
-        context.lineWidth = .3;
-        mNoise/=7;
-        maxIter = 200;
-        context.rotate(mNoise)
+        context.rotate(Math.abs(mNoise/4))
 
-        for (let i = maxIter; i > 0; i-=.5) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
+        for (let i = maxIter; i > 0; i-=.9-i/400) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
             const noiseNum = i/300+(mNoise);
             const newNoise = Noise(noiseNum,noiseNum)*(9/(1+i/100)); 
             let light = mapNumber(i, 0, maxIter, 95, 0);
-            context.strokeStyle = `hsl(${i-time}, 50%, ${light}%)`;
+            context.strokeStyle = `hsl(${i-time-200}, 88%, ${light}%)`;
             seven_rombi(i, newNoise)
             seven_rombi(i, newNoise+Math.PI)
             seven_rombi(i, -newNoise)
             seven_rombi(i, -newNoise+Math.PI)
-            context.rotate(mapNumber(i, 0, maxIter, 0, -(timeMax/1111 - time/1111))/i)
+            context.rotate(mapNumber(i, 0, maxIter, 0, -(timeMax - time)/1111)/i)
         }
 
     context.restore()
 }
 
 function seven_rombi(s, a) {
-    let m = 6.93;
     a/=2;
     context.save()
         context.translate(-s*m/3.42, 0)
