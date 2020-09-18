@@ -38,9 +38,11 @@ uti =  {
 
 
 let
-time = 0,
-seed = 777777777//uti.mran() * 10000,
-maxTime = 7777,
+time = 9,
+forwardTime = true,
+seed = uti.mran() * 10000,
+startClr = uti.mran() * 360,
+maxTime = 3337,
 maxItterations = 137;
 
 window.onload = () => {
@@ -71,26 +73,23 @@ window.onload = () => {
 
 function infinity () {
 
-  time+=speed
-
+  time = detirmineTime()
 
   uti.ccs()
 
   renderPoints(calPoints(time, seed), seed);
 
-  if ( time < maxTime && !animationPaused ) {
+  if ( !animationPaused ) {
     setTimeout( window.requestAnimationFrame, 37, infinity )
   }
 
 }
 
 function renderPoints (arr, s) {
-  context.strokeStyle = 'white';
-  context.beginPath()
-  context.arc(0, 0, time, 0, uti.mpi*2 )
-  context.stroke()
-  let mNoise = uti.msn(time/300+s,time/300+s+.1)*1.7;
-  context.rotate(-.03)
+  // let mNoise = uti.msn(time/300+s,time/300+s+.1)*1.7;
+  
+  const angl = forwardTime ? -.03 : .03;
+  context.rotate(angl)
   context.save()
   for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     renderRom(arr[i])
@@ -133,7 +132,7 @@ for (let j = 0; j < angles.length; j++) {
 
       const 
         data = originData[i],
-        hue =  (s - time)%360,
+        hue =  (s + startClr - time)%360,
         light = uti.mmp(s, 0, maxItterations, 94, 0);
 
       rombiArr.push( {
@@ -171,4 +170,28 @@ function renderRom(rombi) { //{x, y, angle, style, size}
       context.lineTo(size/2,0) //^
       context.stroke() //stroke
     context.restore() //restore
+}
+
+function detirmineTime() {
+
+  let result;
+
+  if (forwardTime && time < maxTime) {
+    result = time+=speed
+  } else if (forwardTime && time >= maxTime) {
+    
+      setTimeout(()=>{forwardTime = false;}, 100)
+      result = time
+
+  } else if (!forwardTime && time > 1) {
+      result = time-=speed
+  } else if ( time <= 1){
+
+    forwardTime = true;
+    seed = Math.random()
+    result = 1.1
+      
+  }
+
+  return result
 }
