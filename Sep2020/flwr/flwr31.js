@@ -90,8 +90,8 @@ function renderPoints (arr, s) {
   context.arc(0, 0, time, 0, uti.mpi*2 )
   context.stroke()
   let mNoise = uti.msn(time/300+s,time/300+s+.1)*1.7;
+  context.rotate(-.03)
   context.save()
-  // context.rotate(mNoise)
   for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     renderRom(arr[i])
     context.rotate(uti.mmp(i, 0, maxItterations, 0, -(maxTime/1111 - time/1111))/i)/10000
