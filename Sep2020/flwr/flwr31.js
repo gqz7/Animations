@@ -117,17 +117,14 @@ function calData(idx, s, n) {
 
 const
  angles = [n, n+uti.mpi, -n, -n+uti.mpi],
- rombus = [];  
+ rombus = [],  
+ originData = [[-s/3.42, 0],[s/3.42, 0],[(-s/6.9)+(s/3.42), -s*Math.sqrt(3)/8*1.17],[0, s*3*1.17 -s*Math.sqrt(3)/8*1.17],[s/6.9, -s*Math.sqrt(3)/8*1.17],[s/6.9, s*3*1.17]];
 
 for (let j = 0; j < angles.length; j++) {
   let 
-    a = angles[j],
-    originData = [[-s/3.42, 0],[s/3.42, 0],[(-s/6.9)+(s/3.42), -s*Math.sqrt(3)/8*1.17],[0, s*3*1.17 -s*Math.sqrt(3)/8*1.17],[s/6.9, -s*Math.sqrt(3)/8*1.17],[s/6.9, s*3*1.17]],
+    a = angles[j]/1.7,
     rombiArr = [],
     rombi= {s: s, a: a };
-
-  a/=2;
- 
     for (let i = 0; i < originData.length; i++) {
 
       const 
