@@ -101,7 +101,7 @@ function renderPoints (arr, s) {
 }
 
 function calPoints(s) { 
-let mNoise = uti.msn(s/777+seed,s/777+seed+.1)*1.7;
+let mNoise = uti.msn(s/777+seed,s/555+seed+.1)*1.7;
 const allArr=[]; 
   for (let i = maxItterations; i > 0; i-=.5) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     const 
