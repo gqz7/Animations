@@ -88,7 +88,7 @@ function infinity () {
 function renderPoints (arr, s) {
   // let mNoise = uti.msn(time/300+s,time/300+s+.1)*1.7;
   
-  const angl = forwardTime ? -.03 : .03;
+  const angl = forwardTime ? -.007 : .007;
   context.rotate(angl)
   context.save()
   for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
@@ -104,9 +104,8 @@ let mNoise = uti.msn(s/777+seed,s/777+seed+.1);
 const allArr=[]; 
   for (let i = maxItterations; i > 0; i-=.5) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     const 
-      sjze = i*2,
       newNoise = i/300+(mNoise)*(9/(1+i/100)),  //uti.msn(noiseNum,noiseNum)*(9/(1+i/100)); 
-      data = calData(i, sjze, newNoise)
+      data = calData(i, i*(1+time/1000), newNoise)
       allArr.push(...data)
   }
 
