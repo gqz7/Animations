@@ -1,8 +1,7 @@
 
 const Noise = toxi.math.noise.simplexNoise.noise;
-let seed =  4286.08;
+let seed =  Math.random() * 10000;
 
-console.log(seed);
 // alert('CONTROLS\nPress S to toggle frame screen clear\nPress Space to ( Pause / Play ) animation\nUse T & Y to cycle through the diffrent animation variariations')
 //VARS FOR CANVAS AND TIMING EVENTS
 let canvas = document.createElement('canvas'),
@@ -17,7 +16,7 @@ let canvas = document.createElement('canvas'),
       strokeW = 1,
       speed = .57,
       clearScreen = true,
-      pauseAnimation = true;
+      pauseAnimation = false;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
@@ -104,7 +103,7 @@ function userInputEvent(input) {
         createImg(time)
 
         if (!pauseAnimation) {
-            setTimeout(window.requestAnimationFrame, 100, render)
+            setTimeout(window.requestAnimationFrame, 1, render)
         }
 
       }
@@ -116,7 +115,7 @@ function createImg(s) {
     context.save()
 
 
-    let maxIter = 240;
+    let maxIter = 222;
 
         context.rotate(Math.abs(mNoise/4))
 
@@ -129,7 +128,7 @@ function createImg(s) {
             seven_rombi(i, newNoise+Math.PI)
             seven_rombi(i, -newNoise)
             seven_rombi(i, -newNoise+Math.PI)
-            context.rotate(mapNumber(i, 0, maxIter, 0, -(timeMax - time)/1111)/i)
+            context.rotate(i/77777)
         }
 
     context.restore()
