@@ -9,16 +9,13 @@
 
 <p>&nbsp<p><p>&nbsp<p><p>&nbsp<p><p>&nbsp<p>
 
-# Flower
-
-## [Vimeo Link](https://vimeo.com/442336761)
-![](flower-preview.jpg)
-### [Flower Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Jul2020/flowers-living-trippy.js)
 
 # Infinity 8
 ## [Vimeo Link](https://vimeo.com/455170288)
 ![](infinity-preview.jpg)
 ### [Infinity 8 Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Aug2020/misc/infinity-matrix.js)
+
+<p>&nbsp<p><p>&nbsp<p>
 
 # The End
 ## [Vimeo Link](https://vimeo.com/455168072)
@@ -27,13 +24,27 @@
 ![](the-end-preview.jpg)
 ### I made three videos from this one js file
 ### [The End Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Sep2020/noise/the-end-moving.js)
+<p>&nbsp<p><p>&nbsp<p>
+
+# Serenity
+## [Serenity Vimeo Link](https://vimeo.com/459572300)
+![](serenity-preview.jpg)
+### [Serenity Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Sep2020/flwr/flwr23.js)
+<p>&nbsp<p><p>&nbsp<p>
 
 # Starfield
 ## [360 Starfield](https://www.youtube.com/watch?v=Oy9XKI762rc)
 ![](starscape-preview.jpg)
-### [The End Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Sep2020/stars/starscape.js)
+### [Starfield Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Sep2020/stars/starscape.js)
+<p>&nbsp<p><p>&nbsp<p>
 
 # Spiraling Light
 ## [Vimeo Link](https://vimeo.com/458402900)
 ![](spiraling-light-preview.jpg)
 ### [Spiraling Light Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Jul2020/noisetrip/noise-trip02.js)
+<p>&nbsp<p><p>&nbsp<p>
+
+# Flower
+## [Vimeo Link](https://vimeo.com/442336761)
+![](flower-preview.jpg)
+### [Flower Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Jul2020/flowers-living-trippy.js)

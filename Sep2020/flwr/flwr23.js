@@ -17,7 +17,7 @@ let canvas = document.createElement('canvas'),
       strokeW = 1,
       speed = .57,
       clearScreen = true,
-      pauseAnimation = false;
+      pauseAnimation = true;
 
 context.strokeStyle = 'white';
 context.fillStyle = 'white';
