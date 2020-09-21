@@ -122,7 +122,7 @@ function createImg(s) {
         for (let i = maxIter; i > 0; i-=.9-i/400) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
             const noiseNum = i/300+(mNoise);
             const newNoise = Noise(noiseNum,noiseNum)*(9/(1+i/100)); 
-            let light = mapNumber(i, 0, maxIter, 95, 0);
+            let light = mapNumber(i, 0, maxIter,87, 0);
             context.strokeStyle = `hsl(${i-time-200}, 88%, ${light}%)`;
             seven_rombi(i, newNoise)
             seven_rombi(i, newNoise+Math.PI)
