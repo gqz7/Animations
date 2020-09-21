@@ -148,11 +148,12 @@ const utils = {
 function renderImage() {
 
     context.save()
-    context.strokeStyle = `hsl(${time}, 77%, 77%)`
+    context.strokeStyle = `hsl(${frames}, 77%, 77%)`
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < frames/10; i++) {
         context.beginPath()
-        context.arc(100, 0, 100 , 0, pi*2)
+        context.moveTo(0,0)
+        context.lineTo(Math.cos(i)*100,Math.sin(i)*100)
         context.stroke()
 
     }
