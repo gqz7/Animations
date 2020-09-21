@@ -31,7 +31,7 @@ const canvas = document.createElement('canvas'),
       
       width = canvas.width = window.innerWidth,        //width of the canvas
       height = canvas.height = window.innerHeight,    //height of the canvas
-      delay = 100;                                    //determins durration of time(ms) between each frame
+      delay = 20;                                    //determins durration of time(ms) between each frame
       
   let speed = 1,                                  //sets the speed at which stars travel away from the center
       time = 0;
