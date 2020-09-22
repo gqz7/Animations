@@ -136,7 +136,6 @@ const utils = {
         //counts how many frames have occured
 
         renderImage()
-
         frames++
         // return
         //user can toggle pausing of animation via 'spacebar'
@@ -149,7 +148,7 @@ function renderImage() {
 
     context.save()
     
-    for (let i = 0; i < frames/10; i+=.3) {
+    for (let i = 0; i < 6; i+= Math.PI/3) {
         context.strokeStyle = `hsl(${frames+i*10}, 77%, 77%)`
         context.beginPath()
         context.moveTo(0,0)
