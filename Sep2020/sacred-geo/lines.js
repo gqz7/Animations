@@ -105,18 +105,6 @@ const utils = {
                     mouseRotate = !mouseRotate;
                     autoRotate = false;
                 break;
-            // case 'KeyW':
-            //         hideMidLines = !hideMidLines;
-            //     break;
-            // case 'KeyE':
-            //         showPoints = !showPoints;
-            //     break;
-            // case 'KeyR':
-            //         showLines = !showLines;
-            //     break;
-            // case 'KeyT':
-            //         fillShape = !fillShape;
-            //     break;
         }
 
     }, false)
@@ -127,7 +115,7 @@ const utils = {
     //translate origin to center of screen (default is top left corner)
     context.translate(width/2, height/2)
     context.rotate (Math.PI/6 )
-    context.lineWidth = 2;
+    context.lineWidth = 1;
    //ANIMATION CYCLE START
     render()
 
@@ -149,15 +137,28 @@ function renderImage() {
 
     context.save()
     
+    // context.rotate(-frames/50)
     for (let i = 0; i < 6; i+= Math.PI/3) {
 
-        for (let j = 0; j < 700; j+=3) {
+        for (let j = 0; j < 555; j+=3) {
+
+            const 
+            x1=Math.cos(i)*j*(1+frames/354),
+            y1=Math.sin(i)*j*(1+frames/354),
+            x2=(Math.cos(i)*(j+3))/1*(1+frames/354),
+            y2=(Math.sin(i)*(j+3))/1*(1+frames/354),
+            x3=(Math.cos(i)*(j+6))/1*(1+frames/354),
+            y3=(Math.sin(i)*(j+6))/1*(1+frames/354);
+
+
             context.save()    
-                context.strokeStyle = `hsl(${frames*4+j }, 77%, 77%)`
+                context.strokeStyle = `hsl(${-frames*2+j*(1+frames/222) }, 80%, ${90-((j/555)*100)}%)`
                 context.beginPath()
-                context.moveTo(Math.cos(i)*j,Math.sin(i)*j)
-                context.rotate(frames/100)
-                context.lineTo(Math.cos(i)*(j+3),Math.sin(i)*(j+3))
+                context.moveTo(x1,y1)
+                context.rotate(Math.PI/3)
+                context.lineTo(x2,y2)
+                context.rotate(Math.PI/3)
+                context.lineTo(x2,y2)
                 context.stroke()
             context.restore()
                     
