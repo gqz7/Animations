@@ -126,7 +126,8 @@ const utils = {
 
     //translate origin to center of screen (default is top left corner)
     context.translate(width/2, height/2)
-    
+    context.rotate (Math.PI/6 )
+    context.lineWidth = 2;
    //ANIMATION CYCLE START
     render()
 
@@ -149,11 +150,18 @@ function renderImage() {
     context.save()
     
     for (let i = 0; i < 6; i+= Math.PI/3) {
-        context.strokeStyle = `hsl(${frames+i*10}, 77%, 77%)`
-        context.beginPath()
-        context.moveTo(0,0)
-        context.lineTo(Math.cos(i)*700,Math.sin(i)*700)
-        context.stroke()
+
+        for (let j = 0; j < 700; j+=3) {
+            context.save()    
+                context.strokeStyle = `hsl(${frames*4+j }, 77%, 77%)`
+                context.beginPath()
+                context.moveTo(Math.cos(i)*j,Math.sin(i)*j)
+                context.rotate(frames/100)
+                context.lineTo(Math.cos(i)*(j+3),Math.sin(i)*(j+3))
+                context.stroke()
+            context.restore()
+                    
+        }
 
     }
 
