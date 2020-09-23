@@ -7,7 +7,7 @@ const canvas = document.createElement('canvas');
      height = canvas.height = window.innerHeight,
      pi = Math.PI; //shortcut because is gets used alot
 
-let frames = 1,//0, //keep count of how many render cycles have occured
+let time = 1,//0, //keep count of how many render cycles have occured
 
     renderPaused = false,     //user can toggle animation
     autoRotate = false,     //roates z axis, can be toggle by user
@@ -115,17 +115,17 @@ const utils = {
     //translate origin to center of screen (default is top left corner)
     context.translate(width/2, height/2)
     context.rotate (Math.PI/6 )
-    context.lineWidth = 1;
+    // context.lineWidth = 1;
    //ANIMATION CYCLE START
     render()
 
     //ANIMATION FUNCTIONS
     function render() {
         utils.clearFullScreen() //clear the canvas of previous animation cycle
-        //counts how many frames have occured
+        //counts how many time have occured
 
         renderImage()
-        frames++
+        time++
         // return
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
@@ -134,31 +134,38 @@ const utils = {
     }
    
 function renderImage() {
-
+    const maxJ = 100;
     context.save()
     
-    // context.rotate(-frames/50)
+    // context.rotate(-time/50)
     for (let i = 0; i < 6; i+= Math.PI/3) {
 
-        for (let j = 0; j < 555; j+=3) {
+        for (let j = 0; j < maxJ; j+=time/555+j+.1) {
+
+            context.lineWidth = mapNumber(j, 0, maxJ, .5, 5)
+            context.strokeStyle = `hsla(${200-time/2+j*2 }, 100%, ${100-((j/maxJ)*100)}%, ${1-(j/maxJ)})`
 
             const 
-            x1=Math.cos(i)*j*(1+frames/354),
-            y1=Math.sin(i)*j*(1+frames/354),
-            x2=(Math.cos(i)*(j+3))/1*(1+frames/354),
-            y2=(Math.sin(i)*(j+3))/1*(1+frames/354),
-            x3=(Math.cos(i)*(j+6))/1*(1+frames/354),
-            y3=(Math.sin(i)*(j+6))/1*(1+frames/354);
+            x1=Math.cos(i)*j*(12.3+time/67),
+            y1=Math.sin(i)*j*(12.3+time/67),
+            x2=(Math.cos(i)*(j+3))/2*(12.3+time/67),
+            y2=(Math.sin(i)*(j+3))/2*(12.3+time/67);
 
 
+            const r = 4.189;
+            console.log(r);
             context.save()    
-                context.strokeStyle = `hsl(${-frames*2+j*(1+frames/222) }, 80%, ${90-((j/555)*100)}%)`
                 context.beginPath()
                 context.moveTo(x1,y1)
                 context.rotate(Math.PI/3)
                 context.lineTo(x2,y2)
-                context.rotate(Math.PI/3)
+                context.rotate(r)
                 context.lineTo(x2,y2)
+                context.moveTo(-x1,-y1)
+                context.rotate(-Math.PI/3)
+                context.lineTo(-x2,-y2)
+                context.rotate(-r)
+                context.lineTo(-x2,y2)
                 context.stroke()
             context.restore()
                     
@@ -169,3 +176,7 @@ function renderImage() {
     context.restore()
   
 }
+
+function mapNumber (number, min1, max1, min2, max2) {
+    return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
+};
