@@ -116,13 +116,16 @@ const utils = {
         //counts how many frames have occured
 
         context.save()
-            context.translate(-frames*2, 0)
+            context.translate(-frames, 0)
             renderImage()
-            context.translate(frames, 0)
+            context.translate(frames/2, 0)
             renderImage()
-            context.translate(frames, 0)
+            context.translate(frames/2, 0)
             renderImage()
-
+            context.translate(frames/2, 0)
+            renderImage()
+            context.translate(frames/2, 0)
+            renderImage()
         context.restore()
 
         frames++
