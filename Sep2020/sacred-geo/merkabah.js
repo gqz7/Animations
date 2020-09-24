@@ -13,9 +13,9 @@ let frames = 1000,//0, //keep count of how many render cycles have occured
     autoRotate = false,     //roates z axis, can be toggle by user
     mouseRotate = true,    //determines if the user can rotate the merkabah my moving the mouse on the canvas
     hideMidLines = false, //determines if lines through center are shown in render
-    showPoints = true,   //determines if the points of the merkabah will show
-    showLines = false,  //determines if the line edges of the merkabah will show
-    fillShape = true,  //determines if the line edges of the merkabah will show
+    showPoints = false,   //determines if the points of the merkabah will show
+    showLines = true,  //determines if the line edges of the merkabah will show
+    fillShape = false,  //determines if the line edges of the merkabah will show
 
     merkabahPoints = [],
 
