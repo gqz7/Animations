@@ -97,26 +97,6 @@ const utils = {
                         render()
                     }
                 break;
-            case 'KeyA':
-                    autoRotate = !autoRotate;
-                    mouseRotate = false;
-                break;
-            case 'KeyQ':
-                    mouseRotate = !mouseRotate;
-                    autoRotate = false;
-                break;
-            case 'KeyW':
-                    hideMidLines = !hideMidLines;
-                break;
-            case 'KeyE':
-                    showPoints = !showPoints;
-                break;
-            case 'KeyR':
-                    showLines = !showLines;
-                break;
-            case 'KeyT':
-                    fillShape = !fillShape;
-                break;
         }
 
     }, false)
@@ -155,19 +135,12 @@ const angleC = frames/40,
 
 for (let i = 0; i < limit; i++) {
     context.save()
-    context.rotate((i*(pi*2/limit)))
-    
-    context.strokeStyle = `hsl(${i*13-44}, 77%, 77%)`
-    context.beginPath()
-    context.arc(100, 0, 100 , 0, pi*2)
-    context.stroke()
+        context.rotate((i*(pi*2/limit)))
+        context.strokeStyle = `hsl(${i*13-44}, 77%, 77%)`
+        context.beginPath()
+        context.arc(100, 0, 100 , 0, pi*2)
+        context.stroke()
 
-    // context.strokeStyle = `hsl(${i*13-144}, 77%, 77%)`
-    // context.beginPath()
-    // context.arc(100, 0, 100 , 0, pi*2)
-    // context.stroke()
-
-    
     context.restore()
 }
 context.restore()
