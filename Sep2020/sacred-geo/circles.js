@@ -115,7 +115,15 @@ const utils = {
         utils.clearFullScreen() //clear the canvas of previous animation cycle
         //counts how many frames have occured
 
-        renderImage()
+        context.save()
+            context.translate(-frames*2, 0)
+            renderImage()
+            context.translate(frames, 0)
+            renderImage()
+            context.translate(frames, 0)
+            renderImage()
+
+        context.restore()
 
         frames++
         // return
