@@ -8,27 +8,8 @@ const canvas = document.createElement('canvas');
      pi = Math.PI; //shortcut because is gets used alot
 
 let frames = 1,//0, //keep count of how many render cycles have occured
-
-    renderPaused = false,     //user can toggle animation
-    autoRotate = false,     //roates z axis, can be toggle by user
-    mouseRotate = true,    //determines if the user can rotate the merkabah my moving the mouse on the canvas
-    hideMidLines = false, //determines if lines through center are shown in render
-    showPoints = true,   //determines if the points of the merkabah will show
-    showLines = false,  //determines if the line edges of the merkabah will show
-    fillShape = true,  //determines if the line edges of the merkabah will show
-
-    merkabahPoints = [],
-
-    mosPos = {
-        x: width/2,
-        y: height/2,
-    },
-    
-    point = { //obj to keep track of points when roating sphere
-        x: 0,
-        y: 0,
-        z: 0
-    };
+    gscale = 1,
+    renderPaused = false;     //user can toggle animation
 
 const utils = {
         mapNumber: (number, min1, max1, min2, max2) => {
@@ -106,7 +87,7 @@ const utils = {
 
     //translate origin to center of screen (default is top left corner)
     context.translate(width/2, height/2)
-    
+    context.scale(.887,.887)
    //ANIMATION CYCLE START
     render()
 
@@ -114,21 +95,9 @@ const utils = {
     function render() {
         utils.clearFullScreen() //clear the canvas of previous animation cycle
         //counts how many frames have occured
-
-        context.save()
-            context.translate(-frames, 0)
-            renderImage()
-            context.translate(frames/2, 0)
-            renderImage()
-            context.translate(frames/2, 0)
-            renderImage()
-            context.translate(frames/2, 0)
-            renderImage()
-            context.translate(frames/2, 0)
-            renderImage()
-        context.restore()
-
         frames++
+
+        renderAll()
         // return
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
@@ -136,20 +105,55 @@ const utils = {
         }
     }
    
+function renderAll() {
+
+    const trans = frames/gscale < 400 ? frames/gscale : 400;
+
+    renderImage()
+
+    context.save()
+        context.translate(-trans, 0)
+        renderImage()
+    context.restore()
+    context.save()
+        context.translate(trans, 0)
+        renderImage()
+    context.restore()
+    context.save()
+        context.translate(trans/2, Math.sqrt(3)*trans/2)
+        renderImage()
+    context.restore()
+    context.save()
+        context.translate(-trans/2, Math.sqrt(3)*trans/2)
+        renderImage()
+    context.restore()
+    context.save()
+        context.translate(-trans/2, -Math.sqrt(3)*trans/2)
+        renderImage()
+    context.restore()
+    context.save()
+        context.translate(trans/2, -Math.sqrt(3)*trans/2)
+        renderImage()
+    context.restore()
+    
+    
+}
+
 function renderImage() {
 
     context.save()
 
-const angleC = frames/40,
-      limit = angleC < 23 ? angleC : 23;
-      context.rotate(frames/177)
+const angleC = frames/100,
+      limit = angleC < 23 ? angleC : 23,
+      alphaLim = limit*(1+limit/7);
+      context.rotate(-frames/777)
 
 for (let i = 0; i < limit; i++) {
     context.save()
         context.rotate((i*(pi*2/limit)))
-        context.strokeStyle = `hsl(${i*13-44}, 77%, 77%)`
+        context.strokeStyle = `hsla(${i*13-44}, 77%, 77%, ${mapNumber(i, alphaLim, 0, 0, 1)})`
         context.beginPath()
-        context.arc(100, 0, 100 , 0, pi*2)
+        context.arc(100/gscale, 0, 100/gscale, 0, pi*2)
         context.stroke()
 
     context.restore()
@@ -157,3 +161,7 @@ for (let i = 0; i < limit; i++) {
 context.restore()
   
 }
+
+function mapNumber (number, min1, max1, min2, max2) {
+    return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
+};
