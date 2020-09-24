@@ -134,16 +134,16 @@ const utils = {
     }
    
 function renderImage() {
-    const maxJ = 100;
+    const maxJ = 200;
     context.save()
     
     // context.rotate(-time/50)
     for (let i = 0; i < 6; i+= Math.PI/3) {
 
-        for (let j = 0; j < maxJ; j+=time/555+j+.1) {
+        for (let j = 0; j < maxJ; j*=1+j/10) {
 
             context.lineWidth = mapNumber(j, 0, maxJ, .5, 5)
-            context.strokeStyle = `hsla(${200-time/2+j*2 }, 100%, ${100-((j/maxJ)*100)}%, ${1-(j/maxJ)})`
+            context.strokeStyle = `hsla(${200-time/2+j*2 }, 100%, ${90-((j/maxJ)*100)}%, ${1-(j/maxJ)})`
 
             const 
             x1=Math.cos(i)*j*(12.3+time/67),
@@ -153,22 +153,26 @@ function renderImage() {
 
 
             const r = 4.189;
+            const angl = 0//time/1000;
             console.log(r);
             context.save()    
                 context.beginPath()
                 context.moveTo(x1,y1)
-                context.rotate(Math.PI/3)
+                context.rotate((Math.PI/3)-angl)
                 context.lineTo(x2,y2)
-                context.rotate(r)
+                context.rotate(r-angl)
                 context.lineTo(x2,y2)
                 context.moveTo(-x1,-y1)
-                context.rotate(-Math.PI/3)
+                context.rotate((-Math.PI/3)-angl)
                 context.lineTo(-x2,-y2)
                 context.rotate(-r)
                 context.lineTo(-x2,y2)
                 context.stroke()
             context.restore()
-                    
+                   
+            if ( j == 0) {
+                j=1+time/333
+            }
         }
 
     }
