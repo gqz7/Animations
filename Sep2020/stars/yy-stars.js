@@ -23,16 +23,13 @@ function userInputEvent(input) {
 
 
 //INITIAL VARIABLE DECLERATIONS
-
-const slider = document.getElementById('slider');
-
 let canvas = document.createElement("canvas"),
     context = canvas.getContext("2d"),
     time = 0;
     
 const width = canvas.width = window.innerWidth,       //width of the canvas
       height = canvas.height = window.innerHeight,   //height of the canvas
-      delay = 50;                                    //determins durration of time(ms) between each frame
+      delay = 20;                                   //determins durration of time(ms) between each frame
 
   let speed = 1;                                   //sets the speed at which stars travel away from the center
 
@@ -206,7 +203,7 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
                     Stars[i].lightness -= (time/470 ) + 1.1
                     
-                    Stars[i].hue += 10
+                    Stars[i].hue += 15
                 }
            
         }
