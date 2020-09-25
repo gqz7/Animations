@@ -90,8 +90,6 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
         } 
 
 
-        // create_border() //creates a checkerboard border
-
         moveStars(speed) //moves the position of each start slightly
 
         setTimeout( () => {
@@ -115,8 +113,6 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
 
     function create_star_streak(x, y, hue, lightness) {
 
-        // context.save()
-
         let 
         x1 = x,
         y1 = y,
@@ -132,7 +128,6 @@ const width = canvas.width = window.innerWidth,       //width of the canvas
        
         context.stroke();
 
-        // context.restore()
 
     }
 
