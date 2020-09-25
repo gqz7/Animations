@@ -66,7 +66,6 @@ const utils = {
 
     
     //event listener for user input
-    canvas.onmousemove = utils.findObjectCoords;
 
     document.addEventListener('keydown', (evn) => {
 
