@@ -80,7 +80,7 @@ function infinity () {
   renderPoints(calPoints(time, seed), seed);
 
   if ( !animationPaused ) {
-    setTimeout( window.requestAnimationFrame, 37, infinity )
+    setTimeout( window.requestAnimationFrame, 0, infinity )
   }
 
 }
@@ -93,7 +93,7 @@ function renderPoints (arr, s) {
   context.save()
   for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     renderRom(arr[i])
-    context.rotate(uti.mmp(i, 0, maxItterations, 0, -(maxTime/1111 - time/1111))/i)/10000
+    context.rotate(uti.mmp(i, 0, maxItterations, 0, -(maxTime/111 - time/777))/i)/10000
   }
   context.restore()
 
@@ -132,7 +132,7 @@ for (let j = 0; j < angles.length; j++) {
 
       const 
         data = originData[i],
-        hue =  (s + startClr - time)%360,
+        hue =  (s*5 + startClr - time*7)%360,
         light = uti.mmp(s, 0, maxItterations, 94, 0);
 
       rombiArr.push( {
