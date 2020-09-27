@@ -38,12 +38,12 @@ uti =  {
 
 
 let
-time = 9,
+time = 0,
 forwardTime = true,
-seed = uti.mran() * 10000,
-startClr = uti.mran() * 360,
-maxTime = 3337,
-maxItterations = 137;
+seed = 2222//uti.mran() * 10000,
+startClr = 200//uti.mran() * 360,
+maxTime = 577,
+maxItterations = 147;
 
 window.onload = () => {
 
@@ -80,20 +80,24 @@ function infinity () {
   renderPoints(calPoints(time, seed), seed);
 
   if ( !animationPaused ) {
-    setTimeout( window.requestAnimationFrame, 37, infinity )
+    setTimeout( window.requestAnimationFrame, 1, infinity )
   }
 
 }
 
 function renderPoints (arr, s) {
   // let mNoise = uti.msn(time/300+s,time/300+s+.1)*1.7;
+  const scaleDiv = 444;
+  const sX = forwardTime ? 1 + speed/scaleDiv : 1 - speed/scaleDiv;
+  const sY = forwardTime ? 1 + speed/scaleDiv : 1 - speed/scaleDiv;
+  context.scale(sX, sY)  
   
-  const angl = forwardTime ? -.03 : .03;
+  const angl = forwardTime ? -.01 : .01;
   context.rotate(angl)
   context.save()
   for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     renderRom(arr[i])
-    context.rotate(uti.mmp(i, 0, maxItterations, 0, -(maxTime/1111 - time/1111))/i)/10000
+    context.rotate(uti.mmp(i, 0, maxItterations, 0, -(9 - time/1511))/i)/3000
   }
   context.restore()
 
@@ -102,10 +106,10 @@ function renderPoints (arr, s) {
 function calPoints(s) { 
 let mNoise = uti.msn(s/777+seed,s/555+seed+.1)*1.7;
 const allArr=[]; 
-  for (let i = maxItterations; i > 0; i-=.5) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
+  for (let i = maxItterations; i > 0; i-=.7) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     const 
-      sjze = i*2,
-      newNoise = i/300+(mNoise)*(9/(1+i/100)),  //uti.msn(noiseNum,noiseNum)*(9/(1+i/100)); 
+      sjze = i,
+      newNoise = i/30+(mNoise)*(9/(1+i/100)),  //uti.msn(noiseNum,noiseNum)*(9/(1+i/100)); 
       data = calData(i, sjze, newNoise)
       allArr.push(...data)
   }
@@ -129,8 +133,8 @@ for (let j = 0; j < angles.length; j++) {
 
       const 
         data = originData[i],
-        hue =  (s + startClr - time)%360,
-        light = uti.mmp(s, 0, maxItterations, 94, 0);
+        hue =  (s + startClr - time*1.5)%360,
+        light = uti.mmp(s, 0, maxItterations, 100, 0);
 
       rombiArr.push( {
         ...rombi,
@@ -153,11 +157,11 @@ return rombus
 function renderRom(rombi) { //{x, y, angle, style, size}
     const {x, y, a: angle, style, s} = rombi;
     // console.log(size);
-    const size = s//
+    const size = s*1//
     context.save() //save
-      context.lineWidth = s/100;
+      context.lineWidth = .3+s/777;
       context.translate(x, y) //translates
-      if (angle) context.rotate(angle) //rotates
+      if (angle) context.rotate(angle/10) //rotates
       context.strokeStyle = style
       context.beginPath() //begin
       context.moveTo(size/2,0); //moveTo
