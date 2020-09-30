@@ -107,7 +107,7 @@ let i = maxItterations;
 
   while ( i > 0 ) {
 
-  i-= 2.595+Math.log(i)/Math.log(.13)
+  i-= 2.595+Math.log(i)/Math.log(.132)
     const 
       newNoise = i/300+(mNoise)*(9/(1+i/100)),  //uti.msn(noiseNum,noiseNum)*(9/(1+i/100)); 
       data = calData(i, i*(1+time/1000), newNoise)
@@ -127,7 +127,7 @@ const
 for (let j = 0; j < angles.length; j++) {
   // a+=n/10   
   let 
-    originData = [[s/6.9, -s*Math.sqrt(3)/8*1.17],[s/6.9, s*3*1.17]],
+    originData = [[200, s*2.5*1.17],[0, 100]],
     rombiArr = [],
     rombi= {s: s, a: a };
  
@@ -135,7 +135,7 @@ for (let j = 0; j < angles.length; j++) {
 
       const 
         data = originData[i],
-        hue =  (s*5 + startClr - time*7)%360,
+        hue =  (s*3 + startClr - time*2)%360,
         light = uti.mmp(idx, 0, maxItterations, 98, 0);
 
         // if (s > maxItterations) {
@@ -166,7 +166,7 @@ function renderRom(rombi) { //{x, y, angle, style, size}
     // console.log(size);
     const size = s//
     context.save() //save
-      context.lineWidth = uti.mmp(index, 0, maxItterations, 1, .1);
+      context.lineWidth = uti.mmp(index, 0, maxItterations, 1.3, 0);
       context.translate(x, y) //translates
       context.rotate(angle/2) //rotates
       context.strokeStyle = style
