@@ -1,4 +1,7 @@
-
+const map =  (number, min1, max1, min2, max2) => {
+      const data = ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
+      return data
+}
 const 
 body = document.body,
 canvas = document.createElement('canvas'),
@@ -21,7 +24,7 @@ document.body.style = `margin: 0`;
 context.strokeStyle = 'white'
 const tr = 2
 const yr = Math.sqrt(3)
-const xy = 200
+const xy = 100
 
 context.translate(width/2, height/2)
 
@@ -77,21 +80,17 @@ const tri2 = [ [[0,-xy*tr], [xy*yr,-xy] ],[ [xy*yr,-xy], [xy*yr,xy]], [[xy*yr,xy
 
 
 for (let i = 0; i < 6; i++) {
-  
   for (let j = 0; j < tri2[i].length-1; j++) {
-    context.beginPath()
-    
-    // console.log(tri[i][j+1], j);
-    for (let k = 0; k < 1; k++) {
-      const p1 = tri2[i][j];
-      const p2 = tri2[i][j+1];
-      context.moveTo(p1[0], p1[1])
-      context.lineTo(p2[0], p2[1])
+    for (let k = 1; k < 8; k++) {
+      
+      const maxK = 2.8;
+      const X = map(k/maxK, 0, maxK, tri2[i][j][0], tri2[i][j+1][0])
+      const Y = map(k/maxK, 0, maxK, tri2[i][j][1], tri2[i][j+1][1])
+      
+      context.beginPath()
+      context.arc(X, Y, 1, 0, Math.PI*2)
+      context.stroke()
       
     }
-
-    context.stroke()
-
   }
-  
 }
