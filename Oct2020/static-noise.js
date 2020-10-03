@@ -21,7 +21,7 @@ let canvas = document.createElement('canvas'),
 
       strokeW = 1,
 
-      speed = .05,
+      speed = .045,
 
       clearScreen = true,
       
@@ -87,17 +87,12 @@ function userInputEvent(input) {
             // console.log('time++', time);
         } else if (timeForward && time >= timeMax) {
 
-            setTimeout(()=>{timeForward = false;}, 100)
-
-        } else if (!timeForward && time > 1) {
-            time-=speed
-        } else if ( time <= 1){
-
-            timeForward = true;
+            
             time = 1.1
             seed1 = Math.random()*100
             seed2 = Math.random()*100
-            
+            // setTimeout(()=>{timeForward = false;}, 100)
+
         }
 
         // if(clearScreen) clearFullScreen()
