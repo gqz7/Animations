@@ -1,6 +1,6 @@
 console.log(`Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'I' to display current settings\n\nPress 'M' to cycle through 4 color modes\n\nPress 'G' to toggle view in grayscale\n\nPress 'O' to decrease speed that complexity is being added to the object 'P' to increase speed\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nPress 'F' to toggle flipping of structure's latitude and logitude coordinates`);
 
-alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
+// alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
 const pi = Math.PI; //shortcut because is gets used alot
 
@@ -29,7 +29,7 @@ let canvas = document.createElement('canvas');
 
     SSindex = 0, //controls what structure is being displayed on the canvas
 
-    colorMode = 0, //controls what variable determins the color of a given point
+    colorMode = 2, //controls what variable determins the color of a given point
     
     coordinates = {   //obj to keep track of points when roating sphere
         x: 0,
@@ -103,11 +103,6 @@ let canvas = document.createElement('canvas');
 
       }
 
-    //function used to map numbers from int into a radian range
-    function mapNumber (number, min1, max1, min2, max2) {
-        return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
-    };
-
     function createSphere() {
 
         let reso = 66// frames/cmplxSpd + 1,//resolution of sphere coord detail
@@ -165,8 +160,8 @@ let canvas = document.createElement('canvas');
             }
 
             //rotate the points about the origin to give the illusion of 3d
-            rotateX(xRotation)
-            rotateY(yRotation)
+            rotateX(xRotation+1.7)
+            rotateY(yRotation+2)
             
             renderPoint(coordinates, j, i)
 
@@ -180,7 +175,7 @@ let canvas = document.createElement('canvas');
     function renderPoint(origin, j, i) {
 
         let light = (origin.z/radius) * 100 > viewLimit + 20 ? (origin.z/radius) * 100 : viewLimit + 20;
-
+        const dis = Math.sqrt((Math.pow(origin.x,2))+(Math.pow(origin.y,2))-(Math.pow(origin.z,2)))/100;
         if (light > 5) {
             
             let color = grayScale ? 0 : 100,
@@ -200,9 +195,12 @@ let canvas = document.createElement('canvas');
                 context.fillStyle = `hsl(${j*10}, ${color}%, ${light}%)`
                     break;
             }
+
+            const renderX = mapNumber(origin.x, 0, height/3, 0, dis)
+            const renderY = mapNumber(origin.y, 0, height/3, 0, dis)
             
             context.beginPath()
-            context.arc(origin.x,origin.y,size,0, pi*2)
+            context.arc(renderX*130,renderY*130,size,0, pi*2)
             context.fill()
             
         }
@@ -349,3 +347,7 @@ let canvas = document.createElement('canvas');
         radius = radius + move > 50 && radius + move < height/2 ? radius + move : radius;
         
     }
+
+    function mapNumber (number, min1, max1, min2, max2) {
+        return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
+    };
