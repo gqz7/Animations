@@ -155,9 +155,9 @@ let canvas = document.createElement('canvas');
                 yRotation = -mosPos.y/177 - Math.PI*3/5;
 
             } else {
-                xRotation = frames/170,
-                yRotation = frames/170;
-                rotateZ(frames/200)
+                xRotation = frames/333,
+                yRotation = frames/333;
+                rotateZ(frames/444)
 
             }
 
@@ -316,7 +316,7 @@ let canvas = document.createElement('canvas');
             break
             case 'KeyN':
 
-                distanceStyle = distanceStyle < 3 ? distanceStyle + 1: 0;
+                distanceStyle = distanceStyle < 4 ? distanceStyle + 1: 0;
 
             break;
             case 'KeyM':
