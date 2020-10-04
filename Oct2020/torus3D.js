@@ -15,6 +15,8 @@ let canvas = document.createElement('canvas');
 
     radius = height/3,
 
+    distanceStyle = 0,
+
     renderPaused = false,    //user can toggle animation paused/unpaused
 
     grayScale = false,     //user can toggle grayscale
@@ -171,11 +173,29 @@ let canvas = document.createElement('canvas');
 
     }
 
+    function calcDis(org) {
+        switch (distanceStyle) {
+            case 0:
+                return Math.sqrt((Math.pow(org.x,2))+(Math.pow(org.y,2))+(Math.pow(org.z,2)))/100;
+            case 1:
+                return Math.sqrt((Math.pow(org.x,2))-(Math.pow(org.y,2))-(Math.pow(org.z,2)))/100;
+            case 2:
+                return Math.sqrt(-(Math.pow(org.x,2))+(Math.pow(org.y,2))+(Math.pow(org.z,2)))/100;
+            case 3:
+                return Math.sqrt((Math.pow(org.x,2))-(Math.pow(org.y,2))+(Math.pow(org.z,2)))/100;
+            case 4:
+                return Math.sqrt((Math.pow(org.x,2))+(Math.pow(org.y,2))-(Math.pow(org.z,2)))/100;
+            default:
+                return 1               
+        }
+    }
+
     //render an object's point's position onto the canvas
     function renderPoint(origin, j, i) {
 
         let light = (origin.z/radius) * 100 > viewLimit + 20 ? (origin.z/radius) * 100 : viewLimit + 20;
-        const dis = Math.sqrt((Math.pow(origin.x,2))+(Math.pow(origin.y,2))-(Math.pow(origin.z,2)))/100;
+        const dis = calcDis(origin)
+        
         if (light > 5) {
             
             let color = grayScale ? 0 : 100,
@@ -294,7 +314,11 @@ let canvas = document.createElement('canvas');
                 cmplxSpd = cmplxSpd < 333 ? cmplxSpd+1 : 333;
 
             break
+            case 'KeyN':
 
+                distanceStyle = distanceStyle < 3 ? distanceStyle + 1: 0;
+
+            break;
             case 'KeyM':
 
                 colorMode = colorMode < 3 ? colorMode + 1: 0;
@@ -339,8 +363,7 @@ let canvas = document.createElement('canvas');
     //mouse wheel
     function mouseWheelMoved(evn) {
 
-        console.log(radius);
-        
+        // console.log(radius)
         
         let move = evn.deltaY * -7;
 
