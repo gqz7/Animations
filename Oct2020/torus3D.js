@@ -17,6 +17,8 @@ let canvas = document.createElement('canvas');
 
     distanceStyle = 0,
 
+    viewOption = 2,
+
     renderPaused = false,    //user can toggle animation paused/unpaused
 
     grayScale = false,     //user can toggle grayscale
@@ -137,8 +139,8 @@ let canvas = document.createElement('canvas');
 
             //formula for finding  xyz position based on polar angle in a xy system
             const x = (r * Math.sin(x1) * Math.cos(x2)),
-                  y = (r * Math.sin(y1) * Math.sin(y2)),
-                  z =  r * Math.cos(z1);
+                  y = (r * Math.cos(y1) * Math.sin(y2)),
+                  z =  r * Math.sin(z1);
 
             //store the points calculated into a object
             coordinates = {
@@ -162,8 +164,8 @@ let canvas = document.createElement('canvas');
             }
 
             //rotate the points about the origin to give the illusion of 3d
-            rotateX(xRotation)
-            rotateY(yRotation)
+            rotateX(xRotation+1)
+            rotateY(yRotation+3)
             
             renderPoint(coordinates, j, i)
 
@@ -176,7 +178,7 @@ let canvas = document.createElement('canvas');
     function calcDis(org) {
         switch (distanceStyle) {
             case 0:
-                return Math.sqrt((Math.pow(org.x,2))+(Math.pow(org.y,2))+(Math.pow(org.z,2)))/100;
+                return Math.sqrt((Math.pow(org.x,2))+(Math.pow(org.y,2))+(Math.pow(org.z,2)))/100; //Math.sqrt((Math.pow(org.x,2))+(Math.pow(org.y,2))+(Math.pow(org.z,2)))/100;
             case 1:
                 return Math.sqrt((Math.pow(org.x,2))-(Math.pow(org.y,2))-(Math.pow(org.z,2)))/100;
             case 2:
@@ -186,7 +188,7 @@ let canvas = document.createElement('canvas');
             case 4:
                 return Math.sqrt((Math.pow(org.x,2))+(Math.pow(org.y,2))-(Math.pow(org.z,2)))/100;
             default:
-                return 1               
+                return 3          
         }
     }
 
@@ -203,18 +205,21 @@ let canvas = document.createElement('canvas');
 
             switch (colorMode) {
                 case 0:
-                context.fillStyle = `hsl(${i*5+frames}, ${color}%, ${light}%)`
+                context.fillStyle = `hsl(${i*7+frames*3}, ${color}%, ${light}%)`
                     break;
                 case 1:
-                context.fillStyle = `hsl(${j*5+frames}, ${color}%, ${light}%)`
+                context.fillStyle = `hsl(${j*7+frames*3}, ${color}%, ${light}%)`
+                    break;
+                case 2:
+                context.fillStyle = `hsl(${dis*111+frames*3}, ${color}%, ${light}%)`
                     break;
             }
 
-            const renderX = mapNumber(origin.x, 0, height/3, 0, dis)
-            const renderY = mapNumber(origin.y, 0, height/3, 0, dis)
+            const renderX = viewOption === 1 ? (origin.x/(dis/.2))*4 : mapNumber(origin.x, 0, height/3, 0, dis)*130
+            const renderY = viewOption === 1 ? (origin.y/(dis/.2))*4 : mapNumber(origin.y, 0, height/3, 0, dis)*130
             
             context.beginPath()
-            context.arc(renderX*130,renderY*130,size,0, pi*2)
+            context.arc(renderX,renderY,size,0, pi*2)
             context.fill()
             
         }
@@ -314,8 +319,11 @@ let canvas = document.createElement('canvas');
 
             break;
             case 'KeyM':
+                colorMode = colorMode < 2 ? colorMode + 1: 0;
+            break;
+            case 'KeyB':
 
-                colorMode = colorMode < 1 ? colorMode + 1: 0;
+                viewOption = viewOption < 1 ? viewOption + 1: 0;
 
             case 'KeyI':
 
