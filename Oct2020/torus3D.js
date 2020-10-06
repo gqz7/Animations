@@ -1,6 +1,6 @@
 console.log(`Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'I' to display current settings\n\nPress 'M' to cycle through 4 color modes\n\nPress 'G' to toggle view in grayscale\n\nPress 'O' to decrease speed that complexity is being added to the object 'P' to increase speed\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nPress 'F' to toggle flipping of structure's latitude and logitude coordinates`);
 
-alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
+// alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
 const pi = Math.PI; //shortcut because is gets used alot
 
@@ -15,7 +15,7 @@ let canvas = document.createElement('canvas');
 
     radius = height/3,
 
-    distanceStyle = 2,
+    distanceStyle = 0,
 
     renderPaused = false,    //user can toggle animation paused/unpaused
 
@@ -27,7 +27,7 @@ let canvas = document.createElement('canvas');
 
     viewLimit = 30,  //user can change how much of the object is in view
 
-    cmplxSpd = 77,//user can control how quickly more points will be added to object, range(0-333)
+    cmplxSpd = 77, //user can control how quickly more points will be added to object, range(0-333)
 
     SSindex = 0, //controls what structure is being displayed on the canvas
 
