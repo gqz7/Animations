@@ -17,7 +17,7 @@ let canvas = document.createElement('canvas');
 
     distanceStyle = 0,
 
-    viewOption = 2,
+    viewOption = 0,
 
     renderPaused = false,    //user can toggle animation paused/unpaused
 
@@ -47,20 +47,13 @@ let canvas = document.createElement('canvas');
     },
 
     superSpos = [ //longitude is represented by true, latitude by false, a ternary oporater will change how the object is structured to showcased diffrent super structures with less code
-        {   //torus horizontal
+        {   //torus,,
             x1: true,
             x2: true,
             y1: false,
             y2: true,
             z:  false 
-        },
-        {   //torus vertical
-            x1: false,
-            x2: false,
-            y1: false,
-            y2: true,
-            z:  true 
-        },
+        }
     ];
 
     //set styling 
@@ -215,8 +208,8 @@ let canvas = document.createElement('canvas');
                     break;
             }
 
-            const renderX = viewOption === 1 ? (origin.x/(dis/.2))*4 : mapNumber(origin.x, 0, height/3, 0, dis)*130
-            const renderY = viewOption === 1 ? (origin.y/(dis/.2))*4 : mapNumber(origin.y, 0, height/3, 0, dis)*130
+            const renderX = viewOption === 1 ? (origin.x/(dis/.2))*(radius/23) : mapNumber(origin.x, 0, height/3, 0, dis)*130
+            const renderY = viewOption === 1 ? (origin.y/(dis/.2))*(radius/23) : mapNumber(origin.y, 0, height/3, 0, dis)*130
             
             context.beginPath()
             context.arc(renderX,renderY,size,0, pi*2)
@@ -327,7 +320,7 @@ let canvas = document.createElement('canvas');
 
             case 'KeyI':
 
-            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nColor Mode: ${colorMode+1}\nGrayscale Mode: ${grayScale}\nCamera Locked To Mouse: ${lockPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}\nObject Complexity Increase Speed: ${333-cmplxSpd}`);
+            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nColor Mode: ${colorMode+1}\nGrayscale Mode: ${grayScale}\nCamera Locked To Mouse: ${lockPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}\nObject Complexity Increase Speed: ${333-cmplxSpd}\nRadius: ${radius}`);
             
             break;
 
