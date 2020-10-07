@@ -33,8 +33,11 @@
 <p>&nbsp<p><p>&nbsp<p>
 
 # Astral Plane
+![](astral-plane-preview.jpg)
 ## [360 Astral Plane](https://www.youtube.com/watch?v=FDzo6kGyRVY&t=71s)
 ## [AP Vimeo Link](https://vimeo.com/manage/460489340/general)
+### [Astral Plane Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Sep2020/stars/stars-of-david.js)
+<p>&nbsp<p><p>&nbsp<p>
 
 # Starfield
 ## [360 Starfield](https://www.youtube.com/watch?v=Oy9XKI762rc)

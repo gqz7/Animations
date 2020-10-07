@@ -17,7 +17,7 @@
 #
 ![](cosmicrolo-4k.jpg)
 #
-![](space-migration-4k)
+![](space-migration-4k.jpg)
 #
 ![](blackstar.png)
 #
