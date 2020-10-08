@@ -1,4 +1,4 @@
-console.log(`Press Space to Start/Stop Animation,\n\n < and > (Comma and Period): cycle through diffrent 3D structures\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'I' to display current settings\n\nPress 'M' to cycle through 4 color modes\n\nPress 'G' to toggle view in grayscale\n\nPress 'O' to decrease speed that complexity is being added to the object 'P' to increase speed\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nPress 'F' to toggle flipping of structure's latitude and logitude coordinates`);
+console.log(`Press Space to Start/Stop Animation,\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'I' to display current settings\n\nPress 'M' to cycle through 3 color modes\n\nPress 'O' to decrease speed that complexity is being added to the object 'P' to increase speed\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate`);
 
 // alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
@@ -19,21 +19,15 @@ let canvas = document.createElement('canvas');
 
     viewOption = 0,
 
-    renderPaused = false,    //user can toggle animation paused/unpaused
+    renderPaused = false,       //user can toggle animation paused/unpaused
 
-    grayScale = false,     //user can toggle grayscale
+    lockPos = false,          //user can toggle if the object roates on its own or is locked to the mouse position
 
-    lockPos = false,     //user can toggle if the object roates on its own or is locked to the mouse position
+    viewLimit = 30,         //user can change how much of the object is in view
 
-    flipPos = false,   //user can see what will happen to a given structure if the logitude and latitude get flipped
+    cmplxSpd = 77,        //user can control how quickly more points will be added to object, range(0-333)
 
-    viewLimit = 30,  //user can change how much of the object is in view
-
-    cmplxSpd = 77, //user can control how quickly more points will be added to object, range(0-333)
-
-    SSindex = 0, //controls what structure is being displayed on the canvas
-
-    colorMode = 0, //controls what variable determins the color of a given point
+    colorMode = 0,      //controls what variable determins the color of a given point
     
     coordinates = {   //obj to keep track of points when roating sphere
         x: 0,
@@ -118,13 +112,7 @@ let canvas = document.createElement('canvas');
             for (let j = 0; j < reso; j++) {
 
             let lat = mapNumber(j , 0, reso, 0, pi*2),
-                structureObj = {...(superSpos[SSindex])};
-
-            if (flipPos) {   
-                for (const key in structureObj) {
-                    structureObj[key] = !structureObj[key];
-                }
-            }
+                structureObj = {...(superSpos[0])};
 
             let x1 = structureObj.x1 ? lon : lat, x2 = structureObj.x2 ? lon : lat,
                 y1 = structureObj.y1 ? lon : lat, y2 = structureObj.y2 ? lon : lat,
@@ -193,7 +181,7 @@ let canvas = document.createElement('canvas');
         
         if (light > 5) {
             
-            let color = grayScale ? 0 : 100,
+            let color = 100,
                 size  = origin.z/107-.2>.88 ? origin.z/107 : .88;
 
             switch (colorMode) {
@@ -265,16 +253,6 @@ let canvas = document.createElement('canvas');
                 render()
             }
             break;
-            case 'KeyG':
-            
-            grayScale = !grayScale;
-
-            break;
-            case 'KeyF':
-  
-            flipPos = !flipPos;
-
-            break
             case 'KeyL':
   
             lockPos = !lockPos;
@@ -284,17 +262,9 @@ let canvas = document.createElement('canvas');
             
                 viewLimit = viewLimit > -20 ? viewLimit -1: -20;
             break;
-            case 'Comma':
-
-                SSindex = SSindex > 0 ? SSindex - 1: superSpos.length-1;
-            break;
             case 'ArrowRight':
 
                 viewLimit = viewLimit < 100 ? viewLimit + 1: 100;
-            break;
-            case 'Period':
-
-                SSindex = SSindex < superSpos.length-1 ? SSindex + 1: 0;
             break;
             case 'KeyP':
 
@@ -320,7 +290,7 @@ let canvas = document.createElement('canvas');
 
             case 'KeyI':
 
-            console.log(`Brightness Setting: ${viewLimit + 20}\nCurrently viewing super structure #${SSindex+1}\nCoordinates Flipped: ${flipPos}\nColor Mode: ${colorMode+1}\nGrayscale Mode: ${grayScale}\nCamera Locked To Mouse: ${lockPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}\nObject Complexity Increase Speed: ${333-cmplxSpd}\nRadius: ${radius}`);
+            console.log(`Brightness Setting: ${viewLimit + 20}\nCoordinates Flipped: ${flipPos}\nColor Mode: ${colorMode+1}\nCamera Locked To Mouse: ${lockPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}\nObject Complexity Increase Speed: ${333-cmplxSpd}\nRadius: ${radius}`);
             
             break;
 
