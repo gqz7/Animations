@@ -12,11 +12,12 @@ let canvas = document.createElement('canvas');
     height = canvas.height = window.innerHeight,
 
     frames = 0, //keep count of how many render cycles have occured
-
+    lowest = 0,
     radius = height/3,
 
     distanceStyle = 5,
-
+    low=0,
+    max=0,
     viewOption = 0,
 
     renderPaused = false,       //user can toggle animation paused/unpaused
@@ -38,17 +39,7 @@ let canvas = document.createElement('canvas');
     mosPos = { //track mouse position 
         x: 0,
         y: 0,
-    },
-
-    superSpos = [ //longitude is represented by true, latitude by false, a ternary oporater will change how the object is structured to showcased diffrent super structures with less code
-        {   //torus,,
-            x1: true,
-            x2: true,
-            y1: false,
-            y2: true,
-            z:  false 
-        }
-    ];
+    };
 
     //set styling 
 
@@ -82,10 +73,9 @@ let canvas = document.createElement('canvas');
         clearFullScreen() //clear the canvas of previous animation cycle
 
         createSphere() //render the sphere
-
+        // console.log(low,max, radius);
         //counts how many frames have occured
         frames++
-
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
@@ -114,7 +104,13 @@ let canvas = document.createElement('canvas');
             for (let j = 0; j < reso; j++) {
 
             let lat = mapNumber(j , 0, reso, 0, pi*2),
-                structureObj = {...(superSpos[0])};
+                structureObj = {
+                    x1: true,
+                    x2: true,
+                    y1: false,
+                    y2: true,
+                    z:  false         
+                };
 
             let x1 = structureObj.x1 ? lon : lat, x2 = structureObj.x2 ? lon : lat,
                 y1 = structureObj.y1 ? lon : lat, y2 = structureObj.y2 ? lon : lat,
@@ -179,7 +175,7 @@ let canvas = document.createElement('canvas');
             case 4:
                 return Math.sqrt((Math.pow(org.x,2))+(Math.pow(org.y,2))-(Math.pow(org.z,2)))/100;
             case 5:
-                return Math.sqrt((Math.pow(org.x,2)/2.5)+(Math.pow(org.y,2)/1.7)-(Math.pow(org.z,2)*5))/100;
+                return Math.sqrt((Math.pow(org.x,2)/2.5)+(Math.pow(org.y,2)/1.7)-(Math.pow(org.z,2)*1))/100;
             default:
                 return 3          
         
@@ -189,13 +185,22 @@ let canvas = document.createElement('canvas');
     //render an object's point's position onto the canvas
     function renderPoint(origin, j, i) {
 
-        let light = (origin.z/radius) * 100 > viewLimit + 20 ? (origin.z/radius) * 100 : viewLimit + 20;
-        const dis = calcDis(origin)
+        
+        const 
+        dis = calcDis(origin),
+        minZ = radius * -1.5,
+        maxZ = radius * 1.5,
+        subLight = viewLimit < 0 ? viewLimit : 0;
+        light = mapNumber(origin.z, minZ, maxZ, viewLimit, 100-subLight);//Math.round((origin.z/radius) * (100 + viewLimit)) + viewLimit/10,
+        // light = calcLight < 95 ? calcLight : 95;
         
         if (light > 5) {
             
             let color = 100,
-                size  = origin.z/107-.2>.88 ? origin.z/107 : .88;
+                size  = mapNumber(origin.z, minZ, maxZ, 0, radius/77);
+
+                low = origin.z < low ? origin.z : low;
+                max = origin.z > max ? origin.z : max;
 
             switch (colorMode) {
                 case 0:
@@ -273,11 +278,11 @@ let canvas = document.createElement('canvas');
             break
             case 'ArrowLeft':
             
-                viewLimit = viewLimit > -20 ? viewLimit -1: -20;
+                viewLimit = viewLimit > -100 ? viewLimit -3: -100;
             break;
             case 'ArrowRight':
 
-                viewLimit = viewLimit < 100 ? viewLimit + 1: 100;
+                viewLimit = viewLimit < 100 ? viewLimit + 3: 100;
             break;
             case 'KeyP':
 
