@@ -15,7 +15,7 @@ let canvas = document.createElement('canvas');
 
     radius = height/3,
 
-    distanceStyle = 0,
+    distanceStyle = 5,
 
     viewOption = 0,
 
@@ -168,7 +168,10 @@ let canvas = document.createElement('canvas');
                 return Math.sqrt((Math.pow(org.x,2))-(Math.pow(org.y,2))+(Math.pow(org.z,2)))/100;
             case 4:
                 return Math.sqrt((Math.pow(org.x,2))+(Math.pow(org.y,2))-(Math.pow(org.z,2)))/100;
-            default:
+            case 5:
+                return Math.sqrt((Math.pow(org.x,2)/1.5)+(Math.pow(org.y,2))-(Math.pow(org.z,2)*5))/100;
+                default:
+            
                 return 3          
         }
     }
