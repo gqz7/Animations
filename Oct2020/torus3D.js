@@ -169,10 +169,10 @@ let canvas = document.createElement('canvas');
             case 4:
                 return Math.sqrt((Math.pow(org.x,2))+(Math.pow(org.y,2))-(Math.pow(org.z,2)))/100;
             case 5:
-                return Math.sqrt((Math.pow(org.x,2)/1.5)+(Math.pow(org.y,2))-(Math.pow(org.z,2)*5))/100;
-                default:
-            
+                return Math.sqrt((Math.pow(org.x,2)/2.5)+(Math.pow(org.y,2)/1.7)-(Math.pow(org.z,2)*5))/100;
+            default:
                 return 3          
+        
         }
     }
 
@@ -281,7 +281,7 @@ let canvas = document.createElement('canvas');
             break
             case 'KeyN':
 
-                distanceStyle = distanceStyle < 4 ? distanceStyle + 1: 0;
+                distanceStyle = distanceStyle < 5 ? distanceStyle + 1: 0;
 
             break;
             case 'KeyM':
