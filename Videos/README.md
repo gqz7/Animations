@@ -40,6 +40,7 @@
 <p>&nbsp<p><p>&nbsp<p>
 
 # Prism Eclipse
+![](prism-eclipse-preview.jpg)
 ## [360 Prism Eclipse](https://youtu.be/BWQneqYe3Fg)
 ## [2D Prism Eclipse](https://vimeo.com/466767409)
 ### [Prism Eclipse Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Oct2020/space-migration.js)
