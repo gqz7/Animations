@@ -91,7 +91,7 @@ let canvas = document.createElement('canvas');
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
-            setTimeout(window.requestAnimationFrame, 0, render)
+            setTimeout(window.requestAnimationFrame, 10, render)
         }
 
       }
@@ -162,7 +162,7 @@ let canvas = document.createElement('canvas');
     function renderPoint(origin, j, i) {
 
         let light = (origin.z/radius) * 100 > viewLimit + 20 ? (origin.z/radius) * 100 : viewLimit + 20;
-        const dis = Math.sqrt((Math.pow(origin.x,2))+(Math.pow(origin.y,2))-(Math.pow(origin.z,2)))/100;
+        const dis = Math.sqrt((Math.pow(origin.x,2))+(Math.pow(origin.y,2))-(Math.pow(origin.z,2)))/200;
         
         if (light > 5) {
             
