@@ -1,6 +1,6 @@
-console.log(`Press Space to Start/Stop Animation,\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nPress 'I' to display current settings\n\nPress 'M' to cycle through 3 color modes\n\nPress 'O' to decrease speed that complexity is being added to the object 'P' to increase speed\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate`);
+console.log(`Press Space to Start/Stop Animation\n\nPress 'I' to display current settings\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nUp/Down Arrow Keys: control how fast the objects resolution increases\n\n</> to cycle through diffrent torus options\n\nPress 'V' to toggle if resolution will change over time\n\nPress 'N' to cycle through 3 color modes`);
 
-// alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
+alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
 const pi = Math.PI; //shortcut because is gets used alot
 
@@ -19,6 +19,8 @@ let canvas = document.createElement('canvas');
     low=0,
     max=0,
     viewOption = 0,
+
+    staticRes = true,
 
     renderPaused = false,       //user can toggle animation paused/unpaused
 
@@ -88,13 +90,13 @@ let canvas = document.createElement('canvas');
 
         const allPoints = [];
 
-        let reso = 66// frames/cmplxSpd + 1,//resolution of sphere coord detail
+        let reso = staticRes ? 77 : 12+frames/cmplxSpd,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
-        // if (reso > 88) {
-        //     frames = 1;
-        // }
+        if (reso > 88) {
+            frames = 1;
+        }
 
     //first loop tracks longitude then the nested loop tracks latitude
         for (let i = 0; i < reso; i++) {
@@ -190,9 +192,8 @@ let canvas = document.createElement('canvas');
         dis = calcDis(origin),
         minZ = radius * -1.5,
         maxZ = radius * 1.5,
-        subLight = viewLimit < 0 ? viewLimit : 0;
-        light = mapNumber(origin.z, minZ, maxZ, viewLimit, 100-subLight);//Math.round((origin.z/radius) * (100 + viewLimit)) + viewLimit/10,
-        // light = calcLight < 95 ? calcLight : 95;
+        subLight = viewLimit < 0 ? viewLimit : 0,
+        light = mapNumber(origin.z, minZ, maxZ, viewLimit, 100-subLight);
         
         if (light > 5) {
             
@@ -262,6 +263,7 @@ let canvas = document.createElement('canvas');
 
     //user input 
     function takeUserInput (evn) {
+
         switch (evn.code) {
             case 'Space':
 
@@ -271,6 +273,11 @@ let canvas = document.createElement('canvas');
                 render()
             }
             break;
+            case 'KeyV':
+  
+            staticRes = !staticRes;
+
+            break
             case 'KeyL':
   
             lockPos = !lockPos;
@@ -284,22 +291,25 @@ let canvas = document.createElement('canvas');
 
                 viewLimit = viewLimit < 100 ? viewLimit + 3: 100;
             break;
-            case 'KeyP':
+            case 'ArrowUp':
 
-                cmplxSpd = cmplxSpd > 3 ? cmplxSpd-1 : 3;
-
+                cmplxSpd = cmplxSpd > 3 ? cmplxSpd-3 : 3;
             break
-            case 'KeyO':
+            case 'ArrowDown':
 
-                cmplxSpd = cmplxSpd < 333 ? cmplxSpd+1 : 333;
-
+                cmplxSpd = cmplxSpd < 333 ? cmplxSpd+3 : 333;
             break
-            case 'KeyN':
+            case 'Period':
 
                 distanceStyle = distanceStyle < 5 ? distanceStyle + 1: 0;
 
             break;
-            case 'KeyM':
+            case 'Comma':
+
+                distanceStyle = distanceStyle > 0 ? distanceStyle - 1: 5;
+
+            break;
+            case 'KeyN':
                 colorMode = colorMode < 2 ? colorMode + 1: 0;
             break;
             case 'KeyB':
@@ -308,7 +318,7 @@ let canvas = document.createElement('canvas');
 
             case 'KeyI':
 
-            console.log(`Brightness Setting: ${viewLimit + 20}\nCoordinates Flipped: ${flipPos}\nColor Mode: ${colorMode+1}\nCamera Locked To Mouse: ${lockPos}\nMax number of points being rendered: ${Math.pow(Math.ceil(frames/100 + 1), 2)}\nObject Complexity Increase Speed: ${333-cmplxSpd}\nRadius: ${radius}`);
+            console.log(`Contrast Setting: ${(viewLimit+100)/2}\nnColor Mode: ${colorMode+1}\nSpeed: ${333-cmplxSpd}\nRadius: ${Math.round(radius)}\nTorus Option: ${viewOption+1}\nCamera Locked: ${lockPos}\nStatic Resolution: ${staticRes}`);
             
             break;
 
