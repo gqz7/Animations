@@ -39,6 +39,12 @@
 ### [Astral Plane Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Sep2020/stars/stars-of-david.js)
 <p>&nbsp<p><p>&nbsp<p>
 
+# Prism Eclipse
+## [360 Prism Eclipse](https://youtu.be/BWQneqYe3Fg)
+## [2D Prism Eclipse](https://vimeo.com/466767409)
+### [Prism Eclipse Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Oct2020/space-migration.js)
+<p>&nbsp<p><p>&nbsp<p>
+
 # Starfield
 ## [360 Starfield](https://www.youtube.com/watch?v=Oy9XKI762rc)
 ![](starscape-preview.jpg)
