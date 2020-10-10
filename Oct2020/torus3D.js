@@ -96,6 +96,8 @@ let canvas = document.createElement('canvas');
 
     function createSphere() {
 
+        const allPoints = [];
+
         let reso = 66// frames/cmplxSpd + 1,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
@@ -148,12 +150,20 @@ let canvas = document.createElement('canvas');
             rotateX(xRotation+1)
             rotateY(yRotation+3)
             
-            renderPoint(coordinates, j, i)
+            allPoints.push({coords: coordinates, j: j, i: i})
 
             }
             
         }
 
+        renderTorus(allPoints)
+
+    }
+
+    function renderTorus( points ) {
+        points.forEach( data => {
+            renderPoint(data.coords, data.j, data.i)
+        });
     }
 
     function calcDis(org) {
