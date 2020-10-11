@@ -12,18 +12,16 @@ let canvas = document.createElement('canvas');
     width = canvas.width = window.innerWidth,
     height = canvas.height = window.innerHeight,
 
-    frames = 0, //keep count of how many render cycles have occured
-    lowest = 0,
+    timeCount = 0, //keep count of how many render cycles have occured
+    
     radius = height/3,
 
     distanceStyle = 0,
-    low=0,
-    max=0,
     viewOption = 0,
 
     staticRes = true,
-    renderPointsBool = true,
-    renderLinesBool = false,
+    renderPointsBool = false,
+    renderLinesBool = true,
     renderPaused = false,        //user can toggle animation paused/unpaused
 
     lockPos = false,           //user can toggle if the object roates on its own or is locked to the mouse position
@@ -75,14 +73,14 @@ let canvas = document.createElement('canvas');
 
       function render() {
 
-        // console.log(frames);
+        // console.log(timeCount);
 
         clearFullScreen() //clear the canvas of previous animation cycle
 
         createSphere() //render the sphere
         // console.log(low,max, radius);
-        //counts how many frames have occured
-        frames++
+        //counts how many timeCount have occured
+        timeCount++
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
@@ -95,12 +93,12 @@ let canvas = document.createElement('canvas');
 
         const allPoints = [];
 
-        let reso = staticRes ? 42 : 12+frames/cmplxSpd,//resolution of sphere coord detail
+        let reso = staticRes ? 42 : 12+timeCount/cmplxSpd,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
         if (reso > 88) {
-            frames = 1;
+            timeCount = 1;
         }
 
         const
@@ -150,9 +148,9 @@ let canvas = document.createElement('canvas');
                 yRotation = -mosPos.y/177 - Math.PI*3/5;
 
             } else {
-                xRotation = frames/444,
-                yRotation = frames/444;
-                rotateZ(frames/777)
+                xRotation = timeCount/444,
+                yRotation = timeCount/444;
+                rotateZ(timeCount/777)
 
             }
 
@@ -162,9 +160,8 @@ let canvas = document.createElement('canvas');
 
             const
             light = mapNumber(coordinates.z, minZ, maxZ, viewLimit, 100-subLight),
-            size  = mapNumber(coordinates.z, minZ, maxZ, 0, radius/77);
+            size  = mapNumber(coordinates.z, minZ, maxZ, 0, radius/100);
 
-            
             allPoints[i].push({coords: coordinates, 
                 size: size, 
                 light: light, 
@@ -183,25 +180,56 @@ let canvas = document.createElement('canvas');
 
     function renderTorus( points ) {
 
+        const zSorted = points.flat().sort( (a,b) => {return a.coords.z - b.coords.z });
         if (renderPointsBool) {
-            const zSorted = points.flat().sort( (a,b) => {return a.coords.z - b.coords.z });
             zSorted.forEach( ({coords, size, light, j, i}) => {
                 // console.log(light); 
                 renderPoint(coords, size, light, j, i )
             })
         }
         if (renderLinesBool) {
-            points.forEach( (subArr) => {
-                subArr.forEach( ({coords, j, i}) => {
-                    const { x:x1, y:y1 } = coords;
-                    const { x:x2, y:y2 } = subArr[j-1] != undefined ? subArr[j-1].coords : subArr[subArr.length-1].coords;
+            zSorted.forEach( point1 => {
+                const {i, j} = point1;
+                const point2 = points[i][j-1] != undefined ? points[i][j-1].coords : points[i][points[i].length-1].coords;
+                const point3 = points[i-1] != undefined ? points[i-1][j].coords : points[points.length-1][j].coords;        
+                
+                renderLine(point1, point2)
+                renderLine(point1, point3)
+            })
+        }
+    }
+
+    function renderLine( {coords: origin, light, size, i, j}, origin2) {
+
+        const 
+        dis1 = calcDis(origin);
+        
+        if (light > 5) {
             
-                    context.beginPath()
-                    context.moveTo(x1, y1)
-                    context.lineTo(x2, y2)
-                    context.stroke()
-                })
-            }) 
+            let color = 100;
+
+            switch (colorMode) {
+                case 0:
+                context.strokeStyle = `hsl(${i*7+timeCount*3}, ${color}%, ${light}%)`
+                    break;
+                case 1:
+                context.strokeStyle = `hsl(${j*7+timeCount*3}, ${color}%, ${light}%)`
+                    break;
+                case 2:
+                context.strokeStyle = `hsl(${dis1*111+timeCount*3}, ${color}%, ${light}%)`
+                    break;
+            }
+
+            const renderX1 = viewOption === 1 ? (origin.x/(dis1/.2))*(radius/23) : mapNumber(origin.x, 0, height/3, 0, dis1)*130
+            const renderY1 = viewOption === 1 ? (origin.y/(dis1/.2))*(radius/23) : mapNumber(origin.y, 0, height/3, 0, dis1)*130
+
+            const renderX2 = viewOption === 1 ? (origin2.x/(dis1/.2))*(radius/23) : mapNumber(origin2.x, 0, height/3, 0, dis1)*130
+            const renderY2 = viewOption === 1 ? (origin2.y/(dis1/.2))*(radius/23) : mapNumber(origin2.y, 0, height/3, 0, dis1)*130
+            
+            context.beginPath()
+            context.moveTo(renderX1, renderY1)
+            context.lineTo(renderX2, renderY2)
+            context.stroke()            
         }
     }
 
@@ -238,13 +266,13 @@ let canvas = document.createElement('canvas');
 
             switch (colorMode) {
                 case 0:
-                context.fillStyle = `hsl(${i*7+frames*3}, ${color}%, ${light}%)`
+                context.fillStyle = `hsl(${i*7+timeCount*3}, ${color}%, ${light}%)`
                     break;
                 case 1:
-                context.fillStyle = `hsl(${j*7+frames*3}, ${color}%, ${light}%)`
+                context.fillStyle = `hsl(${j*7+timeCount*3}, ${color}%, ${light}%)`
                     break;
                 case 2:
-                context.fillStyle = `hsl(${dis*111+frames*3}, ${color}%, ${light}%)`
+                context.fillStyle = `hsl(${dis*111+timeCount*3}, ${color}%, ${light}%)`
                     break;
             }
 
