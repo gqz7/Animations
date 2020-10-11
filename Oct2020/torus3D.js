@@ -3,6 +3,7 @@ console.log(`Press Space to Start/Stop Animation\n\nPress 'I' to display current
 alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
 const pi = Math.PI; //shortcut because is gets used alot
+let tested = false;
 
 //i like to create all my html elements in JS so this code can be run by simplying adding it in a script tag of an empty HTML file
 let canvas = document.createElement('canvas');
@@ -15,18 +16,18 @@ let canvas = document.createElement('canvas');
     lowest = 0,
     radius = height/3,
 
-    distanceStyle = 5,
+    distanceStyle = 0,
     low=0,
     max=0,
     viewOption = 0,
 
     staticRes = true,
 
-    renderPaused = false,       //user can toggle animation paused/unpaused
+    renderPaused = false,        //user can toggle animation paused/unpaused
 
-    lockPos = false,          //user can toggle if the object roates on its own or is locked to the mouse position
+    lockPos = false,           //user can toggle if the object roates on its own or is locked to the mouse position
 
-    viewLimit = 30,         //user can change how much of the object is in view
+    viewLimit = -82,        //user can change how much of the object is in view
 
     cmplxSpd = 77,        //user can control how quickly more points will be added to object, range(0-333)
 
@@ -90,7 +91,7 @@ let canvas = document.createElement('canvas');
 
         const allPoints = [];
 
-        let reso = staticRes ? 77 : 12+frames/cmplxSpd,//resolution of sphere coord detail
+        let reso = staticRes ? 42 : 12+frames/cmplxSpd,//resolution of sphere coord detail
 
             r = radius; //radius of sphere
 
@@ -102,6 +103,8 @@ let canvas = document.createElement('canvas');
         for (let i = 0; i < reso; i++) {
             
             let lon = mapNumber(i , 0, reso, 0, pi);
+
+            allPoints.push([])
 
             for (let j = 0; j < reso; j++) {
 
@@ -148,7 +151,7 @@ let canvas = document.createElement('canvas');
             rotateX(xRotation+1)
             rotateY(yRotation+3)
             
-            allPoints.push({coords: coordinates, j: j, i: i})
+            allPoints[i].push({coords: coordinates, j: j, i: i})
 
             }
             
@@ -158,10 +161,16 @@ let canvas = document.createElement('canvas');
 
     }
 
+
     function renderTorus( points ) {
-        points.forEach( data => {
-            renderPoint(data.coords, data.j, data.i)
-        });
+
+        const zSorted = points.flat().sort( (a,b) => {return a.coords.z - b.coords.z });
+  
+        zSorted.forEach( ({coords, j, i}, index) => {
+            renderPoint(coords, j, i)
+    
+        
+        })
     }
 
     function calcDis(org) {
