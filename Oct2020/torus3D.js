@@ -1,6 +1,6 @@
 console.log(`Press Space to Start/Stop Animation\n\nPress 'I' to display current settings\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nUp/Down Arrow Keys: control how fast the objects resolution increases\n\n</> to cycle through diffrent torus options\n\nPress 'V' to toggle if resolution will change over time\n\nPress 'N' to cycle through 3 color modes`);
 
-// alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
+alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
 const pi = Math.PI; //shortcut because is gets used alot
 let tested = false;
@@ -181,28 +181,30 @@ let canvas = document.createElement('canvas');
     function renderTorus( points ) {
 
         const zSorted = points.flat().sort( (a,b) => {return a.coords.z - b.coords.z });
-        if (renderPointsBool) {
-            zSorted.forEach( ({coords, size, light, j, i}) => {
-                // console.log(light); 
-                renderPoint(coords, size, light, j, i )
-            })
-        }
-        if (renderLinesBool) {
-            zSorted.forEach( point1 => {
-                const {i, j} = point1;
+        
+        zSorted.forEach( point1 => {
+            const {j, i} = point1
+
+            if (renderPointsBool) {
+                renderPoint(point1)
+            }
+            
+            if (renderLinesBool) {
                 const point2 = points[i][j-1] != undefined ? points[i][j-1].coords : points[i][points[i].length-1].coords;
                 const point3 = points[i-1] != undefined ? points[i-1][j].coords : points[points.length-1][j].coords;        
                 
                 renderLine(point1, point2)
                 renderLine(point1, point3)
-            })
-        }
+            }
+        })
+        
     }
 
-    function renderLine( {coords: origin, light, size, i, j}, origin2) {
+    function renderLine( {coords: origin, light, i, j}, origin2) {
 
         const 
-        dis1 = calcDis(origin);
+        dis1 = calcDis(origin),
+        dis2 = calcDis(origin2);
         
         if (light > 5) {
             
@@ -223,8 +225,8 @@ let canvas = document.createElement('canvas');
             const renderX1 = viewOption === 1 ? (origin.x/(dis1/.2))*(radius/23) : mapNumber(origin.x, 0, height/3, 0, dis1)*130
             const renderY1 = viewOption === 1 ? (origin.y/(dis1/.2))*(radius/23) : mapNumber(origin.y, 0, height/3, 0, dis1)*130
 
-            const renderX2 = viewOption === 1 ? (origin2.x/(dis1/.2))*(radius/23) : mapNumber(origin2.x, 0, height/3, 0, dis1)*130
-            const renderY2 = viewOption === 1 ? (origin2.y/(dis1/.2))*(radius/23) : mapNumber(origin2.y, 0, height/3, 0, dis1)*130
+            const renderX2 = viewOption === 1 ? (origin2.x/(dis2/.2))*(radius/23) : mapNumber(origin2.x, 0, height/3, 0, dis2)*130
+            const renderY2 = viewOption === 1 ? (origin2.y/(dis2/.2))*(radius/23) : mapNumber(origin2.y, 0, height/3, 0, dis2)*130
             
             context.beginPath()
             context.moveTo(renderX1, renderY1)
@@ -254,8 +256,7 @@ let canvas = document.createElement('canvas');
     }
 
     //render an object's point's position onto the canvas
-    function renderPoint(origin, size, light, j, i) {
-
+    function renderPoint({coords:origin, size, light, j, i}) {
         
         const 
         dis = calcDis(origin);
