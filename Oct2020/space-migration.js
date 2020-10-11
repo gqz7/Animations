@@ -140,9 +140,9 @@ let canvas = document.createElement('canvas');
                 yRotation = -mosPos.y/177 - Math.PI*3/5;
 
             } else {
-                xRotation = frames/999,
-                yRotation = frames/999;
-                rotateZ(frames/2222)
+                xRotation = frames/2222,
+                yRotation = frames/2222;
+                rotateZ(frames/4444)
 
             }
 
@@ -168,7 +168,7 @@ let canvas = document.createElement('canvas');
             
             let size  = origin.z/107-.2>.88 ? origin.z/107 : .88;
 
-            context.fillStyle = `hsl(${dis*333+frames*3}, 100%, ${light}%)`
+            context.fillStyle = `hsl(${dis*333+frames*2}, 100%, ${light}%)`
 
             const renderX = (origin.x/(dis/.5))//mapNumber(origin.x, 0, height/3, 0, dis)*130
             const renderY = (origin.y/(dis/.5))//mapNumber(origin.y, 0, height/3, 0, dis)*130
