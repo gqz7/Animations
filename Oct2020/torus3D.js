@@ -1,6 +1,6 @@
 console.log(`Press Space to Start/Stop Animation\n\nPress 'I' to display current settings\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nUp/Down Arrow Keys: control how fast the objects resolution increases\n\n</> to cycle through diffrent torus options\n\nPress 'V' to toggle if resolution will change over time\n\nPress 'N' to cycle through 3 color modes`);
 
-alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
+// alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
 const pi = Math.PI; //shortcut because is gets used alot
 let tested = false;
@@ -22,7 +22,8 @@ let canvas = document.createElement('canvas');
     viewOption = 0,
 
     staticRes = true,
-
+    renderPoints = true,
+    renderLines = false,
     renderPaused = false,        //user can toggle animation paused/unpaused
 
     lockPos = false,           //user can toggle if the object roates on its own or is locked to the mouse position
@@ -65,6 +66,9 @@ let canvas = document.createElement('canvas');
     context.translate(width/2, height/2)
 
     context.fillStyle = 'white';
+    context.strokeStyle = 'white';
+    context.lineWidth = 2;
+
    
    //ANIMATION CYCLE
      render()
@@ -98,6 +102,11 @@ let canvas = document.createElement('canvas');
         if (reso > 88) {
             frames = 1;
         }
+
+        const
+        minZ = radius * -1.5,
+        maxZ = radius * 1.5,
+        subLight = viewLimit < 0 ? viewLimit : 0;
 
     //first loop tracks longitude then the nested loop tracks latitude
         for (let i = 0; i < reso; i++) {
@@ -150,8 +159,18 @@ let canvas = document.createElement('canvas');
             //rotate the points about the origin to give the illusion of 3d
             rotateX(xRotation+1)
             rotateY(yRotation+3)
+
+            const
+            light = mapNumber(coordinates.z, minZ, maxZ, viewLimit, 100-subLight),
+            size  = mapNumber(coordinates.z, minZ, maxZ, 0, radius/77);
+
             
-            allPoints[i].push({coords: coordinates, j: j, i: i})
+            allPoints[i].push({coords: coordinates, 
+                size: size, 
+                light: light, 
+                j: j, 
+                i: i
+            })
 
             }
             
@@ -164,13 +183,26 @@ let canvas = document.createElement('canvas');
 
     function renderTorus( points ) {
 
-        const zSorted = points.flat().sort( (a,b) => {return a.coords.z - b.coords.z });
-  
-        zSorted.forEach( ({coords, j, i}, index) => {
-            renderPoint(coords, j, i)
-    
-        
-        })
+        if (renderPoints) {
+            const zSorted = points.flat().sort( (a,b) => {return a.coords.z - b.coords.z });
+            zSorted.forEach( ({coords, size, light, j, i}) => {
+                // console.log(light); 
+                renderPoint(coords, size, light, j, i )
+            })
+        }
+        if (renderLines) {
+            points.forEach( (subArr) => {
+                subArr.forEach( ({coords, j, i}) => {
+                    const { x:x1, y:y1 } = coords;
+                    const { x:x2, y:y2 } = subArr[j-1] != undefined ? subArr[j-1].coords : subArr[subArr.length-1].coords;
+            
+                    context.beginPath()
+                    context.moveTo(x1, y1)
+                    context.lineTo(x2, y2)
+                    context.stroke()
+                })
+            }) 
+        }
     }
 
     function calcDis(org) {
@@ -194,23 +226,15 @@ let canvas = document.createElement('canvas');
     }
 
     //render an object's point's position onto the canvas
-    function renderPoint(origin, j, i) {
+    function renderPoint(origin, size, light, j, i) {
 
         
         const 
-        dis = calcDis(origin),
-        minZ = radius * -1.5,
-        maxZ = radius * 1.5,
-        subLight = viewLimit < 0 ? viewLimit : 0,
-        light = mapNumber(origin.z, minZ, maxZ, viewLimit, 100-subLight);
+        dis = calcDis(origin);
         
         if (light > 5) {
             
-            let color = 100,
-                size  = mapNumber(origin.z, minZ, maxZ, 0, radius/77);
-
-                low = origin.z < low ? origin.z : low;
-                max = origin.z > max ? origin.z : max;
+            let color = 100;
 
             switch (colorMode) {
                 case 0:
