@@ -22,8 +22,8 @@ let canvas = document.createElement('canvas');
     viewOption = 0,
 
     staticRes = true,
-    renderPoints = true,
-    renderLines = false,
+    renderPointsBool = true,
+    renderLinesBool = false,
     renderPaused = false,        //user can toggle animation paused/unpaused
 
     lockPos = false,           //user can toggle if the object roates on its own or is locked to the mouse position
@@ -183,14 +183,14 @@ let canvas = document.createElement('canvas');
 
     function renderTorus( points ) {
 
-        if (renderPoints) {
+        if (renderPointsBool) {
             const zSorted = points.flat().sort( (a,b) => {return a.coords.z - b.coords.z });
             zSorted.forEach( ({coords, size, light, j, i}) => {
                 // console.log(light); 
                 renderPoint(coords, size, light, j, i )
             })
         }
-        if (renderLines) {
+        if (renderLinesBool) {
             points.forEach( (subArr) => {
                 subArr.forEach( ({coords, j, i}) => {
                     const { x:x1, y:y1 } = coords;
@@ -299,54 +299,46 @@ let canvas = document.createElement('canvas');
 
         switch (evn.code) {
             case 'Space':
-
-            renderPaused = !renderPaused;
-        
-            if (!renderPaused) { 
-                render()
-            }
+                renderPaused = !renderPaused;
+            
+                if (!renderPaused) { 
+                    render()
+                }
             break;
             case 'KeyV':
-  
-            staticRes = !staticRes;
-
+                staticRes = !staticRes;
+            break
+            case 'KeyC':
+                renderPointsBool = !renderPointsBool;
+            break
+            case 'KeyX':
+                renderLinesBool = !renderLinesBool;
             break
             case 'KeyL':
-  
-            lockPos = !lockPos;
-
+                lockPos = !lockPos;
             break
             case 'ArrowLeft':
-            
                 viewLimit = viewLimit > -100 ? viewLimit -3: -100;
             break;
             case 'ArrowRight':
-
                 viewLimit = viewLimit < 100 ? viewLimit + 3: 100;
             break;
             case 'ArrowUp':
-
                 cmplxSpd = cmplxSpd > 3 ? cmplxSpd-3 : 3;
             break
             case 'ArrowDown':
-
                 cmplxSpd = cmplxSpd < 333 ? cmplxSpd+3 : 333;
             break
             case 'Period':
-
                 distanceStyle = distanceStyle < 5 ? distanceStyle + 1: 0;
-
             break;
             case 'Comma':
-
                 distanceStyle = distanceStyle > 0 ? distanceStyle - 1: 5;
-
             break;
             case 'KeyN':
                 colorMode = colorMode < 2 ? colorMode + 1: 0;
             break;
             case 'KeyB':
-
                 viewOption = viewOption < 1 ? viewOption + 1: 0;
 
             case 'KeyI':
