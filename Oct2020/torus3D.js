@@ -18,9 +18,9 @@ let canvas = document.createElement('canvas');
 
     distanceStyle = 0,
     viewOption = 0,
-
+    autoRotateMode = 0,
     staticRes = true,
-    renderPointsBool = false,
+    renderPointsBool = true,
     renderLinesBool = true,
     renderPaused = false,        //user can toggle animation paused/unpaused
 
@@ -140,7 +140,7 @@ let canvas = document.createElement('canvas');
                 z: z
             };
 
-            let xRotation, yRotation;
+            let xRotation, yRotation, zRotation;
 
             if (lockPos) {
                 
@@ -148,15 +148,43 @@ let canvas = document.createElement('canvas');
                 yRotation = -mosPos.y/177 - Math.PI*3/5;
 
             } else {
-                xRotation = timeCount/444,
-                yRotation = timeCount/444;
-                rotateZ(timeCount/777)
+                switch (autoRotateMode) {
+                    
+                    case 0:
+                        xRotation = timeCount/444;
+                        yRotation = timeCount/444;
+                        zRotation = timeCount/777;
+                    break;
+                    case 1:
+                        xRotation = timeCount/444;
+                        yRotation = timeCount/444;
+                    break;
+                    case 2:
+                        yRotation = timeCount/444;
+                        zRotation = timeCount/444;
+                    break;
+                    case 3:
+                        xRotation = timeCount/444;
+                        zRotation = timeCount/444;
+                    break;
+                    case 4:
+                        xRotation = timeCount/111;
+                    break;
+                    case 5:
+                        yRotation = timeCount/111;
+                    break;
+                    case 6:
+                        zRotation = timeCount/111;
+                    break;
+
+                }
 
             }
 
             //rotate the points about the origin to give the illusion of 3d
-            rotateX(xRotation+1)
-            rotateY(yRotation+3)
+            if ( xRotation ) rotateX(xRotation)
+            if ( yRotation ) rotateY(yRotation)
+            if ( zRotation ) rotateZ(zRotation)
 
             const
             light = mapNumber(coordinates.z, minZ, maxZ, viewLimit, 100-subLight),
@@ -370,7 +398,11 @@ let canvas = document.createElement('canvas');
             break;
             case 'KeyB':
                 viewOption = viewOption < 1 ? viewOption + 1: 0;
-
+            case 'KeyO':
+                autoRotateMode = autoRotateMode > 0 ? autoRotateMode - 1: 6;
+            break;
+            case 'KeyP':
+                autoRotateMode = autoRotateMode < 6 ? autoRotateMode + 1: 0;
             case 'KeyI':
 
             console.log(`Contrast Setting: ${(viewLimit+100)/2}\nnColor Mode: ${colorMode+1}\nSpeed: ${333-cmplxSpd}\nRadius: ${Math.round(radius)}\nTorus Option: ${viewOption+1}\nCamera Locked: ${lockPos}\nStatic Resolution: ${staticRes}`);
