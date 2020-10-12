@@ -1,9 +1,8 @@
-console.log(`Press Space to Start/Stop Animation\n\nPress 'I' to display current settings\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nUp/Down Arrow Keys: control how fast the objects resolution increases\n\n</> to cycle through diffrent torus options\n\nPress 'V' to toggle if resolution will change over time\n\nPress 'N' to cycle through 3 color modes`);
+console.log(`Press Space to Start/Stop Animation\n\nPress 'I' to display current settings\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nUp/Down Arrow Keys: control how fast the objects resolution increases\n\n</> to cycle through diffrent torus options\n\nO/P to cycle through diffrent auto rotation options\n\nPress 'V' to toggle if resolution will change over time\n\nPress 'N' to cycle through 3 color modes`);
 
-// alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
+alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
 const pi = Math.PI; //shortcut because is gets used alot
-let tested = false;
 
 //i like to create all my html elements in JS so this code can be run by simplying adding it in a script tag of an empty HTML file
 let canvas = document.createElement('canvas');
@@ -69,27 +68,25 @@ let canvas = document.createElement('canvas');
 
    
    //ANIMATION CYCLE
-     render()
+    render()
 
-      function render() {
+    function render() {
 
-        // console.log(timeCount);
+    clearFullScreen() //clear the canvas of previous animation cycle
 
-        clearFullScreen() //clear the canvas of previous animation cycle
+    calculateShape() //calculate points and render the shape
 
-        createShape() //render the shape
-        // console.log(low,max, radius);
-        //counts how many timeCount have occured
-        timeCount++
+    //counts how many timeCount have occured
+    timeCount++
 
-        //user can toggle pausing of animation via 'spacebar'
-        if (!renderPaused) {
-            setTimeout(window.requestAnimationFrame, 0, render)
-        }
+    //user can toggle pausing of animation via 'spacebar'
+    if (!renderPaused) {
+        setTimeout(window.requestAnimationFrame, 0, render)
+    }
 
-      }
+    }
 
-    function createShape() {
+    function calculateShape() {
 
         const allPoints = [];
 
@@ -140,51 +137,7 @@ let canvas = document.createElement('canvas');
                 z: z
             };
 
-            let xRotation, yRotation, zRotation;
-
-            if (lockPos) {
-                
-                xRotation = mosPos.x/177 - Math.PI,
-                yRotation = -mosPos.y/177 - Math.PI*3/5;
-
-            } else {
-                switch (autoRotateMode) {
-                    
-                    case 0:
-                        xRotation = timeCount/444;
-                        yRotation = timeCount/444;
-                        zRotation = timeCount/777;
-                    break;
-                    case 1:
-                        xRotation = timeCount/444;
-                        yRotation = timeCount/444;
-                    break;
-                    case 2:
-                        yRotation = timeCount/444;
-                        zRotation = timeCount/444;
-                    break;
-                    case 3:
-                        xRotation = timeCount/444;
-                        zRotation = timeCount/444;
-                    break;
-                    case 4:
-                        xRotation = timeCount/111;
-                    break;
-                    case 5:
-                        yRotation = timeCount/111;
-                    break;
-                    case 6:
-                        zRotation = timeCount/111;
-                    break;
-
-                }
-
-            }
-
-            //rotate the points about the origin to give the illusion of 3d
-            if ( xRotation ) rotateX(xRotation)
-            if ( yRotation ) rotateY(yRotation)
-            if ( zRotation ) rotateZ(zRotation)
+            rotatePoint()
 
             const
             light = mapNumber(coordinates.z, minZ, maxZ, viewLimit, 100-subLight),
@@ -205,7 +158,6 @@ let canvas = document.createElement('canvas');
         renderTorus(allPoints)
 
     }
-
 
     function renderTorus( points ) {
 
@@ -318,6 +270,53 @@ let canvas = document.createElement('canvas');
     }
 
     //functions to roate object's positions about the 0,0,0 origin
+    function rotatePoint() {
+        let xRotation, yRotation, zRotation;
+
+        if (lockPos) {
+            
+            xRotation = mosPos.x/177 - Math.PI,
+            yRotation = -mosPos.y/177 - Math.PI*3/5;
+
+        } else {
+            switch (autoRotateMode) {
+                
+                case 0:
+                    xRotation = timeCount/444;
+                    yRotation = timeCount/444;
+                    zRotation = timeCount/777;
+                break;
+                case 1:
+                    xRotation = timeCount/444;
+                    yRotation = timeCount/444;
+                break;
+                case 2:
+                    yRotation = timeCount/444;
+                    zRotation = timeCount/444;
+                break;
+                case 3:
+                    xRotation = timeCount/444;
+                    zRotation = timeCount/444;
+                break;
+                case 4:
+                    xRotation = timeCount/111;
+                break;
+                case 5:
+                    yRotation = timeCount/111;
+                break;
+                case 6:
+                    zRotation = timeCount/111;
+                break;
+
+            }
+
+        }
+
+        //rotate the points about the origin to give the illusion of 3d
+        if ( xRotation ) rotateX(xRotation)
+        if ( yRotation ) rotateY(yRotation)
+        if ( zRotation ) rotateZ(zRotation)
+    }
 
     function rotateY(radians) {
 
@@ -398,14 +397,16 @@ let canvas = document.createElement('canvas');
             break;
             case 'KeyB':
                 viewOption = viewOption < 1 ? viewOption + 1: 0;
+            break
             case 'KeyO':
                 autoRotateMode = autoRotateMode > 0 ? autoRotateMode - 1: 6;
             break;
             case 'KeyP':
                 autoRotateMode = autoRotateMode < 6 ? autoRotateMode + 1: 0;
+            break
             case 'KeyI':
 
-            console.log(`Contrast Setting: ${(viewLimit+100)/2}\nnColor Mode: ${colorMode+1}\nSpeed: ${333-cmplxSpd}\nRadius: ${Math.round(radius)}\nTorus Option: ${viewOption+1}\nCamera Locked: ${lockPos}\nStatic Resolution: ${staticRes}`);
+            console.log(`Contrast Setting: ${(viewLimit+100)/2}\nnColor Mode: ${colorMode+1}\nSpeed: ${333-cmplxSpd}\nRadius: ${Math.round(radius)}\nTorus Option: ${viewOption+1}\nAuto Rotation Option: ${autoRotateMode+1}\nCamera Locked: ${lockPos}\nStatic Resolution: ${staticRes}`);
             
             break;
 
