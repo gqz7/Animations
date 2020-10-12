@@ -1,6 +1,6 @@
 console.log(`Press Space to Start/Stop Animation\n\nPress 'I' to display current settings\n\nPress 'L' to toggle camera locking on mouse position/auto-rotate\n\nLeft/Right Arrow Keys: control how much of the object stays in view\n\nUp/Down Arrow Keys: control how fast the objects resolution increases\n\n</> to cycle through diffrent torus options\n\nPress 'V' to toggle if resolution will change over time\n\nPress 'N' to cycle through 3 color modes`);
 
-alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
+// alert('Look At Dev Console For Instructions\nFull Screen Recommended When You Click  \'OK\'')
 
 const pi = Math.PI; //shortcut because is gets used alot
 let tested = false;
@@ -32,7 +32,7 @@ let canvas = document.createElement('canvas');
 
     colorMode = 0,      //controls what variable determins the color of a given point
     
-    coordinates = {   //obj to keep track of points when roating sphere
+    coordinates = {   //obj to keep track of points when roating shape
         x: 0,
         y: 0,
         z: 0
@@ -77,7 +77,7 @@ let canvas = document.createElement('canvas');
 
         clearFullScreen() //clear the canvas of previous animation cycle
 
-        createSphere() //render the sphere
+        createShape() //render the shape
         // console.log(low,max, radius);
         //counts how many timeCount have occured
         timeCount++
@@ -89,13 +89,13 @@ let canvas = document.createElement('canvas');
 
       }
 
-    function createSphere() {
+    function createShape() {
 
         const allPoints = [];
 
-        let reso = staticRes ? 42 : 12+timeCount/cmplxSpd,//resolution of sphere coord detail
+        let reso = staticRes ? 42 : 12+timeCount/cmplxSpd,//resolution of shape coord detail
 
-            r = radius; //radius of sphere
+            r = radius; //radius of shape
 
         if (reso > 88) {
             timeCount = 1;
@@ -162,7 +162,8 @@ let canvas = document.createElement('canvas');
             light = mapNumber(coordinates.z, minZ, maxZ, viewLimit, 100-subLight),
             size  = mapNumber(coordinates.z, minZ, maxZ, 0, radius/100);
 
-            allPoints[i].push({coords: coordinates, 
+            allPoints[i].push({
+                coords: coordinates, 
                 size: size, 
                 light: light, 
                 j: j, 
