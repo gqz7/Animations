@@ -105,18 +105,19 @@ function renderImage() {
     context.save()
         // for (let i = 1000; i > 0; i-=10) {
 
-        size = tX;
+        size = 7;
+        console.log(size);
 
-        for (let i = 0; i < width/10; i+=7) {
+        for (let i = 0; i < width/10; i+=size) {
 
         //   context.scale(1.004, 1.02)
-          context.lineWidth = 14;
-          context.strokeStyle = i%14==0 ? 'white' : '#111'
+          context.lineWidth = size*2+1;
+          context.strokeStyle = i%14==0 ? 'hsla(0, 0%, 100%, .5)' : 'hsla(0, 0%, 0%, .5)';
           context.beginPath()
-          context.arc(i, 0, 1/gscale*i, 0, pi*2)
+          context.arc(i-size*2, 0, gscale*i*tX/100, 0, pi*2)
           context.stroke()
           context.beginPath()
-          context.arc(-i, 0, 1/gscale*i, 0, pi*2)
+          context.arc(-i+size*2, 0, gscale*i*tX/100, 0, pi*2)
           context.stroke() 
         }
     context.restore()
