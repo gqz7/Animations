@@ -78,20 +78,19 @@ const utils = {
     function render() {
         utils.clearFullScreen() //clear the canvas of previous animation cycle
         //counts how many frames have occured
-        // const tXMax = 100
-        // const tXMin = -100
+        const tXMax = 500
+        const tXMin = 2
 
-        // if (timeForward && tX <= tXMax) {
+        if (timeForward && tX <= tXMax) {
           
-        //   tX+=.7
-        // } else if (timeForward && tX > tXMax) {
-        //   timeForward = false
-        // } else if (!timeForward && tX >= tXMin) {
-        //   tX-=.7
-        // } else if (!timeForward && tX < tXMin) {
-        //   timeForward = true
-        // }
-        tX++
+          tX+=1
+        } else if (timeForward && tX > tXMax) {
+          timeForward = false
+        } else if (!timeForward && tX >= tXMin) {
+          tX-=1
+        } else if (!timeForward && tX < tXMin) {
+          timeForward = true
+        }
 
         renderImage()
         // return
@@ -119,6 +118,13 @@ function renderImage() {
           context.beginPath()
           context.arc(-i+size*2, 0, gscale*i*tX/100, 0, pi*2)
           context.stroke() 
+          context.beginPath()
+          context.arc(0, i-size*2, gscale*i*tX/100, 0, pi*2)
+          context.stroke()
+          context.beginPath()
+          context.arc(0, -i+size*2, gscale*i*tX/100, 0, pi*2)
+          context.stroke() 
+
         }
     context.restore()
 }
