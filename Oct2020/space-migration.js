@@ -19,10 +19,6 @@ let canvas = document.createElement('canvas');
 
     renderPaused = false,    //user can toggle animation paused/unpaused
 
-    grayScale = false,     //user can toggle grayscale
-
-    lockPos = false,     //user can toggle if the object roates on its own or is locked to the mouse position
-
     flipPos = false,   //user can see what will happen to a given structure if the logitude and latitude get flipped
 
     viewLimit = 30,  //user can change how much of the object is in view
@@ -91,14 +87,14 @@ let canvas = document.createElement('canvas');
 
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
-            setTimeout(window.requestAnimationFrame, 10, render)
+            setTimeout(window.requestAnimationFrame, 30, render)
         }
 
       }
 
     function createSphere() {
 
-        let reso = frames/cmplxSpd + 3,//resolution of sphere coord detail
+        let reso = frames/cmplxSpd + 10,//resolution of sphere coord detail
             r = radius; //radius of sphere
     //first loop tracks longitude then the nested loop tracks latitude
         for (let i = 0; i < reso && i < 88; i++) {
@@ -134,17 +130,10 @@ let canvas = document.createElement('canvas');
 
             let xRotation, yRotation;
 
-            if (lockPos) {
-                
-                xRotation = mosPos.x/177 - Math.PI,
-                yRotation = -mosPos.y/177 - Math.PI*3/5;
+                xRotation = frames/3333,
+                yRotation = frames/3333;
+                rotateZ(frames/7777)
 
-            } else {
-                xRotation = frames/2222,
-                yRotation = frames/2222;
-                rotateZ(frames/4444)
-
-            }
 
             //rotate the points about the origin to give the illusion of 3d
             rotateX(xRotation)
