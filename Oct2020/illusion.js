@@ -9,6 +9,7 @@ const canvas = document.createElement('canvas');
 
 let tX = 1,//0, //keep count of how many render cycles have occured
     gscale = .444,
+    grayScale = true,
     renderPaused = false,     //user can toggle animation
     timeForward = true;
 const utils = {
@@ -62,6 +63,10 @@ const utils = {
                         render()
                     }
                 break;
+            case 'KeyG':
+                    grayScale = !grayScale;
+        
+                break;
         }
 
     }, false)
@@ -104,14 +109,14 @@ function renderImage() {
     context.save()
         // for (let i = 1000; i > 0; i-=10) {
 
-        size = 7;
+        size =2 ;
         console.log(size);
 
         for (let i = 0; i < width/10; i+=size) {
 
         //   context.scale(1.004, 1.02)
           context.lineWidth = size*2+1;
-          context.strokeStyle = i%14==0 ? 'hsla(0, 0%, 100%, .5)' : 'hsla(0, 0%, 0%, .5)';
+          context.strokeStyle = i%(size*2)==0 ? grayScale ? 'white' : `hsla(${-tX*5+i*7 }, 100%, 80%, 1)` : 'hsla(0, 0%, 0%, 1)';
           context.beginPath()
           context.arc(i-size*2, 0, gscale*i*tX/100, 0, pi*2)
           context.stroke()
@@ -124,6 +129,20 @@ function renderImage() {
           context.beginPath()
           context.arc(0, -i+size*2, gscale*i*tX/100, 0, pi*2)
           context.stroke() 
+
+          context.beginPath()
+          context.arc(i-size*2, i-size*2, gscale*i*tX/100, 0, pi*2)
+          context.stroke()
+          context.beginPath()
+          context.arc(-i+size*2, i-size*2, gscale*i*tX/100, 0, pi*2)
+          context.stroke() 
+          context.beginPath()
+          context.arc(i-size*2, -i+size*2, gscale*i*tX/100, 0, pi*2)
+          context.stroke()
+          context.beginPath()
+          context.arc(-i+size*2, -i+size*2, gscale*i*tX/100, 0, pi*2)
+          context.stroke() 
+
 
         }
     context.restore()
