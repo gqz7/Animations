@@ -78,22 +78,23 @@ const utils = {
     function render() {
         utils.clearFullScreen() //clear the canvas of previous animation cycle
         //counts how many frames have occured
-        const tXMax = 100
-        const tXMin = -100
+        // const tXMax = 100
+        // const tXMin = -100
 
-        if (timeForward && tX <= tXMax) {
+        // if (timeForward && tX <= tXMax) {
           
-          tX+=.7
-        } else if (timeForward && tX > tXMax) {
-          timeForward = false
-        } else if (!timeForward && tX >= tXMin) {
-          tX-=.7
-        } else if (!timeForward && tX < tXMin) {
-          timeForward = true
-        }
+        //   tX+=.7
+        // } else if (timeForward && tX > tXMax) {
+        //   timeForward = false
+        // } else if (!timeForward && tX >= tXMin) {
+        //   tX-=.7
+        // } else if (!timeForward && tX < tXMin) {
+        //   timeForward = true
+        // }
+        tX++
 
         renderImage()
-        return
+        // return
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
             setTimeout(window.requestAnimationFrame, 0, render)
@@ -101,27 +102,22 @@ const utils = {
     }
 
 function renderImage() {
-
     context.save()
-
         // for (let i = 1000; i > 0; i-=10) {
-        for (let i = 0; i < 1000; i+=10) {
 
-          context.scale(1.004, 1.02)
+        size = tX;
 
-          context.lineWidth = 20
-          context.strokeStyle = i%20==0 ? 'white' : '#333'
+        for (let i = 0; i < width/10; i+=7) {
+
+        //   context.scale(1.004, 1.02)
+          context.lineWidth = 14;
+          context.strokeStyle = i%14==0 ? 'white' : '#111'
           context.beginPath()
-          context.arc(i, 0, 1/gscale*i/10, 0, pi*2)
+          context.arc(i, 0, 1/gscale*i, 0, pi*2)
           context.stroke()
           context.beginPath()
-          context.arc(-i, 0, 1/gscale*i/10, 0, pi*2)
-          context.stroke()
-          
+          context.arc(-i, 0, 1/gscale*i, 0, pi*2)
+          context.stroke() 
         }
-
-        
-        
     context.restore()
-  
 }
