@@ -3,8 +3,8 @@ import java.text.MessageFormat;
 
 float nSeed1 = 417.3939;// random(100);
 float nSeed2 = 3141.5826;//random(100);
-int WIDTH = 3840;//3840;
-int HEIGHT = 2100;//2160;
+int WIDTH =3840;
+int HEIGHT = 2100;
 int frames = 0;
 boolean printTest = false;
 
@@ -14,7 +14,7 @@ void setup() {
   // size(1600,900);
   size(3840,2100); //h: 2160
   colorMode(HSB, 360, 100, 100);
-  noise = new OpenSimplex2S( (int) random(10000) );
+  noise = new OpenSimplex2S( 3141592 );
   initalizePixels();
   // noLoop();
 }
@@ -22,15 +22,13 @@ void setup() {
 
 void draw() {
   
-  //println("render");
-  
   background(0);
   loadPixels();
   
   frames++;
   
-  nSeed1-=6.007;
-  nSeed2-=6.007;
+  nSeed1+=.00007;
+  nSeed2+=.0003;
 
       //printTest = false;
   for ( int i = 0; i < allPixs.length; i++) {  
@@ -42,13 +40,11 @@ void draw() {
     //printTest = true;
     
     int pxNum = allPixs[i].pixelNum;
-    int pxlX = allPixs[i].calcX();
-    int pxlY = allPixs[i].calcY();
-
+    int pxlX  = allPixs[i].calcX();
+    int pxlY  = allPixs[i].calcY();
 
     double xNoise = ((pxlX+100)+nSeed1)/(100+pxlY);
     double yNoise = ((pxlY+100)+nSeed2)/(420+pxlX);
-
     double calNoise = noise.noise2(xNoise,yNoise);
 
     
@@ -63,9 +59,7 @@ void draw() {
         1080*calNoise))+1080+frames*10
     )%360;
     
-    //String pxlHsl = MessageFormat.format("hsl({0}, {1}%, {2}%)", );
     pixels[pxNum] = color(pxColor, pxSatur, pxLig);
-    
     
   } 
   

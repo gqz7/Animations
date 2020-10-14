@@ -1,3 +1,6 @@
+int HW = WIDTH/2;//half width 
+int HH = HEIGHT/2;//half height 
+
 class Point {
   int x;
   int y;
@@ -9,9 +12,6 @@ class Point {
     
     x = xInit;
     y = yInit;
-
-    int HW = WIDTH/2;//half width 
-    int HH = HEIGHT/2;//half height 
     
     if (x <= HW && y <= HH) {
       quad = 1;
@@ -41,13 +41,13 @@ class Point {
     int xValue = 0;
     switch (quad) {
       case 1:
-        xValue = this.x;//(int) this.x;
       case 2:
-        xValue = this.x;//(int) this.x;
-      case 3:
-        xValue = this.x;//(int) this.x;
+        xValue = -this.x+HW;
+        break;
       case 4:
-        xValue = this.x;//(int) this.x;
+      case 3:
+        xValue = this.x;
+        break;
     }
 
      return xValue;
@@ -56,14 +56,14 @@ class Point {
   int calcY() {
     int yValue = 0;
     switch (quad) {
-      case 1:
-        yValue = this.y;
       case 2:
-        yValue = this.y;
       case 3:
         yValue = this.y;
+        break;
+      case 1:
       case 4:
-        yValue = this.y;
+        yValue = -this.y+HH;
+        break;
     }
     return yValue;
   }
