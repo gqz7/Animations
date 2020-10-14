@@ -83,7 +83,7 @@ const utils = {
     function render() {
         utils.clearFullScreen() //clear the canvas of previous animation cycle
         //counts how many frames have occured
-        const tXMax = 500
+        const tXMax = 777
         const tXMin = 2
 
         if (timeForward && tX <= tXMax) {
@@ -101,7 +101,7 @@ const utils = {
         // return
         //user can toggle pausing of animation via 'spacebar'
         if (!renderPaused) {
-            setTimeout(window.requestAnimationFrame, 0, render)
+            setTimeout(window.requestAnimationFrame, 10, render)
         }
     }
 
@@ -116,7 +116,7 @@ function renderImage() {
 
         //   context.scale(1.004, 1.02)
           context.lineWidth = size*2+1;
-          context.strokeStyle = i%(size*2)==0 ? grayScale ? 'white' : `hsla(${-tX*5+i*7 }, 100%, 80%, 1)` : 'hsla(0, 0%, 0%, 1)';
+          context.strokeStyle = i%(size*2)==0 ? grayScale ? 'white' : `hsla(${-tX*5+i*5 }, 100%, 80%, 1)` : 'hsla(0, 0%, 0%, 1)';
           context.beginPath()
           context.arc(i-size*2, 0, gscale*i*tX/100, 0, pi*2)
           context.stroke()
