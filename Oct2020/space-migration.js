@@ -13,7 +13,7 @@ let canvas = document.createElement('canvas');
     width = canvas.width = window.innerWidth,
     height = canvas.height = window.innerHeight,
 
-    time = 0, //keep count of how many render cycles have occured
+    time = 3773, //keep count of how many render cycles have occured
 
     radius = 222,
 
