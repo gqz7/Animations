@@ -25,3 +25,20 @@ void draw() {
   rect(width/2,height/2,100+noise(xPos)*100,100+noise(yPos)*100);
  
 }
+
+
+class Point {
+  int x;
+  int y;
+  int pixelNum;
+  int clr;
+  
+  Point(int xInit, int yInit) {
+    
+    x = xInit;
+    y = yInit;
+    pixelNum = x + y * width;
+    
+  }
+    
+}
