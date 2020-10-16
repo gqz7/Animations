@@ -34,8 +34,8 @@ void draw() {
   frames++; //iterate frame tracker
   
   //iterate seed values so animation image moves
-  nSeed1+=.00007;
-  nSeed2+=.0003;
+  nSeed1+=.007;
+  nSeed2+=.003;
 
   //itterate through all pixels/Points
   for ( int i = 0; i < allPixs.length; i++) {  
@@ -46,8 +46,8 @@ void draw() {
     int pxlY  = allPixs[i].calcY();
 
     //calculate noise with simplex noise method
-    double xNoise = ((pxlX+100)+nSeed1)/(100+pxlY);
-    double yNoise = ((pxlY+100)+nSeed2)/(420+pxlX);
+    double xNoise = (((pxlX+100)+nSeed1)/(100+pxlY))+nSeed1;
+    double yNoise = (((pxlY+100)+nSeed2)/(420+pxlX))+nSeed2;
     double calNoise = noise.noise2(xNoise,yNoise);
 
     //pixel saturation
@@ -72,7 +72,7 @@ void draw() {
   //update the pixel info
   updatePixels();
 
-  saveFrame("../../../../../../Renders/noise001/img_#####.png");
+  saveFrame("../../../../../../Renders/noise002/img_#####.png");
 
  
 }
