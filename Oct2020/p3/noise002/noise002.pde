@@ -22,7 +22,7 @@ void setup() {
   noise = new OpenSimplex2S( 3141592 );
   //run function to fill allPixs array
   initalizePixels();
-  //  noLoop(); //uncomment to only render one frame
+    noLoop(); //uncomment to only render one frame
 }
 
 //loop function that runs on a loop 
@@ -46,8 +46,8 @@ void draw() {
     int pxlY  = allPixs[i].calcY();
 
     //calculate noise with simplex noise method
-    double xNoise = (((pxlX+100)+nSeed1)/(100+pxlY))+nSeed1;
-    double yNoise = (((pxlY+100)+nSeed2)/(420+pxlX))+nSeed2;
+    double xNoise = (((pxlX*1.5+100)+nSeed1)/(111+pxlY))+nSeed1;
+    double yNoise = (((pxlY*1.5+100)+nSeed2)/(420+pxlX))+nSeed2;
     double calNoise = noise.noise2(xNoise,yNoise);
 
     //pixel saturation
@@ -56,7 +56,7 @@ void draw() {
     //lightness calculation
     int pxLig = int( 
       Math.abs(
-        Math.round( 100*calNoise )) )  - pxlX/100 ;
+        Math.round( 100*calNoise )) )  - pxlX/50 ;
     
     //pixel hue calculation
     int pxColor = ( int(
