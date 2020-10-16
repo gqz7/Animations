@@ -13,6 +13,7 @@ class Point {
     x = xInit;
     y = yInit;
     
+    //this logic sperates the points into diffrent quadrents which will mirror the x/y positions accordingly and set the quad property which can later be used to apply diffrent logic based on which quadrent a point is in
     if (x <= HW && y <= HH) {
       quad = 1;
       pixelNum = x + y * WIDTH;
@@ -21,7 +22,6 @@ class Point {
       quad = 2;
       pixelNum = x + y * WIDTH;
       y = yInit-HH;
-
 
     }  else if (x > HW && y >= HH) {
       quad = 3;
@@ -37,6 +37,7 @@ class Point {
     }
   }
 
+//the x an y should be calculated dirrently based on which quadrent the point is in, therefor a switch statment is implemented
   int calcX() {
     int xValue = 0;
     switch (quad) {
