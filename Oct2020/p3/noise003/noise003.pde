@@ -60,17 +60,18 @@ void draw() {
     }
 
     //calculate noise with simplex noise method
-    double xNoise = (((pxlX*1.5+100)+seedX)/(111+pxlY))+seedX;
-    double yNoise = (((pxlY*1.5+100)+seedY)/(420+pxlX))+seedY;
+    double xNoise = (((pxlX*1.5+300)+seedX)/(111+pxlY))+seedX;
+    double yNoise = (((pxlY*1.5+00)+seedY)/(420+pxlX))+seedY;
     double calNoise = noise.noise2(xNoise,yNoise);
 
     //pixel saturation
-    int pxSatur = 87;//int(Math.round(100*calNoise));
+    int pxSatur = 77;//int(Math.round(100*calNoise));
 
     //lightness calculation
     int pxLig = int( 
-      Math.abs(
-        Math.round( 100*calNoise )) )  - pxlX/50 ;
+      100 -
+        Math.abs(
+          Math.round( 100*calNoise )) )  - pxlY/50 - pxlX/50 ;
     
     //pixel hue calculation
     int pxColor = ( int(
