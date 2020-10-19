@@ -2,10 +2,10 @@
   //Noise algorithm that produces values used in this animation, not made by me
   OpenSimplex2S noise;
   //seeds for noise algorithm, can be randomized for unique image every render
-  float nSeedX1 = 417.3939;
-  float nSeedX2 = 777.777;
-  float nSeedY1 = 3939.719;
-  float nSeedY2 = 3141.5826;
+  float nSeedX1 = Math.random()*1000;//417.3939; Math.random()*1000
+  float nSeedX2 = Math.random()*1000;//777.777;
+  float nSeedY1 = Math.random()*1000//;3939.719;
+  float nSeedY2 = Math.random()*1000;//;3141.5826;
   //width and height of canvas
   int WIDTH =3840;
   int HEIGHT = 2160;
