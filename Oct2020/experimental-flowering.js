@@ -93,7 +93,8 @@ function renderPoints (arr) {
   context.save()
   for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     renderRom(arr[i])
-    const angle = .3//(uti.mmp(i , 0, maxItterations, 0, -(maxTime/7 ))/i);
+    // renderRom({...arr[i], a: arr[i].a + Math.PI/2})
+    const angle = .3;
     context.rotate(angle)
   }
   context.restore()
