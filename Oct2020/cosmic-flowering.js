@@ -40,8 +40,8 @@ uti =  {
 let
 time = 0,
 forwardTime = true,
-seed = 5596.897//uti.mran() * 10000,
-startClr = 252,// uti.mran() * 360,
+seed =  6983.027252144816,//uti.mran() * 10000,
+startClr = 377,// uti.mran() * 360,
 maxTime = 3337,
 maxItterations = 177;
 console.log(seed);
@@ -101,16 +101,17 @@ function renderPoints (arr) {
 }
 
 function calPoints(s) { 
-let mNoise = uti.msn(s/3333+seed,s/3333+seed+.1);
+let mNoise = uti.msn(s/1111+seed,s/1111+seed+.1);
+console.log(mNoise);
 const allArr=[];
 
 let i = maxItterations;
 
   while ( i > 1 ) {
 
-  i-= .3//(2.567+Math.log(i)/Math.log(.132))
+  i-= .22//(2.567+Math.log(i)/Math.log(.132))
     const 
-      newNoise = i/3000+(mNoise)*(5/(1+i/100)),  //uti.msn(noiseNum,noiseNum)*(9/(1+i/100)); 
+      newNoise = uti.msn(mNoise+i/1000,mNoise+i/1000), 
       data = calData(i, i, newNoise)
       allArr.push(...data)
   }
