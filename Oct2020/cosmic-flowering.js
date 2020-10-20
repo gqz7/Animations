@@ -40,11 +40,11 @@ uti =  {
 let
 time = 0,
 forwardTime = true,
-seed = uti.mran() * 10000,
-startClr = uti.mran() * 360,
+seed = 5596.897//uti.mran() * 10000,
+startClr = 252,// uti.mran() * 360,
 maxTime = 3337,
 maxItterations = 177;
-
+console.log(seed);
 window.onload = () => {
 
   uti.msn= (x,y) => {return toxi.math.noise.simplexNoise.noise(x,y)}
@@ -93,7 +93,8 @@ function renderPoints (arr) {
   context.save()
   for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
     renderRom(arr[i])
-    context.rotate((uti.mmp(i , 0, maxItterations, 0, -(maxTime/7 ))/i))
+    const angle = .3//(uti.mmp(i , 0, maxItterations, 0, -(maxTime/7 ))/i);
+    context.rotate(angle)
   }
   context.restore()
 
@@ -107,7 +108,7 @@ let i = maxItterations;
 
   while ( i > 1 ) {
 
-  i-= (2.567+Math.log(i)/Math.log(.132))
+  i-= .3//(2.567+Math.log(i)/Math.log(.132))
     const 
       newNoise = i/3000+(mNoise)*(5/(1+i/100)),  //uti.msn(noiseNum,noiseNum)*(9/(1+i/100)); 
       data = calData(i, i, newNoise)
