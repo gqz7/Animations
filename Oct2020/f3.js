@@ -40,11 +40,12 @@ uti =  {
 let
 time = 0,
 forwardTime = true,
-seed =  6983.027252144816,//uti.mran() * 10000,
-startClr = 377,// uti.mran() * 360,
+seedX =  uti.mran() * 10000,
+seedY =  uti.mran() * 10000,
+startClr = uti.mran() * 360,
 maxTime = 3337,
-maxItterations = 177;
-console.log(seed);
+maxItterations = 200;
+// console.log(seed);
 window.onload = () => {
 
   uti.msn= (x,y) => {return toxi.math.noise.simplexNoise.noise(x,y)}
@@ -86,13 +87,15 @@ function infinity () {
 }
 
 function renderPoints (arr) {
+
+  let rotateNoise = uti.msn(time/222+seedX,time/222+seedY)/100;
   
-  const angl = forwardTime ? -.002 : .002;
-  context.rotate(-angl)
+  context.rotate(rotateNoise)
   context.save()
   for (let i = 0; i < arr.length; i++) {
     renderRom(arr[i])
-    const angle = Math.PI/10;
+    renderRom({...arr[i], a: arr[i].a + Math.PI/2})
+    const angle = Math.PI/7;
     context.rotate(angle)
   }
   context.restore()
@@ -100,17 +103,21 @@ function renderPoints (arr) {
 }
 
 function calPoints(s) { 
-let mNoise = uti.msn(s/1111+seed,s/1111+seed+.1);
-// console.log(mNoise);
+
+let mNoise = uti.msn(s/222+seedX,s/222+seedY);
+
 const allArr=[];
 
 let i = maxItterations;
 
-  while ( i > 1 ) {
+  while ( i > 10 ) {
 
-  i-= .09;
+    i-= .15;
+    const noiseNum = i/300+(mNoise);
+    const newNoise = uti.msn(noiseNum/40,noiseNum/40)*(11/(1+i/100)); 
+
     const 
-      newNoise = uti.msn(mNoise+i/1000,mNoise+i/1000), 
+      // newNoise = uti.msn(noiseSeed+i/333,noiseSeed+i/333)*(2/(1+i/1000)),
       data = calData(i, i, newNoise)
       allArr.push(...data)
   }
@@ -120,19 +127,16 @@ let i = maxItterations;
 
 function calData(idx, s, n) {
 
-const
- rombus = [];  
  let a = n*(1+s/7)/3;
   let 
-    originData = [[170, s*2.5, 0],[0, 111, 180]],
+    originData = [[150, s*2, 0],[0, 70, 180]],
     rombiArr = [],
     rombi= {s: s, a: a };
  
     for (let i = 0; i < originData.length; i++) {
-
           const 
             data = originData[i],
-            hue =  (s*2.3 + startClr - time*3 + originData[i][2])%360,
+            hue =  (s*2 + startClr - time*3.7 + data[2])%360,
             light = uti.mmp(idx, 0, maxItterations, 100, 0);
 
           rombiArr.push( {
@@ -142,13 +146,9 @@ const
             x: data[0], 
             y: data[1], 
           })
-
-        rombus.push(...rombiArr);
-      
     }
 
-
-  return rombus
+  return rombiArr
 
 }
 
@@ -157,7 +157,7 @@ function renderRom(rombi) { //{x, y, angle, style, size}
     // console.log(size);
     const size = s//
     context.save() //save
-      context.lineWidth = uti.mmp(index, maxItterations, 0, 1.3, 0);
+      context.lineWidth = uti.mmp(index, maxItterations, 0, .7, 0);
       context.translate(x, y) //translates
       context.rotate(angle) //rotates
       context.strokeStyle = style
@@ -188,7 +188,8 @@ function detirmineTime() {
   } else if ( time <= 1){
 
     forwardTime = true;
-    seed = Math.random()*10000
+    seedX = Math.random()*10000
+    seedY = Math.random()*10000
     result = 1.1
       
   }
