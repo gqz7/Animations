@@ -9,7 +9,7 @@ height = canvas.height = window.innerHeight;
 document.body.appendChild(canvas);
 
 let 
-speed = 1,
+speed = .7,
 animationPaused = false;
 
 
@@ -40,9 +40,9 @@ uti =  {
 let
 time = 0,
 forwardTime = true,
-seed =  6983.027252144816,//uti.mran() * 10000,
-startClr = 377,// uti.mran() * 360,
-maxTime = 3337,
+seed =  6983.02727,
+startClr = 377,
+maxTime = 333,
 maxItterations = 177;
 console.log(seed);
 window.onload = () => {
@@ -86,15 +86,14 @@ function infinity () {
 }
 
 function renderPoints (arr) {
-  // let mNoise = uti.msn(time/300+s,time/300+s+.1)*1.7;
+  let mNoise = uti.msn(time/3333,time/2222)/333;
   
   const angl = forwardTime ? -.002 : .002;
   context.rotate(-angl)
   context.save()
-  for (let i = 0; i < arr.length; i++) { //*(1+mapNumber(i, maxIter, 0, 0, (timeMax/10 - time/10)))
+  for (let i = 0; i < arr.length; i++) {
     renderRom(arr[i])
-    // renderRom({...arr[i], a: arr[i].a + Math.PI/2})
-    const angle = .3;
+    const angle = Math.PI/3.5
     context.rotate(angle)
   }
   context.restore()
@@ -136,10 +135,6 @@ const
             data = originData[i],
             hue =  (s*1.7 + startClr - time*2 + originData[i][2])%360,
             light = uti.mmp(idx, 0, maxItterations, 98, 0);
-
-            // if (s > maxItterations) {
-            //   console.log(light);
-            // }
 
           rombiArr.push( {
             ...rombi,
@@ -194,7 +189,6 @@ function detirmineTime() {
   } else if ( time <= 1){
 
     forwardTime = true;
-    seed = Math.random()
     result = 1.1
       
   }
