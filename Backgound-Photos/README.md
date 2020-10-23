@@ -21,8 +21,8 @@
 #
 ![](blackstar.png)
 #
-![](whole-world.jpg)
+<!-- ![](whole-world.jpg) -->
+<!-- # -->
+![](space-migration-4k-alt.jpg)
 #
-![](g.png)
-#
-![](s.png)
+![](space-migration-4k.jpg)
