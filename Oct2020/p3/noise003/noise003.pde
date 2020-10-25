@@ -1,14 +1,16 @@
+//IMPORTS
+
 //GLOBAL VARS
   //Noise algorithm that produces values used in this animation, not made by me
   OpenSimplex2S noise;
   //seeds for noise algorithm, can be randomized for unique image every render
-  float nSeedX1 = Math.random()*1000;//417.3939; Math.random()*1000
-  float nSeedX2 = Math.random()*1000;//777.777;
-  float nSeedY1 = Math.random()*1000//;3939.719;
-  float nSeedY2 = Math.random()*1000;//;3141.5826;
+  float nSeedX1 = (float) Math.random()*1000 + 417.3939;
+  float nSeedX2 = (float) Math.random()*1000 + 777.777;
+  float nSeedY1 = (float) Math.random()*1000 + 3939.719;
+  float nSeedY2 = (float) Math.random()*1000 + 3141.5826;
   //width and height of canvas
-  int WIDTH =3840;
-  int HEIGHT = 2160;
+  int WIDTH = 2700;//3840; //1920
+  int HEIGHT = 1500;//2160; //1080
   //tracker for how many frames have elapsed
   int frames = 0;
   //array of Points to keep track of quadrent information and x/y position aswell as pixel index
@@ -17,9 +19,10 @@
 //setup function that runs before render
 void setup() {
   //set canvas size
-  size(3840,2160); //h: 2160
+  size(2700,1500); //h: 2160
   //set color mode to hue/saturation/brightness which i perfer for my animations
   colorMode(HSB, 360, 100, 100);
+
   //create instance of the simplex noise class
   noise = new OpenSimplex2S( 3141592 );
   //run function to fill allPixs array
@@ -49,8 +52,8 @@ void draw() {
     int pxlX  = allPixs[i].calcX();
     int pxlY  = allPixs[i].calcY();
 
-    float seedX = 0;
-    float seedY = 0;
+    float seedX;
+    float seedY;
     if (allPixs[i].quad == 1 || allPixs[i].quad == 4 ) {
       seedX = nSeedX1;
       seedY = nSeedY1;
@@ -60,34 +63,21 @@ void draw() {
     }
 
     //calculate noise with simplex noise method
-    double xNoise = (((pxlX*1.5+300)+seedX)/(111+pxlY))+seedX;
-    double yNoise = (((pxlY*1.5+00)+seedY)/(420+pxlX))+seedY;
-    double calNoise = noise.noise2(xNoise,yNoise);
+    double xNoise = (((pxlX*2)+seedX)/(88+pxlY))+seedX;
+    double yNoise = (((pxlY*1.5)+seedY)/(777+pxlX))+seedY;
+    double pxNoise = noise.noise2(xNoise,yNoise);
 
-    //pixel saturation
-    int pxSatur = 77;//int(Math.round(100*calNoise));
-
-    //lightness calculation
-    int pxLig = int( 
-      100 -
-        Math.abs(
-          Math.round( 100*calNoise )) )  - pxlY/50 - pxlX/50 ;
-    
-    //pixel hue calculation
-    int pxColor = ( int(
-      Math.round(
-        1080*calNoise))+1080+frames*10
-    )%360;
+    int[] pxColorArr = allPixs[i].calcColor(pxNoise, frames, pxlX, pxlY );
     
     //modify the individual pixel
-    pixels[pxNum] = color(pxColor, pxSatur, pxLig);
+    pixels[pxNum] = color(pxColorArr[0], pxColorArr[1], pxColorArr[2]);
     
   } 
   
   //update the pixel info
   updatePixels();
 
-  saveFrame("../../../../../../Renders/noise002/img_#####.png");
+  saveFrame("../../../../../../Renders/noise003/img_#####.png");
 
  
 }
