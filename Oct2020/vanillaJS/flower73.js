@@ -10,7 +10,7 @@ document.body.appendChild(canvas);
 
 let 
 speed = 1,
-animationPaused = true;
+animationPaused = false;
 
 
 const 
@@ -40,9 +40,9 @@ ccs:  () => { context.save(); context.setTransform(1, 0, 0, 1, 0, 0); context.cl
 let
 time = 0,
 forwardTime = true,
-seed =  6983.02727+100000,//uti.mran() * 10000,
+seed =  6983.02727,//uti.mran() * 10000,
 startClr = 377,// uti.mran() * 360,
-maxTime = 150000,
+maxTime = 777,
 maxItterations = 177;
 // console.log(seed);
 window.onload = () => {
