@@ -40,7 +40,7 @@ uti =  {
 let
   time = 0,
   forwardTime = true,
-  seed =  6983.02727+100000,//uti.mran() * 10000,
+  seed =  6983.02727,//uti.mran() * 10000,
   startClr = 377,// uti.mran() * 360,
   maxTime = 150000,
   maxItterations = 177;

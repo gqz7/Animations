@@ -27,7 +27,7 @@ void setup() {
   noise = new OpenSimplex2S( 3141592 );
   //run function to fill allPixs array
   initalizePixels();
-    noLoop(); //uncomment to only render one frame
+    //noLoop(); //uncomment to only render one frame
 }
 
 //loop function that runs on a loop 
