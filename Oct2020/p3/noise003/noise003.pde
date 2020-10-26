@@ -43,14 +43,14 @@ void draw() {
   nSeedY1+=.003;
   nSeedX2+=.007;
   nSeedY2+=.003;
-
+  
   //itterate through all pixels/Points
   for ( int i = 0; i < allPixs.length; i++) {  
 
     //get basic info from current pixel    
     int pxNum = allPixs[i].pixelNum;
-    int pxlX  = allPixs[i].calcX();
-    int pxlY  = allPixs[i].calcY();
+    allPixs[i].calcX();
+    allPixs[i].calcY();
 
     float seedX;
     float seedY;
@@ -63,11 +63,9 @@ void draw() {
     }
 
     //calculate noise with simplex noise method
-    double xNoise = (((pxlX*2)+seedX)/(88+pxlY))+seedX;
-    double yNoise = (((pxlY*1.5)+seedY)/(777+pxlX))+seedY;
-    double pxNoise = noise.noise2(xNoise,yNoise);
+    allPixs[i].calcNoise(seedX, seedY);
 
-    int[] pxColorArr = allPixs[i].calcColor(pxNoise, frames, pxlX, pxlY );
+    int[] pxColorArr = allPixs[i].calcColor( frames );
     
     //modify the individual pixel
     pixels[pxNum] = color(pxColorArr[0], pxColorArr[1], pxColorArr[2]);
