@@ -70,21 +70,37 @@ class Point {
   
   public int[] calcColor( double pixelNoise, int frames, int pxlX, int pxlY ) {
     //pixel saturation
-    int pxSatur = int(Math.round(100*pixelNoise));
+    int saturation = 100;
 
     //lightness calculation
-    int pxLig = int( 
+    int lightness = int( 
       100 -
         Math.abs(
-          Math.round( 100*pixelNoise )) ) + pxlY/4 + pxlX/20 - 100;
+          Math.round( 100*pixelNoise ))
+        );
     
     //pixel hue calculation
-    int pxColor = ( int(
+    int hue = ( int(
       Math.round(
         720*pixelNoise))+720+frames*10
     )%360;
     
-    return new int[] {pxColor,pxSatur,pxLig};
+    int convertedSaturation;
+    int convertedBrightness;
+    
+    try {
+      if (lightness < 50) {
+        convertedSaturation = 2 * (saturation * lightness) / (lightness + saturation);
+      } else {
+        convertedSaturation = 2 * (saturation * (100-lightness)) / (lightness + saturation);
+      }
+    } catch ( ArithmeticException e ) {
+        convertedSaturation = 0;
+    }
+    
+    convertedBrightness = convertedSaturation + lightness;
+    
+    return new int[] { hue, convertedSaturation, convertedBrightness };
   } 
 
     
