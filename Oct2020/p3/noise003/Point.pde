@@ -2,9 +2,13 @@ int HW = WIDTH/2;//half width
 int HH = HEIGHT/2;//half height 
 
 class Point {
+  
   private int x;
+  private int noiseX;
   private int y;
+  private int noiseY;
   private int pixelNum;
+  private double noiseVal;
   public int quad;
   
   Point(int xInit, int yInit) {
@@ -37,7 +41,7 @@ class Point {
   }
 
 //the x an y should be calculated dirrently based on which quadrent the point is in, therefor a switch statment is implemented
-  public int calcX() {
+  public void calcX() {
     int xValue = 0;
     switch (quad) {
       case 1:
@@ -50,10 +54,10 @@ class Point {
         break;
     }
 
-     return xValue;
+     noiseX = xValue;
   }
 
-  public int calcY() {
+  public void calcY() {
     int yValue = 0;
     switch (quad) {
       case 2:
@@ -65,10 +69,19 @@ class Point {
         yValue = -this.y+HH;
         break;
     }
-    return yValue;
+    noiseY = yValue;
   }
   
-  public int[] calcColor( double pixelNoise, int frames, int pxlX, int pxlY ) {
+  private void calcNoise (double seedX, double seedY) { 
+    
+    double xNoise = (((noiseX*2)+seedX)/(88+noiseY))+seedX;
+    double yNoise = (((noiseY*1.5)+seedY)/(777+noiseX))+seedY;
+    
+    noiseVal = noise.noise2(xNoise, yNoise);
+
+  }
+  
+  public int[] calcColor( int frames ) {
     //pixel saturation
     int saturation = 100;
 
@@ -76,13 +89,13 @@ class Point {
     int lightness = int( 
       100 -
         Math.abs(
-          Math.round( 100*pixelNoise ))
+          Math.round( 100*noiseVal ))
         );
     
     //pixel hue calculation
     int hue = ( int(
       Math.round(
-        720*pixelNoise))+720+frames*10
+        720*noiseVal))+720+frames*10
     )%360;
     
     int convertedSaturation;
