@@ -23,25 +23,47 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.00001;
+  seed+=.002;
   frames++;
   background(0); // reset screen
   
-  float noiseVal = (float) noise.noise2((double) seed, (double) seed);
+  float noiseVal = (float) noise.noise2((double) seed, (double) seed) * 10;
   stroke(177, 100, 100);
 
   float centerX = WIDTH/2;
   float centerY = HEIGHT/2;
   //line(centerX, centerY, centerX + cos(noiseVal*4)*1000, centerY + sin(noiseVal*4)*500) ;
-translate(centerX, centerY);
-  float limit = Math.abs(noiseVal*700);
-  for (float i = 0; i < limit; i= i+.3) {
-    float x = i;
-    float y = i;
-    float colorVal = Math.abs(177+i*.5 - frames) % 360;
+  translate(centerX, centerY);
+  float limit = 333;//Math.abs(noiseVal*17)+88;
+  
+  for (float i = 1; i < limit ; i= i+1) {
     
-    rotate(noiseVal);
-    stroke(colorVal, 100, 100);  
-    line(x, y, x+10, y+10);
+      double noiseX = (double) (noiseVal + i/1000);
+      double noiseY = (double) (noiseVal + i/1000);
+      float noiseLineVal = (float) noise.noise2(noiseX, noiseY);
+
+      float colorVal = Math.abs(177+i*.5 - frames) % 360;
+      stroke(colorVal, 100, 100);  
+      strokeWeight(3);
+      
+      float x = i;
+      float y = i;
+      drawRombus(x, y, i, noiseLineVal);
   }
+}
+
+public void drawRombus(float x, float y, float num, float noise) {
+    pushMatrix();
+  
+      translate(x, y);
+      rotate(noise);
+
+      float size = num; 
+
+      line(size/2, 0, 0, -size);
+      line(0, -size, -size/2, 0);
+      line(-size/2, 0, 0, size);
+      line(0, size, size/2, 0);
+      
+    popMatrix();
 }
