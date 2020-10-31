@@ -23,7 +23,7 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.002;
+  seed+=.0007;
   frames++;
   background(0); // reset screen
   
@@ -35,21 +35,30 @@ void draw() {
   //line(centerX, centerY, centerX + cos(noiseVal*4)*1000, centerY + sin(noiseVal*4)*500) ;
   translate(centerX, centerY);
   float limit = 333;//Math.abs(noiseVal*17)+88;
-  
-  for (float i = 1; i < limit ; i= i+1) {
+  int petalsLim = 6;
+  for (int j = 0; j < petalsLim; ++j) {
+    //for (float i = 1; i < limit ; i= i+1) {
+     for (float i = limit; i > 0 ; i= i-1) {
     
-      double noiseX = (double) (noiseVal + i/1000);
-      double noiseY = (double) (noiseVal + i/1000);
-      float noiseLineVal = (float) noise.noise2(noiseX, noiseY);
+        double noiseX = (double) (noiseVal + i/222);
+        double noiseY = (double) (noiseVal + i/222);
+        float noiseLineVal = (float) noise.noise2(noiseX, noiseY);
 
-      float colorVal = Math.abs(177+i*.5 - frames) % 360;
-      stroke(colorVal, 100, 100);  
-      strokeWeight(3);
-      
-      float x = i;
-      float y = i;
-      drawRombus(x, y, i, noiseLineVal);
+        float[] colorInput = {(float) frames, noiseLineVal, i, limit};
+        
+        int[] colorData = calcColor( colorInput );
+        
+        stroke(colorData[0], colorData[1], colorData[2]);  
+        strokeWeight(3);
+        
+        float x = i;
+        float y = i;
+        drawRombus(x, y, i, noiseLineVal);
+    }
+    float rotateFlwr = (PI/petalsLim*2);
+    rotate(rotateFlwr);
   }
+  
 }
 
 public void drawRombus(float x, float y, float num, float noise) {
@@ -67,3 +76,34 @@ public void drawRombus(float x, float y, float num, float noise) {
       
     popMatrix();
 }
+
+  public int[] calcColor( float[] factors ) {
+    //pixel saturation
+    int saturation = 100;
+    int timePassed = (int) factors[0];
+    int index = (int) factors[2];
+    int maxIdex = (int) factors[3];
+    float noiseFactor = factors[1]; 
+    //lightness calculation
+    int lightness = int ( map(index, 0, maxIdex, 100, 0) );
+    
+    //pixel hue calculation
+    int hue = (int) Math.abs(177+index*.5 - timePassed) % 360;
+    
+    int convertedSaturation;
+    int convertedBrightness;
+    
+    try {
+      if (lightness < 50) {
+        convertedSaturation = 2 * (saturation * lightness) / (lightness + saturation);
+      } else {
+        convertedSaturation = 2 * (saturation * (100-lightness)) / (lightness + saturation);
+      }
+    } catch ( ArithmeticException e ) {
+        convertedSaturation = 0;
+    }
+    
+    convertedBrightness = convertedSaturation + lightness;
+    
+    return new int[] { hue, convertedSaturation, convertedBrightness };
+  } 
