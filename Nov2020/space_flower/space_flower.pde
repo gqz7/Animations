@@ -8,8 +8,12 @@
   //tracker for how many frames have elapsed
   int frames = 0;
   
-  float seed = 3.14;
+  float scale = 1;
+  float seed = 3.17;
+  float scaleRate = .003;
 
+  int scalingLimit = 444;
+  
 void setup() {
   //set canvas size
   size(1500,1500); //h: 2160
@@ -23,8 +27,10 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.007;
+  seed+=.003;
   frames++;
+  calcScale();
+  //println(scale, frames);
   background(0); // reset screen
   
   stroke(177, 100, 100);
@@ -32,16 +38,16 @@ void draw() {
   float centerX = WIDTH/2;
   float centerY = HEIGHT/2;
   translate(centerX, centerY);
-  rotate(PI/4);
+  rotate(PI/4 + (float) frames/100);
   
   float limit = 333;//Math.abs(noiseVal*17)+88;
   int petalsLim = 3;
-  float resolution = 5;// the smaller the more filled in the shape will look and the slower the program will run
+  float resolution = 3;// the smaller the more filled in the shape will look and the slower the program will run
 
      for (float i = limit; i > 0 ; i= i-resolution) {
     
-        double noiseX = (double) (seed + i/333);
-        double noiseY = (double) (seed + i/333);
+        double noiseX = (double) (seed + i/222);
+        double noiseY = (double) (seed + i/222);
         float noiseLineVal = (float) noise.noise2(noiseX, noiseY);
 
         float[] colorInput = {
@@ -56,8 +62,8 @@ void draw() {
         stroke(colorData[0], colorData[1], colorData[2]);  
         strokeWeight(map(i, 1, limit, .1, 2));
         
-        float x = i;
-        float y = i;
+        float x = (i-limit/(1+scale))*scale;
+        float y = (i-limit/(1+scale))*scale;
         float rotation = map(noiseLineVal, -1, 1, 0, PI); 
         
         for (int j = 0; j < petalsLim; ++j) {
@@ -73,10 +79,10 @@ void draw() {
 public void drawRombus(float x, float y, float num, float rotation) {
     pushMatrix();
   
-      translate(x-100, y-100);
+      translate(x, y);
       rotate(rotation+PI/4);
 
-      float size = num; 
+      float size = num*scale; 
 
       line(size/2, 0, 0, -size);
       line(0, -size, -size/2, 0);
@@ -116,3 +122,9 @@ public void drawRombus(float x, float y, float num, float rotation) {
     
     return new int[] { hue, convertedSaturation, convertedBrightness };
   } 
+  
+  public void calcScale() {
+    if (frames % scalingLimit < scalingLimit/2)
+      scale+=scaleRate;
+    else scale-=scaleRate;
+  }
