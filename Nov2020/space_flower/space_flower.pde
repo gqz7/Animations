@@ -35,21 +35,21 @@ void draw() {
   rotate(PI/4);
   
   float limit = 333;//Math.abs(noiseVal*17)+88;
-  int petalsLim = 6;
-  for (int j = 0; j < petalsLim; ++j) {
-    //for (float i = 1; i < limit ; i= i+1) {
-     for (float i = limit; i > 10 ; i= i-1) {
+  int petalsLim = 3;
+  float resolution = 5;// the smaller the more filled in the shape will look and the slower the program will run
+
+     for (float i = limit; i > 0 ; i= i-resolution) {
     
-        double noiseX = (double) (seed + i/555);
-        double noiseY = (double) (seed + i/555);
+        double noiseX = (double) (seed + i/333);
+        double noiseY = (double) (seed + i/333);
         float noiseLineVal = (float) noise.noise2(noiseX, noiseY);
 
         float[] colorInput = {
-          (float) frames, 
-          i, 
-          limit
-          //,noiseLineVal
-      };
+            (float) frames, 
+            i, 
+            limit
+            //,noiseLineVal
+        };
         
         int[] colorData = calcColor( colorInput );
         
@@ -59,18 +59,21 @@ void draw() {
         float x = i;
         float y = i;
         float rotation = map(noiseLineVal, -1, 1, 0, PI); 
-        drawRombus(x, y, i, rotation);
+        
+        for (int j = 0; j < petalsLim; ++j) {
+          drawRombus(x, y, i, rotation);
+    
+          float rotateFlwr = (PI/petalsLim*2);
+          rotate(rotateFlwr);
+        }
     }
-    float rotateFlwr = (PI/petalsLim*2);
-    rotate(rotateFlwr);
-  }
   
 }
 
 public void drawRombus(float x, float y, float num, float rotation) {
     pushMatrix();
   
-      translate(x, y);
+      translate(x-100, y-100);
       rotate(rotation+PI/4);
 
       float size = num; 
@@ -94,7 +97,7 @@ public void drawRombus(float x, float y, float num, float rotation) {
     int lightness = int ( map(index, 0, maxIdex, 90, 0) );
     
     //pixel hue calculation
-    int hue = (int) Math.abs(177+index*.7 - timePassed*2) % 360;
+    int hue = (int) Math.abs(177+index*.9 - timePassed*2) % 360;
     
     int convertedSaturation;
     int convertedBrightness;
