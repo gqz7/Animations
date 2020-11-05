@@ -3,8 +3,8 @@
   //Noise algorithm that produces values used in this animation, not made by me
   OpenSimplex2S noise;
   //width and height of canvas
-  int WIDTH = 1500;//3840; //1920
-  int HEIGHT = 1500;//2160; //1080
+  int WIDTH = 3000;//3840; //1920
+  int HEIGHT = 2000;//2160; //1080
   //tracker for how many frames have elapsed
   int frames = 0;
   
@@ -16,7 +16,7 @@
   
 void setup() {
   //set canvas size
-  size(1500,1500); //h: 2160
+  size(3000,2000); //h: 2160
   //set color mode to hue/saturation/brightness which i perfer for my animations
   colorMode(HSB, 360, 100, 100);
   //create instance of the simplex noise class
@@ -27,7 +27,7 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.01;
+  seed+=.007;
   frames++;
   calcScale();
   //println(scale, frames);
@@ -42,9 +42,9 @@ void draw() {
   
   float limit = 333;//Math.abs(noiseVal*17)+88;
   int petalsLim = 6;
-  float resolution = 2;// the smaller the more filled in the shape will look and the slower the program will run
+  float resolution = 500;// the smaller the more filled in the shape will look and the slower the program will run
 
-     for (float i = limit; i > 0 ; i= i-resolution) {
+     for (float i = limit; i > 0 ; i= i-resolution/i) {
     
         double noiseX = (double) (seed + i/222);
         double noiseY = (double) (seed + i/222);
