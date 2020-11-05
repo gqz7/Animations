@@ -21,6 +21,7 @@ void setup() {
   colorMode(HSB, 360, 100, 100);
   //create instance of the simplex noise class
   noise = new OpenSimplex2S( 3141 );
+  noFill();
   background(0); // reset screen
     //noLoop(); //uncomment to only render one frame
 }
@@ -83,11 +84,7 @@ public void drawRombus(float x, float y, float num, float rotation) {
       rotate(rotation+PI/4);
 
       float size = num*scale; 
-
-      line(size/2, 0, 0, -size);
-      line(0, -size, -size/2, 0);
-      line(-size/2, 0, 0, size);
-      line(0, size, size/2, 0);
+      quad(size/2, 0, 0, -size, -size/2, 0, 0, size);
       
     popMatrix();
 }
