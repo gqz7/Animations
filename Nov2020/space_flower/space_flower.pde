@@ -27,7 +27,7 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.003;
+  seed+=.01;
   frames++;
   calcScale();
   //println(scale, frames);
@@ -38,11 +38,11 @@ void draw() {
   float centerX = WIDTH/2;
   float centerY = HEIGHT/2;
   translate(centerX, centerY);
-  rotate(PI/4 + (float) frames/100);
+  rotate(PI/4 + (float) frames/500);
   
   float limit = 333;//Math.abs(noiseVal*17)+88;
-  int petalsLim = 3;
-  float resolution = 3;// the smaller the more filled in the shape will look and the slower the program will run
+  int petalsLim = 6;
+  float resolution = 2;// the smaller the more filled in the shape will look and the slower the program will run
 
      for (float i = limit; i > 0 ; i= i-resolution) {
     
@@ -62,8 +62,8 @@ void draw() {
         stroke(colorData[0], colorData[1], colorData[2]);  
         strokeWeight(map(i, 1, limit, .1, 2));
         
-        float x = (i-limit/(1+scale))*scale;
-        float y = (i-limit/(1+scale))*scale;
+        float x = i*scale;//(i-limit/(1+scale))*scale;
+        float y = i/2*scale;//(i-limit/(1+scale))*scale/2;
         float rotation = map(noiseLineVal, -1, 1, 0, PI); 
         
         for (int j = 0; j < petalsLim; ++j) {
@@ -100,10 +100,10 @@ public void drawRombus(float x, float y, float num, float rotation) {
     int maxIdex = (int) factors[2];
     //float noiseFactor = factors[3]; 
     //lightness calculation
-    int lightness = int ( map(index, 0, maxIdex, 90, 0) );
+    int lightness = int ( map(index, 0, maxIdex, 100, 0) );
     
     //pixel hue calculation
-    int hue = (int) Math.abs(177+index*.9 - timePassed*2) % 360;
+    int hue = (int) Math.abs(index*.9 - timePassed/.5 -300) % 360;
     
     int convertedSaturation;
     int convertedBrightness;
