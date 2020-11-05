@@ -28,7 +28,7 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.007;
+  seed+=.01;
   frames++;
   calcScale();
   //println(scale, frames);
@@ -43,7 +43,7 @@ void draw() {
   
   float limit = 333;//Math.abs(noiseVal*17)+88;
   int petalsLim = 6;
-  float resolution = 500;// the smaller the more filled in the shape will look and the slower the program will run
+  float resolution = 777;// the smaller the more filled in the shape will look and the slower the program will run
 
      for (float i = limit; i > 0 ; i= i-resolution/i) {
     
@@ -65,10 +65,11 @@ void draw() {
         
         float x = i*scale;//(i-limit/(1+scale))*scale;
         float y = i/2*scale;//(i-limit/(1+scale))*scale/2;
-        float rotation = map(noiseLineVal, -1, 1, 0, PI); 
+        float rotation = map(noiseLineVal, -1, 1, 0, PI*1.5); 
+        float finalRotation = map( i, 1, limit, rotation, rotation/10 );
         
         for (int j = 0; j < petalsLim; ++j) {
-          drawRombus(x, y, i, rotation);
+          drawRombus(x, y, i, finalRotation);
     
           float rotateFlwr = (PI/petalsLim*2);
           rotate(rotateFlwr);
@@ -81,7 +82,7 @@ public void drawRombus(float x, float y, float num, float rotation) {
     pushMatrix();
   
       translate(x, y);
-      rotate(rotation+PI/4);
+      rotate(rotation+PI/2);
 
       float size = num*scale; 
       quad(size/2, 0, 0, -size, -size/2, 0, 0, size);
