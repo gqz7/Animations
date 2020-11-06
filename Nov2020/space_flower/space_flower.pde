@@ -3,7 +3,7 @@
   //Noise algorithm that produces values used in this animation, not made by me
   OpenSimplex2S noise;
   //width and height of canvas
-  int WIDTH = 2160;//3840; //1920
+  int WIDTH = 3840;//3840; //1920
   int HEIGHT = 2160;//2160; //1080
   //tracker for how many frames have elapsed
   int frames = 0;
@@ -16,7 +16,7 @@
   
 void setup() {
   //set canvas size
-  size(2160,2160); //h: 2160
+  size(3840,2160); //h: 2160
   //set color mode to hue/saturation/brightness which i perfer for my animations
   colorMode(HSB, 360, 100, 100);
   //create instance of the simplex noise class
@@ -29,7 +29,7 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.01;
+  seed+=.03;
   frames++;
   calcScale();
   //println(scale, frames);
@@ -44,14 +44,11 @@ void draw() {
   int petalsLim = 6;
   float resolution = 1111;// the smaller the more filled in the shape will look and the slower the program will run
   float noiseLineVal;
-  double noiseX;
-  double noiseY;
-  float[] colorInput;
+  double noiseX, noiseY;
   int[] colorData;
-  float x;
-  float y;
-  float rotation; 
-  float finalRotation;
+  float x, y, rotation, finalRotation, rotateFlwr;
+  
+  float[] colorInput = new float[3];
   
      for (float i = limit; i > 0 ; i-= 1.7-i/resolution) { //.9-i/400
     
@@ -59,12 +56,9 @@ void draw() {
         noiseY = (double) (seed + i/222);
         noiseLineVal = (float) noise.noise2(noiseX, noiseY);
 
-        colorInput = new float[] {
-            (float) frames, 
-            i, 
-            limit
-            //,noiseLineVal
-        };
+        colorInput[0] = (float) frames;
+        colorInput[1] = i;
+        colorInput[2] = limit;
         
         colorData = calcColor( colorInput );
         
@@ -77,9 +71,14 @@ void draw() {
         
         for (int j = 0; j < petalsLim; ++j) {
           
-          drawRombus(x, y, i, finalRotation);
+          drawRombus(
+            x, 
+            y, 
+            i*scale, 
+            finalRotation
+          );
     
-          float rotateFlwr = (PI/petalsLim*2);
+          rotateFlwr = (PI/petalsLim*2);
           rotate(rotateFlwr);
         }
         rotate(i/77777*noiseLineVal);
@@ -87,13 +86,12 @@ void draw() {
   
 }
 
-public void drawRombus(float x, float y, float num, float rotation) {
+public void drawRombus(float x, float y, float size, float rotation) {
     pushMatrix();
   
       translate(x, y);
       rotate(rotation);
 
-      float size = num*scale; 
       quad(size/2, 0, 0, -size, -size/2, 0, 0, size);
       rotate(PI/2);
       quad(size/2, 0, 0, -size, -size/2, 0, 0, size);
