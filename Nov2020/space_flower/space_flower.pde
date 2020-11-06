@@ -25,7 +25,7 @@ void setup() {
   noise = new OpenSimplex2S( 3141 );
   noFill();
   background(0); // reset screen
-  strokeWeight(.4);
+  strokeWeight(.3);
     //noLoop(); //uncomment to only render one frame
 }
 
@@ -46,7 +46,7 @@ void draw() {
 
 public void drawFlower() {
    
-  float limit = 333, resolution = 1111;
+  float limit = 333*scale, resolution = 1.4;
   int petalsLim = 6;
   float noiseLineVal;
   double noiseX, noiseY;
@@ -54,16 +54,15 @@ public void drawFlower() {
   float translation, rotation, translateRotation, centerRotation;
   
   float rotateFlwr = (float) (
-      (limit/77777) *
-      (noise.noise2((double)seed/3+7777,(double)seed/3+7777)*2)
+      .005 * noise.noise2((double)seed/3+7777,(double)seed/3+7777)
   );
   
   float[] colorInput = new float[3];
   
-     for (float i = limit; i > 0 ; i-= 1.7-i/resolution) { //.9-i/400
+     for (float i = limit; i > 0 ; i-= resolution-(i/limit)) {
     
-        noiseX = (double) (seed + i/222);
-        noiseY = (double) (seed + i/222);
+        noiseX = (double) (seed + i/limit*1.5);
+        noiseY = (double) (seed + i/limit*1.5);
         noiseLineVal = (float) noise.noise2(noiseX, noiseY);
 
         colorInput[0] = (float) frames;
