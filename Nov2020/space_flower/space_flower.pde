@@ -5,14 +5,16 @@
   //width and height of canvas
   int WIDTH = 3840;//3840; //1920
   int HEIGHT = 2160;//2160; //1080
+  float centerX = WIDTH/2;
+  float centerY = HEIGHT/2;
   //tracker for how many frames have elapsed
   int frames = 0;
   
   float scale = .87;
-  float seed = 3.17;
-  float scaleRate = .003;
+  float seed = 3.167;
+  float scaleRate = .001;
 
-  int scalingLimit = 333;
+  int scalingLimit = 999;
   
 void setup() {
   //set canvas size
@@ -29,24 +31,32 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.03;
+  seed+=.007;
   frames++;
   calcScale();
   //println(scale, frames);
-  background(0); // reset screen
+  clear(); // reset screen
 
-  float centerX = WIDTH/2;
-  float centerY = HEIGHT/2;
   translate(centerX, centerY);
-  rotate(PI/2); // + (float) frames/500
+  rotate(PI/2);
+   
+  drawFlower();
   
-  float limit = 333;//Math.abs(noiseVal*17)+88;
+}
+
+public void drawFlower() {
+   
+  float limit = 333, resolution = 1111;
   int petalsLim = 6;
-  float resolution = 1111;// the smaller the more filled in the shape will look and the slower the program will run
   float noiseLineVal;
   double noiseX, noiseY;
   int[] colorData;
-  float x, y, rotation, finalRotation, rotateFlwr;
+  float translation, rotation, translateRotation, centerRotation;
+  
+  float rotateFlwr = (float) (
+      (limit/77777) *
+      (noise.noise2((double)seed/3+7777,(double)seed/3+7777)*2)
+  );
   
   float[] colorInput = new float[3];
   
@@ -64,32 +74,32 @@ void draw() {
         
         stroke(colorData[0], colorData[1], colorData[2]);  
         
-        x = i*2*scale;
-        y = 0;
+        translation = i*2*scale;
+        
         rotation = map(noiseLineVal, -1, 1, 0, PI*1.5); 
-        finalRotation = map( i, 1, limit, rotation, rotation/10 );
+        translateRotation = map( i, 1, limit, rotation, rotation/10 );
         
         for (int j = 0; j < petalsLim; ++j) {
+        
+          centerRotation = PI/petalsLim*2*j;      
           
           drawRombus(
-            x, 
-            y, 
+            translation,
             i*scale, 
-            finalRotation
+            translateRotation,
+            centerRotation
           );
     
-          rotateFlwr = (PI/petalsLim*2);
-          rotate(rotateFlwr);
         }
-        rotate(i/77777*noiseLineVal);
-    }
-  
+        rotate(rotateFlwr);
+    } 
 }
 
-public void drawRombus(float x, float y, float size, float rotation) {
+public void drawRombus(float translation, float size, float rotation, float rotationAboutCenter) {
     pushMatrix();
   
-      translate(x, y);
+      rotate(rotationAboutCenter);
+      translate(translation, 0);
       rotate(rotation);
 
       quad(size/2, 0, 0, -size, -size/2, 0, 0, size);
@@ -114,7 +124,7 @@ public void drawRombus(float x, float y, float size, float rotation) {
     int lightness = int ( map(index, 0, maxIdex, 100, 0) );
     
     //pixel hue calculation
-    int hue = (int) Math.abs(index*.5 - timePassed*2 -300) % 360;
+    int hue = (int) Math.abs(index*.5 - timePassed*.75 -300) % 360;
     
     int convertedSaturation;
     int convertedBrightness;
