@@ -1,4 +1,3 @@
-import java.utils.*
 //GLOBAL VARS
 
   //width and height of canvas
@@ -6,14 +5,21 @@ import java.utils.*
   int HEIGHT = 1080;//2160; //1080
   //tracker for how many frames have elapsed
   int frames = 0;
+  
+  Star[] stars; //new Star[777];
+  
+  int totalStars = 0;
 
 void setup() {
   //set canvas size
   size(1920,1080); //h: 2160
   
+  stars = StarCalculation.starGenesis( (float) WIDTH, (float) HEIGHT);
+  
   //create instance of the simplex noise class
   background(0); // reset screen
   noStroke();
+  
   //noLoop(); //uncomment to only render one frame
 }
 
