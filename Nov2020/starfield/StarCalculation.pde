@@ -21,8 +21,9 @@ static class StarCalculation {
      
        for ( int i = 0; i < startingTotal; i++ ) {
          
-         float ranX = random() * ;
+         float ranX = (float)Math.random()* 1000;
        
+         float ranY = (float)Math.random()* 1000;
        }
    
        return new Star[777];
