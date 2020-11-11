@@ -7,14 +7,38 @@ class Star {
    private float light;
    
    
-   public Star() {
+   public Star( float originX, float originY) {
      light = 10;
      
-     float[] originPoints = StarCalculation.generateOriginPoints();
+     x = originX;
+     y = originY;
      
-     x = originPoints[0];
-     y = originPoints[1];
+   }
+   
+   void display() {
      
+     fill(light);
+     
+     ellipse(x, y, 3, 3);
+     
+     this.updatePos();
+   }
+   
+   void updatePos() {
+      x *= 1.01;
+      y *= 1.01;
+      light *= 1.1;
+      
+      if ( x > width/2 || x < -width/2 || y > height/2 || y < -height/2) this.reset();
+   }
+   
+   void reset() {
+     
+     light = 10;
+     x = random(-100, 100);
+     y = random(-100, 100);
+
+   
    }
    
 }
