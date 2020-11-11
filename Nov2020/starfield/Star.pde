@@ -57,8 +57,7 @@ class Star {
       z *= 1 + velocity * speed;
       light = light < 255 ? light * (1 + velocity*2) : 255;
       
-      //if ( x > width || x < -width || y > height || y < -height) println("out");
-      if (z > width*1.5) this.reset();
+      if ( z > width*1.5 || z < -width*1.5  || y > height*10 || y < -height*10 || x > width*10 || x < -width*10 ) this.reset();
    }
    
    void reset() {
