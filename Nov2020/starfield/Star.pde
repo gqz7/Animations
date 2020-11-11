@@ -11,7 +11,7 @@ class Star {
    
    public Star( float originX, float originY) {
      light = 10;
-     velocity = random(.01, .03);
+     velocity = random(.01, .025);
      x = originX;
      y = originY;
      
@@ -24,9 +24,16 @@ class Star {
      float maxLen = map( velocity, .01, .03, 50, 250);
      float trailLen = map( distance, 0, maxDistance, 0, maxLen);
      float trailWidth = trailLen/50 + .1;
-     println(maxDistance);
      
-     fill(light);
+     int maxColor = abs(-360-frames) % 360;
+     int minColor = abs(-frames) % 360;
+     int sat = (int) (100-light*.8);
+     color c1 = color(maxColor, sat, light);
+     color c2 = color(minColor, sat, light);
+     
+     color grad = lerpColor(c1, c2, map(distance, 0, maxDistance, 0, 1)); 
+     
+     fill(grad);
      pushMatrix();
      translate(x, y);
      rotate(angle);
@@ -40,7 +47,7 @@ class Star {
      
       x *= 1 + velocity;
       y *= 1 + velocity;
-      light = light < 255 ? light * (1 + velocity*2) : 255;
+      light = light < 100 ? light * (1 + velocity*2) : 100;
       
       if ( x > width/2 || x < -width/2 || y > height/2 || y < -height/2) this.reset();
    }

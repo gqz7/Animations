@@ -19,13 +19,13 @@
 void setup() {
   //set canvas size
   size(3840,2160); //h: 2160
-  
+  colorMode(HSB, 360, 100, 100);
   stars = starGenesis();
   totalStars += startingTotal;
   //create instance of the simplex noise class
   background(0); // reset screen
   noStroke();
-  
+  frameRate(60);
   //noLoop(); //uncomment to only render one frame
 }
  
