@@ -7,7 +7,9 @@
   final float centerY = HEIGHT/2;
   final float maxDistance = centerX+centerY;
   
-  final int maxStarCount = 777;
+  final float speed = .2;
+  
+  final int maxStarCount = 7777;
   final int startingTotal = (int) ( (float) maxStarCount * (float) .20);
   //tracker for how many frames have elapsed
   int frames = 0;
@@ -18,7 +20,7 @@
 
 void setup() {
   //set canvas size
-  size(3840,2160); //h: 2160
+  size(3840,2160, P3D); //h: 2160
   colorMode(HSB, 360, 100, 100);
   stars = starGenesis();
   totalStars += startingTotal;
@@ -32,9 +34,9 @@ void setup() {
 //loop function that runs on a loop 
 void draw() {
   frames++;
-  
+  camera(mouseX, mouseY, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
   if (totalStars < maxStarCount && frames % 10 == 0 ) {
-      stars[totalStars++] = new Star( random(-1000, 1000), random(-100, 100));
+      stars[totalStars++] = new Star( random(-1000, 1000), random(-1000, 1000), random(-1000, 1000));
   }
   
   clear(); // reset screen
@@ -62,10 +64,11 @@ Star[] starGenesis() { //width, height
      
        for ( int i = 0; i < startingTotal; i++ ) {
          
-         float oX = (float) (width * Math.random() - width/2);
-         float oY = (float) (height * Math.random() - height/2);
+         float oX = (float) (random(width) - width/2);
+         float oY = (float) ( random(height) - height/2);
+         float oZ = random(1000);
          
-         startingStars[i] = new Star( oX, oY );
+         startingStars[i] = new Star( oX, oY, oZ );
          
        }
    
