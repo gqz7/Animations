@@ -6,7 +6,8 @@ class Star {
    private float y;
    private float velocity;
    private float light;
-   private float angle;
+   private float angleZ;
+   private float angleY;
    private float z;
    
    
@@ -17,7 +18,7 @@ class Star {
      y = originY;
      z = originZ;
      
-     calculateAngle();
+     calculateAngles();
    }
    
    void display() {
@@ -40,9 +41,10 @@ class Star {
      
      pushMatrix();
      translate(x, y, z);
-     rotate(angle);
-     ellipse(0,0,light/50, light/50);
-     //ellipse(0, 0, trailLen, trailWidth);
+     rotateZ(angleZ);
+     rotateY(angleY);
+     //ellipse(0,0,light/50, light/50);
+     ellipse(0, 0, trailLen, trailWidth);
      popMatrix();
      
      this.updatePos();
@@ -74,21 +76,32 @@ class Star {
 
       x =  (randomX2 * ranNum) + (randomX1 * ranNum) * random(1);
       y =  (randomY2 * ranNum) + (randomY1 * ranNum) * random(5);
-      z =  random(500);
+      z =  random(-500, 500);
    
-     calculateAngle();
+     calculateAngles();
    }
    
-   void calculateAngle() {
+   void calculateAngles() {
    
-     float hypotenuse = sqrt( pow(x,2) + pow(y,2));
+     float hypoZ = sqrt( pow(x,2) + pow(y,2));// + pow(z,2)
      
-     float trigVal = x / hypotenuse;
+     float trigVal = x / hypoZ;
      
-     float resultAngle = asin(trigVal) + PI/2;
+     float resultAngleZ = asin(trigVal) + PI/2;
      
-     angle = y > 0 ? -resultAngle : resultAngle;
+     angleZ = y > 0 ? -resultAngleZ : resultAngleZ;
      
+     float hypoY = sqrt( pow(x,2) + pow(z,2));// + pow(z,2)
+     
+     trigVal = x / hypoY;
+     
+     float resultAngleY = asin(trigVal) + PI/2;
+     
+     if (z>0) resultAngleY = -resultAngleY;
+     
+     if (x<0) resultAngleY = -resultAngleY;
+     
+     angleY = resultAngleY;
      
    }
    

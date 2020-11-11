@@ -41,8 +41,9 @@ void draw() {
   
   clear(); // reset screen
   //background(0); // reset background
-  translate(centerX, centerY);
-  
+  translate(centerX, centerY, -1000);
+  fill(255);
+  ellipse(0,0, 33, 33);
   
   displayStars();
 
@@ -66,7 +67,7 @@ Star[] starGenesis() { //width, height
          
          float oX = (float) (random(width) - width/2);
          float oY = (float) ( random(height) - height/2);
-         float oZ = random(1000);
+         float oZ = random(-1000, 1000);
          
          startingStars[i] = new Star( oX, oY, oZ );
          
