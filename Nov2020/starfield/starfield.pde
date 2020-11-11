@@ -1,22 +1,24 @@
 //GLOBAL VARS
 
   //width and height of canvas
-  int WIDTH = 1920;//3840; //1920
-  int HEIGHT = 1080;//2160; //1080
-  float centerX = WIDTH/2;
-  float centerY = HEIGHT/2;
+  final int WIDTH = 3840;//3840; //1920
+  final int HEIGHT = 2160;//2160; //1080
+  final float centerX = WIDTH/2;
+  final float centerY = HEIGHT/2;
+  final float maxDistance = centerX+centerY;
+  
+  final int maxStarCount = 777;
+  final int startingTotal = (int) ( (float) maxStarCount * (float) .20);
   //tracker for how many frames have elapsed
   int frames = 0;
   
+  int totalStars = 0;
   Star[] stars;
   
-  int totalStars = 0;
-  final int maxStarCount = 777;
-  final int startingTotal = (int) ( (float) maxStarCount * (float) .20);
 
 void setup() {
   //set canvas size
-  size(1920,1080); //h: 2160
+  size(3840,2160); //h: 2160
   
   stars = starGenesis();
   totalStars += startingTotal;
@@ -26,22 +28,25 @@ void setup() {
   
   //noLoop(); //uncomment to only render one frame
 }
-
+ 
 //loop function that runs on a loop 
 void draw() {
   frames++;
+  
+  if (totalStars < maxStarCount && frames % 10 == 0 ) {
+      stars[totalStars++] = new Star( random(-1000, 1000), random(-100, 100));
+  }
+  
   clear(); // reset screen
   //background(0); // reset background
   translate(centerX, centerY);
+  
   
   displayStars();
 
 }
 
 void displayStars() {
-
-     fill(255);
-     noStroke();
      
   for (int i = 0; i < totalStars; i++) {
     Star s = stars[i];
