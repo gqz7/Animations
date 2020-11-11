@@ -7,7 +7,7 @@ class Star {
    private float light;
    
    
-   Star() {
+   public Star() {
      light = 10;
      
      float[] originPoints = StarCalculation.generateOriginPoints();
