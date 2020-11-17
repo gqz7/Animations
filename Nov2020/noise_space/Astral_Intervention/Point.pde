@@ -9,7 +9,10 @@ class Point {
   private int noiseY;
   private int pixelNum;
   private double noiseVal;
-  public int quad;
+  private int quad;
+  
+  private NoiseSeed seedXNum;
+  private NoiseSeed seedYNum;
   
   Point(int xInit, int yInit) {
     
@@ -19,25 +22,37 @@ class Point {
     //this logic sperates the points into diffrent quadrents which will mirror the x/y positions accordingly and set the quad property which can later be used to apply diffrent logic based on which quadrent a point is in
     if (x <= HW && y <= HH) {
       quad = 1;
-      pixelNum = x + y * WIDTH;
+      pixelNum = x + y * width;
 
     } else if (x <= HW && y > HH) {
       quad = 2;
-      pixelNum = x + y * WIDTH;
+      pixelNum = x + y * width;
       y = yInit-HH;
 
     }  else if (x > HW && y >= HH) {
       quad = 3;
-      pixelNum = x + y * WIDTH;
+      pixelNum = x + y * width;
       y = yInit-HH;
       x = xInit-HW;
 
     }  else if (x > HW && y < HH) {
       quad = 4;
-      pixelNum = x + y * WIDTH;
+      pixelNum = x + y * width;
       x = xInit-HW;
 
     }
+    
+    calcX();
+    calcY();
+    
+     if (quad == 1 || quad == 4) { 
+      seedXNum = nSeedX1;
+      seedYNum = nSeedY1;
+    } else {
+      seedXNum = nSeedX2;
+      seedYNum = nSeedY2;
+    }
+    
   }
 
 //the x an y should be calculated dirrently based on which quadrent the point is in, therefor a switch statment is implemented
@@ -72,7 +87,9 @@ class Point {
     noiseY = yValue;
   }
   
-  private void calcNoise (double seedX, double seedY) { 
+  private void calcNoise () { 
+    
+    double seedX = seedXNum.value, seedY = seedYNum.value;
     
     double xNoise = (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX;
     double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY;
@@ -82,6 +99,8 @@ class Point {
   }
   
   public int[] calcColor( int frames ) {
+    
+    calcNoise();
     //pixel saturation
     int saturation = 100;
 
@@ -108,11 +127,16 @@ class Point {
     int intLight = round(lightness);
     
     try {
-      if (lightness < 50) {
-        convertedSaturation = 2 * (saturation * intLight) / (intLight + saturation);
-      } else {
-        convertedSaturation = 2 * (saturation * (100-intLight)) / (intLight + saturation);
-      }
+      convertedSaturation = 
+      2 * (
+        saturation * (
+          lightness < 50 
+            ? intLight 
+            : 100 - intLight 
+        )
+      ) / (intLight + saturation);
+
+
     } catch ( ArithmeticException e ) {
         convertedSaturation = 0;
     }
