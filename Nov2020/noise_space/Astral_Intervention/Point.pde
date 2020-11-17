@@ -93,7 +93,11 @@ class Point {
     
     float mapH1 = quad == 1 || quad == 4 ? Math.abs(height-y*2) : Math.abs(y*2);
     
-    int lightness = (int) map( mapH1, 0, height/2, 0, lightCalc/1.7); 
+    float lightness = map( mapH1, 0, height/2, 0, lightCalc/1.7); 
+    
+    float lightAdd = quad == 1 || quad == 2 ? (float) (Math.abs(x-width/2)) : (float) (Math.abs(x));
+    
+    lightness += lightAdd/20;
     
     //pixel hue calculation
     int hue = ( int(
@@ -104,17 +108,19 @@ class Point {
     int convertedSaturation;
     int convertedBrightness;
     
+    int intLight = round(lightness);
+    
     try {
       if (lightness < 50) {
-        convertedSaturation = 2 * (saturation * lightness) / (lightness + saturation);
+        convertedSaturation = 2 * (saturation * intLight) / (intLight + saturation);
       } else {
-        convertedSaturation = 2 * (saturation * (100-lightness)) / (lightness + saturation);
+        convertedSaturation = 2 * (saturation * (100-intLight)) / (intLight + saturation);
       }
     } catch ( ArithmeticException e ) {
         convertedSaturation = 0;
     }
     
-    convertedBrightness = convertedSaturation + lightness;
+    convertedBrightness = convertedSaturation + intLight;
     
     return new int[] { hue, convertedSaturation, convertedBrightness };
   } 
