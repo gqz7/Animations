@@ -4,11 +4,11 @@
   //Noise algorithm that produces values used in this animation, not made by me
   OpenSimplex2S noise;
   //seeds for noise algorithm, can be randomized for unique image every render
-  float nSeedX1 = (float) Math.random()*1000 + 417.3939;
-  float nSeedX2 = (float) Math.random()*1000 + 777.777;
-  float nSeedY1 = (float) Math.random()*1000 + 3939.719;
-  float nSeedY2 = (float) Math.random()*1000 + 3141.5826;
-  //width and height of canvas
+  NoiseSeed nSeedX1 = new NoiseSeed((float) Math.random()*1000 + 417.3939);
+  NoiseSeed nSeedX2 = new NoiseSeed((float) Math.random()*1000 + 777.777);
+  NoiseSeed nSeedY1 = new NoiseSeed((float) Math.random()*1000 + 3939.719);
+  NoiseSeed nSeedY2 = new NoiseSeed((float) Math.random()*1000 + 3141.5826);
+ //width and height of canvas
   int WIDTH = 3840;//3840; //1920
   int HEIGHT = 2160;//2160; //1080
   //tracker for how many frames have elapsed
@@ -19,14 +19,13 @@
   double renderScale = 0.0;
   
   double xStatic = 90;
-  double yStatic = 547;
+  double yStatic = 500;
 
-  boolean testPrint = true;
+  //boolean testPrint = true; //this gets used print testing logs only a certain number of times while looping
 //setup function that runs before render
 void setup() {
   //set canvas size
-  size(3840,2160); //h: 2160
-  //set color mode to hue/saturation/brightness which i perfer for my animations
+  size(3840,2160);//0//set color mode to hue/saturation/brightness which i perfer for my animations
   colorMode(HSB, 360, 100, 100);
 
   //create instance of the simplex noise class
@@ -45,31 +44,13 @@ void draw() {
   frames++; //iterate frame tracker
   
   //iterate seed values so animation image moves
-  nSeedX1+=.015;
-  nSeedY1+=.01;
-  nSeedX2+=.015;
-  nSeedY2+=.01;
+  advanceTime();
   
   //itterate through all pixels/Points
   for ( int i = 0; i < allPixs.length; i++) {  
 
-    //get basic info from current pixel    
+    //get pixel number of current pixel    
     int pxNum = allPixs[i].pixelNum;
-    allPixs[i].calcX();
-    allPixs[i].calcY();
-
-    float seedX;
-    float seedY;
-    if (allPixs[i].quad == 1 || allPixs[i].quad == 4 ) {
-      seedX = nSeedX1;
-      seedY = nSeedY1;
-    } else {
-      seedX = nSeedX2;
-      seedY = nSeedY2;
-    }
-
-    //calculate noise with simplex noise method
-    allPixs[i].calcNoise(seedX, seedY);
 
     int[] pxColorArr = allPixs[i].calcColor( frames );
     
@@ -81,15 +62,21 @@ void draw() {
   //update the pixel info
   updatePixels();
 
-  saveFrame("../../../../../../Renders/noise003/img_#####.png");
+  //saveFrame("../../../../../../Renders/noise003/img_#####.png");
 
- 
+}
+
+void advanceTime() {
+  nSeedX1.value -= .003;
+  nSeedX2.value += .012;
+  nSeedY1.value += .005;
+  nSeedY2.value += .007;
 }
 
 void initalizePixels() {
   int count = 0;
-  for ( int x = 0; x < WIDTH; x++) {
-    for (int y = 0; y < HEIGHT; y++ ) {
+  for ( int x = 0; x < width; x++) {
+    for (int y = 0; y < height; y++ ) {
       allPixs[count] = new Point(x,y);
       count++;
     }
