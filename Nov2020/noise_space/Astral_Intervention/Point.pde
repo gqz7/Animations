@@ -11,6 +11,8 @@ class Point {
   private double noiseVal;
   private int quad;
   
+  private static final boolean isLightMode = lightModeBool;
+  
   private NoiseSeed seedXNum;
   private NoiseSeed seedYNum;
   
@@ -141,7 +143,7 @@ class Point {
         convertedSaturation = 0;
     }
     
-    convertedBrightness = convertedSaturation + intLight;
+    convertedBrightness = (isLightMode ? 100 : convertedSaturation ) + intLight;
     
     return new int[] { hue, convertedSaturation, convertedBrightness };
   } 
