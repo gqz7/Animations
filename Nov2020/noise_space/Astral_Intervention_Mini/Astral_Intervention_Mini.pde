@@ -9,7 +9,7 @@
   NoiseSeed nSeedY1 = new NoiseSeed((float) Math.random()*1000 + 3939.719);
   NoiseSeed nSeedY2 = new NoiseSeed((float) Math.random()*1000 + 3141.5826);
  //width and height of canvas
-  int WIDTH = 777;//3840; //1920
+  int WIDTH = 888;//3840; //1920
   int HEIGHT = 777;//2160; //1080
   //tracker for how many frames have elapsed
   int frames = 0;
@@ -18,14 +18,14 @@
   
   double renderScale = 0.0;
   
-  double xStatic = 90;
-  double yStatic = 500;
+  double xStatic = 67;
+  double yStatic = 444;
 
   //boolean testPrint = true; //this gets used print testing logs only a certain number of times while looping
 //setup function that runs before render
 void setup() {
   //set canvas size
-  size(777,777);//0//set color mode to hue/saturation/brightness which i perfer for my animations
+  size(888,777);//0//set color mode to hue/saturation/brightness which i perfer for my animations
   colorMode(HSB, 360, 100, 100);
 
   //create instance of the simplex noise class
