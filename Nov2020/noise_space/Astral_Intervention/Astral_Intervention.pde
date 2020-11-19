@@ -3,6 +3,8 @@
 //GLOBAL VARS
   //Noise algorithm that produces values used in this animation, not made by me
   OpenSimplex2S noise;
+  
+  static final boolean lightModeBool = true;
   //seeds for noise algorithm, can be randomized for unique image every render
   NoiseSeed nSeedX1 = new NoiseSeed((float) Math.random()*1000 + 417.3939);
   NoiseSeed nSeedX2 = new NoiseSeed((float) Math.random()*1000 + 777.777);
