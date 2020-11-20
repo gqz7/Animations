@@ -28,8 +28,8 @@
 
 # The End v2
 ## [The End v2 (Youtube)](https://www.youtube.com/watch?v=VVNvMOyraF0)
-![](the-endv2-preview.jpg)
-### [The End Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Nov2020/noise_space/Astral_Intervention)
+![](the-endv2-preview.png)
+### [The End v2 Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Nov2020/noise_space/Astral_Intervention)
 
 # Serenity
 ## [Serenity Vimeo Link](https://vimeo.com/459572300)
