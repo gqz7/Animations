@@ -27,7 +27,8 @@
 <p>&nbsp<p><p>&nbsp<p>
 
 # The End v2
-## [The End v2 (Youtube)](https://www.youtube.com/watch?v=VVNvMOyraF0)
+## [The End v2 (Youtube)](https://youtu.be/dbKlV1N8u2U)
+## [The End v2 (Youtube 360 Video)](https://youtu.be/34hIR3XW4pA)
 ![](the-endv2-preview.png)
 ### [The End v2 Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Nov2020/noise_space/Astral_Intervention)
 
