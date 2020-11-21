@@ -16,10 +16,10 @@
   //array of Points to keep track of quadrent information and x/y position aswell as pixel index
   Point[] allPixs = new Point[WIDTH*HEIGHT];
   
-  double renderScale = 0.0;
+  double renderScale = .7;
   
-  double xStatic = 67;
-  double yStatic = 444;
+  double xStatic = 67*renderScale;
+  double yStatic = 444*renderScale;
 
   //boolean testPrint = true; //this gets used print testing logs only a certain number of times while looping
 //setup function that runs before render
