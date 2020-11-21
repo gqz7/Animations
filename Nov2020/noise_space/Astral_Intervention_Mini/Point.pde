@@ -141,7 +141,7 @@ class Point {
         convertedSaturation = 0;
     }
     
-    convertedBrightness = convertedSaturation + intLight;
+    convertedBrightness = 90-convertedSaturation + intLight;
     
     return new int[] { hue, convertedSaturation, convertedBrightness };
   } 
