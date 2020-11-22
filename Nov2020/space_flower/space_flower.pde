@@ -8,6 +8,7 @@
   float centerX = WIDTH/2;
   float centerY = HEIGHT/2;
   //tracker for how many frames have elapsed
+  
   int frames = 0;
   
   float scale = .87;
@@ -31,8 +32,8 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.007;
-  frames++;
+  seed+=.0077*2.73;
+  frames+= 1*3.73;
   calcScale();
   //println(scale, frames);
   clear(); // reset screen
@@ -42,6 +43,8 @@ void draw() {
    
   drawFlower();
   
+
+  saveFrame("../../../../../Renders/spaceflower-render22211100/img_#####.png");
 }
 
 public void drawFlower() {
