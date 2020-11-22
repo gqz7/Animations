@@ -110,17 +110,17 @@ class Point {
     //lightness calculation
     int lightCalc = int( 
         Math.abs(
-          Math.round( 100*noiseVal )) + lightAdd/19.3
+          Math.round( 27-100*noiseVal )) + lightAdd/19.3
         );
     
     float mapH1 = quad == 1 || quad == 4 ? Math.abs(height-y*2) : Math.abs(y*1.5);
     
-    float lightness = map( mapH1, 0, height/2, 0, lightCalc/1.7); 
+    float lightness = map( mapH1, 0, height/2.7, 0, lightCalc/1.7); 
     
     //pixel hue calculation
     int hue = ( int(
       Math.round(
-        720*noiseVal))+720+frames*10
+        720*noiseVal))+720+frames*5
     )%360;
     
     int convertedSaturation;
