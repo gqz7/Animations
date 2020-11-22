@@ -4,12 +4,12 @@
   //Noise algorithm that produces values used in this animation, not made by me
   OpenSimplex2S noise;
   
-  static final boolean lightModeBool = false;
+  static final boolean lightModeBool = true;
   //seeds for noise algorithm, can be randomized for unique image every render
   NoiseSeed nSeedX1 = new NoiseSeed(2314.3939); //new NoiseSeed((float) Math.random()*1000 + 417.3939);
-  NoiseSeed nSeedX2 = new NoiseSeed(2377.777);//new NoiseSeed((float) Math.random()*1000 + 777.777);
+  NoiseSeed nSeedX2 = new NoiseSeed(2477.777);//new NoiseSeed((float) Math.random()*1000 + 777.777);
   NoiseSeed nSeedY1 = new NoiseSeed(2339.719);  //new NoiseSeed((float) Math.random()*1000 + 3939.719);
-  NoiseSeed nSeedY2 = new NoiseSeed(2397.415826); //new NoiseSeed((float) Math.random()*1000 + 3141.5826);
+  NoiseSeed nSeedY2 = new NoiseSeed(2437.415826); //new NoiseSeed((float) Math.random()*1000 + 3141.5826);
  //width and height of canvas
   int WIDTH = 3840;//3840; //1920
   int HEIGHT = 2160;//2160; //1080
@@ -18,7 +18,7 @@
   //array of Points to keep track of quadrent information and x/y position aswell as pixel index
   Point[] allPixs = new Point[WIDTH*HEIGHT];
   
-  double renderScale = 1.0;
+  double renderScale = .8;
   double timeScale = 1.0;
   
   double xStatic = 88 * renderScale;
