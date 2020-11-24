@@ -10,12 +10,13 @@
   //tracker for how many frames have elapsed
   
   int frames = 0;
+  int time = 0;
   
-  float scale = .87;
+  float scale = .1;
   float seed = 3.167;
-  float scaleRate = .001;
+  float scaleRate = .004;
 
-  int scalingLimit = 999;
+  int scalingLimit = 234;
   
 void setup() {
   //set canvas size
@@ -32,8 +33,9 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
-  seed+=.0077*2.73;
-  frames+= 1*3.73;
+  seed+=.0077*1.23;
+  frames+= 1*1.73;
+  time++;
   calcScale();
   //println(scale, frames);
   clear(); // reset screen
@@ -147,7 +149,10 @@ public void drawRombus(float translation, float size, float rotation, float rota
   } 
   
   public void calcScale() {
-    if (frames % scalingLimit < scalingLimit/2)
-      scale+=scaleRate;
-    else scale-=scaleRate;
+    //if (frames % scalingLimit < scalingLimit/2)
+    //  scale+=scaleRate;
+    //else scale-=scaleRate;
+    if (time < scalingLimit) {
+      scale += scaleRate;
+    }
   }
