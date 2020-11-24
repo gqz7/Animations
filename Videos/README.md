@@ -3,9 +3,9 @@
 # Animated Videos
 
     I would like to upload my videos here but unfortunetly GitHub is not made for large video uploads. 
-    I have made uploads of my faviorite works on my Vimeo account.
+    I have made uploads of my faviorite works on my Vimeo/Youtube account.
 
-#### Check them out and you can download them from the Vimeo site if you'd like to.
+#### Check them out and you can download them from the Vimeo/Youtube site if you'd like to.
 
 <p>&nbsp<p><p>&nbsp<p><p>&nbsp<p><p>&nbsp<p>
 
@@ -17,12 +17,20 @@
 
 <p>&nbsp<p><p>&nbsp<p>
 
-# Homewards
+# Astral Intervention
 ## [Astral Intervention (Youtube)](https://youtu.be/zGk2_k4ncmA )
 ## [Astral Intervention (LIGHT) (Youtube 360 Video)](https://youtu.be/jEi2sRJ2Ff0)
 ## [Astral Intervention (DARK) (Youtube 360 Video)](https://youtu.be/34hIR3XW4pA)
-![](infinite-light-preview.png)
+![](astral-intervention-preview.png)
 ### [Astral Intervention Source Code](https://github.com/GabrielQSherman/Animations/tree/master/Nov2020/noise_space/Astral_Intervention)
+<p>&nbsp<p><p>&nbsp<p>
+
+# Cosmic Flowering
+## [Cosmic Flowering Youtube](https://youtu.be/yX4g5zIDSko)
+## [Cosmic Flowering 360 Youtube](https://youtu.be/d5jRp-xKWgs)
+![](cosmic-flowering-preview.png)
+### [Cosmic Flowering Source Code](https://github.com/GabrielQZ/Animations/tree/master/Nov2020/space_flower)
+<p>&nbsp<p><p>&nbsp<p>
 
 # Serenity
 ## [Serenity Vimeo Link](https://vimeo.com/459572300)
