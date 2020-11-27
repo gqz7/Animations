@@ -4,33 +4,35 @@
 
 ## Explore the many categories bellow and view gifs representive to the JavaScript animations in this repository.
 
-<p>&nbsp<p><p>&nbsp<p><p>&nbsp<p>
+<p>&nbsp<p>
 
-#### click links to see all GIFs in a given category
+## [Free Videos(Computer Renders)](https://github.com/GabrielQZ/Animations/tree/master/Videos)
+## [Free Device Background Photos(Computer Renders)](https://github.com/GabrielQZ/Animations/tree/master/Backgound-Photos#readme)
 
-[3D Sphere Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Globe#readme)
+<p>&nbsp<p>
 
-[3D Natural Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Natural-Terrain#readme)
+### click links to see all GIFs in a given category
 
-[3D Abstract Terrain Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/3D-Terrain/Abstract-Terrain#readme)
+[3D Sphere Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Globe#readme)
 
-[Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry#readme)
+[3D Natural Terrain Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/3D-Terrain/Natural-Terrain#readme)
 
-[Nature Inspired Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Nature#readme)
+[3D Abstract Terrain Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/3D-Terrain/Abstract-Terrain#readme)
 
-[Star Field Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Stars#readme)
+[Sacred Geometry Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Sacred-Geometry#readme)
 
-[Noise Field Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Noise-Field#readme)
+[Nature Inspired Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Nature#readme)
 
-[Checkerboard Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Checkerboard#readme)
+[Star Field Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Stars#readme)
 
-[Yin Yang Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Yin-Yang#readme)
+[Noise Field Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Noise-Field#readme)
 
-[Galatic-Trip](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Galatic-Trip#readme)
+[Checkerboard Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Checkerboard#readme)
 
-[Free Device Background Photos(Computer Renders)](https://github.com/GabrielQSherman/Animations/tree/master/Backgound-Photos#readme)
+[Yin Yang Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Yin-Yang#readme)
 
-[Free Videos(Computer Renders)](https://github.com/GabrielQSherman/Animations/tree/master/Videos)
+[Galatic-Trip](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Galatic-Trip#readme)
+
 
 
 
