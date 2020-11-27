@@ -1,5 +1,5 @@
-# [Back To Categories](https://github.com/GabrielQSherman/Animations/tree/master#readme)
-## [Back To Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry#readme)
+# [Back To Categories](https://github.com/GabrielQZ/Animations/tree/master#readme)
+## [Back To Sacred Geometry Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Sacred-Geometry#readme)
 
 ## Merkabah
 
@@ -15,7 +15,7 @@
 
 ![](merkabah2.gif)
 
-[source](https://github.com/GabrielQSherman/Animations/tree/master/Aug2020/misc/merkabah.js)
+[source](https://github.com/GabrielQZ/Animations/tree/master/Aug2020/misc/merkabah.js)
 
 <p>&nbsp<p><p>&nbsp<p>
 

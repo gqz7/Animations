@@ -1,4 +1,4 @@
-[Back To Categories](https://github.com/GabrielQSherman/Animations/tree/master#readme)
+[Back To Categories](https://github.com/GabrielQZ/Animations/tree/master#readme)
 
 # Flower Animations
 
@@ -6,8 +6,8 @@
 
 ![](flower-simplexnoise01.gif)
 
-[source code](https://github.com/GabrielQSherman/Animations/tree/master/Jul2020/flowers-living.js)
+[source code](https://github.com/GabrielQZ/Animations/tree/master/Jul2020/flowers/flowers-living.js)
 
 ![](flower-simplexnoise02.gif)
 
-[source code](https://github.com/GabrielQSherman/Animations/tree/master/Jul2020/flowers-living-trippy.js)
+[source code](https://github.com/GabrielQZ/Animations/tree/master/Jul2020/flowers/flowers-living-trippy.js)

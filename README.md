@@ -1,8 +1,8 @@
-# Gabriel Sherman's Javascript Animation Porfolio
+# Animation Porfolio
 
 <p>&nbsp<p>
 
-## Explore the many categories bellow and view gifs representive to the JavaScript animations in this repository.
+## Explore the many categories bellow and view gifs representive of Java & JavaScript animations in this repository.
 
 <p>&nbsp<p>
 

@@ -1,5 +1,5 @@
-# [Back To Categories](https://github.com/GabrielQSherman/Animations/tree/master#readme)
-## [Back To Sacred Geometry Animations](https://github.com/GabrielQSherman/Animations/tree/master/GIFs/Sacred-Geometry#readme)
+# [Back To Categories](https://github.com/GabrielQZ/Animations/tree/master#readme)
+## [Back To Sacred Geometry Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Sacred-Geometry#readme)
 
 ### Flower Of Life
 
@@ -16,4 +16,4 @@
 ### Both Previous Designs Combine
 ![](sacred-geo.gif)
 
-These three gifs were made using the same interactive animation. The source code can be found [here](https://github.com/GabrielQSherman/Animations/tree/master/Apr2020/triangles/fractal-tri04.js)
+These three gifs were made using the same interactive animation. The source code can be found [here](https://github.com/GabrielQZ/Animations/tree/master/Apr2020/triangles/fractal-tri04.js)
