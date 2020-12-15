@@ -5,6 +5,8 @@ class Point {
   
   private int x;
   private int noiseX;
+  private double centerX;
+  private double centerY;
   private int y;
   private int noiseY;
   private int pixelNum;
@@ -22,24 +24,23 @@ class Point {
     y = yInit;
     
     //this logic sperates the points into diffrent quadrents which will mirror the x/y positions accordingly and set the quad property which can later be used to apply diffrent logic based on which quadrent a point is in
+    
+    pixelNum = x + y * width;
+    
     if (x <= HW && y <= HH) {
       quad = 1;
-      pixelNum = x + y * width;
 
     } else if (x <= HW && y > HH) {
       quad = 2;
-      pixelNum = x + y * width;
       y = yInit-HH;
 
     }  else if (x > HW && y >= HH) {
       quad = 3;
-      pixelNum = x + y * width;
       y = yInit-HH;
       x = xInit-HW;
 
     }  else if (x > HW && y < HH) {
       quad = 4;
-      pixelNum = x + y * width;
       x = xInit-HW;
 
     }
@@ -50,10 +51,16 @@ class Point {
      if (quad == 1 || quad == 4) { 
       seedXNum = nSeedX1;
       seedYNum = nSeedY1;
+      centerY = HH - y;
     } else {
       seedXNum = nSeedX2;
       seedYNum = nSeedY2;
+      centerY = y/5 - HH*3;
     }
+    
+      if (quad == 1 ) {
+        centerX = 
+      }
     
   }
 
@@ -93,8 +100,8 @@ class Point {
     
     double seedX = seedXNum.value, seedY = seedYNum.value;
     
-    double xNoise = (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX;
-    double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY;
+    double xNoise = (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX * (1 + Math.abs((double) centerY)/222222);
+    double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY ; // * (1 + (double) y /3000)
     
     noiseVal = noise.noise2(xNoise, yNoise);
 

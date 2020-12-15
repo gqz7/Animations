@@ -18,7 +18,7 @@
   //array of Points to keep track of quadrent information and x/y position aswell as pixel index
   Point[] allPixs = new Point[WIDTH*HEIGHT];
   
-  double renderScale = .3;
+  double renderScale = .67;
   double timeScale = 1.0;
   
   double xStatic = 88 * renderScale;
