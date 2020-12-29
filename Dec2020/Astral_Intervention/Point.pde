@@ -55,11 +55,13 @@ class Point {
     } else {
       seedXNum = nSeedX2;
       seedYNum = nSeedY2;
-      centerY = y/5 - HH*3;
+      centerY = y-HH;
     }
     
-      if (quad == 1 ) {
-        centerX = 
+      if (quad == 1 || quad == 2) {
+        centerX = HW-x;
+      } else {
+        centerX = -x;
       }
     
   }
@@ -100,8 +102,8 @@ class Point {
     
     double seedX = seedXNum.value, seedY = seedYNum.value;
     
-    double xNoise = (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX * (1 + Math.abs((double) centerY)/222222);
-    double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY ; // * (1 + (double) y /3000)
+    double xNoise = (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX * (1 + (Math.abs((double) centerY)+(quad==1||quad==4?-Math.abs((double) centerX/3):Math.abs((double) centerX*1.2)))/555555);
+    double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY * (3 + (Math.abs((double) centerX)+centerY)/22222222 ); //double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY * (1 + (Math.abs((double) centerX)+centerY/2)/3456789); // * (1 + (double) y /3000)
     
     noiseVal = noise.noise2(xNoise, yNoise);
 
@@ -120,7 +122,7 @@ class Point {
           Math.round( 27-100*noiseVal )) + lightAdd/19.3
         );
     
-    float mapH1 = quad == 1 || quad == 4 ? Math.abs(height-y*2) : Math.abs(y*1.5);
+    float mapH1 = quad == 1 || quad == 4 ? Math.abs(height- y*2) : Math.abs(y);
     
     float lightness = map( mapH1, 0, height/2.7, 0, lightCalc/1.7); 
     
