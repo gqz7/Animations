@@ -102,14 +102,14 @@ class Point {
     
     double seedX = seedXNum.value, seedY = seedYNum.value;
     
-    double xNoise = (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX * (1 + (Math.abs((double) centerY)+(quad==1||quad==4?-Math.abs((double) centerX/3):Math.abs((double) centerX*1.2)))/555555);
-    double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY * (3 + (Math.abs((double) centerX)+centerY)/2222222 ); //double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY * (1 + (Math.abs((double) centerX)+centerY/2)/3456789); // * (1 + (double) y /3000)
+    double xNoise = (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX * (1 + (Math.abs((double) centerY)+(quad==1||quad==4?-Math.abs((double) centerX/3):Math.abs((double) centerX*(1+cos(y*frames/72)/7)*1.2)))/525555);
+    double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY * (3 + (Math.abs((double) centerX)+centerY)/1922222 ); //double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY * (1 + (Math.abs((double) centerX)+centerY/2)/3456789); // * (1 + (double) y /3000)
     
     noiseVal = noise.noise2(xNoise, yNoise);
 
   }
   
-  public int[] calcColor( int frames ) {
+  public int[] calcColor( float frames ) {
     
     calcNoise();
     //pixel saturation
@@ -127,9 +127,8 @@ class Point {
     float lightness = map( mapH1, 0, height/2.7, 0, lightCalc/1.7); 
     
     //pixel hue calculation
-    int hue = ( int(
-      Math.round(
-        720*noiseVal))+720+frames*5
+    int hue = ( int (
+      Math.round( 720*noiseVal))+ (int)(720+frames*5)
     )%360;
     
     int convertedSaturation;
