@@ -136,7 +136,7 @@ class Point {
           Math.round( 27-100*noiseVal )) + lightAdd/19.3
         );
     
-    float mapH1 = quad == 1 || quad == 4 ? abs(height- y*2) : abs(y+abs(x)/10);
+    float mapH1 = quad == 1 || quad == 4 ? abs(height- y*2) : abs(noiseY*3.14) ;
     
     float lightness = map( mapH1, 0, height/2, 0, lightCalc/1); 
     
@@ -165,7 +165,7 @@ class Point {
         convertedSaturation = 0;
     }
     
-    convertedBrightness = (isLightMode ? 100 : convertedSaturation ) + intLight;
+    convertedBrightness = (false ? 100 : convertedSaturation ) - intLight + 100;
     
     return new int[] { hue, convertedSaturation, convertedBrightness };
   } 
