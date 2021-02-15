@@ -103,12 +103,12 @@ class Point {
     double seedX = seedXNum.value, seedY = seedYNum.value;
     
     double xNoise = ((
-      (noiseX*2)+seedX)
+      (noiseX/1.5)+seedX)
       /(xStatic+noiseY))+seedX 
-      * (1 + (Math.abs((double) centerY)+(
+      * (1 + (Math.abs((double) centerY/17)+(
       quad==1||quad==4
-        ?-Math.abs((double) centerX/3)
-        :Math.abs((double) centerX*(1+cos(y*frames/720)/7)*1.5)))
+        ? Math.abs((double) noiseX/2)
+        : Math.abs((double) noiseX*(1+cos(noiseY*(frames/15)/720)/7)*1.5)))
       /525555);
 
     double yNoise = ((
@@ -129,14 +129,14 @@ class Point {
     //pixel saturation
     int saturation = 100;
 
-    float lightAdd = quad == 1 || quad == 2 ? (float) ( abs(x-width/2)) : (float) ( abs(x));
+    float lightAdd = quad == 1 || quad == 2 ? abs((float)x-(float)width/2) : abs((float) x);
     //lightness calculation
-    int lightCalc = int( 
+    float lightCalc = ( 
         Math.abs(
           Math.round( 27-100*noiseVal )) + lightAdd/19.3
         );
     
-    float mapH1 = quad == 1 || quad == 4 ? abs(height- y*2) : abs(noiseY*3.14) ;
+    float mapH1 = quad == 1 || quad == 4 ? abs(height- y*2) : abs(noiseY*2) ;
     
     float lightness = map( mapH1, 0, height/2, 0, lightCalc/1); 
     
