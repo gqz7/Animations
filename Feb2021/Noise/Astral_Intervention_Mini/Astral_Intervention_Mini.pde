@@ -7,14 +7,14 @@
   static final boolean lightModeBool = true;
   NoiseSeed nSeedX1 = new NoiseSeed( (float) 769);//Math.random()*500 + 977.777);//(float) Math.random()*1000 + 417.3939);
   NoiseSeed nSeedX2 = new NoiseSeed( (float) 818.94836);// (float) Math.random()*777 +533.777);//Math.random()*500 + 977.777);//;
-  NoiseSeed nSeedY1 = new NoiseSeed( (float) 2739.719);//(float) Math.random()*500 + 977.777);//
+  NoiseSeed nSeedY1 = new NoiseSeed( (float) 2737.719);//(float) Math.random()*500 + 977.777);//
   NoiseSeed nSeedY2 = new NoiseSeed( (float) 1461.2219);//(float) Math.random()*777 + 777.777); //Math.random()*500 + 977.777);//(float) Math.random()*1000 + 3141.5826);
   
  //width and height of canvas
   int WIDTH = 1920;//3840; //1920
   int HEIGHT = 1080;//2160; //1080
   //tracker for how many frames have elapsed
-  float frames =777;
+  float frames =17;
   int time = 0;
   //array of Points to keep track of quadrent information and x/y position aswell as pixel index
   Point[] allPixs = new Point[WIDTH*HEIGHT];
