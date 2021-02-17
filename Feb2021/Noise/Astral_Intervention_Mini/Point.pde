@@ -100,22 +100,51 @@ class Point {
   
   private void calcNoise () { 
     
-    double seedX = seedXNum.value, seedY = seedYNum.value;
-    
-    double xNoise = ((
+    double seedX = quad==1||quad==4 ? nSeedX1.value : nSeedX2.value; 
+    double seedY = quad==1||quad==4 ? nSeedY1.value : nSeedY2.value;
+    double waveNoise = noise.noise2((seedX+x)/200, (seedY+y)/200);
+    double mappedWave = map((float)waveNoise, 0, 1, .17, .27);
+    //double xNoise = ((
+    //  map(noiseX, 0, HW, 2, 100)+seedX)
+    //  /(xStatic+noiseY)+seedX)
+    //  * (1 + (Math.abs((double) centerY)+(
+    //  (quad==1||quad==4)
+    //    ? Math.abs((double) noiseX/200)
+    //    : Math.abs((double) noiseX*(1+cos(noiseY*(frames))/17))))
+    //  /7777777)
+    //  * (1 - noiseY/HH);
+    double xNoise = 
+      quad==1||quad==4
+      ? ((
+      map(noiseX, 0, HW, 2, 100)+seedX)
+      /(xStatic+noiseY)+seedX)
+      * (1 + (Math.abs((double) centerY)+(Math.abs((double) noiseX/200)))
+      /7777777)
+      * (1 - noiseY/HH)
+      : ((
       (noiseX/1.5)+seedX)
       /(xStatic+noiseY))+seedX 
-      * (1 + (Math.abs((double) centerY/17)+(
-      quad==1||quad==4
-        ? Math.abs((double) noiseX/2)
-        : Math.abs((double) noiseX*(1+cos(noiseY*(frames/15)/720)/7)*1.5)))
+      * (1 + (Math.abs((double) centerY/17)+(Math.abs((double) noiseX*(1+cos(noiseY*(frames/25)/720)/7)*mappedWave)))
       /525555);
+      
+     //println(seedX);
+    // if (logC < 10) {
+    //  logC++;
+    
+    // }
 
-    double yNoise = ((
+    double yNoise = quad==2 || quad==3
+      ?
+      (( map(noiseY, 0, HH, 2, 33)+seedY)
+      /(yStatic+noiseX)+seedY)
+      * (1 + (Math.abs((double) centerX)+centerY)
+      /3333333 )
+      :
+      ((
       (noiseY*1.5)+seedY)
       /(yStatic+noiseX))+seedY 
-      * (1 + (Math.abs((double) centerX)+centerY)
-      /1932222 ); 
+      * (1 + (Math.abs((double) centerX)+centerY)*(1+cos(map(noiseY, 0, HH, 500, 1000)*frames/33000)/27*mappedWave)
+      /1932222 );
       
       //double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY * (1 + (Math.abs((double) centerX)+centerY/2)/3456789); // * (1 + (double) y /3000)
     
@@ -123,8 +152,9 @@ class Point {
 
   }
   
-  public int[] calcColor( float frames ) {
+  public int[] calcColor( ) {
     
+    //changeNoise();
     calcNoise();
     //pixel saturation
     int saturation = 100;
@@ -136,7 +166,7 @@ class Point {
           Math.round( 27-100*noiseVal )) + lightAdd/19.3
         );
     
-    float mapH1 = quad == 1 || quad == 4 ? abs(height- y*2) : abs(noiseY*2) ;
+    float mapH1 = quad == 1 || quad == 4 ? abs(height- y*2-30) : abs(noiseY*2);
     
     float lightness = map( mapH1, 0, height/2, 0, lightCalc/1); 
     
@@ -165,7 +195,7 @@ class Point {
         convertedSaturation = 0;
     }
     
-    convertedBrightness = (false ? 100 : convertedSaturation ) - intLight + 100;
+    convertedBrightness = convertedSaturation - intLight + 100;
     
     return new int[] { hue, convertedSaturation, convertedBrightness };
   } 
