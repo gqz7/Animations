@@ -9,4 +9,8 @@ class NoiseSeed {
   
   }
   
+  public void move(float change) {
+      this.value += change;
+  }
+  
 }
