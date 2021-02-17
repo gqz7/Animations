@@ -5,10 +5,10 @@
   OpenSimplex2S noise;
   //seeds for noise algorithm, can be randomized for unique image every render
   static final boolean lightModeBool = true;
-  NoiseSeed nSeedX1 = new NoiseSeed( 1127.9971 );// (float) 969);//Math.random()*500 + 977.777);//(float) Math.random()*1000 + 417.3939);
-  NoiseSeed nSeedX2 = new NoiseSeed( 1135.133 );//(float) 1117.94836);// (float) Math.random()*777 +533.777);//Math.random()*500 + 977.777);//;
-  NoiseSeed nSeedY1 = new NoiseSeed( 2116.688 );//(float) 2332.719);//(float) Math.random()*500 + 977.777);//
-  NoiseSeed nSeedY2 = new NoiseSeed( 1116.2783 );//(float) 1257.2219);//(float) Math.random()*777 + 777.777); //Math.random()*500 + 977.777);//(float) Math.random()*1000 + 3141.5826);
+  NoiseSeed nSeedX1 = new NoiseSeed( 1196.9 );// (float) 969);//Math.random()*500 + 977.777);//(float) Math.random()*1000 + 417.3939);
+  NoiseSeed nSeedX2 = new NoiseSeed( 1172  );//(float) 1117.94836);// (float) Math.random()*777 +533.777);//Math.random()*500 + 977.777);//;
+  NoiseSeed nSeedY1 = new NoiseSeed( 2050.9028 );//(float) 2332.719);//(float) Math.random()*500 + 977.777);//
+  NoiseSeed nSeedY2 = new NoiseSeed( 1022.2783 );//(float) 1257.2219);//(float) Math.random()*777 + 777.777); //Math.random()*500 + 977.777);//(float) Math.random()*1000 + 3141.5826);
   
  //width and height of canvas
   int WIDTH = 3840;//3840; //1920
@@ -68,7 +68,7 @@ void draw() {
   //update the pixel info
     if (time < 7000) {
       updatePixels();
-      //saveFrame("./Renders/noise7777/img_#####.png");
+      saveFrame("./Renders/faces-7/img_#####.png");
     }
 }
 

@@ -102,7 +102,7 @@ class Point {
     
     double seedX = quad==1||quad==4 ? nSeedX1.value : nSeedX2.value; 
     double seedY = quad==1||quad==4 ? nSeedY1.value : nSeedY2.value;
-    double waveNoise = noise.noise2((seedX+x)/200, (seedY+y)/200);
+    double waveNoise = noise.noise2((seedX+x)/222, (seedY+y)/222);
     double mappedWave = map((float)waveNoise, 0, 1, .17, .27);
     //double xNoise = ((
     //  map(noiseX, 0, HW, 2, 100)+seedX)
@@ -124,7 +124,7 @@ class Point {
       : ((
       (noiseX/1.5)+seedX)
       /(xStatic+noiseY))+seedX 
-      * (1 + (Math.abs((double) centerY/17)+(Math.abs((double) noiseX*(1+cos(noiseY*(frames/25)/720)/7)*mappedWave)))
+      * (1 + (Math.abs((double) centerY/17)+(Math.abs((double) noiseX*(1+cos(noiseY*(frames/25)/777)/7)*mappedWave)))
       /525555);
       
      //println(seedX);
