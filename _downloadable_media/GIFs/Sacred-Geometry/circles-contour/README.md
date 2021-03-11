@@ -1,5 +1,5 @@
 # [Back To Categories](https://github.com/GabrielQZ/Animations/tree/master#readme)
-## [Back To Sacred Geometry Animations](https://github.com/GabrielQZ/Animations/tree/master/GIFs/Sacred-Geometry#readme)
+## [Back To Sacred Geometry Animations](https://github.com/GabrielQZ/Animations/tree/master/_downloadable_media/GIFs/Sacred-Geometry#readme)
 
 <p>&nbsp<p>
 These shapes arise when points are distributed evenly on a sphere and contour lines are drawn when sphere is rotated about the x/y axis

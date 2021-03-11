@@ -1,5 +1,5 @@
 # [Back To Categories](https://github.com/GabrielQSherman/Animations/tree/master#readme)
-# [Back To Photos](https://github.com/GabrielQSherman/Animations/tree/master/Backgound-Photos#readme)
+# [Back To Photos](https://github.com/GabrielQSherman/Animations/tree/master/_downloadable_media/Photos#readme)
 
 ### 4K Images
 
