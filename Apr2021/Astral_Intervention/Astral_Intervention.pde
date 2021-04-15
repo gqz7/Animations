@@ -6,14 +6,18 @@
   
   static final boolean lightModeBool = false;
   //seeds for noise algorithm, can be randomized for unique image every render
-  NoiseSeed nSeedX1 = new NoiseSeed(2314.3939); //new NoiseSeed((float) Math.random()*1000 + 417.3939);
-  NoiseSeed nSeedX2 = new NoiseSeed(2477.777);//new NoiseSeed((float) Math.random()*1000 + 777.777);
-  NoiseSeed nSeedY1 = new NoiseSeed(2339.719);  //new NoiseSeed((float) Math.random()*1000 + 3939.719);
-  NoiseSeed nSeedY2 = new NoiseSeed(2437.415826); //new NoiseSeed((float) Math.random()*1000 + 3141.5826);
+  NoiseSeed nSeedX1 = new NoiseSeed(2317.3939); //new NoiseSeed((float) Math.random()*1000 + 417.3939);
+  NoiseSeed nSeedX2 = new NoiseSeed(2477.477);//new NoiseSeed((float) Math.random()*1000 + 777.777);
+  NoiseSeed nSeedY1 = new NoiseSeed(2339.3719);  //new NoiseSeed((float) Math.random()*1000 + 3939.719);
+  NoiseSeed nSeedY2 = new NoiseSeed(2437.2415826); //new NoiseSeed((float) Math.random()*1000 + 3141.5826);
  //width and height of canvas
   int WIDTH = 3840;//3840; //1920
   int HEIGHT = 2160;//2160; //1080
   //tracker for how many frames have elapsed
+  
+int minL = 100;
+int maxL = 0;
+
   int frames = 0;
   //array of Points to keep track of quadrent information and x/y position aswell as pixel index
   Point[] allPixs = new Point[WIDTH*HEIGHT];
@@ -21,8 +25,8 @@
   double renderScale = .8;
   double timeScale = 1.0;
   
-  double xStatic = 88 * renderScale;
-  double yStatic = 444 * renderScale;
+  double xStatic = 84 * renderScale;
+  double yStatic = 420 * renderScale;
 
   //boolean testPrint = true; //this gets used print testing logs only a certain number of times while looping
 //setup function that runs before render
@@ -65,7 +69,7 @@ void draw() {
   //update the pixel info
   updatePixels();
 
-  saveFrame("../../../../../../Renders/111999222333444555_LIGHT_MODE/img_#####.png");
+  saveFrame("../../../../../../Art/Renders/41221/img_#####.png");
 
 }
 

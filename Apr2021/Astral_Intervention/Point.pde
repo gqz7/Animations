@@ -115,7 +115,7 @@ class Point {
     
     float mapH1 = quad == 1 || quad == 4 ? Math.abs(height-y*2) : Math.abs(y*1.5);
     
-    float lightness = map( mapH1, 0, height/2.7, 0, lightCalc/1.7); 
+    float lightness = map( mapH1, 0, height/1.7+100, -3, lightCalc/1.3); 
     
     //pixel hue calculation
     int hue = ( int(
@@ -131,7 +131,10 @@ class Point {
     if (intLight > 50) {
     
     
-    intLight = (int) map(intLight, 50, 500, 50, -50);
+      intLight = (int) map(intLight, 51, 322, 50, intLight/100);
+      
+      
+      
     } 
     
     
@@ -147,7 +150,7 @@ class Point {
 
 
     } catch ( ArithmeticException e ) {
-        convertedSaturation = 100;
+        convertedSaturation = 0;
     }
     
     convertedBrightness = (isLightMode ? 100 : convertedSaturation ) + intLight;
