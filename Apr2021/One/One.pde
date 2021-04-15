@@ -5,6 +5,9 @@
   OpenSimplex2S noise;
   
   static final boolean lightModeBool = false;
+  //this gets used print testing logs only a certain number of times while looping
+  //boolean testPrint = true; 
+
   //seeds for noise algorithm, can be randomized for unique image every render
   NoiseSeed nSeedX1 = new NoiseSeed(2317.3939); //new NoiseSeed((float) Math.random()*1000 + 417.3939);
   NoiseSeed nSeedX2 = new NoiseSeed(2477.477);//new NoiseSeed((float) Math.random()*1000 + 777.777);
@@ -14,25 +17,26 @@
   int frames = 0;
   double timeScale = 1.0;
   double renderScale = 1;  
- //width and height of canvas
-  int WIDTH = 800;//3840; //1920 //1280 //800
-  int HEIGHT = 450;//2160; //1080 //720  //450
+  //intended height and width for rendering
   int w2 = 3840;
   int y2 = 2160;
+  //starting seeds for noise
+  double xStatic = 69 * renderScale;
+  double yStatic = 420 * renderScale;
+  
+ //width and height of canvas
+  int WIDTH = 3840;//3840; //1920 //1280 //800
+  int HEIGHT = 2160;//2160; //1080 //720  //450
+
   float scaleX = (pow(WIDTH/(float)w2, (float)-1));
   float scaleY = (pow(HEIGHT/(float)y2, (float)-1));
   //array of Points to keep track of quadrent information and x/y position aswell as pixel index
   Point[] allPixs = new Point[WIDTH*HEIGHT];
 
-  double xStatic = 69 * renderScale;
-  double yStatic = 420 * renderScale;
-  //this gets used print testing logs only a certain number of times while looping
-  //boolean testPrint = true; 
-//setup function that runs before render
+  
 void setup() {
   //set canvas size
-  print(pow(width/(float)w2, (float)-1));
-  size(800,450);//0//set color mode to hue/saturation/brightness which i perfer for my animations
+  size(3840,2160);//0//set color mode to hue/saturation/brightness which i perfer for my animations
   colorMode(HSB, 360, 100, 100);
 
   //create instance of the simplex noise class

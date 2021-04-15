@@ -68,7 +68,7 @@ void draw() {
   //update the pixel info
     if (time < 7000) {
       updatePixels();
-      saveFrame("./Renders/faces-7/img_#####.png");
+      //saveFrame("./Renders/faces-7/img_#####.png");
     }
 }
 
