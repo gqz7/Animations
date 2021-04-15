@@ -9,20 +9,20 @@
   //boolean testPrint = true; 
 
   //seeds for noise algorithm, can be randomized for unique image every render
-  NoiseSeed nSeedX1 = new NoiseSeed(2317.3939); //new NoiseSeed((float) Math.random()*1000 + 417.3939);
-  NoiseSeed nSeedX2 = new NoiseSeed(2477.477);//new NoiseSeed((float) Math.random()*1000 + 777.777);
-  NoiseSeed nSeedY1 = new NoiseSeed(2339.3719);  //new NoiseSeed((float) Math.random()*1000 + 3939.719);
-  NoiseSeed nSeedY2 = new NoiseSeed(2437.2415826); //new NoiseSeed((float) Math.random()*1000 + 3141.5826);
+  NoiseSeed nSeedX1 = new NoiseSeed(2337.3662);//new NoiseSeed(2327.3939 + (float)Math.random()*10); 
+  NoiseSeed nSeedX2 = new NoiseSeed(2443.2615);//new NoiseSeed(2437.477 + (float)Math.random()*10);
+  NoiseSeed nSeedY1 = new NoiseSeed(2338.569);//new NoiseSeed(2333.3719 + (float)Math.random()*10);  
+  NoiseSeed nSeedY2 = new NoiseSeed(2442.9822);//new NoiseSeed(2435.2415826 + (float)Math.random()*10); 
   
   int frames = 0;
-  double timeScale = 1.0;
-  double renderScale = 1;  
+  double timeScale = .25;
+  double renderScale = .9;  
   //intended height and width for rendering
   int w2 = 3840;
   int y2 = 2160;
   //starting seeds for noise
-  double xStatic = 69 * renderScale;
-  double yStatic = 420 * renderScale;
+  double xStatic = 97 * renderScale;
+  double yStatic = 444 * renderScale;
   
  //width and height of canvas
   int WIDTH = 3840;//3840; //1920 //1280 //800
@@ -53,8 +53,6 @@ void draw() {
   background(0); // reset screen
   loadPixels(); // load pixels needs to be ran to modify pixels array and changePixels()
   
-  frames++; //iterate frame tracker
-  
   //iterate seed values so animation image moves
   advanceTime();
   
@@ -74,14 +72,15 @@ void draw() {
   //update the pixel info
   updatePixels();
 
-  //saveFrame("../../../../../../Art/Renders/41221/img_#####.png");
+  saveFrame("../../../../../Art/Renders/41521/img_#####.png");
 
 }
 
 void advanceTime() {
-  nSeedX1.value -= .01 * timeScale;
-  nSeedX2.value += .02 * timeScale;
-  nSeedY1.value += .01 * timeScale;
+  frames+=timeScale;//iterate frame tracker
+  nSeedX1.value -= .012 * timeScale;
+  nSeedX2.value += .033 * timeScale;
+  nSeedY1.value += .007 * timeScale;
   nSeedY2.value += .003 * timeScale;
 
 }
