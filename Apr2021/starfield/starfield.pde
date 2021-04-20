@@ -7,27 +7,32 @@
   final float centerY = HEIGHT/2;
   final float maxDistance = centerX+centerY;
   
-  final float speed = 1;
-  
-  final int maxStarCount = 777;
-  final int startingTotal = (int) ( (float) maxStarCount * (float) .33);
 
   //CAMERA VARS
   final float startingZ = (height /2) / tan(PI / 6);
   final int camMLim = 3;
-  float radius = 100;
-  final int radiusLim = (int)radius/2;
+  boolean autoRotateCam = false;
+  float radius = 2000;
+  final int radiusLim = (int)radius/20;
   
+  //TEST VARS
+  boolean keepPrinting = false;
+  int printCount = 0;
+  int printLim = 100;
+   //TEST PRINT CODE - insert this anywhere that needs to be tested but only a certain number of times (helpful in reoccuring loops)
+   // if (printCount < printLim) {
+   //  printCount++;
+   //  println(); //insert test print statment
+   //}
  
   //tracker for how many frames have elapsed
   int frames;
   int count;
-  int totalStars = 0;
-  Star[] stars;
 
   Planet planet;
   
   Geometry geoRender;
+  SpaceRender spaceRender;
   
 void mouseWheel(MouseEvent event) {
   if (radius > radiusLim) {
@@ -42,8 +47,8 @@ void setup() {
   size(2000,2000, P3D); //h: 2160
   colorMode(HSB, 360, 100, 100);
   geoRender = new Geometry();
-  stars = starGenesis();
-  totalStars += startingTotal;
+  spaceRender = new SpaceRender();
+  spaceRender.starGenesis();
   //create instance of the simplex noise class
   background(0); // reset screen
   noStroke();
@@ -55,134 +60,38 @@ void setup() {
   planet = new Planet("./testing (6).png", 1000); //switch to either 'earth-render' or 'mars-render' to see diffrent planets 
   
   
-  perspective(PI/2, width/height, 5, 10000);
+  perspective(PI/2, width/height, 5, 20000);
   //noLoop(); //uncomment to only render one frame
 }
  
 //loop function that runs on a loop 
 void draw() {
    
-  configureCamera(false);
+  configureCamera(autoRotateCam);
   
   frames++;
  
   if (totalStars < maxStarCount && frames % 10 == 0 ) {
-      stars[totalStars++] = new Star( random(-1000, 1000), random(-1000, 1000), random(-1000, 1000));
+      stars[totalStars++] = new Star( random(-10000, 10000), random(-10000, 10000), random(-10000, 10000));
   }
   
   clear(); // reset screen
   
-  //displayStars();
+  spaceRender.displayStars();
   geoRender.renderMain();
   
   
   //render camera paths
-  //renderCamPaths(); 
+  //geoRender.renderCamPaths(); 
   
   //pop();
   //planet.render();
 
 }
 
-void displayStars() {
-     
-  for (int i = 0; i < totalStars; i++) {
-    Star s = stars[i];
-    s.display();
-  }
-}
 
 
-Star[] starGenesis() { //width, height
-     
-       Star[] startingStars = new Star[maxStarCount];
-     
-       for ( int i = 0; i < startingTotal; i++ ) {
-         
-         float oX = (float) (random(width) - width/2);
-         float oY = (float) ( random(height) - height/2);
-         float oZ = random(-1000, 1000);
-         
-         startingStars[i] = new Star( oX, oY, oZ );
-         
-       }
-   
-       return startingStars;
-};
 
-void renderCamPaths() {
-  
-  int testRadius = 200;
-
-  fill(100, 0, 100);
-  noStroke();
-  //noFill();
-  //strokeWeight(10);
-  
-  int count = 0;
-  
-   float curX = cos(map(mouseX, 0, width, 0, PI*2))*testRadius;
-   float curY = sin(map(mouseY, 0, height, 0, PI*2))*testRadius;
-  
-  
-  for (float i = 0; i <= PI*2; i+=PI/100) {
-    count++;
-      //println(count, ((cos(i)*200)) );
-    
-    float cosI = cos(i)*testRadius;
-    float sinI = sin(i)*testRadius;
-    //float tanI = tan(i)*200;
-    
-    float sz = 3;
-    
-    if (cosI > curX+10 && cosI < curX-10) {
-      
-      fill(0, 100, 50);
-       
-    
-    } else {
-    
-      fill(100, 0, 100);
-        sz = 10;
-    }   
-    push();
-     translate(cosI, 0, sinI);
-     circle(0, 0, sz);
-    pop();
-    
-    sz = 3;
-    if (sinI > curY+10 && sinI < curY-10) {
-      
-      fill(0, 100, 50);
-       sz = 10;
-    
-    } else {
-    
-      fill(100, 0, 100);
-    
-    }   
-    
-    
-    push();
-     translate(0, sinI, cosI);
-     circle(0, 0, 10);
-    pop();
-    
-  }
-
-  float curZ = (curX+curY)/2;
-  
-  // println(curZ);
-  
-  fill(map(curZ, 0, testRadius, 0, 360), 100, 100);
-  
-  push();
-   translate(curX, curY, curZ);
-   circle(0, 0, map(curZ, -200, 200, 5, 50));
-  pop();
-  
-  
-}
 
 void configureCamera(boolean autoRotate) { //<>//
   
@@ -191,7 +100,7 @@ void configureCamera(boolean autoRotate) { //<>//
   if (autoRotate) {
      //AUTO ROTATE CAM
  
-     float [] rotationP = {1000, 600, 400};
+     float [] rotationP = {777, 872, 4142};
      float [] camPos = new float [3];
      
      for (int i = 0; i < rotationP.length; i++) {
@@ -211,10 +120,10 @@ void configureCamera(boolean autoRotate) { //<>//
      
      }
      
-     curX = camPos[0];
-     curY = camPos[1];
-     curZ = camPos[2];
-
+     curX = camPos[0]+24;
+     curY = camPos[1]+12;
+     curZ = 1000;//camPos[2]/10+10;
+     
 } else {
      //MOUSE CONTROLED CAM
      curX = cos(map(mouseX, 0, width, 0, PI*2))*radius;
