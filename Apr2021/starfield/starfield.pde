@@ -1,11 +1,12 @@
 //GLOBAL VARS
 
-  //width and height of canvas
-  final int WIDTH = 2000;//3840; //1920 //1280 
-  final int HEIGHT = 2000;//1024; //1080 //1024
+  //width and height of canvas 
+  //to change the resolution update both the WIDTH AND HEIGHT also change the values on  line 48
+  final int WIDTH = 2222;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280
+  final int HEIGHT = 2222;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
   final float centerX = WIDTH/2;
   final float centerY = HEIGHT/2;
-  final float maxDistance = centerX+centerY;
+  final float maxDistance = centerX+centerY;//centerX+centerY;
   
 
   //CAMERA VARS
@@ -16,9 +17,11 @@
   final int radiusLim = (int)radius/20;
   
   //TEST VARS
+  final boolean isTestingStars = false;
   boolean keepPrinting = false;
   int printCount = 0;
   int printLim = 100;
+  
    //TEST PRINT CODE - insert this anywhere that needs to be tested but only a certain number of times (helpful in reoccuring loops)
    // if (printCount < printLim) {
    //  printCount++;
@@ -44,7 +47,7 @@ void mouseWheel(MouseEvent event) {
 
 void setup() {
   //set canvas size
-  size(2000,2000, P3D); //h: 2160
+  size(2222,   2222, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
   colorMode(HSB, 360, 100, 100);
   geoRender = new Geometry();
   spaceRender = new SpaceRender();
@@ -60,7 +63,7 @@ void setup() {
   planet = new Planet("./testing (6).png", 1000); //switch to either 'earth-render' or 'mars-render' to see diffrent planets 
   
   
-  perspective(PI/2, width/height, 5, 20000);
+  perspective(PI/2, width/height, 5, 100000);
   //noLoop(); //uncomment to only render one frame
 }
  
@@ -71,18 +74,22 @@ void draw() {
   
   frames++;
  
-  if (totalStars < maxStarCount && frames % 10 == 0 ) {
-      stars[totalStars++] = new Star( random(-10000, 10000), random(-10000, 10000), random(-10000, 10000));
-  }
+  //if (totalStars < maxStarCount && frames % 10 == 0 ) {
+  //    stars[totalStars++] = new Star( random(-10000, 10000), random(-10000, 10000), random(-10000, 10000));
+  //}
   
   clear(); // reset screen
   
   spaceRender.displayStars();
-  geoRender.renderMain();
   
+  if (isTestingStars) {
+    //render camera paths
+    geoRender.renderCamGumball(); 
+    
+  } else {
+    geoRender.renderMain();
   
-  //render camera paths
-  //geoRender.renderCamPaths(); 
+  }
   
   //pop();
   //planet.render();
@@ -93,7 +100,7 @@ void draw() {
 
 
 
-void configureCamera(boolean autoRotate) { //<>//
+void configureCamera(boolean autoRotate) { //<>// //<>//
   
      float curX, curY, curZ;
 

@@ -1,16 +1,21 @@
 
-boolean isLatteral = false;
+  boolean isLatteral = false;
 
-final float speed = 1;
+   final float speed = 1;
 
-final int maxStarCount = 5000;
-final int startingTotal = (int) ( (float) maxStarCount * (float) .44);
+   final int maxStarCount = 3333;
+   final int startingTotal = (int) ( (float) maxStarCount * (float) .44);
   
-int totalStars = 0;
+   int totalStars;
   
-Star[] stars;
+   Star[] allStars;
   
-class SpaceRender {
+   float starRenderVolumn;
+   
+   int starRenderQuality;
+
+  
+ class SpaceRender {
 
   
   
@@ -22,7 +27,7 @@ class SpaceRender {
          
          float oX = (float) (random(width) - width/2);
          float oY = (float) (random(height) - height/2);
-         float oZ = random(-width*1.5, width*1.5);
+         float oZ = isLatteral ? random(-width*1.5, width*1.5) : random(-width/2, width/2);
          
          startingStars[i] = new Star( oX, oY, oZ );
          
@@ -30,16 +35,18 @@ class SpaceRender {
        
        totalStars = startingTotal;
    
-       stars = startingStars;
+       allStars = startingStars;
   };
   
   void displayStars() {
      
     for (int i = 0; i < totalStars; i++) {
-      Star s = stars[i];
-      s.display();
+      //Star s = stars[i];
+      //s.display();
+      allStars[i].display();
+   
     }
+    
   }
-
   
-}
+ }

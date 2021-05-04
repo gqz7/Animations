@@ -1,5 +1,4 @@
 
-
 class Star {
  
    private float x;
@@ -26,44 +25,47 @@ class Star {
    
    void display() {
      
-     float distance = sqrt( pow(x,2) + pow(y,2));
-     float maxLen = map( velocity, .01, .03, 50, 250);
+     float distance = pow( pow(x,2) + pow(y,2) + pow(z,2), (float)1/3);
+     float maxLen = map( velocity, .01, .03, 100, 2500);
      float trailLen = map( distance, 0, maxDistance, 0, maxLen);
      float trailWidth = trailLen/50 + .3;
      
-     //int maxColor = abs(-360-frames) % 360;
-     //int minColor = abs(-frames) % 360;
-     //int sat = (int) (100-light*.8);
-     //color c1 = color(maxColor, sat, light);
-     //color c2 = color(minColor, sat, light);
+     if (isTestingStars) {
+       if (abs(x) < abs(y)) {
+          
+         fill(327, 100, 100);
+       } else {
+         //return
+         fill(360);
+       }
+     } else {
      
-     //color grad = lerpColor(c1, c2, map(distance, 0, maxDistance, 0, 1)); 
+       fill(light);//fill(360);// 
      
-     //fill(grad);
-     
-     fill(light);//fill(360);//
-     
-     //if (abs(x) < abs(y)) {
-     //fill(60, 100, 70);
-     //}
+     }
      
      noStroke();
      
      pushMatrix();
      translate(x, y, z);
-     rotateZ(angleZ);
-     rotateY(angleY);
+     //rotateZ(angleZ);
+     //rotate(angleZ);
      
+     rotateY(angleY);
+     rotateZ(angleZ);
      //rotateX(random(0, PI*2));
      //ellipse(0,0,light/50, light/50);
      ellipse(0, 0, trailLen, trailWidth);
      popMatrix();
      
-     if (isLatteral) 
-       this.updatePosLatteral();
-     else
-       this.updatePosCenter();
-     //calculateAngles();
+     if (!isTestingStars) {
+      if (isLatteral) 
+        this.updatePosLatteral();
+      else
+        this.updatePosCenter();
+     
+     }
+     //calculateAnglesCenterExpansion();
    }
    
    void updatePosCenter() {
@@ -71,9 +73,9 @@ class Star {
       x *= 1 + velocity * speed;
       y *= 1 + velocity * speed;
       z *= 1 + velocity * speed;
-      light = light < 255 ? light * (1 + velocity*2) : 255;
+      light = light < 350 ? light * (1 + velocity*2.7) : 350;
       
-      if ( z > width*1.5 || z < -width*1.5  || y > height*10 || y < -height*10 || x > width*10 || x < -width*10 ) this.reset();
+      if ( z > width*10 || z < -width*10  || y > height*10 || y < -height*10 || x > width*10 || x < -width*10 ) this.reset();
    }
    
    void updatePosLatteral() {
@@ -110,36 +112,56 @@ class Star {
    }
    
    void calculateAnglesCenterExpansion() {
-   
-     float hypoZ = sqrt( pow(x,2) + pow(y,2));// + pow(z,2)
      
-     float trigVal = x / hypoZ;
-     
-     float resultAngleZ = asin(trigVal) + PI/2;
-     
-     angleZ = y >= 0 ? -resultAngleZ : resultAngleZ;
+     if (abs(x) > abs(y)) {
 
+       float hypoZ = sqrt( pow(x,2) + pow(y,2));// + pow(z,2)
+       
+       float trigVal = x / hypoZ;
+       
+       float resultAngleZ = asin(trigVal) - PI/2;
+       
+       angleZ = y >= 0 ? -resultAngleZ : resultAngleZ;
+       
+       if (x<=0) angleZ = -angleZ;
+  
+       //----------------------------------------------------------
+       
+       float hypoY = sqrt( pow(x,2) + pow(z,2));// + pow(z,2)
+       
+       trigVal = x/hypoY; // 
+       
+       float resultAngleY = asin(trigVal) - PI/2; //acos atan asin
+       
+       if (z>=0) resultAngleY = -resultAngleY;
+       angleY = -resultAngleY;
+       
+     } else {
+       
+       float hypoZ = sqrt( pow(z,2) + pow(y,2));// + pow(z,2)
+       
+       float trigVal = z / hypoZ;
+       
+       float resultAngleZ = asin(trigVal) - PI/2;
 
-     //----------------------------------------------------------
+       if (y <= 0 && z <= 0 || y >= 0 && z >= 0) {
+         resultAngleZ = -resultAngleZ;
+       }
+       angleZ = resultAngleZ;
+  
+       //----------------------------------------------------------
+       
+       float hypoY = sqrt( pow(x,2) + pow(z,2));// + pow(z,2)
+       
+       trigVal = x/hypoY; // 
+       
+       float resultAngleY = asin(trigVal) - PI/2; //acos atan asin
+       
+       if (z<=0) resultAngleY = -resultAngleY;
+       angleY = resultAngleY; 
      
-     
-     float hypoY = sqrt( pow(x,2) + pow(z,2));// + pow(z,2)
-     
-     trigVal = x/hypoY; // 
-     
-     float resultAngleY = asin(trigVal) + PI/2;
-     
-     if (z>=0) resultAngleY = -resultAngleY;
-     
-     if (x<=0) resultAngleY = -resultAngleY;
-
-     
-     angleY = resultAngleY;//angleY/(y/x);     
-               
-     if (printCount < printLim && abs(x) < abs(y)) {
-       printCount++;
-       println(pow(x/y,2), x, y, angleZ); //insert test print statment
      }
+   
      
      
    }
@@ -168,7 +190,6 @@ class Star {
      if (z>=0) resultAngleY = -resultAngleY;
      
      if (x<=0) resultAngleY = -resultAngleY;
-
      
      angleY = resultAngleY;
 

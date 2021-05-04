@@ -139,7 +139,7 @@ class Geometry {
   }
   
   
-  void renderCamPaths() {
+  void renderCamGumball() {
     
     int testRadius = 250;
   
@@ -205,17 +205,31 @@ class Geometry {
     // println(curZ);
     
     //CREATE CIRCLE
-    fill(60, 100, 100); //YELLOW IS POSTIVE
+    fill(60, 100, 100); //YELLOW IS POSTIVE X
     
     push();
      translate(testRadius*4, 0, 0);
      circle(0, 0, testRadius/4);
     pop();
     
-    fill(300, 100, 100); //PURPLE IS NEGITIVE
+    fill(300, 100, 100); //PURPLE IS NEGITIVE X
      
     push();
      translate(-testRadius*4, 0, 0);
+     circle(0, 0, testRadius/4);
+    pop();
+    
+    fill(0, 100, 100); //RED IS POSTIVE Z
+    
+    push();
+     translate(0, 0, testRadius*4);
+     circle(0, 0, testRadius/4);
+    pop();
+    
+    fill(180, 100, 100); //BLUE IS NEGITIVE Z
+     
+    push();
+     translate(0, 0, -testRadius*4);
      circle(0, 0, testRadius/4);
     pop();
     
