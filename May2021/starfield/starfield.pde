@@ -1,4 +1,6 @@
 //GLOBAL VARS
+  //Noise algorithm that produces values used in this animation, not made by me
+  OpenSimplex2S noise;
 
   //width and height of canvas 
   //to change the resolution update both the WIDTH AND HEIGHT also change the values on  line 48
@@ -35,10 +37,15 @@
 void setup() {
   //set canvas size
   size(2563, 2121, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
+  //set colormode
   colorMode(HSB, 360, 100, 100);
+  
+  //create objects
   cam3D = new ThreeDimCam();
   geoRender = new Geometry();
   spaceRender = new SpaceRender();
+  noise = new OpenSimplex2S( 314159265 );
+
   spaceRender.starGenesis();
   //create instance of the simplex noise class
   background(0); // reset screen

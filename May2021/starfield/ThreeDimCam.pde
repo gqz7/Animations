@@ -1,10 +1,10 @@
 
   //CAMERA VARS
   int cameraSelection = 3;
-  float radius = 2000;
+  float radius = 500;
   float cameraSpeed = 1;
   final float startingZ = (height /2) / tan(PI / 6);
-  final int camMLim = 3;
+  final int camMLim = 30;
   final int radiusLim = (int)radius/100;
   
 
@@ -76,7 +76,7 @@ class ThreeDimCam {
          //MOUSE CONTROLED CAM
          
          curX = sin(map(mouseX, 0, width, 0, PI*2))*-radius;
-         curY = sin(map(mouseY, 0, height, PI*.75, PI*1.75))*-radius/1.5;
+         curY = sin(map(mouseY, 0, height, PI*.75, PI*6/4))*radius*2;
          curZ = cos(map(mouseX, 0, width, 0, PI*2))*-radius;
     
     } 
