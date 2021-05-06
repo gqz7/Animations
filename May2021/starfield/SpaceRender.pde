@@ -3,14 +3,12 @@
 
    final float speed = 1.314;
 
-   final int maxStarCount = 7777;
+   final int maxStarCount = 3333;
    final int startingTotal = (int) ( (float) maxStarCount * (float) .44);
   
    int totalStars;
   
    Star[] allStars;
-  
-   float starRenderVolumn;
    
    int starRenderQuality;
 

@@ -10,8 +10,8 @@ class Star {
    private float z;
    
    public Star( float originX, float originY, float originZ) {
-     light = 10;
-     velocity = random(.01, .025);
+     light = 7;
+     velocity = random(.02, .047);
      x = originX;
      y = originY;
      z = originZ;
