@@ -9,9 +9,121 @@ class Geometry {
       //rotateY((float)frames/300);
       //triangleVortex1();
       //triangleVortex2();
-      particleRender(2, 0, 42);
-      particleRender(3, 0, 42);
+      particleRender(3, 0, 22, 222);
+      particleRender(2, 0, 22, 222);
+      //particleRender(0, 0, 69, 222);
+      //particleRender(3, 0, 37, 50);
     pop();
+  }
+  
+    
+  void particleRender (int shapeOpt, int clrOpt, int particleLim, int size) {
+    
+    if (shapeOpt == 3) rotateX(PI/2);
+    
+    int count = 0;
+    
+    for (float i = 0; i < particleLim; i++) {
+      
+     switch (clrOpt) {
+       case 0:
+        fill(
+          (map(i, 0, particleLim, 0, 360) + frames) % 360, 
+          70, 
+          90
+        );
+       break;
+     
+     }
+      
+      switch (shapeOpt) {
+      
+        case 0:
+         //======================================================================================================================================
+        //random particles in Square
+          float calX = sin((float)(noise.noise2(i*100, i*100)*(frames+1000)*20)/(100+i))*size;
+          float calY = sin((float)(noise.noise2(i*100, i*100)*(frames+1000)*20)/(200+i))*size;
+          float calZ = cos((float)(noise.noise2(i*100, i*100)*(frames+1000)*20)/(100))*size;
+          push();
+            translate(calX, calY, calZ);
+            sphere(1);
+          pop();
+        
+        break;
+        case 1:
+          //======================================================================================================================================
+          //random particle wide tourus
+          float noiseX = (float) (noise.noise2(i*100, i*100)) * ((float)frames/17+1000)*20/(3333+i);
+          float noiseY = (float) (noise.noise2(i*100, i*100)) * ((float)frames/17+1000)*20/(3333+i);
+                calX = (float) (size * sin(noiseX) * cos(noiseY));
+                calY = (float) (size * sin(calX) * sin(noiseY));
+                calZ = (float) (size * cos(calX));
+          push();
+            translate(calX, calY, calZ);
+            sphere(1);
+          pop();
+         break;
+         case 2:
+                //======================================================================================================================================
+            // random Sphere (shell)
+            float shapeSize = (float) size;
+            
+            for (float j = 0; j < sqrt(particleLim); j++) {
+              float pNoise = ((float) noise.noise2(((i+j+10))+(float)frames/99999, ((i+j+10))+(float)frames/99999));
+              float noiseLon = map(i , 0, sqrt(particleLim), 50, shapeSize) * pNoise;
+              float noiseLat = map(j , 0, sqrt(particleLim), 50, shapeSize) * (pNoise+.1);
+              
+                    calX = (float) (shapeSize * sin(noiseLat) * cos(noiseLon));
+                    calY = (float) (shapeSize * sin(noiseLat)   * sin(noiseLon));
+                    calZ = (float) (shapeSize * cos(noiseLat));
+              
+              push();
+              
+                rotateX(map(j, 0, sqrt(particleLim), 0, PI*2));
+                translate(calX, calY, calZ);
+                sphere(1);
+              pop();
+            }
+  
+         break;
+         case 3:
+           //======================================================================================================================================
+          // random Sphere (inside)
+          int shapeSize2 = (int) size;//particleLim*5;
+          
+          for (float j = 0; j < sqrt(particleLim); j++) {
+            float lonNoise = ((float) noise.noise2(((i+j*13))+(float)frames/16777+10, ((i+j*10))+(float)frames/17777+10));
+            float latNoise = ((float) noise.noise2(((i+j*15))+(float)frames/17777+27, ((i+j*17))+(float)frames/14777+27));
+            float zNoise = ((float) noise.noise2(((i+j+100))+(float)frames/7777, ((i+j+100))+(float)frames/7777));
+            float noiseLon = map(j*i, 0, sqrt(particleLim)*particleLim, shapeSize2/2, shapeSize2) * lonNoise;
+            float noiseLat = map(j*i, 0, sqrt(particleLim)*particleLim, shapeSize2/2, shapeSize2) * latNoise;
+            
+                  calX = (float) (shapeSize2 * sin(noiseLat) * cos(noiseLon));
+                  calY = (float) (shapeSize2 * sin(noiseLat)   * sin(noiseLon));
+                  calZ = (float) (shapeSize2 * cos(noiseLat)) * zNoise;
+            
+            push();
+              rotateX(zNoise*PI*2);
+              translate(calX, calY, calZ);
+              sphere(1);
+            pop();
+            count++;
+             //println(shapeSize2 * lonNoise);
+  
+          }
+         break;
+         case 4:
+          //float x = sin((float)(i*(frames+100)*2)/(1000))*50;
+          //float y = sin((float)(i*(frames+100)*2)/(2000+i))*50;
+          //float z = cos((float)(i*(frames+100)*2)/(1000))*50;
+         
+         break;
+      }
+     
+    }
+    
+   
+  
   }
   
   void tri (float scale, float zTrans) {
@@ -202,102 +314,7 @@ class Geometry {
       //END vortex of triagles
 
   }  
-  
-  void particleRender (int shapeOpt, int clrOpt, int particleLim) {
-    
-    for (float i = 0; i < particleLim; i++) {
-      
-     switch (clrOpt) {
-       case 0:
-        fill(
-          (map(i, 0, particleLim, 0, 360) + frames) % 360, 
-          70, 
-          90
-        );
-       break;
-     
-     }
-      
-      switch (shapeOpt) {
-      
-        case 0:
-         //======================================================================================================================================
-        //random particles in Square
-          float calX = sin((float)(noise.noise2(i*100, i*100)*(frames+1000)*20)/(100+i))*200;
-          float calY = sin((float)(noise.noise2(i*100, i*100)*(frames+1000)*20)/(200+i))*200;
-          float calZ = cos((float)(noise.noise2(i*100, i*100)*(frames+1000)*20)/(100))*200;
-          push();
-            translate(calX, calY, calZ);
-            sphere(1);
-          pop();
-        
-        break;
-        case 1:
-          //======================================================================================================================================
-          //random particle wide tourus
-          float noiseX = (float) (noise.noise2(i*100, i*100)) * ((float)frames/17+1000)*20/(3333+i);
-          float noiseY = (float) (noise.noise2(i*100, i*100)) * ((float)frames/17+1000)*20/(3333+i);
-                calX = (float) (222 * sin(noiseX) * cos(noiseY));
-                calY = (float) (222 * sin(calX) * sin(noiseY));
-                calZ = (float) (222 * cos(calX));
-          push();
-            translate(calX, calY, calZ);
-            sphere(1);
-          pop();
-         break;
-         case 2:
-                //======================================================================================================================================
-            // random Sphere (insides)
-            int shapeSize = (int) i*5;
-            
-            for (float j = 0; j < sqrt(particleLim); j++) {
-              float pNoise = ((float) noise.noise2(((i+j+10))+(float)frames/77777, ((i+j+10))+(float)frames/77777));
-              float noiseLon = map(i , 0, sqrt(particleLim), 50, shapeSize) * pNoise;
-              float noiseLat = map(j , 0, sqrt(particleLim), 50, shapeSize) * (pNoise+.1);
-              
-                    calX = (float) (shapeSize * sin(noiseLat) * cos(noiseLon));
-                    calY = (float) (shapeSize * sin(noiseLat)   * sin(noiseLon));
-                    calZ = (float) (shapeSize * cos(noiseLat));
-              
-              push();
-                translate(calX, calY, calZ);
-                sphere(1);
-              pop();
-            }
-  
-         break;
-         case 3:
-           //======================================================================================================================================
-          // random Sphere (shell)
-          int shapeSize2 = (int) particleLim*5;
-          
-          for (float j = 0; j < sqrt(particleLim); j++) {
-            float pNoise = ((float) noise.noise2(((i+j+10))+(float)frames/77777, ((i+j+10))+(float)frames/77777));
-            float noiseLon = map(i , 0, sqrt(particleLim), 50, shapeSize2) * pNoise;
-            float noiseLat = map(j , 0, sqrt(particleLim), 50, shapeSize2) * (pNoise+.1);
-            
-                  calX = (float) (shapeSize2 * sin(noiseLat) * cos(noiseLon));
-                  calY = (float) (shapeSize2 * sin(noiseLat)   * sin(noiseLon));
-                  calZ = (float) (shapeSize2 * cos(noiseLat));
-            
-            push();
-              translate(calX, calY, calZ);
-              sphere(1);
-            pop();
-          }
-         break;
-         case 4:
-          //float x = sin((float)(i*(frames+100)*2)/(1000))*50;
-          //float y = sin((float)(i*(frames+100)*2)/(2000+i))*50;
-          //float z = cos((float)(i*(frames+100)*2)/(1000))*50;
-         
-         break;
-      }
-     
-    }
-  
-  
-  }
+
   
   void renderDepthMarkers (int depthZ) {
     

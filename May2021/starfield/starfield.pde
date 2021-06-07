@@ -75,7 +75,7 @@ void draw() {
   
   clear(); // reset screen
   
-  spaceRender.displayStars();
+  //spaceRender.displayStars();
   
   if (isTestingStars) {
     //render camera paths
