@@ -14,7 +14,7 @@ class Geometry {
       //particleRender(0, 0, 69, 222);
       //particleRender(3, 0, 37, 50);
       
-        spaceFlower.drawFlower(27);
+        spaceFlower.drawFlower(23);
     pop();
   }
   
