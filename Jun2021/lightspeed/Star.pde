@@ -27,7 +27,7 @@ class Star {
      float distance = pow( pow(x,2) + pow(y,2) + pow(z,2), (float)1/3);
      float maxLen = map( velocity, .01, .03, 100, 2500);
      float trailLen = map( distance, 0, maxDistance, 0, maxLen);
-     float trailWidth = trailLen/50 + .3;
+     float trailWidth = trailLen/50 + 2;
      
      if (isTestingStars) {
        if (abs(z) < abs(x)) {
@@ -69,7 +69,7 @@ class Star {
       x *= 1 + velocity * speed;
       y *= 1 + velocity * speed;
       z *= 1 + velocity * speed;
-      light = light < 350 ? light * (1 + velocity*2.7) : 350;
+      light = light < 350 ? light * (1 + velocity*3.7) : 350;
       
       if ( z > width*10 || z < -width*10  || y > height*10 || y < -height*10 || x > width*10 || x < -width*10 ) this.reset();
    }

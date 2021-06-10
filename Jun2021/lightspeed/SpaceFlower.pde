@@ -5,30 +5,32 @@ class SpaceFlower {
   float spaceFlowerNoiseSeed = 3.167;
   float spaceFlowerScaleRate = .004;
 
-  int sFscalingLimit = 234;
+  int sFscalingLimit = 100;
 
   public void drawFlower(int lim) {
 
     calcspaceFlowerScale();
     noFill();
     strokeWeight(1);
-    spaceFlowerNoiseSeed+=.0077*1.23;
+    spaceFlowerNoiseSeed+=.0077;
     
-    float limit = (float) lim; 
-    float resolution = 1.1;
+    float limit = calcspaceFlowerLim(lim);//(float) lim;//
+    float resolution = .25;
     int petalsLim = 6;
     float noiseLineVal;
     double noiseX, noiseY;
     int[] colorData;
     float translation, rotation, translateRotation, centerRotation, layerSz, layerScale;
     
-    float rotateFlwr = (float) (
-        .005 * noise.noise2((double)spaceFlowerNoiseSeed/3+7777,(double)spaceFlowerNoiseSeed/3+7777)
-    );
+    //float rotateFlwr = (float) (
+    //    .005 * noise.noise2((double)spaceFlowerNoiseSeed/3+7777,(double)spaceFlowerNoiseSeed/3+7777)
+    //);
+    
+    //rotateX(PI/2);
     
     float[] colorInput = new float[3];
     
-      for (float i = limit; i > 0 ; i-= resolution-(i/limit)) {
+      for (float i = limit; i > 0 ; i-= resolution) {
       
           noiseX = (double) (spaceFlowerNoiseSeed + i/limit*1.5);
           noiseY = (double) (spaceFlowerNoiseSeed + i/limit*1.5);
@@ -74,7 +76,7 @@ class SpaceFlower {
           
       
           }
-          rotate(rotateFlwr);
+          //rotate(rotateFlwr);
       } 
   }
 
@@ -104,10 +106,10 @@ class SpaceFlower {
     int maxIdex = (int) factors[2];
     //float noiseFactor = factors[3]; 
     //lightness calculation
-    int lightness = int ( map(index, 0, maxIdex, 100, 0) );
+    int lightness = int ( map(index, 0, maxIdex, 86, 44) );
     
     //pixel hue calculation
-    int hue = (int) Math.abs(index*.5 - timePassed*.75 -300) % 360;
+    int hue = (int) Math.abs(index*3.7 - timePassed*.75 -300) % 360;
     
     int convertedSaturation;
     int convertedBrightness;
@@ -128,12 +130,33 @@ class SpaceFlower {
   } 
   
   public void calcspaceFlowerScale() {
+    //OPTION 1
     //if (frames % sFscalingLimit < sFscalingLimit/2)
     //  spaceFlowerScale+=spaceFlowerScaleRate;
     //else spaceFlowerScale-=spaceFlowerScaleRate;
-    if (time < sFscalingLimit) {
-      spaceFlowerScale += spaceFlowerScaleRate;
-    }
+    
+    //OPTION 2
+    //if (time < sFscalingLimit) {
+    //  spaceFlowerScale += spaceFlowerScaleRate;
+    //}
+    
+    //OPTION 3
+    float sFNoiseX = (frames*spaceFlowerScaleRate * sFscalingLimit) / 444 + 100;
+    float sFNoiseY = (frames*spaceFlowerScaleRate * sFscalingLimit) / 444 + 123;
+    spaceFlowerScale = (float) noise.noise2( sFNoiseX, sFNoiseY ) + 1;
+  }
+  
+    public float calcspaceFlowerLim(int lim) {
+    //OPTION 1
+    //float sFNoiseX = (float) frames / 777 + 100;
+    //float sFNoiseY = (float) frames / 777 + 123;
+    //float calculatedLim = abs((float) noise.noise2( sFNoiseX, sFNoiseY ) * sFscalingLimit) + lim;
+    ////println(calculatedLim);
+    //return calculatedLim;
+    
+    //OPTION 2
+    return (float) lim*2;
+    
   }
 
 }

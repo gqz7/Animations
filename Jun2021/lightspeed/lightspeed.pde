@@ -4,8 +4,8 @@
 
   //width and height of canvas 
   //to change the resolution update both the WIDTH AND HEIGHT also change the values on  line 48
-  final int WIDTH = 1920;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280
-  final int HEIGHT = 1600;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
+  final int WIDTH = 3840;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280
+  final int HEIGHT = 2160;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
   final float centerX = WIDTH/2;
   final float centerY = HEIGHT/2;
   final float maxDistance = centerX+centerY;//centerX+centerY;
@@ -24,7 +24,7 @@
    //}
  
   //tracker for how many frames have elapsed
-  int frames;
+  float frames;
   int time; //kindof like frames but frames will always increase by one. Time by increase at a slower or quicker rate for 
   int count;
 
@@ -37,7 +37,7 @@
 
 void setup() {
   //set canvas size
-  size(1920, 1600, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
+  size(3840, 2160, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
   //set colormode
   colorMode(HSB, 360, 100, 100);
   
@@ -69,14 +69,14 @@ void draw() {
    
   cam3D.configureCamera(cameraSelection);
   
-  frames++;
+  frames+=.5;
   time++;
   //if (totalStars < maxStarCount && frames % 10 == 0 ) {
   //    stars[totalStars++] = new Star( random(-10000, 10000), random(-10000, 10000), random(-10000, 10000));
   //}
   
   clear(); // reset screen
-  
+    
   spaceRender.displayStars();
   
   if (isTestingStars) {
@@ -88,7 +88,7 @@ void draw() {
   
   }
 
-  
+  //saveFrame("../../../../../Art/Renders/61021/img_#####.png");
   //pop();
   //planet.render();
 
