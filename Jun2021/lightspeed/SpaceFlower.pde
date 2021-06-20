@@ -7,7 +7,17 @@ class SpaceFlower {
 
   int sFscalingLimit = 100;
 
-  public void drawFlower(int lim) {
+  public void drawFlower(int lim, boolean autoRotate) {
+    
+    rotateZ(PI/6);
+    
+    if (autoRotate) {
+      float rotate = PI*2 * (float)noise.noise2( (float)frames/722 + 333, (float)frames/1777 + 1000 );
+      rotateX( rotate );
+      rotateY( rotate );
+      rotateZ( rotate );
+      
+    }
 
     calcspaceFlowerScale();
     noFill();
@@ -44,7 +54,7 @@ class SpaceFlower {
           
           stroke(colorData[0], colorData[1], colorData[2]);  
           
-          translation = i*2*spaceFlowerScale;
+          translation = i*2*spaceFlowerScale * (1+((float)noise.noise2((float)frames/200+i/77, (float)frames/200+i/77)));
           
           rotation = map(noiseLineVal, -1, 1, 0, PI*1.5); 
           translateRotation = map( i, 1, limit, rotation, rotation/10 );
@@ -107,6 +117,7 @@ class SpaceFlower {
     //float noiseFactor = factors[3]; 
     //lightness calculation
     int lightness = int ( map(index, 0, maxIdex, 86, 44) );
+    
     
     //pixel hue calculation
     int hue = (int) Math.abs(index*3.7 - timePassed*.75 -300) % 360;

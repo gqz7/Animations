@@ -3,7 +3,7 @@ class Geometry {
   void renderMain () {
 
     //renderMerkaba1();
-    push();
+    //push();
       //rotateZ(-PI/4);
       //rotateZ((float)frames/300);
       //rotateY((float)frames/300);
@@ -13,7 +13,7 @@ class Geometry {
        //particleRender(2, 0, 22, 222);
       //particleRender(1, 0, 619, 222);
       //particleRender(3, 0, 37, 50);
-      
+    //pop();  
         
         
         
@@ -22,17 +22,29 @@ class Geometry {
         //rotateZ(-PI/6);
         
         
-        rotateX(PI/6);
-        rotateY(PI/2);
-        spaceFlower.drawFlower(27);
-        //rotateY(-PI/2);
-        //rotateX(-PI/6+PI/2);
-        ////rotateY(PI/4);
+        
+        
+    push();    
+        //rotateX(PI/3);
+
+        
+        //rotateY(PI/2+(float)frames/1000);
+        spaceFlower.drawFlower(27, false);
+        //rotateY(-PI/2+(float)frames/1000);
+        
+        //rotateX(-PI/6)
+        //rotateX(+PI/2);
+        //rotateY(PI/4);
         //spaceFlower.drawFlower(27);
-        ////rotateY(PI/4);
+        //rotateY(PI/2);
+        //spaceFlower.drawFlower(27);
+        ////rotateY(PI/4)
+        
+        ;
         ////spaceFlower.drawFlower(21);
         //rotateZ(PI/2);
         //spaceFlower.drawFlower(39);
+    
     pop();
   }
   

@@ -4,8 +4,8 @@
 
   //width and height of canvas 
   //to change the resolution update both the WIDTH AND HEIGHT also change the values on  line 48
-  final int WIDTH = 3840;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280
-  final int HEIGHT = 2160;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
+  final int WIDTH = 1504;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280
+  final int HEIGHT = 846;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
   final float centerX = WIDTH/2;
   final float centerY = HEIGHT/2;
   final float maxDistance = centerX+centerY;//centerX+centerY;
@@ -37,7 +37,7 @@
 
 void setup() {
   //set canvas size
-  size(3840, 2160, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
+  size(1504, 846, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
   //set colormode
   colorMode(HSB, 360, 100, 100);
   
@@ -57,7 +57,7 @@ void setup() {
   
   //println(startingZ);
   //create planet shape which will be rendered every frame
-  planet = new Planet("./testing (6).png", 1000); //switch to either 'earth-render' or 'mars-render' to see diffrent planets 
+  //planet = new Planet("./testing (6).png", 1000); //switch to either 'earth-render' or 'mars-render' to see diffrent planets 
   
   
   perspective(PI/2, width/height, 5, 100000);
@@ -77,7 +77,7 @@ void draw() {
   
   clear(); // reset screen
     
-  spaceRender.displayStars();
+  //spaceRender.displayStars();
   
   if (isTestingStars) {
     //render camera paths
