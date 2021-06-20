@@ -1,10 +1,11 @@
 
   //CAMERA VARS
   int cameraSelection = 3;
-  float radius = 200;
-  float cameraSpeed = 1;
+  float radius = 555;
+  float cameraSpeed = 2;
+  boolean rotateHorizontal = false;
   final float startingZ = (height /2) / tan(PI / 6);
-  final int radiusLim = (int)radius/100;
+  final int radiusLim = (int)radius/10;
   // final int camMLim = 30;
   
 
@@ -67,7 +68,7 @@ class ThreeDimCam {
          
          curX = sin((float)frames/111*cameraSpeed) * radius;
          
-         curY = sin((float)frames/555*cameraSpeed) * -radius/3;
+         curY = 0;//sin((float)frames/555*cameraSpeed) * -radius/3;
       
          curZ = cos((float)frames/111*cameraSpeed) * radius;
        
@@ -79,8 +80,17 @@ class ThreeDimCam {
          curY = sin(map(mouseY, 0, height, PI*.75, PI*6/4))*radius*2;
          curZ = cos(map(mouseX, 0, width, 0, PI*2))*-radius;
     
+    } else if (camOpt == 4) {
+          //Perfect ORBIT CAM              
+         
+         //curY = sin((float)(frames+111)/111*cameraSpeed) * radius;
+         
+         //curZ = sin((float)frames/111*cameraSpeed) * radius;
+      
+         //curX = sin((float)frames/111*cameraSpeed) * radius;
+       
+    
     } 
-  
   
     camera(
        curX,   //(float)mouseX/4 + width/8, //X

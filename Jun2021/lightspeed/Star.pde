@@ -1,4 +1,6 @@
 
+int ghostOffset = 1;
+float ghostRes = .1;
 class Star {
  
    private float x;
@@ -10,7 +12,7 @@ class Star {
    private float z;
    
    public Star( float originX, float originY, float originZ) {
-     light = 7;
+     light = 100;
      velocity = random(.02, .047);
      x = originX;
      y = originY;
@@ -27,32 +29,44 @@ class Star {
      float distance = pow( pow(x,2) + pow(y,2) + pow(z,2), (float)1/3);
      float maxLen = map( velocity, .01, .03, 100, 2500);
      float trailLen = map( distance, 0, maxDistance, 0, maxLen);
-     float trailWidth = trailLen/50 + .3;
+     float trailWidth = trailLen/111 + .34;
      
-     if (isTestingStars) {
-       if (abs(z) < abs(x)) {
+     //if (isTestingStars) {
+     //  if (abs(z) < abs(x)) {
           
-         fill(327, 100, 100);
-       } else {
-         //return
-         fill(360);
-       }
-     } else {
+     //    fill(327, 100, 100);
+     //  } else {
+     //    //return
+     //    fill(360);
+     //  }
+     //} else {
      
-       fill(light);
+     //  fill(light);
      
-     }
+     //}
      
      noStroke();
      
+     
+     
+     for ( float i = .1; i < ghostOffset; i += ghostRes ) {
+       
+       pushMatrix();
+
+         translate(x*(1+i/100), y*(1+i/100), z*(1+i/100));
+         
+         rotateY(angleY);
+         rotateZ(angleZ);
+         fill( (distance*5 + i) % 360, map(light,0,350,77,0), light);
+         ellipse(0, 0, trailLen+i/10, trailWidth+i);
+       popMatrix();
+       
+     }
+           
      pushMatrix();
-     translate(x, y, z);
-     
-     rotateY(angleY);
-     rotateZ(angleZ);
-     
-     ellipse(0, 0, trailLen, trailWidth);
-     popMatrix();
+       translate(x, y, z);
+       ellipse(0, 0, trailLen/10, trailWidth*5);
+     popMatrix(); 
      
      if (!isTestingStars) {
       if (isLatteral) 
@@ -69,7 +83,7 @@ class Star {
       x *= 1 + velocity * speed;
       y *= 1 + velocity * speed;
       z *= 1 + velocity * speed;
-      light = light < 350 ? light * (1 + velocity*2.7) : 350;
+      light = light < 350 ? light * (1 + velocity*7.7) : 350;
       
       if ( z > width*10 || z < -width*10  || y > height*10 || y < -height*10 || x > width*10 || x < -width*10 ) this.reset();
    }
@@ -85,7 +99,7 @@ class Star {
    
    void reset() {
      
-     light = 10;
+     light = 7;
 
      float 
        ranAngle = random(100),
