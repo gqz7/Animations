@@ -85,7 +85,7 @@
     //games = new Game[1];
     //cellSize = tempCellSize;
     //int cellCols = WIDTH / cellSize;
-    //Game game1 = new Game(1, 0, cellCols, 0, 0, 0);
+    //Game game1 = new Game(0, 0, cellCols, 0,WIDTH/2, -PI/4, 0, 0);
     //games[0] = game1;
     
     
