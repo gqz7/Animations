@@ -2,33 +2,38 @@
 class SpaceFlower {
     
   float spaceFlowerScale = .1;
-  float spaceFlowerNoiseSeed = 3.167;
+  float spaceFlowerNoiseSeed = 3234.167;
   float spaceFlowerScaleRate = .004;
-
+  float spaceFlowerColorNoiseSeed = 23.42;
+  float spaceFlowerColorNoise;
   int sFscalingLimit = 100;
+  
 
   public void drawFlower(int lim, boolean autoRotate) {
     
-    rotateZ(PI/6);
+    
     
     if (autoRotate) {
-      float rotate = PI*2 * (float)noise.noise2( (float)frames/722 + 333, (float)frames/1777 + 1000 );
-      rotateX( rotate );
-      rotateY( rotate );
-      rotateZ( rotate );
+      float rotate = PI*2 * (float)noise.noise2( (float)frames/722*spaceSpeed + 333, (float)frames/1777*spaceSpeed + 1000 );
+      rotateX( rotate/4 );
+      rotateY( rotate/2 );
+      rotateZ( rotate/4 );
       
     }
 
     calcspaceFlowerScale();
     noFill();
     strokeWeight(1);
-    spaceFlowerNoiseSeed+=.0077;
+    spaceFlowerNoiseSeed += 0.00037 * spaceSpeed;
+    spaceFlowerColorNoiseSeed += 0.00074 * spaceSpeed;
+    
+    spaceFlowerColorNoise = (float) noise.noise2( spaceFlowerColorNoiseSeed, spaceFlowerColorNoiseSeed);
     
     float limit = calcspaceFlowerLim(lim);//(float) lim;//
-    float resolution = .25;
+    float resolution = .15;
     int petalsLim = 6;
     float noiseLineVal;
-    double noiseX, noiseY;
+    double roationNoiseX, roationNoiseY;
     int[] colorData;
     float translation, rotation, translateRotation, centerRotation, layerSz, layerScale;
     
@@ -40,11 +45,13 @@ class SpaceFlower {
     
     float[] colorInput = new float[3];
     
+    
+    
       for (float i = limit; i > 0 ; i-= resolution) {
       
-          noiseX = (double) (spaceFlowerNoiseSeed + i/limit*1.5);
-          noiseY = (double) (spaceFlowerNoiseSeed + i/limit*1.5);
-          noiseLineVal = (float) noise.noise2(noiseX, noiseY);
+          roationNoiseX = (double) (spaceFlowerNoiseSeed + i/limit*.715);
+          roationNoiseY = (double) (spaceFlowerNoiseSeed + i/limit*.715);
+          noiseLineVal = (float) noise.noise2(roationNoiseX, roationNoiseY);
 
           colorInput[0] = (float) frames;
           colorInput[1] = i;
@@ -56,8 +63,8 @@ class SpaceFlower {
           
           translation = i*2*spaceFlowerScale * (1+((float)noise.noise2((float)frames/200+i/77, (float)frames/200+i/77)));
           
-          rotation = map(noiseLineVal, -1, 1, 0, PI*1.5); 
-          translateRotation = map( i, 1, limit, rotation, rotation/10 );
+          rotation = map(noiseLineVal, -1, 1, 0, PI*1.8); 
+          translateRotation = map( i, 1, limit, rotation, 0 );
           
           for (int j = 0; j < petalsLim; ++j) {
 
@@ -120,7 +127,10 @@ class SpaceFlower {
     
     
     //pixel hue calculation
-    int hue = (int) Math.abs(index*3.7 - timePassed*.75 -300) % 360;
+    //BASIC: cycle through the rainbow
+    //int hue = (int) Math.abs(index*3.7 - timePassed*.75 -300) % 360;
+    //NOISE BASED
+    int hue = int ( map(spaceFlowerColorNoise, -1, 1, 25, 250) + map(index, 0, maxIdex, 250, 75))  % 360;
     
     int convertedSaturation;
     int convertedBrightness;

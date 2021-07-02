@@ -29,7 +29,8 @@ class Geometry {
 
         
         //rotateY(PI/2+(float)frames/1000);
-        spaceFlower.drawFlower(27, false);
+        rotateZ(PI/6);
+        spaceFlower.drawFlower(30, false);
         //rotateY(-PI/2+(float)frames/1000);
         
         //rotateX(-PI/6)
@@ -38,12 +39,10 @@ class Geometry {
         //spaceFlower.drawFlower(27);
         //rotateY(PI/2);
         //spaceFlower.drawFlower(27);
-        ////rotateY(PI/4)
-        
-        ;
+        ////rotateY(PI/4);
         ////spaceFlower.drawFlower(21);
         //rotateZ(PI/2);
-        //spaceFlower.drawFlower(39);
+        //spaceFlower.drawFlower(39, false);
     
     pop();
   }
