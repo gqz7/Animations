@@ -10,9 +10,11 @@ class Star {
    private float angleZ;
    private float angleY;
    private float z;
+   private float distance;
+   private int ranStarNum;
    
    public Star( float originX, float originY, float originZ) {
-     light = 100;
+     light = 7;
      velocity = random(.02, .047);
      x = originX;
      y = originY;
@@ -24,12 +26,21 @@ class Star {
        calculateAnglesCenterExpansion();
    }
    
+   public Star () {
+     reset();
+   }
+   
+   public Star (float light) {
+     reset();
+     this.light = light;
+   }
+   
    void display() {
      
-     float distance = pow( pow(x,2) + pow(y,2) + pow(z,2), (float)1/3);
+     distance = pow( pow(x,2) + pow(y,2) + pow(z,2), (float)1/3);
      float maxLen = map( velocity, .01, .03, 100, 2500);
      float trailLen = map( distance, 0, maxDistance, 0, maxLen);
-     float trailWidth = trailLen/111 + .34;
+     float trailWidth = trailLen/77 + .34;
      
      //if (isTestingStars) {
      //  if (abs(z) < abs(x)) {
@@ -49,26 +60,32 @@ class Star {
      
      
      
-     for ( float i = .1; i < ghostOffset; i += ghostRes ) {
+     //for ( float i = .1; i < ghostOffset; i += ghostRes ) {
        
-       pushMatrix();
+     //  pushMatrix();
 
-         translate(x*(1+i/100), y*(1+i/100), z*(1+i/100));
+     //    translate(x*(1+i/100), y*(1+i/100), z*(1+i/100));
          
-         rotateY(angleY);
-         rotateZ(angleZ);
-         fill( (distance*5 + i) % 360, map(light,0,350,77,0), light);
-         ellipse(0, 0, trailLen+i/10, trailWidth+i);
-       popMatrix();
+     //    rotateY(angleY);
+     //    rotateZ(angleZ);
+     //    fill( (distance*5 + i) % 360, map(light,0,350,77,0), light);
+     //    ellipse(0, 0, trailLen+i/10, trailWidth+i);
+     //  popMatrix();
        
-     }
+     //}
+     
+     float sat = map(light,0,350, 88,0);
+     float hue = map(light, 0, 350, 140+ranStarNum, 300+ranStarNum);//(distance*3 % 140) + 220
            
+     fill( hue, sat, light);
      pushMatrix();
        translate(x, y, z);
-       ellipse(0, 0, trailLen/10, trailWidth*5);
+        rotateY(angleY);
+         rotateZ(angleZ);
+       ellipse(0, 0, trailLen, trailWidth);
      popMatrix(); 
      
-     if (!isTestingStars) {
+     if (!isTesting) {
       if (isLatteral) 
         this.updatePosLatteral();
       else
@@ -80,18 +97,18 @@ class Star {
    
    void updatePosCenter() {
      
-      x *= 1 + velocity * speed;
-      y *= 1 + velocity * speed;
-      z *= 1 + velocity * speed;
-      light = light < 350 ? light * (1 + velocity*7.7) : 350;
+      x *= 1 + velocity * spaceSpeed;
+      y *= 1 + velocity * spaceSpeed;
+      z *= 1 + velocity * spaceSpeed;
+      light = light < 350 ? light * (1 + velocity*7.7 * spaceSpeed)  : 350;
       
-      if ( z > width*10 || z < -width*10  || y > height*10 || y < -height*10 || x > width*10 || x < -width*10 ) this.reset();
+      if ( z > width*10 || z < -width*10  || y > width*10 || y < -width*10 || x > width*10 || x < -width*10 ) this.reset();
    }
    
    void updatePosLatteral() {
      
-      z += ((1+velocity) * speed * 37) + y/1000 + x/1000;
-      if (velocity < .03) velocity+=speed/2222;
+      z += ((1+velocity) * spaceSpeed * 37) + y/1000 + x/1000;
+      if (velocity < .03) velocity+=spaceSpeed/2222;
       light = light < 255 ? light * (1 + velocity*2) : 255;
       
       if ( z > width*1.5 || z < -width*1.5  || y > height*10 || y < -height*10 || x > width*10 || x < -width*10 ) this.reset();
@@ -99,11 +116,12 @@ class Star {
    
    void reset() {
      
-     light = 7;
+     light = 17;
+     ranStarNum = (int) random(0,100);
 
      float 
        ranAngle = random(100),
-       radius = isLatteral ? 5 :25,
+       radius = 7,
        randomX1 = (cos(ranAngle) * radius),
        randomY1 = (sin(ranAngle) * radius),
        randomX2 = (cos(ranAngle) * radius * 4),
@@ -113,8 +131,11 @@ class Star {
       x =  (randomX2 * ranNum) + (randomX1 * ranNum) * random(1);
       y =  (randomY2 * ranNum) + (randomY1 * ranNum) * random(5);
       z =  isLatteral ? random(-2000, -1000) : random(-500, 500);
-      velocity = random(.01, .025);
-     
+      velocity = random(.005, .027);
+      
+      distance = pow( pow(x,2) + pow(y,2) + pow(z,2), (float)1/3);
+      
+      
      if (isLatteral) 
        calculateAnglesLatteralExpansion();
      else
@@ -172,6 +193,8 @@ class Star {
      if (x<=0) resultAngleY = -resultAngleY;
      
      angleY = resultAngleY;
+     
+     
    }
    
 }

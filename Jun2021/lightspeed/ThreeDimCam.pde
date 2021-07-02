@@ -1,13 +1,14 @@
 
   //CAMERA VARS
-  int cameraSelection = 3;
-  float radius = 555;
-  float cameraSpeed = 2;
+  int cameraSelection = 5;
+  float radius = 0;
+  float cameraSpeed = renderSpeed;
   boolean rotateHorizontal = false;
   final float startingZ = (height /2) / tan(PI / 6);
-  final int radiusLim = (int)radius/10;
+  final int radiusLim = (int)radius/5;
+  final int radiusMax = (int) radius*5;
   // final int camMLim = 30;
-  
+  float zZoom = 250;
 
   void mouseWheel(MouseEvent event) {
     if (radius > radiusLim) {
@@ -83,11 +84,33 @@ class ThreeDimCam {
     } else if (camOpt == 4) {
           //Perfect ORBIT CAM              
          
-         //curY = sin((float)(frames+111)/111*cameraSpeed) * radius;
+         curY = sin((float)(frames+111)/111*cameraSpeed) * radius;
          
-         //curZ = sin((float)frames/111*cameraSpeed) * radius;
+         curZ = sin((float)frames/111*cameraSpeed) * radius;
       
-         //curX = sin((float)frames/111*cameraSpeed) * radius;
+         curX = sin((float)frames/111*cameraSpeed) * radius;
+       
+    
+    } else if (camOpt == 5) {
+          //Perfect ORBIT CAM              
+         
+         curY = 0;//sin((float)frames/111*cameraSpeed) * radius;
+         
+                   
+         if (frames % 500 < 250 ) {
+          
+          
+            zZoom+=renderSpeed;
+          
+          
+         } else {
+          
+             zZoom-=renderSpeed;
+          
+         }
+         curZ = 10;//sin((float)frames/111*cameraSpeed) * radius;
+      
+         curX = 0;//sin((float)frames/111*cameraSpeed) * radius;
        
     
     } 
@@ -207,15 +230,15 @@ class ThreeDimCam {
     //X
     strokeWeight(testRadius/50);
     stroke(0, 100, 70);
-    line(-testRadius, 0, testRadius, 0);
+    line(-testRadius, 0, testRadius, 0); //RED IS X
     //Y
     stroke(120, 100, 70);
-    line(0, -testRadius, 0, testRadius);
+    line(0, -testRadius, 0, testRadius); //GREEN IS Y
     //Z
     push();
     rotateY(PI/2);
     stroke(240, 100, 70);
-    line(-testRadius, 0, testRadius, 0);
+    line(-testRadius, 0, testRadius, 0); //BLUE IS Z
     pop();
   }
 
