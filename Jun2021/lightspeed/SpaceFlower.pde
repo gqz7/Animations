@@ -2,9 +2,9 @@
 class SpaceFlower {
     
   float spaceFlowerScale = .1;
-  float spaceFlowerNoiseSeed = 3234.167;
+  float spaceFlowerNoiseSeed = 5123.367;
   float spaceFlowerScaleRate = .004;
-  float spaceFlowerColorNoiseSeed = 23.42;
+  float spaceFlowerColorNoiseSeed = 3143.42;
   float spaceFlowerColorNoise;
   int sFscalingLimit = 100;
   
@@ -21,7 +21,7 @@ class SpaceFlower {
       
     }
 
-    calcspaceFlowerScale();
+    spaceFlowerScale = 1;//calcspaceFlowerScale(); 
     noFill();
     strokeWeight(1);
     spaceFlowerNoiseSeed += 0.00037 * spaceSpeed;
@@ -30,11 +30,11 @@ class SpaceFlower {
     spaceFlowerColorNoise = (float) noise.noise2( spaceFlowerColorNoiseSeed, spaceFlowerColorNoiseSeed);
     
     float limit = calcspaceFlowerLim(lim);//(float) lim;//
-    float resolution = .15;
+    float resolution = .05;
     int petalsLim = 6;
     float noiseLineVal;
     double roationNoiseX, roationNoiseY;
-    int[] colorData;
+    float[] colorData;
     float translation, rotation, translateRotation, centerRotation, layerSz, layerScale;
     
     //float rotateFlwr = (float) (
@@ -115,7 +115,7 @@ class SpaceFlower {
       popMatrix();
   }
 
-  public int[] calcColor( float[] factors ) {
+  public float[] calcColor( float[] factors ) {
     //pixel saturation
     int saturation = 100;
     int timePassed = (int) factors[0];
@@ -130,7 +130,7 @@ class SpaceFlower {
     //BASIC: cycle through the rainbow
     //int hue = (int) Math.abs(index*3.7 - timePassed*.75 -300) % 360;
     //NOISE BASED
-    int hue = int ( map(spaceFlowerColorNoise, -1, 1, 25, 250) + map(index, 0, maxIdex, 250, 75))  % 360;
+    int hue = int ( map(spaceFlowerColorNoise, -1, 1, 25, 225) + map(index, 0, maxIdex, 265, 70))  % 360;
     
     int convertedSaturation;
     int convertedBrightness;
@@ -147,7 +147,7 @@ class SpaceFlower {
     
     convertedBrightness = convertedSaturation + lightness;
     
-    return new int[] { hue, convertedSaturation, convertedBrightness };
+    return new float[] { hue, convertedSaturation, convertedBrightness };
   } 
   
   public void calcspaceFlowerScale() {

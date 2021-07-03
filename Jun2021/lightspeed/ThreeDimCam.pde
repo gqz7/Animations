@@ -1,14 +1,14 @@
 
   //CAMERA VARS
-  int cameraSelection = 5;
-  float radius = 0;
+  int cameraSelection = 4;
+  float radius = 777;
   float cameraSpeed = renderSpeed;
   boolean rotateHorizontal = false;
   final float startingZ = (height /2) / tan(PI / 6);
   final int radiusLim = (int)radius/5;
   final int radiusMax = (int) radius*5;
   // final int camMLim = 30;
-  float zZoom = 250;
+  float posZoomDis = 275;
 
   void mouseWheel(MouseEvent event) {
     if (radius > radiusLim) {
@@ -82,33 +82,33 @@ class ThreeDimCam {
          curZ = cos(map(mouseX, 0, width, 0, PI*2))*-radius;
     
     } else if (camOpt == 4) {
-          //Perfect ORBIT CAM              
+          //Static side cam         
          
-         curY = sin((float)(frames+111)/111*cameraSpeed) * radius;
+         curY = 0;//sin((float)(frames+111)/111*cameraSpeed) * radius;
          
-         curZ = sin((float)frames/111*cameraSpeed) * radius;
+         curZ = 0;//sin((float)frames/111*cameraSpeed) * radius;
       
-         curX = sin((float)frames/111*cameraSpeed) * radius;
+         curX = 100;//sin((float)frames/111*cameraSpeed) * radius;
        
     
     } else if (camOpt == 5) {
-          //Perfect ORBIT CAM              
+          //Zoom head on cam             
          
          curY = 0;//sin((float)frames/111*cameraSpeed) * radius;
          
                    
-         if (frames % 500 < 250 ) {
+         if (frames % 5000/renderSpeed < 2500/renderSpeed ) {
           
           
-            zZoom+=renderSpeed;
+            posZoomDis-=renderSpeed/10;
           
           
          } else {
           
-             zZoom-=renderSpeed;
+             posZoomDis+=renderSpeed/10;
           
          }
-         curZ = 10;//sin((float)frames/111*cameraSpeed) * radius;
+         curZ = posZoomDis;//sin((float)frames/111*cameraSpeed) * radius;
       
          curX = 0;//sin((float)frames/111*cameraSpeed) * radius;
        

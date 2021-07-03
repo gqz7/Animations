@@ -2,6 +2,21 @@
 //Noise algorithm that produces values used in this animation, not made by me
 OpenSimplex2S noise;
 
+//TEST VARS
+final boolean isTesting = false;
+boolean keepPrinting = true;
+int printCount = 0;
+int printLim = 100;
+
+
+final float fps = 60;
+final float renderSpeed = 1;
+
+//tracker for how many frames have elapsed
+float frames;
+int time; //kindof like frames but frames will always increase by one. Time by increase at a slower or quicker rate for 
+int count;
+
 //width and height of canvas 
 //to change the resolution update both the WIDTH AND HEIGHT also change the values on  line 48
 final int WIDTH = 3840;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280
@@ -9,26 +24,6 @@ final int HEIGHT = 2160;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
 final float centerX = WIDTH/2;
 final float centerY = HEIGHT/2;
 final float maxDistance = centerX+centerY;//centerX+centerY;
-final float fps = 60;
-final float renderSpeed = .5;
-
-
-//TEST VARS
-final boolean isTesting = false;
-boolean keepPrinting = true;
-int printCount = 0;
-int printLim = 100;
-
-//TEST PRINT CODE - insert this anywhere that needs to be tested but only a certain number of times (helpful in reoccuring loops)
-// if (printCount < printLim) {
-//  printCount++;
-//  println(); //insert test print statment
-//}
-
-//tracker for how many frames have elapsed
-float frames;
-int time; //kindof like frames but frames will always increase by one. Time by increase at a slower or quicker rate for 
-int count;
 
 Planet planet;
 
@@ -54,7 +49,7 @@ void setup() {
   spaceRender.starGenesis();
   lifeRender.lifeGenesis(2);
   //create instance of the simplex noise class
-  background(360); // reset screen
+  background(0); // reset screen
   noStroke();
   noCursor();
   frameRate(fps);
@@ -64,7 +59,7 @@ void setup() {
   //planet = new Planet("./testing (6).png", 1000); //switch to either 'earth-render' or 'mars-render' to see diffrent planets 
 
 
-  perspective(PI/2, width/height, 5, 100000);
+  perspective(PI/1.2, width/height, 1, 100000);
   //noLoop(); //uncomment to only render one frame
 }
 
@@ -80,7 +75,7 @@ void draw() {
   time++;
 
   clear(); // reset screen
-   background(360);
+   background(0);
   spaceRender.displayStars();
   geoRender.renderMain();
 
@@ -92,7 +87,9 @@ void draw() {
     cam3D.renderCamGumball();
   } 
 
-  //saveFrame("../../../../../Art/Renders/61021/img_#####.png");
+  //saveFrame("~/Desktop/renders/7221/img_#####.png");
+
+  
   //pop();
   //planet.render();
 }
