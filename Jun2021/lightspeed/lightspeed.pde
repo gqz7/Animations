@@ -19,8 +19,8 @@ int count;
 
 //width and height of canvas 
 //to change the resolution update both the WIDTH AND HEIGHT also change the values on  line 48
-final int WIDTH = 3840;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280
-final int HEIGHT = 2160;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
+  final int WIDTH = 1680;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 //1680
+final int HEIGHT = 950;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720 //950
 final float centerX = WIDTH/2;
 final float centerY = HEIGHT/2;
 final float maxDistance = centerX+centerY;//centerX+centerY;
@@ -33,11 +33,17 @@ ThreeDimCam cam3D;
 SpaceFlower spaceFlower;
 ThreeDimLife lifeRender;
 
+void settings () {
+
+ size(WIDTH, HEIGHT, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
+ 
+
+}
+
 void setup() {
   //set canvas size
-  size(3840, 2160, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
   //set colormode
-  colorMode(HSB, 360, 100, 100);
+  colorMode(HSB, 10000, 100, 100);
   //create objects
   cam3D = new ThreeDimCam();
   geoRender = new Geometry();
@@ -59,7 +65,7 @@ void setup() {
   //planet = new Planet("./testing (6).png", 1000); //switch to either 'earth-render' or 'mars-render' to see diffrent planets 
 
 
-  perspective(PI/1.2, width/height, 1, 100000);
+  perspective(PI/1.9, width/height, 1, 100000);
   //noLoop(); //uncomment to only render one frame
 }
 

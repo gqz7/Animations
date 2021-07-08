@@ -1,18 +1,20 @@
 
   //CAMERA VARS
-  int cameraSelection = 4;
-  float radius = 777;
+  int cameraSelection = 5;
+  float radius = 300;
   float cameraSpeed = renderSpeed;
   boolean rotateHorizontal = false;
+  float camZoomSpeed = 5;
   final float startingZ = (height /2) / tan(PI / 6);
   final int radiusLim = (int)radius/5;
   final int radiusMax = (int) radius*5;
+  
   // final int camMLim = 30;
-  float posZoomDis = 275;
+  //float posZoomDis = 50;
 
   void mouseWheel(MouseEvent event) {
     if (radius > radiusLim) {
-      radius += event.getCount() * radiusLim;
+      radius += event.getCount() * camZoomSpeed;
     } else if ( radius == radiusLim && event.getCount() == 1) {
       radius = radiusLim * 2;
     } else {
@@ -95,20 +97,21 @@ class ThreeDimCam {
           //Zoom head on cam             
          
          curY = 0;//sin((float)frames/111*cameraSpeed) * radius;
-         
-                   
-         if (frames % 5000/renderSpeed < 2500/renderSpeed ) {
+                 
+         if (frames % 1000 < 500 ) {
           
           
-            posZoomDis-=renderSpeed/10;
+            radius-=renderSpeed;
           
           
          } else {
           
-             posZoomDis+=renderSpeed/10;
+             radius+=renderSpeed ;
           
          }
-         curZ = posZoomDis;//sin((float)frames/111*cameraSpeed) * radius;
+         curZ = radius;//sin((float)frames/111*cameraSpeed) * radius;
+         
+         println(radius, frames);
       
          curX = 0;//sin((float)frames/111*cameraSpeed) * radius;
        

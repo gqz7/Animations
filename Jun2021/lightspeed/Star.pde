@@ -75,7 +75,7 @@ class Star {
      //}
      
      float sat = map(light,0,350, 88,0);
-     float hue = map(light, 0, 350, 140+ranStarNum, 300+ranStarNum);//(distance*3 % 140) + 220
+     float hue = map(light, 0, 350, 4500+ranStarNum, 8500+ranStarNum);//(distance*3 % 140) + 220
            
      fill( hue, sat, light);
      pushMatrix();
@@ -117,7 +117,7 @@ class Star {
    void reset() {
      
      light = 17;
-     ranStarNum = (int) random(0,100);
+     ranStarNum = (int) random(0,3000);
 
      float 
        ranAngle = random(100),

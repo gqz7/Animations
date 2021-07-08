@@ -1,13 +1,15 @@
-
+   
 class SpaceFlower {
     
   float spaceFlowerScale = .1;
-  float spaceFlowerNoiseSeed = 5123.367;
-  float spaceFlowerScaleRate = .004;
+  float spaceFlowerNoiseSeed = 3472.37;
+  float spaceFlowerScaleNoiseSeed = 1273.3939;
+  float spaceFlowerScaleNoiseVal;
   float spaceFlowerColorNoiseSeed = 3143.42;
-  float spaceFlowerColorNoise;
+  float spaceFlowerColorNoiseVal;
   int sFscalingLimit = 100;
-  
+  float resolution = .1;
+ 
 
   public void drawFlower(int lim, boolean autoRotate) {
     
@@ -24,18 +26,19 @@ class SpaceFlower {
     spaceFlowerScale = 1;//calcspaceFlowerScale(); 
     noFill();
     strokeWeight(1);
+    //println(spaceFlowerNoiseSeed, frames);
     spaceFlowerNoiseSeed += 0.00037 * spaceSpeed;
     spaceFlowerColorNoiseSeed += 0.00074 * spaceSpeed;
+    spaceFlowerScaleNoiseSeed += 0.0074 * spaceSpeed;
     
-    spaceFlowerColorNoise = (float) noise.noise2( spaceFlowerColorNoiseSeed, spaceFlowerColorNoiseSeed);
+    spaceFlowerColorNoiseVal = (float) noise.noise2( spaceFlowerColorNoiseSeed, spaceFlowerColorNoiseSeed);
     
     float limit = calcspaceFlowerLim(lim);//(float) lim;//
-    float resolution = .05;
     int petalsLim = 6;
     float noiseLineVal;
     double roationNoiseX, roationNoiseY;
     float[] colorData;
-    float translation, rotation, translateRotation, centerRotation, layerSz, layerScale;
+    float translation, rotationAlpha, rotationBeta, centerRotation, layerSz, layerScale;
     
     //float rotateFlwr = (float) (
     //    .005 * noise.noise2((double)spaceFlowerNoiseSeed/3+7777,(double)spaceFlowerNoiseSeed/3+7777)
@@ -52,33 +55,35 @@ class SpaceFlower {
           roationNoiseX = (double) (spaceFlowerNoiseSeed + i/limit*.715);
           roationNoiseY = (double) (spaceFlowerNoiseSeed + i/limit*.715);
           noiseLineVal = (float) noise.noise2(roationNoiseX, roationNoiseY);
-
+          spaceFlowerScaleNoiseVal = (float) noise.noise2(spaceFlowerScaleNoiseSeed + i/33, spaceFlowerScaleNoiseSeed + i/33);
           colorInput[0] = (float) frames;
           colorInput[1] = i;
           colorInput[2] = limit;
+          
           
           colorData = calcColor( colorInput );
           
           stroke(colorData[0], colorData[1], colorData[2]);  
           
-          translation = i*2*spaceFlowerScale * (1+((float)noise.noise2((float)frames/200+i/77, (float)frames/200+i/77)));
+          translation = spaceFlowerScale * i * map( spaceFlowerScaleNoiseVal, -1, 1, 1.5, 3.5); //(1.3+((float)noise.noise2((float)frames/200+i/77, (float)frames/200+i/77)));
           
-          rotation = map(noiseLineVal, -1, 1, 0, PI*1.8); 
-          translateRotation = map( i, 1, limit, rotation, 0 );
+          rotationAlpha = map(noiseLineVal, -1, 1, 0, PI*2); 
+          rotationBeta = i >= limit/2 ? map( i, limit/2, limit, rotationAlpha, 0) : map( i, limit/2, 0, rotationAlpha, 0);
           
           for (int j = 0; j < petalsLim; ++j) {
 
             layerSz = (limit*1.5)-(i*1.5)-2;
             layerScale = i*spaceFlowerScale*(1+i/100);
             centerRotation = PI/petalsLim*2*j;      
-            
+            stroke(colorData[0], colorData[1], colorData[2]);  
+            fill(map(i, limit, 0, 0, 12000));
             push();
               translate(0,0, layerSz);
               
               drawRombus(
                 translation,
                 layerScale, 
-                translateRotation,
+                rotationBeta,
                 centerRotation
               );
               translate(0,0, layerSz*-2);
@@ -86,15 +91,33 @@ class SpaceFlower {
               drawRombus(
                 translation,
                 layerScale, 
-                translateRotation,
+                rotationBeta,
                 centerRotation
               );
-            pop();
+            pop();  
+              
+            //push();
+              
+            //  noStroke();
+            //  fill(map(i, limit, 0, 0, 12000));
+              
+            //  rotate(centerRotation);
+            //    translate(translation, 0);
+                
+            //    rotate(rotation);
+            //    box(.1);
+                
+         
+            //popMatrix();
+              
+               
+            
           
       
           }
           //rotate(rotateFlwr);
       } 
+      
   }
 
   public void drawRombus(float translation, float size, float rotation, float rotationAboutCenter) {
@@ -102,8 +125,9 @@ class SpaceFlower {
     
         rotate(rotationAboutCenter);
         translate(translation, 0);
+        
         rotate(rotation);
-
+        
         quad(size/2, 0, 0, -size, -size/2, 0, 0, size);
         rotate(PI/2);
         quad(size/2, 0, 0, -size, -size/2, 0, 0, size);
@@ -111,15 +135,18 @@ class SpaceFlower {
         quad(size/2, 0, 0, -size, -size/2, 0, 0, size);
         rotate(PI/2);
         quad(size/2, 0, 0, -size, -size/2, 0, 0, size);
-
+        
       popMatrix();
+      
+      
+      
   }
 
   public float[] calcColor( float[] factors ) {
     //pixel saturation
     int saturation = 100;
-    int timePassed = (int) factors[0];
-    int index = (int) factors[1];
+    float timePassed = factors[0];
+    float index = factors[1];
     int maxIdex = (int) factors[2];
     //float noiseFactor = factors[3]; 
     //lightness calculation
@@ -130,7 +157,15 @@ class SpaceFlower {
     //BASIC: cycle through the rainbow
     //int hue = (int) Math.abs(index*3.7 - timePassed*.75 -300) % 360;
     //NOISE BASED
-    int hue = int ( map(spaceFlowerColorNoise, -1, 1, 25, 225) + map(index, 0, maxIdex, 265, 70))  % 360;
+    float hue = ( map(spaceFlowerColorNoiseVal, -1, 1, 3000, 8000) + map(index, 0, maxIdex, 6000, 0)) % 10000;
+
+    
+    if (printCount < printLim ) {
+      printCount++;
+      
+      //println(hue, index);
+    
+    }
     
     int convertedSaturation;
     int convertedBrightness;
@@ -144,6 +179,14 @@ class SpaceFlower {
     } catch ( ArithmeticException e ) {
         convertedSaturation = 0;
     }
+    
+        
+    //if (index + resolution >= maxIdex) {
+    //  convertedSaturation = 0;
+    //  convertedBrightness = 0;
+    //  hue = 0;
+      
+    //}
     
     convertedBrightness = convertedSaturation + lightness;
     
@@ -162,9 +205,9 @@ class SpaceFlower {
     //}
     
     //OPTION 3
-    float sFNoiseX = (frames*spaceFlowerScaleRate * sFscalingLimit) / 444 + 100;
-    float sFNoiseY = (frames*spaceFlowerScaleRate * sFscalingLimit) / 444 + 123;
-    spaceFlowerScale = (float) noise.noise2( sFNoiseX, sFNoiseY ) + 1;
+    //float sFNoiseX = (frames*.3 * sFscalingLimit) / 444 + 100;
+    //float sFNoiseY = (frames*.3 * sFscalingLimit) / 444 + 123;
+    //spaceFlowerScale = (float) noise.noise2( sFNoiseX, sFNoiseY ) + 1;
   }
   
     public float calcspaceFlowerLim(int lim) {
