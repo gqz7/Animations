@@ -2,6 +2,7 @@
 class SpaceFlower {
     
   float spaceFlowerScale = .1;
+  float spaceFlowerAge = 0;
   float spaceFlowerNoiseSeed = 3472.37;
   float spaceFlowerScaleNoiseSeed = 1273.3939;
   float spaceFlowerScaleNoiseVal;
@@ -27,9 +28,10 @@ class SpaceFlower {
     noFill();
     strokeWeight(1);
     //println(spaceFlowerNoiseSeed, frames);
-    spaceFlowerNoiseSeed += 0.00037 * spaceSpeed;
+    spaceFlowerNoiseSeed += 0.0003 * spaceSpeed;
     spaceFlowerColorNoiseSeed += 0.00074 * spaceSpeed;
-    spaceFlowerScaleNoiseSeed += 0.0074 * spaceSpeed;
+    spaceFlowerScaleNoiseSeed += 0.005 * spaceSpeed;
+    spaceFlowerAge += spaceSpeed;
     
     spaceFlowerColorNoiseVal = (float) noise.noise2( spaceFlowerColorNoiseSeed, spaceFlowerColorNoiseSeed);
     
@@ -56,7 +58,7 @@ class SpaceFlower {
           roationNoiseY = (double) (spaceFlowerNoiseSeed + i/limit*.715);
           noiseLineVal = (float) noise.noise2(roationNoiseX, roationNoiseY);
           spaceFlowerScaleNoiseVal = (float) noise.noise2(spaceFlowerScaleNoiseSeed + i/33, spaceFlowerScaleNoiseSeed + i/33);
-          colorInput[0] = (float) frames;
+          colorInput[0] = (float) spaceFlowerAge;
           colorInput[1] = i;
           colorInput[2] = limit;
           
@@ -76,7 +78,7 @@ class SpaceFlower {
             layerScale = i*spaceFlowerScale*(1+i/100);
             centerRotation = PI/petalsLim*2*j;      
             stroke(colorData[0], colorData[1], colorData[2]);  
-            fill(map(i, limit, 0, 0, 12000));
+            fill(map(i, limit, 0, 0, 12000));//map(i, limit, 0, 0, 12000));
             push();
               translate(0,0, layerSz);
               
