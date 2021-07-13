@@ -1,12 +1,13 @@
 
   //CAMERA VARS
   int cameraSelection = 5;
-  float radius = 300;
+  int position = 0;
+  float radius = 777;
   float cameraSpeed = renderSpeed;
   boolean rotateHorizontal = false;
-  float camZoomSpeed = 5;
+  float camZoomSpeed = 20;
   final float startingZ = (height /2) / tan(PI / 6);
-  final int radiusLim = (int)radius/5;
+  final int radiusLim = 5;//(int)radius/5;
   final int radiusMax = (int) radius*5;
   
   // final int camMLim = 30;
@@ -28,6 +29,7 @@ class ThreeDimCam {
   void configureCamera(int camOpt) { 
     
     float curX = 0, curY = 0, curZ = 0;
+   
   
     if (camOpt == 0) {
        //AUTO ROTATE CAM
@@ -84,36 +86,68 @@ class ThreeDimCam {
          curZ = cos(map(mouseX, 0, width, 0, PI*2))*-radius;
     
     } else if (camOpt == 4) {
-          //Static side cam         
+          //Static cam         
          
          curY = 0;//sin((float)(frames+111)/111*cameraSpeed) * radius;
          
-         curZ = 0;//sin((float)frames/111*cameraSpeed) * radius;
+         curZ = radius;//sin((float)frames/111*cameraSpeed) * radius;
       
-         curX = 100;//sin((float)frames/111*cameraSpeed) * radius;
+         curX = 0;//sin((float)frames/111*cameraSpeed) * radius;
        
     
     } else if (camOpt == 5) {
           //Zoom head on cam             
+          
+          if (position == 0) {
+            radius-= .217 * renderSpeed;
+            if (radius < -85) {
+            
+              position = 1;
+            }
+          } else {
+          
+            radius+= .217 * renderSpeed ;
+            
+            if (radius > 1000) {
+            
+              cameraSelection = 6;
+              frames = 0;
+              switched = true;
+              
+            }
+          
+          }
          
          curY = 0;//sin((float)frames/111*cameraSpeed) * radius;
                  
-         if (frames % 1000 < 500 ) {
+         //if (frames % 10000 / renderSpeed < 5000 / renderSpeed ) {
+         
+          
+         //   radius-= .217 * renderSpeed;
           
           
-            radius-=renderSpeed;
+         //} else {
           
+         //    radius+= .217 * renderSpeed ;
           
-         } else {
-          
-             radius+=renderSpeed ;
-          
-         }
+         //}
          curZ = radius;//sin((float)frames/111*cameraSpeed) * radius;
          
-         println(radius, frames);
+         //println(radius, frames);
       
          curX = 0;//sin((float)frames/111*cameraSpeed) * radius;
+       
+    
+    } else if (camOpt == 6) {
+          //zoom ORBIT CAM    
+          
+          if (radius > 444) radius -= .217 * renderSpeed;
+         
+         curX = sin((float)frames/333*cameraSpeed) * radius;
+         
+         curY = sin((float)frames/1555*cameraSpeed) * -radius/2.7;
+      
+         curZ = cos((float)frames/333*cameraSpeed) * radius;
        
     
     } 
@@ -198,14 +232,14 @@ class ThreeDimCam {
     // println(curZ);
     
     //CREATE CIRCLE
-    fill(60, 100, 100); //YELLOW IS POSTIVE X
+    fill(1500, 100, 100); //YELLOW IS POSTIVE X
     
     push();
      translate(testRadius*4, 0, 0);
      circle(0, 0, testRadius/4);
     pop();
     
-    fill(300, 100, 100); //PURPLE IS NEGITIVE X
+    fill(8000, 100, 100); //PURPLE IS NEGITIVE X
      
     push();
      translate(-testRadius*4, 0, 0);
@@ -219,7 +253,7 @@ class ThreeDimCam {
      circle(0, 0, testRadius/4);
     pop();
     
-    fill(180, 100, 100); //BLUE IS NEGITIVE Z
+    fill(6000, 100, 100); //BLUE IS NEGITIVE Z
      
     push();
      translate(0, 0, -testRadius*4);
@@ -229,18 +263,18 @@ class ThreeDimCam {
     //create 
     
     //CREATE X Y Z LINES
-    
+    noFill();
     //X
     strokeWeight(testRadius/50);
     stroke(0, 100, 70);
     line(-testRadius, 0, testRadius, 0); //RED IS X
     //Y
-    stroke(120, 100, 70);
+    stroke(3333, 100, 70);
     line(0, -testRadius, 0, testRadius); //GREEN IS Y
     //Z
     push();
     rotateY(PI/2);
-    stroke(240, 100, 70);
+    stroke(6666, 100, 70);
     line(-testRadius, 0, testRadius, 0); //BLUE IS Z
     pop();
   }
