@@ -38,9 +38,9 @@ class Star {
    void display() {
      
      distance = pow( pow(x,2) + pow(y,2) + pow(z,2), (float)1/3);
-     float maxLen = map( velocity, .01, .03, 100, 2500);
+     float maxLen = map( velocity, .01, .03, 300, 500 );
      float trailLen = map( distance, 0, maxDistance, 0, maxLen);
-     float trailWidth = trailLen/77 + .34;
+     float trailWidth = trailLen/30 + .34;
      
      //if (isTestingStars) {
      //  if (abs(z) < abs(x)) {
