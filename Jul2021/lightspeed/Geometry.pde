@@ -1,46 +1,200 @@
 class Geometry {
   
   void renderMain () {
-
-    //renderMerkaba1();
     
-        
-        
-        //rotateZ(PI/6);
-        //spaceFlower.drawFlower(39);
-        //rotateZ(-PI/6);
-        
+    //spaceDebris.renderCirclingDust(3000, 900);
    
     push();
       
-      translate(0,700,0);
+      translate(0,1000,0);
       blendMode(ADD);
-      spaceDebris.render();
+      spaceDebris.renderGalaxies();
     pop();
     
     push();
-      translate(0,-750,0);
+      translate(0,-1000,0);
       rotateX(PI);
       blendMode(ADD);
-      spaceDebris.render();
-    pop();
-        
-        
-    push();    
-      rotateZ(PI/6);
-      blendMode(BLEND);
-      spaceFlower.drawFlower(30, false);
+      spaceDebris.renderGalaxies();
     pop();
     
-    
-    //push();
+    //push();    
+    //  rotateZ(PI/6);
     //  blendMode(BLEND);
-    //  renderMerkaba1();
-    //pop();  
+    //  spaceFlower.drawFlower(30, false);
+    //pop();
+    
+    
+    //nebula.render(1500, 900);
+    
+    
+    //pyramid(frames);
+    println(frames/100);
+    push();
+      blendMode(BLEND);
+      //rotateZ(PI);
+      //rotateX(frames/1000);
+      //rotateX(frames/1000);
+      rotateY(frames/1000);
+      // //rotateX(PI/4);
+      rotate(2.679);
+      
+       
+      //rotateY(.1);
+      //rotateX(frames/100);
+      //merkabah(250);   
+      
+      pyramid(25);
+    
+    //float testRadius = 250;
+    //noFill();
+    ////X
+    //strokeWeight(testRadius/50);
+    //stroke(0, 100, 70);
+    //line(-testRadius, 0, testRadius, 0); //RED IS X
+    ////Y
+    //stroke(3333, 100, 70);
+    //line(0, -testRadius, 0, testRadius); //GREEN IS Y
+    ////Z
+    //push();
+    //rotateY(PI/2);
+    //stroke(6666, 100, 70);
+    //line(-testRadius, 0, testRadius, 0); //BLUE IS Z
+    //pop();
+    pop();
+     
         
   }
   
+  void pyramid ( float size ) {
     
+    float size1 = size;
+    float size2 = size / 3;
+    //noStroke();
+    stroke(10000);
+    strokeWeight(1);
+      
+    push();
+    
+     translate(-size/3, -size/3, -size/3);
+      //noFill();
+      
+      beginShape(TRIANGLES);      
+        
+      fill(9000, 50, 1000);
+      
+      vertex( size2,  size1,  -size1);
+      vertex( size1,  size1,  size1);
+      vertex( -size1, size2,  size1);
+      vertex( size2,  size1,  -size1);
+      
+      vertex( size1,  -size1, size2);
+      vertex( -size1, size2,  size1);
+      vertex( size2,  size1,  -size1);
+      vertex( size1,  -size1, size2);
+      
+      
+      vertex( size1,  -size1, size2);
+      vertex( size2,  size1,  -size1);
+      vertex( size1,  size1,  size1);
+      vertex( size1,  -size1, size2);
+      
+      
+      vertex( size1,  -size1, size2);
+      vertex(-size1, size2,  size1 );
+      vertex( size1,  size1,  size1);
+      vertex( size1,  -size1, size2);
+      
+      endShape();
+    
+    pop();
+     
+     
+    push();
+    
+      
+     translate(size2, size2, size2);
+    
+      //noFill();
+      
+      beginShape(TRIANGLES);      
+        
+      fill(3000, 50, 1000);
+      
+      vertex( -size2, -size1,  size1);
+      vertex( -size1, -size1, -size1);
+      vertex( size1, -size2,  -size1);
+      vertex( -size2, -size1,  size1);
+      
+      vertex( -size1,  size1, -size2);
+      vertex( size1, -size2,  -size1);
+      vertex( -size2, -size1,  size1);
+      vertex( -size1,  size1, -size2);
+      
+      
+      vertex( -size1,  size1, -size2);
+      vertex( -size2, -size1,  size1);
+      vertex( -size1, -size1, -size1);
+      vertex( -size1,  size1, -size2);
+      
+      
+      vertex( -size1,  size1, -size2);
+      vertex(size1, -size2,  -size1 );
+      vertex( -size1, -size1, -size1);
+      vertex( -size1,  size1, -size2);      
+      endShape();
+    
+    pop();
+    
+    
+  
+  }
+  
+
+  void merkabah (float size) {
+    
+    float size1 = size;
+    float size2 = size / 2;
+    //const size1 = frames/5 < 120 ? frames/5 : 120,
+    //          size2 = frames/10 < 60 ? frames/10 : 60;
+
+    float[][] merkabahPoints = {
+        { size1,  size1,  size1,  0},
+        { size2,  size1,  -size1, 30},
+        { -size1, size2,  size1,  60},
+        { size1,  -size1, size2,  130},
+        
+        { -size1, -size1, -size1, 180},
+        { -size2, -size1, size1,  225},
+        { size1,  -size2, -size1, 270},
+        { -size1, size1,  -size2, 315},
+    };
+    
+    //BEGIN SHAPE
+    //stroke(0);
+    noStroke();
+    fill(10000);
+    //translate(merkabahPoints[0][0], merkabahPoints[0][1], merkabahPoints[0][2]);
+    //beginShape(TRIANGLES);
+    for (int i = 0; i < 5; i++) {
+      push();
+      
+        float[] point = merkabahPoints[i];
+        
+        fill(map(point[3], 0, 360, 0, 10000),50,100);
+        
+        float x = point[0];
+        float y = point[1];
+        float z = point[2];
+        //vertex(x, y, z);
+        translate(x,y,z);
+        box(10);
+      pop();
+    }
+    //endShape();
+  
+  }
+   
     
       //triangleVortex1();
       //triangleVortex2();
@@ -169,39 +323,8 @@ class Geometry {
     triangle(0, -1*scale, 1*scale, .5*scale, -1*scale, .5*scale);
     pop();
   } 
+  
 
-  void renderMerkaba1 () {
-      
-      noFill();
-      strokeWeight(1);
-      stroke(360);
-      /////////// render static triagle
-      //println(mappedRotation, mappedRotationScale, mappedRotation/roationPeriod);
-          
-      // middle entity
-      float scale2 = 30;
-      
-      float triCount = 2;
-      
-      
-      for (float i = 0; i < triCount; i+=.001) {      
-          stroke((map(i, 0, triCount, 0, 10000)+7000)%10000, (map(i, 0, triCount, 100, 30)), (map(i, 0, triCount, 50, 100)));
-          push();
-        
-            //rotateX(map(i, 0, triCount, -PI, PI)*2);
-            //rotateY(map(i, 0, triCount, -PI, PI)*2);
-            rotateZ(map(i, 0, triCount, -PI/4, PI/4));
-            
-              tri( scale2*i, 0);
-            push();
-              rotate(PI);
-              tri( scale2*i, 0);
-            pop();
-          pop();    
-      }
-      
-      
-  }
 
   void triangleVortex1 () {
 

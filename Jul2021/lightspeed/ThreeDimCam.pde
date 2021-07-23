@@ -1,8 +1,8 @@
 
   //CAMERA VARS
-  int cameraSelection = 5;
+  int cameraSelection = 3;
   int position = 0;
-  float radius = 90;
+  float radius = 1400;
   float cameraSpeed = renderSpeed;
   boolean rotateHorizontal = false;
   float camZoomSpeed = 20;
@@ -61,11 +61,11 @@ class ThreeDimCam {
     } else if (camOpt == 1) {
           //Random ORBIT CAM              
          
-         curX = sin((float)frames/222*cameraSpeed) * radius;
+         curX = sin((float)frames/444*cameraSpeed) * radius;
          
-         curY = sin((float)frames/444*cameraSpeed) * -radius/3;
+         curY = sin((float)frames/888*cameraSpeed) * -radius/3;
       
-         curZ = cos((float)frames/333*cameraSpeed) * radius;
+         curZ = cos((float)frames/555*cameraSpeed) * radius;
        
     
     } else if (camOpt == 2) {
@@ -96,19 +96,21 @@ class ThreeDimCam {
        
     
     } else if (camOpt == 5) {
-          //Zoom head on cam             
           
+          //Zoom head on cam     
+          float zoomSpeed = map(radius, 0, 1400, .1, .9);
+          //println(radius, zoomSpeed);
           if (position == 0) {
-            radius-= .217 * renderSpeed;
+            radius-= zoomSpeed * renderSpeed;
             if (radius < -85) {
             
               position = 1;
             }
           } else {
           
-            radius+= .217 * renderSpeed ;
+            radius+= zoomSpeed * renderSpeed ;
             
-            if (radius > 1000) {
+            if (radius > 1400) {
             
               cameraSelection = 6;
               frames = 0;
@@ -118,36 +120,26 @@ class ThreeDimCam {
           
           }
          
-         curY = 0;//sin((float)frames/111*cameraSpeed) * radius;
-                 
-         //if (frames % 10000 / renderSpeed < 5000 / renderSpeed ) {
+         curY = 0;
          
-          
-         //   radius-= .217 * renderSpeed;
-          
-          
-         //} else {
-          
-         //    radius+= .217 * renderSpeed ;
-          
-         //}
-         curZ = radius;//sin((float)frames/111*cameraSpeed) * radius;
-         
-         //println(radius, frames);
+         curZ = radius;
       
-         curX = 0;//sin((float)frames/111*cameraSpeed) * radius;
+         curX = 0;
        
     
     } else if (camOpt == 6) {
           //zoom ORBIT CAM    
           
-          if (radius > 444) radius -= .217 * renderSpeed;
+         float rotateSpeed = map (radius, 1400, 440, 3, 1.5 );
+         //println(radius, rotateSpeed);
+          
+         if (radius > 444) radius -= .217 * renderSpeed;
          
-         curX = sin((float)frames/333*cameraSpeed) * radius;
+         curX = sin((float)frames/(333*rotateSpeed)*cameraSpeed) * radius;
          
-         curY = sin((float)frames/1555*cameraSpeed) * -radius/3;
+         curY = sin((float)frames/(1555*rotateSpeed)*cameraSpeed) * -radius/3;
       
-         curZ = cos((float)frames/333*cameraSpeed) * radius;
+         curZ = cos((float)frames/(333*rotateSpeed)*cameraSpeed) * radius;
        
     
     } 
