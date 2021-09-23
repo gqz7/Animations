@@ -14,6 +14,7 @@ class Stars {
   }
   
   void render () {
+    noStroke();
     push();
       translate(width/2, height/2);
       for (int i = 0; i < points.length; ++i) {
@@ -28,9 +29,13 @@ class Stars {
   }
   
   void move (float x, float y, int i) {
-    points[i][0] = x * 1.01;
-    points[i][1] = y * 1.01;
-    points[i][2] += 1.5;
+    //points[i][0] = x * 1.01;
+    //points[i][1] = y * 1.01;
+    //points[i][2] += 1.5;
+    
+    points[i][0] = x * (1 + momentumPerc/50);
+    points[i][1] = y * (1 + momentumPerc/50);
+    points[i][2] += momentumPerc*3.5;
 
     if (points[i][0] < -width/2 || points[i][0] > width/2 || points[i][1] < -height/2 || points[i][1] > height/2  ) {
       points[i][0] = random(-width/2, width/2);

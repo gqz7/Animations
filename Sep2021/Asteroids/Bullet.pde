@@ -1,40 +1,38 @@
 class Bullet {
-  float posX;
-  float posY;
+
+  PVector pos;
   float rotation;
-  float speed;
+  float power;
   float maxSpeed;
   int bColor;
   Rocket owner;
 
-  Bullet(float posX, float posY, float rotation, float speed, Rocket owner) {
-      this.posX = posX; 
-      this.posY = posY; 
-      this.rotation = rotation;   
+  Bullet(float posX, float posY, float rotation, float power, Rocket owner) {
+
+      
+      pos = new PVector(posX, posY);
+
+      this.rotation = (rotation * PI / 180) - PI/2;   
       this.owner = owner;
-      this.speed = speed + 20;
-      bColor = (int) random(222,300);
+      this.power = pow(abs(power/2-160),1.35)+25;
+      //println(this.power);
+      bColor = (int) power;
   }
   
   void render () {
     fill(bColor, 100, 100);
-    rect(posX, posY, 4, 4);
+    rect(pos.x, pos.y, 3, 3);
   }
   
   boolean move () {
-  
-    float rotationRad = (rotation * PI / 180) + PI/2 ;
+      
+    pos.add(PVector.fromAngle(rotation).mult(15));
 
-    float newX = posX - (speed * cos(rotationRad));
-    float newY = posY - (speed * sin(rotationRad));
-
-    posX = newX;
-    posY = newY;
 
     return checkOffScreen();
   }
   boolean checkOffScreen () {
-    if (posY < 0 ||posX < 0 ||posY > height || posX > width) {
+    if (pos.y < 0 || pos.x < 0 ||pos.y > height || pos.x > width) {
     
       // owner.bullets.remove(owner.bullets.indexOf(this));
       return true;
