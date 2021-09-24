@@ -3,6 +3,7 @@ Stars stars;
 Rocket player1;
 ArrayList<Rocket> allRockets;
 ArrayList<Debris> allDebris;
+ArrayList<Particle> debrisParticles;
 boolean isPaused = false;
 float momentumPerc = 1;
 int highScore;
@@ -24,28 +25,22 @@ void setup() {
   noCursor();
   frameRate(60);
   //game setup
-  getHS();
-  spawnPeriod = 100;
-  rMin = 20;
-  rMax = 70;
-  hMult = 10000;
-  frames = 0;
-  totalMass = 0;
+  setGameVars();
   
   player1 = new Rocket();
   stars = new Stars();
   noise = new OpenSimplex2S( 314159265 );
   allDebris = new ArrayList<Debris>();
   allRockets = new ArrayList<Rocket>();
+  debrisParticles = new ArrayList<Particle>();
   allRockets.add(player1);
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 10; i++) {
     allDebris.add(new Debris());
   }
   
 }
 
 void draw() {
-  //println(frames);
   if (!isPaused) {
     frames++;
     
@@ -55,12 +50,13 @@ void draw() {
     } 
     if (frames < 10000) hMult++;
     
-    if (frames%500 == 0 && spawnPeriod > 500) spawnPeriod--;
+    if (frames%100 == 0 && spawnPeriod > 500) spawnPeriod--;
     if (frames % spawnPeriod == 0 && totalMass < 500)  allDebris.add(new Debris());
     
     clear();
-    //color of outlines / lines
+    
     stars.render();
+    renderDebrisParticles();
     renderDebris();
     player1.render();
     renderUI();
@@ -117,6 +113,29 @@ void playerControls () {
   
   }
 
+}
+
+void renderDebrisParticles() {
+  
+  ArrayList<Particle> debrisParticlesToRemove = new ArrayList<Particle>();
+  for (Particle p : debrisParticles) {
+    
+    if (p.move()) debrisParticlesToRemove.add(p);
+   
+    p.render();
+  }
+  debrisParticles.removeAll(debrisParticlesToRemove);
+
+}
+
+void setGameVars(){
+  getHS();
+  spawnPeriod = 2000;
+  rMin = 10;
+  rMax = 70;
+  hMult = 1;
+  frames = 0;
+  totalMass = 0;
 }
 
 /////////////////////////////

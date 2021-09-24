@@ -14,8 +14,7 @@
     int loading;
     
     Debris () {
-      rMax = 120;
-      radius = 120;//random(rMin, rMax);
+      radius = random(rMin, rMax);
       pos = new PVector(random(width), random(height));
       this.totalSides = (int) (map(radius, 10, 50, 7, 20) + random(1, 5));//(int) random(6,radius/2);
       dir = random(0, TWO_PI);
@@ -26,14 +25,13 @@
       health = (int)(radius*5*(1+(float)hMult/1000));
       loading = 0;
       
-      
       totalMass += radius;
     }
     
      Debris ( int sides, float radius, PVector pos, float dir) {
       this.radius = radius;
       this.pos = pos;
-      this.totalSides = sides;//(int) random(6,radius/2);
+      this.totalSides = sides;
       this.dir = dir;
       nS =random(1000, 2000);
       nM = map(radius, rMin, rMax, .17, .25);
@@ -55,7 +53,7 @@
       translate(pos.x, pos.y);
       //fill(360);
       //circle(0,0,radius*2);
-      fill(0, 10, (50*nR + 10)*((float)loading/100));
+      fill(20, 25, (50*nR+10)*((float)loading/100));
       beginShape();
 
       for (float a = 0; a < TWO_PI; a+=inc){
@@ -106,12 +104,17 @@
           if (bulletDis < radius*1.2) {
             removeList.add(b);
             int sOff = this.health-(int)b.power;
-            println(this.health);
+            // println(this.health);
             r.score += (int)b.power + (sOff < 0 ? sOff : 0);
             this.health -= b.power;
             if (this.health <= 0) {
               destroy();
               break;
+            }
+            for (int i = 0; i < random(2,5); i++) {
+              Particle newP = new Particle(b.pos.copy(), dir+PI);
+              
+              debrisParticles.add(newP);
             }
             
           } 
@@ -144,7 +147,14 @@
           
         }
         
+      } else {
+        for (int i = 0; i < random(10,20); i++) {
+          Particle newP = new Particle(pos.copy(), dir);
+          
+          debrisParticles.add(newP);
+        }
       }
+      totalMass -= radius;
       allDebris.remove(this);
       
     }

@@ -15,11 +15,13 @@ class Rocket {
   int maxBoosterTemp;
   int boosterClock;
   ArrayList<Bullet> bullets;
+  ArrayList<Integer[]> trail;
   float bcdMax;
   float bulletCoolDown;
   float health;
   float healthMax;
   float score;
+  
 
   Rocket () {
     
@@ -27,6 +29,7 @@ class Rocket {
     score = 0;
     health = healthMax;
     bullets = new ArrayList<Bullet>();
+    trail = new ArrayList<Integer[]>();
     rocketImgOn = loadImage("./rb-on.png");
     rocketImgOff = loadImage("./rb-off.png");
 
@@ -43,10 +46,42 @@ class Rocket {
     boosterTemp = 0;
 
   }
-
+  
+  void renderTrail() {
+    //  println(trail.size());
+    ArrayList<Integer[]> trailToRemove = new ArrayList<Integer[]>();
+    for (Integer[] p : trail) {
+      if (p[2] <= 0) trailToRemove.add(p);
+      p[2]--;
+      int hue = (int) map(p[2], 1, 50, 0, 340);
+      int brt = (int) map(p[2], 1, 50, 0, 100);
+      fill(hue, 50, brt);
+      rect(p[0], p[1], 2,2);
+    
+    }
+    trail.removeAll(trailToRemove);
+  }
 
   void render () {
-    //println(bullets.size());
+    PVector booster1 = new PVector(0.0, 0.0, 0.0);
+    PVector booster2 = new PVector(0.0, 0.0, 0.0);
+    booster1.set(pos);
+    booster2.set(pos);
+     PVector aV = PVector.fromAngle(PI/2);
+    booster1.add(aV);
+    booster2.sub(aV);
+    booster1.div(1.01);
+    booster2.mult(1.01);
+    
+    
+    
+    trail.add(new Integer[]{(int)booster1.x, (int)booster1.y, 50});
+    trail.add(new Integer[]{(int)booster2.x, (int)booster2.y, 50});
+    // //println(trail.get(0)[0]);
+    // //println(trail.get(0)[1]);
+    // //println(trail.get(0)[2]);
+    
+    renderTrail();
     
     ArrayList<Bullet> removeList = new ArrayList<Bullet>();
     for (Bullet b : bullets) {
@@ -72,9 +107,9 @@ class Rocket {
 
     if (boosterClock == 0 && boosterTemp > .2) boosterTemp -= boosterTemp/maxBoosterTemp/15;
     if (boosterTemp < 0) boosterTemp = 0;
-    
-    pos.add(mtm);
 
+    pos.add(mtm);
+    
     checkOffScreen();
     
   } 
