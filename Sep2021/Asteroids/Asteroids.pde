@@ -6,6 +6,7 @@ ArrayList<Debris> allDebris;
 ArrayList<Particle> debrisParticles;
 boolean isPaused = false;
 float momentumPerc = 1;
+PVector momentumDir;
 int highScore;
 int spawnPeriod;
 int frames;
@@ -34,7 +35,7 @@ void setup() {
   allRockets = new ArrayList<Rocket>();
   debrisParticles = new ArrayList<Particle>();
   allRockets.add(player1);
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 30; i++) {
     allDebris.add(new Debris());
   }
   
@@ -51,7 +52,8 @@ void draw() {
     if (frames < 10000) hMult++;
     
     if (frames%100 == 0 && spawnPeriod > 500) spawnPeriod--;
-    if (frames % spawnPeriod == 0 && totalMass < 500)  allDebris.add(new Debris());
+    if (frames % spawnPeriod == 0 && totalMass < 1000)  allDebris.add(new Debris());
+    if (frames % spawnPeriod/2 == 0 && totalMass < 1000)  allDebris.add(new Debris(30));
     
     clear();
     
@@ -103,9 +105,9 @@ void playerControls () {
   }
 
   if (aPressed) {
-    player1.turn(true);
+    player1.turn(true, sPressed);
   } else if (dPressed) {
-    player1.turn(false);
+    player1.turn(false, sPressed);
   }
   
   if (spacePressed || upPressed) {
@@ -136,6 +138,7 @@ void setGameVars(){
   hMult = 1;
   frames = 0;
   totalMass = 0;
+  momentumDir = new PVector(0,0);
 }
 
 /////////////////////////////

@@ -102,6 +102,7 @@ class Rocket {
   
   void move () {
 
+    // println(momentumDir);
     if (boosterClock > 0) boosterClock--;
     bulletCoolDown = bulletCoolDown-.01 > .01 ? bulletCoolDown-.01 : .01;    
 
@@ -149,10 +150,12 @@ class Rocket {
 
     }
 
+    momentumDir = mtm;
+
   }
 
-  void turn (boolean turnLeft) {
-    float turnRate = 5/(1+momentumPerc);
+  void turn (boolean turnLeft, boolean isSlowing) {
+    float turnRate = isSlowing ? 1/(1+momentumPerc) : 5/(1+momentumPerc);
     float newR = turnLeft ? rotation - turnRate : rotation + turnRate;
     rotation = newR % 360;
     if (boosterTemp > 1) boosterTemp -= boosterTemp/maxBoosterTemp / 20;

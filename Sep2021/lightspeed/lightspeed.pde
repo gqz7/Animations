@@ -11,7 +11,7 @@ boolean switched = true;
 
 
 final float fps = 60;
-final float renderSpeed = 1.5;
+final float renderSpeed = .75;
 
 //tracker for how many frames have elapsed
 boolean isPaused = false;
@@ -21,8 +21,8 @@ int count;
 
 //width and height of canvas 
 //to change the resolution update both the WIDTH AND HEIGHT also change the values on  line 48
-final int WIDTH = 1280;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 //1680
-final int HEIGHT = 720;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720 //950
+final int WIDTH = 3840;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 //1680
+final int HEIGHT = 2160;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720 //950
 final float centerX = WIDTH/2;
 final float centerY = HEIGHT/2;
 final float maxDistance = centerX+centerY;//centerX+centerY;
@@ -85,7 +85,6 @@ void draw() {
   
   //println(radius);
 
-
   if (!isPaused) {
     frames+=renderSpeed;
     time++;
@@ -124,7 +123,7 @@ void draw() {
     //}
 
 
-    //saveFrame("render-1/img_######.png");
+    saveFrame("../../../sakura/img_######.png");
   }
 
 

@@ -1,4 +1,4 @@
-final int totalRings = 75;
+final int totalRings = 90;
 PShape[] rings = new PShape[totalRings];
 float[][] dustSeeds = new float[3000][4];
 float dustAge = 0;
@@ -11,7 +11,7 @@ class SpaceDebris {
       float innerRad = 1, outerRad = 9, increment = 1;
       for(int ringIndex = 0 ; ringIndex < totalRings ; ringIndex++){
         PShape ring = createShape();
-        ring.setStrokeWeight(1);
+        ring.setStrokeWeight(1.55);
         ring.beginShape(POINTS);
         ring.stroke(lerpColor(color(8888, 67, 100), color(9288, 100, 0), ringIndex/50f), 175f);
         for(int starIndex = 0 ; starIndex < 3000 ; starIndex++){
@@ -87,10 +87,10 @@ class SpaceDebris {
       
       
       
-      float light = map(sin(seed2+dustAge/7),-1,1, 5, 100);
+      float light = map(sin(seed2+dustAge/7),-1,1, 25, 100);
       
       push();
-        stroke(8527*speed, 20, light);
+        stroke(8527*speed, 30, light);
         translate(x,y,z);
         point(0,0);
       pop();

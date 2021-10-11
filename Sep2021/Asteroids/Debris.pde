@@ -10,6 +10,7 @@
     float nM;
     float nR;
     float inc;
+    float force;
     int health;
     int loading;
     
@@ -22,13 +23,30 @@
       nM = map(radius, rMin, rMax, .17, .25);
       nR = random(.2, .6);
       inc = map(radius, rMin, rMax, .75, .15);
+      force = map(radius, rMin, rMax, 1, .05);
       health = (int)(radius*5*(1+(float)hMult/1000));
       loading = 0;
       
       totalMass += radius;
     }
     
-     Debris ( int sides, float radius, PVector pos, float dir) {
+    Debris (float radius) {
+      this.radius = radius;
+      pos = new PVector(random(width), random(height));
+      this.totalSides = (int) (map(radius, 10, 50, 7, 20) + random(1, 5));//(int) random(6,radius/2);
+      dir = random(0, TWO_PI);
+      nS =random(1000, 2000);
+      nM = map(radius, rMin, rMax, .17, .25);
+      nR = random(.2, .6);
+      inc = map(radius, rMin, rMax, .75, .15);
+      force = map(radius, rMin, rMax, 1, .05);
+      health = (int)(radius*5*(1+(float)hMult/1000));
+      loading = 0;
+      
+      totalMass += radius;
+    }
+
+    Debris ( int sides, float radius, PVector pos, float dir) {
       this.radius = radius;
       this.pos = pos;
       this.totalSides = sides;
@@ -37,8 +55,9 @@
       nM = map(radius, rMin, rMax, .17, .25);
       nR = random(.2, .6);
       inc = map(radius, rMin, rMax, .75, .15);
+      force = map(radius, rMin, rMax, 1, .05);
       health = (int)(radius*5*(1+(float)hMult/1000));
-      loading = 90;
+      loading = 50;
       
       totalMass += radius;
       //createShape();
@@ -122,6 +141,32 @@
         
         r.bullets.removeAll(removeList);
 
+        
+        boolean shouldDestroy = false;
+        ArrayList<Debris> debrisRemoveList = new ArrayList<Debris>();
+
+        for (Debris d: allDebris) {
+          float maxRad = d.radius > this.radius ? d.radius : this.radius;
+          if (dist(d.pos.x, d.pos.y, this.pos.x, this.pos.y) < maxRad && this != d ) {
+            if (random(0,1) > .9 && abs(this.radius - d.radius) < maxRad/5) { //random(0,1) > .5
+              shouldDestroy = true;
+              debrisRemoveList.add(d);
+          
+            } else {
+              float a = random(PI*2/3,PI*1/3);
+              d.dir += a;
+              this.dir += a;
+              // d.inc = .1;
+              // this.inc = .1;
+            }
+            
+          }
+        }
+        if (shouldDestroy) debrisRemoveList.add(this);
+        
+        for (Debris d: debrisRemoveList) {        
+          d.destroy();
+        }
       
       }
     

@@ -28,6 +28,11 @@ class Bullet {
       
     pos.add(PVector.fromAngle(rotation).mult(15));
 
+    for (int i = 0; i < random(-10,2); i++) {
+      Particle newP = new Particle(pos.copy(), rotation-PI/2, bColor);
+      
+      debrisParticles.add(newP);
+    }
 
     return checkOffScreen();
   }
