@@ -17,7 +17,7 @@ ControlP5 controller;
 ControlGroup gui;
 
 final float fps = 60;
-final float renderSpeed = 1.75;
+final float renderSpeed = 3.75;
 
 //tracker for how many frames have elapsed
 boolean isPaused = false;
@@ -35,6 +35,7 @@ final float maxDistance = centerX+centerY;//centerX+centerY;
 
 Planet planet;
 
+Infinity infinity;
 Geometry geoRender;
 SpaceRender spaceRender;
 ThreeDimCam cam3D;
@@ -63,6 +64,7 @@ void setup() {
   nebula = new Nebula();
   spaceDebris = new SpaceDebris();
   noise = new OpenSimplex2S( 314159265 ); 
+  infinity = new Infinity();
   //nebulaCtrl = new NebulaController();
 
 
@@ -107,15 +109,18 @@ void draw() {
     clear(); // reset screen
     //background(0);
     
-    spaceRender.displayStars();
+    // spaceRender.displayStars();
 
-    geoRender.renderMain();
+    // geoRender.renderMain();
+
+    infinity.render();
+    
     //nebulaCtrl.renderNebula();
     //lifeRender.lifeGenesis(2);
     //lifeRender.renderLife();
 
     if (isTesting) {
-      // cam3D.renderCamGumball();
+      cam3D.renderCamGumball();
       renderGUI();
     } 
 
