@@ -37,8 +37,8 @@ window.onload = function() {
     context.rotate(-pi/2)
     context.translate(-height/2, width/2);
     context.rotate(pi + .4)
-    for (let i = 0; i < 821; i++) {
-        context.scale(-1.0016,-1.0022)   
+    for (let i = 0; i < 777; i++) {
+        context.scale(-1.0017,-1.0021)   
     }
     //START ANIMATION CYCLE 
     animate()
@@ -59,7 +59,7 @@ document.addEventListener('keydown', (evn) => {
 }, false)
     
 function animate() {
-    gT++
+    gT+=.777
     clear()
     matrix()
     if (!renderPaused) {
@@ -74,14 +74,14 @@ function matrix() {
     while ( size > 0 ) {
         size -= sizeInc;
         context.scale(-1.0016,-1.0022)
-        zT++
+        zT+=.777
         create_grid()
         angle -= angleInc/2;
     }
     context.restore()
     zT = 0
-    angle = .1903+gT/5555
-    size = 8.37+gT/1000
+    angle = .1973+gT/5555
+    size = 8.27+gT/1000
 }
 
 function clear() { 

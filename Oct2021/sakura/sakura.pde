@@ -6,7 +6,7 @@ import controlP5. *;
 OpenSimplex2S noise;
 
 //TEST VARS
-final boolean isTesting = false;
+final boolean isTesting = true;
 boolean keepPrinting = true;
 int printCount = 0;
 int printLim = 100;
@@ -17,7 +17,7 @@ ControlP5 controller;
 ControlGroup gui;
 
 final float fps = 60;
-final float renderSpeed = 3.75;
+final float renderSpeed = 1;
 
 //tracker for how many frames have elapsed
 boolean isPaused = false;
@@ -36,6 +36,7 @@ final float maxDistance = centerX+centerY;//centerX+centerY;
 Planet planet;
 
 Infinity infinity;
+Matrix matrix;
 Geometry geoRender;
 SpaceRender spaceRender;
 ThreeDimCam cam3D;
@@ -65,6 +66,7 @@ void setup() {
   spaceDebris = new SpaceDebris();
   noise = new OpenSimplex2S( 314159265 ); 
   infinity = new Infinity();
+  matrix = new Matrix();
   //nebulaCtrl = new NebulaController();
 
 
@@ -86,7 +88,7 @@ void setup() {
     noCursor();
     gui.hide();
   }
-  //noLoop(); //uncomment to only render one frame
+  // noLoop(); ///uncomment to only render one frame
 
   //set up controllers
 
@@ -114,13 +116,19 @@ void draw() {
     // geoRender.renderMain();
 
     infinity.render();
+    // matrix.render();
     
     //nebulaCtrl.renderNebula();
     //lifeRender.lifeGenesis(2);
     //lifeRender.renderLife();
 
     if (isTesting) {
-      cam3D.renderCamGumball();
+      // cam3D.renderCamGumball();
+
+      //sphere 
+      noFill();
+      stroke(10000);
+      sphere(500);
       renderGUI();
     } 
 
@@ -136,8 +144,8 @@ void draw() {
 
 void printTestOutput () {
 
-  String var1 = "1: " + camTiltX;
-  String var2 = "2: " + camTiltY;
+  String var1 = "1: " + cameraSelection;
+  String var2 = "2: " + cameraSelection;
   String var3 = "3: " + camTiltX;
   String var4 = "4: " + camTiltY;
 
@@ -166,13 +174,13 @@ void renderGUI () {
 }
 
 void createGUI () {
-    Slider slider1 = controller.addSlider("VARNAME1")
+    Slider slider1 = controller.addSlider("cameraSelection")
      .setPosition(30,0)
-     .setRange(0,1);
+     .setRange(0,5);
 
-    Slider slider2 = controller.addSlider("VARNAME2")
+    Slider slider2 = controller.addSlider("sizeInc")
      .setPosition(30,20)
-     .setRange(0,1);
+     .setRange(0,2);
 
     Slider slider3 = controller.addSlider("VARNAME3")
      .setPosition(30,40)

@@ -2,7 +2,7 @@
   //CAMERA VARS
   int cameraSelection = 4;
   int position = 0;
-  float radius = 120;
+  float radius = 20;
   float cameraSpeed = renderSpeed;
   boolean rotateHorizontal = false;
   float camZoomSpeed = 20;
