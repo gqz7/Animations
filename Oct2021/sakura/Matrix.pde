@@ -1,3 +1,5 @@
+float sizeMod = .5;
+
 class Matrix {
 
     int columnCycles = 0;
@@ -6,83 +8,72 @@ class Matrix {
     int rowLimit = 7;
     float originX = 0;
     float originY = 0;
-    float orgSize = .1;
+    float orgSize = 6.7;
     float size = orgSize;
     boolean isWhite = false;
     int gridNum = 0;
-
+    int maxGridNum = 137;
     float angle = 0;//.1903;
     float angleLim = .1903; 
     float sizeInc = orgSize/1111;
     float angleInc = size/17700;
 
+    float zTransMod = 1;
+
     void render () {
-        noStroke();    
-        // for (int i = 0; i < 821; i++) {
-        //     scale(-1.0016,-1.0022);
-        // }
-        // blendMode(ADD);  
-        // translate(size, size);
-        // createMatrix();
-        // rotateX(PI);
-        // rotateY(PI);
-        // translate(size, size);
-        // createMatrix(); 
+        push();
+            noStroke();    
+            // for (int i = 0; i < 888; i++) {
+            //     scale(-1.0016,-1.0020);
+            // }
+            blendMode(SCREEN);  
+            // translate(size, size);
+
+            sizeMod =  map( (float) noise.noise2(3333 - frames/1000, 4444 - frames/1000 ), -1, 1, .01, .04);
+
+            zTransMod = 1;
+            isWhite = false;
+            createMatrix();
+            rotateZ(PI);
+
+            isWhite = true;
+            createMatrix(); 
+
+            zTransMod = -1;
+            isWhite = false;
+            rotateX(PI);
+            createMatrix();
+
+            isWhite = true;
+            rotateZ(PI);
+            createMatrix();
 
 
-        // test();
-        temp();
+            // test();
+            // temp();
 
-        isWhite = false;
-        // sizeInc = size/2000 - frames/1000000 ;
-        // println(sizeInc);
-    }
-
-    void test (){
-        
-        while ( size > 0) {
-
-            rotate(angle);
-            createGrid(); 
-
-            size-=sizeInc;
-            angle -= angleInc/2;
-        }
+            isWhite = false;
+            // sizeInc = size/2000 - frames/1000000 ;
+            // println(sizeInc);
+        pop();
     }
 
     void createMatrix() {
         int c = 0;
         push();
-        while ( c < 1000 ) {
-            c++;
-            // size -= sizeInc;
-            // scale(1.0001, 1.0001);
+        while ( size > .01 ) {
+            // c++;
+            // size /= 1.03+frames/10000;
+            size = size / (1 + sizeMod);
             gridNum++;
             createGrid();
             angle -= angleInc/2;
         }
         pop();
+        maxGridNum = gridNum;
         gridNum = 0;
         angle = .1903;//+frames/5555;
-        size = orgSize;//+frames/1000;
-        // println(c);
-    }
-
-    void temp() {
-        int c = 0;
-        push();
-        while ( c < 1000 ) {
-            c++;
-            // size -= sizeInc;
-            // scale(1.0001, 1.0001);
-            gridNum++;
-            createGrid();
-            angle -= angleInc/2;
-        }
-        pop();
-        gridNum = 0;
-        angle = .1903;//+frames/5555;
-        size = orgSize;//+frames/1000;
+        size = orgSize;
         // println(c);
     }
 
@@ -91,6 +82,9 @@ class Matrix {
         
         push();
         // rotate(angle)
+        float zTrans = map(size, 0, orgSize, 1, -1);
+        translate(0, 0, zTrans *zTransMod);
+        
         while (rowsCycles < rowLimit) {
             push();
             createRow();
@@ -124,13 +118,15 @@ class Matrix {
         if (!isWhite) {
             fill(0);
         } else {
-            float hue = abs( (float)gridNum*52-(float)columnCycles * 100  + frames*10) % 10000;
+            float hue = abs( (float)gridNum*222-(float)columnCycles * 500  + frames*12) % 10000;
             // println(columnCycles, hue);
-            fill(hue, 77, 77);
+            float alpha = map(gridNum, 0, maxGridNum+radius*3, .55, 0.11);
+            fill(hue, 100, alpha*15, 1);
         }
         
-        // square(0,0, size);
-        box(size);
+        square(0,0, size);
+        
+        // box(size);
         
         isWhite = !isWhite;
         

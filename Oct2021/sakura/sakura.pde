@@ -17,7 +17,7 @@ ControlP5 controller;
 ControlGroup gui;
 
 final float fps = 60;
-final float renderSpeed = 1;
+final float renderSpeed = 1.75;
 
 //tracker for how many frames have elapsed
 boolean isPaused = false;
@@ -54,7 +54,7 @@ void settings () {
 
 void setup() {
   //set colormode
-  colorMode(HSB, 10000, 100, 100);
+  colorMode(HSB, 10000, 100, 100, 1);
   //create objects
   controller = new ControlP5(this);
   cam3D = new ThreeDimCam();
@@ -115,8 +115,8 @@ void draw() {
 
     // geoRender.renderMain();
 
-    infinity.render();
     // matrix.render();
+    infinity.render();
     
     //nebulaCtrl.renderNebula();
     //lifeRender.lifeGenesis(2);
@@ -145,8 +145,8 @@ void draw() {
 void printTestOutput () {
 
   String var1 = "1: " + cameraSelection;
-  String var2 = "2: " + cameraSelection;
-  String var3 = "3: " + camTiltX;
+  String var2 = "2: " + radius;
+  String var3 = "3: " + sizeMod;
   String var4 = "4: " + camTiltY;
 
   push();
@@ -182,7 +182,7 @@ void createGUI () {
      .setPosition(30,20)
      .setRange(0,2);
 
-    Slider slider3 = controller.addSlider("VARNAME3")
+    Slider slider3 = controller.addSlider("sizeMod")
      .setPosition(30,40)
      .setRange(0,1);
 

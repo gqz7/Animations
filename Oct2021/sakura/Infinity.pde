@@ -2,14 +2,15 @@ class Infinity {
 
     int columnCycles = 0;
     int rowsCycles = 0;    
-    int columnLimit = 33;
+    int columnLimit = 18;
     int rowLimit = 8;
     float originX = 0;
     float originY = 0;
-    float size = 5;
-    boolean isWhite = false;
+    float oSize = 8.37;
+    float size = oSize;
+    boolean isWhite = true;
     int gridNum = 0;
-
+    int gnMax = 100;
     float angle = 0;//.1903;
     float angleLim = .1903; 
     float sizeInc = .015;
@@ -18,42 +19,57 @@ class Infinity {
     void render () {
         noStroke();
         
+        
         // createInfinity();
         // rotateX(PI);
         // createInfinity();
+
+
         createInfinity3D();
 
     }
 
-    void createInfinity() {
-        push();
-        while ( size > 0 ) {
-            size -= sizeInc;
-            scale(-1.0016,-1.0022);
-            gridNum++;
-            createGrid();
-            angle -= angleInc/2;
-        }
-        pop();
-        gridNum = 0;
-        angle = .1903+frames/5555;
-        size = 8.37+frames/1000;
-    }
+    // void createInfinity() {
+    //     push();
+    //     while ( size > 0 ) {
+    //         size -= sizeInc;
+    //         // scale(-1.0016,-1.0022);
+    //         gridNum++;
+    //         createGrid();
+    //         angle -= angleInc/2;
+    //     }
+    //     pop();
+    //     gridNum = 0;
+    //     angle = .1903+frames/5555;
+    //     size = oSize + frames/1000;
+    // }
 
     void createInfinity3D() {
         push();
+
+        // for (int i = 0; i < 888; i++) {
+        //     scale(.999,.9991);
+        // }
+        scale(.07,.07);
+
         while ( size > 0 ) {
-            translate(0, 0, sizeInc*10);
-            size -= sizeInc;
-            scale(-1.0006,-1.0029);
-            gridNum++;
-            createGrid();
+            scale(-1.0016,-1.0029);
+                
+            push();
+                rotateZ( map(gridNum, 0, gnMax, 0, PI/2 ) );
+                translate(0, 0, sizeInc * gridNum);
+                size -= sizeInc;
+                gridNum++;
+                createGrid();
+            pop();
         }
         pop();
+        gnMax = gridNum;
         gridNum = 0;
         
-        angle = .1903 + frames/10 - angleInc/1;
-        size = 8.37+frames/1000;
+        angle = 0;//.1903;// + frames/10 - angleInc/1;
+        size = oSize;// + frames / 1000;
+
     }
 
 
@@ -92,7 +108,7 @@ class Infinity {
         if (!isWhite) {
             fill(0);
         } else {
-            float hue = abs( (float)gridNum*52-(float)columnCycles * 100  + frames*10) % 10000;
+            float hue = abs( (float)gridNum*25-(float)columnCycles * 100  + frames*10) % 10000;
             // println(columnCycles, hue);
             fill(hue, 77, 77);
         }
