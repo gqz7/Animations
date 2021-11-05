@@ -17,7 +17,7 @@ ControlP5 controller;
 ControlGroup gui;
 
 final float fps = 60;
-final float renderSpeed = 1.75;
+float renderSpeed = .5;
 
 //tracker for how many frames have elapsed
 boolean isPaused = false;
@@ -46,7 +46,7 @@ ThreeDimLife lifeRender;
 Nebula nebula;
 SpaceDebris spaceDebris;
 
-void settings () {
+void settings() {
   //set canvas size
   size(WIDTH, HEIGHT, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
   fullScreen();
@@ -99,16 +99,22 @@ void draw() {
   
   //println(radius);
 
+  perspective(1, width/height, 1, 4000);
+  cam3D.configureCamera(cameraSelection);
+
   if (!isPaused) {
+    //println(frames);
     frames+=renderSpeed;
     time++;
+    // saveFrame("../../../sakura/img_######.png");
+  }
 
-    perspective(1, width/height, 1, 4000);
-    cam3D.configureCamera(cameraSelection);
+  renderScene();
 
-    //println(frames);
+}
 
-    clear(); // reset screen
+void renderScene () {
+  clear(); // reset screen
     //background(0);
     
     // spaceRender.displayStars();
@@ -132,22 +138,16 @@ void draw() {
       renderGUI();
     } 
 
+    //planet.render();
 
-    // saveFrame("../../../sakura/img_######.png");
-  }
-
-
-
-  //pop();
-  //planet.render();
 }
 
 void printTestOutput () {
 
   String var1 = "1: " + cameraSelection;
   String var2 = "2: " + radius;
-  String var3 = "3: " + sizeMod;
-  String var4 = "4: " + camTiltY;
+  String var3 = "3: " + globalAngl;
+  String var4 = "4: " + infinityVar;
 
   push();
 
@@ -178,19 +178,19 @@ void createGUI () {
      .setPosition(30,0)
      .setRange(0,5);
 
-    Slider slider2 = controller.addSlider("sizeInc")
+    Slider slider2 = controller.addSlider("infinityVar")
      .setPosition(30,20)
-     .setRange(0,2);
+     .setRange(.001,2);
 
-    Slider slider3 = controller.addSlider("sizeMod")
+    Slider slider3 = controller.addSlider("globalAngl")
      .setPosition(30,40)
-     .setRange(0,1);
+     .setRange(.01,.5);
 
-    Slider slider4 = controller.addSlider("VARNAME4")
+    Slider slider4 = controller.addSlider("renderSpeed")
      .setPosition(30,60)
-     .setRange(0,1);
+     .setRange(.5,5);
 
-    gui = controller.addGroup("gui", 0, 200, 300);
+    gui = controller.addGroup("gui", 0, 400, 300);
     
     gui.setBackgroundHeight(80);
     // gui.setBackgroundColor(color(0,100));

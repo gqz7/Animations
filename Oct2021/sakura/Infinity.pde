@@ -1,3 +1,5 @@
+float infinityVar = 1;
+float globalAngl = .34;
 class Infinity {
 
     int columnCycles = 0;
@@ -13,7 +15,7 @@ class Infinity {
     int gnMax = 100;
     float angle = 0;//.1903;
     float angleLim = .1903; 
-    float sizeInc = .015;
+    float sizeInc = .01;
     float angleInc = size/17700;
 
     void render () {
@@ -56,8 +58,9 @@ class Infinity {
             scale(-1.0016,-1.0029);
                 
             push();
-                rotateZ( map(gridNum, 0, gnMax, 0, PI/2 ) );
-                translate(0, 0, sizeInc * gridNum);
+                // rotateZ( map(gridNum, 0, gnMax, 0, PI/2 ) );
+                float zTrans =  gridNum < gnMax / 2 ? map(gridNum, 0, gnMax/2, sizeInc*gridNum, 0) : map(gridNum, gnMax/2, gnMax, 0, sizeInc*gridNum);
+                translate(0, 0, sizeInc * gridNum * infinityVar);
                 size -= sizeInc;
                 gridNum++;
                 createGrid();
@@ -67,7 +70,7 @@ class Infinity {
         gnMax = gridNum;
         gridNum = 0;
         
-        angle = 0;//.1903;// + frames/10 - angleInc/1;
+        angle = globalAngl;//.1903;// + frames/10 - angleInc/1;
         size = oSize;// + frames / 1000;
 
     }
@@ -93,7 +96,9 @@ class Infinity {
     void createRow(){
         // rotateZ(angle);
         while (columnCycles < columnLimit) {
+
             createSquare();
+            rotate(angle);
             translate(size, 0);
             columnCycles++;
         }
