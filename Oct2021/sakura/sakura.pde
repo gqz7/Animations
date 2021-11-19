@@ -17,7 +17,7 @@ ControlP5 controller;
 ControlGroup gui;
 
 final float fps = 60;
-float renderSpeed = .5;
+float renderSpeed = 2.5;
 
 //tracker for how many frames have elapsed
 boolean isPaused = false;
@@ -132,9 +132,9 @@ void renderScene () {
       // cam3D.renderCamGumball();
 
       //sphere 
-      noFill();
-      stroke(10000);
-      sphere(500);
+      // noFill();
+      // stroke(10000);
+      // sphere(500);
       renderGUI();
     } 
 
@@ -180,7 +180,7 @@ void createGUI () {
 
     Slider slider2 = controller.addSlider("infinityVar")
      .setPosition(30,20)
-     .setRange(.001,2);
+     .setRange(1,10);
 
     Slider slider3 = controller.addSlider("globalAngl")
      .setPosition(30,40)

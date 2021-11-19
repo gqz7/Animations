@@ -95,10 +95,7 @@ class SpaceFlower {
                 curLayerScale, 
                 rotationBeta,
                 centerRotation
-              );
-              
-              
-              
+              );      
               
               translate(0,0, curLayerSz*-2 - 4);
               
