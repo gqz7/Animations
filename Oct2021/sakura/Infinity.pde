@@ -85,7 +85,7 @@ class Infinity {
         gnMax = gridNum;
         gridNum = 0;
         
-        angle = globalAngl;//.1903;// + frames/10 - angleInc/1;
+        angle = map(radius, 90, 5, .22, .33);//.1903;// + frames/10 - angleInc/1;
         size = oSize;// + frames / 1000;
 
     }

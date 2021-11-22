@@ -6,7 +6,7 @@ import controlP5. *;
 OpenSimplex2S noise;
 
 //TEST VARS
-final boolean isTesting = true;
+final boolean isTesting = false;
 boolean keepPrinting = true;
 int printCount = 0;
 int printLim = 100;
@@ -17,7 +17,7 @@ ControlP5 controller;
 ControlGroup gui;
 
 final float fps = 60;
-float renderSpeed = 2.5;
+float renderSpeed = .85;
 
 //tracker for how many frames have elapsed
 boolean isPaused = false;
@@ -49,7 +49,7 @@ SpaceDebris spaceDebris;
 void settings() {
   //set canvas size
   size(WIDTH, HEIGHT, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
-  fullScreen();
+  // fullScreen();
 }
 
 void setup() {
@@ -99,14 +99,14 @@ void draw() {
   
   //println(radius);
 
-  perspective(1, width/height, 1, 4000);
+  perspective(1.5, width/height, 1, 4000);
   cam3D.configureCamera(cameraSelection);
 
   if (!isPaused) {
     //println(frames);
     frames+=renderSpeed;
     time++;
-    // saveFrame("../../../sakura/img_######.png");
+    // saveFrame("../../../sakura314/img_######.png");
   }
 
   renderScene();
@@ -117,9 +117,9 @@ void renderScene () {
   clear(); // reset screen
     //background(0);
     
-    // spaceRender.displayStars();
+    spaceRender.displayStars();
 
-    // geoRender.renderMain();
+    geoRender.renderMain();
 
     // matrix.render();
     infinity.render();

@@ -104,7 +104,7 @@ class Nebula {
     nebulaTime += renderSpeed * .03;
     blendMode(BLEND);
 
-    float res = 6; //1
+    float res = 1; //1
     float layers = (nebHeight/(res/2f)); //*2
     float starsInLayer = (radius*(PI*2)/res); //*2*2*2
 

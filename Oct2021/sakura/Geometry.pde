@@ -28,7 +28,7 @@ class Geometry {
     pop();
     
     
-    //nebula.render1(1500, 900);
+    nebula.render1(1500, 900);
     
     
     //pyramid(frames);
