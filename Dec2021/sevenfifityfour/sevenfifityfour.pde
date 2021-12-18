@@ -5,11 +5,16 @@ float frames;
 int time; 
 float renderSpeed = 1.0;
 
-float globalVar1 = 2;
-int globalVar2 = 2;
-int globalVar3 = 330;
-float globalVar4 = .2;
+float globalVar1 = 12;
+float globalVar2 = 6;
+int globalVar3 = 111;
+float globalVar4 = .1;
+float globalVar5 = 8;
+float globalVar6 = 4;
 float incrementer = 1;
+
+boolean isShowingVars = false;
+int renderOption = 3;
 
 void settings() {
   //set canvas size
@@ -46,28 +51,68 @@ void renderScene () {
 
     clear();
     background(0);
-    displayVars();
+    if (isShowingVars) displayVars();
     
     stroke(360);
     strokeWeight(globalVar4 > 0 ? globalVar4 : .01);
     
     translate(W/2, H/2);
-    // renderEntity(globalVar1, globalVar2, globalVar3);
-    renderInterdimensionalEntity(
-      globalVar2,//dim
-      globalVar1,//lines
-      globalVar2,//side
-      globalVar3 //size
-    );
-    
+
+    switch (renderOption) {
+      case 1: 
+        //STANDARD ENTITY
+        renderEntity(globalVar1, globalVar2, globalVar3);
+      break;
+      case 2: 
+        //INTERDIMENSIONAL
+        renderInterdimensionalEntity(
+          globalVar5,//dim
+          globalVar1,//lines
+          globalVar2,//side
+          globalVar3 //size
+        );
+      break;
+      case 3: 
+        //HIGHER DIMENSIONAL
+        renderHigherDimensionalEntity(
+          globalVar6,//higherdims
+          globalVar5,//dim
+          globalVar1,//lines
+          globalVar2,//side
+          globalVar3 //size
+        );
+      break;
+      case 4: 
+        //ENTITY GRID
+        translate(-W/2, -H/2);
+        renderEntityGrid();
+      break;
+    }    
  
 }
 
-void renderInterdimensionalEntity (int numOfDims, float numOfLines, int numOfSides, float leafSize) {
-    for (float i = 0; i < numOfLines; ++i) {
+
+
+void renderHigherDimensionalEntity (float numOfHigherDims, float numOfDims, float numOfLines, float numOfSides, float leafSize) {
+  
+  //
+  for (float i = 0; i < numOfHigherDims; ++i) {
       push();
-        float x1 = (cos(map(i, 0, numOfLines, 0, TWO_PI)) * leafSize);
-        float y1 = (sin(map(i, 0, numOfLines, 0, TWO_PI)) * leafSize);
+        float x1 = (cos(map(i, 0, numOfHigherDims, 0, TWO_PI)) * leafSize);
+        float y1 = (sin(map(i, 0, numOfHigherDims, 0, TWO_PI)) * leafSize);
+
+        translate(x1, y1);
+        renderInterdimensionalEntity(numOfDims, numOfLines, numOfSides, leafSize);
+
+      pop();
+    }
+}
+
+void renderInterdimensionalEntity (float numOfDims, float numOfLines, float numOfSides, float leafSize) {
+    for (float i = 0; i < numOfDims; ++i) {
+      push();
+        float x1 = (cos(map(i, 0, numOfDims, 0, TWO_PI)) * leafSize);
+        float y1 = (sin(map(i, 0, numOfDims, 0, TWO_PI)) * leafSize);
 
         translate(x1, y1);
         renderEntity (numOfLines, numOfSides, leafSize);
@@ -77,7 +122,8 @@ void renderInterdimensionalEntity (int numOfDims, float numOfLines, int numOfSid
 
 }
 
-void renderEntity (float numOfLines, int numOfSides, float leafSize) {
+
+void renderEntity (float numOfLines, float numOfSides, float leafSize) {
     for (int i = 0; i < numOfSides; ++i) {
       push();
         rotate(map(i, 0, numOfSides, 0, TWO_PI));
@@ -104,51 +150,94 @@ void displayVars() {
     text("sides(a): " + globalVar2, 50, 150 );
     text("scl(z): " + globalVar3, 50, 200 );
     text("lw(e): " + globalVar4, 50, 250 );
-    text("inc(d): " + incrementer, 50, 300 );
+    text("dim(d): " + globalVar5, 50, 300 );
+    text("higDm(c): " + globalVar6, 50, 350 );
+    text("inc(t): " + incrementer, 50, 400 );
+    text("rndOpt(#): " + renderOption, 50, 450 );
+    text("normalize(n)", 50, 500 );
+    text("toggleDis(m)", 50, 550 );
   pop();
 }
 
 
 void keyPressed() {
   switch (key) {
-    //VAR 1
+    //VAR 1 - line num
     case 'q': 
       globalVar1-=incrementer;
       break;
     case 'w': 
       globalVar1+=incrementer;
       break;
-    //VAR 2
+    //VAR 2 - side num
     case 'a': 
       globalVar2-=incrementer;
       break;
     case 's': 
       globalVar2+=incrementer;
       break;
-    //VAR 3
+    //VAR 3 - render scale
     case 'z': 
       globalVar3-=incrementer*10;
       break;
     case 'x': 
       globalVar3+=incrementer*10;
       break;
-    //VAR 4
-    case 'e': 
-      globalVar4-=.10;
-      break;
-    case 'r': 
-      globalVar4+=.10;
-      break;
-    //VAR 5
+    //VAR 5 - dimensions
     case 'd': 
-      incrementer-=1;
+      globalVar5-=incrementer;
       break;
     case 'f': 
+      globalVar5+=incrementer;
+      break;
+    //VAR 6 - higher dimensions
+    case 'c': 
+      globalVar6-=incrementer;
+      break;
+    case 'v': 
+      globalVar6+=incrementer;
+      break;
+    //VAR 4 - line width
+    case 'e': 
+      globalVar4-=.010;
+      if (globalVar4 <= 0) globalVar4 = .001;
+      
+      break;
+    case 'r': 
+      globalVar4+=.010;
+      break;
+    //VAR 5 - incrementer
+    case 't': 
+      incrementer-=1;
+      if (incrementer <= 0) incrementer = 1;
+      break;
+    case 'y': 
       incrementer+=1;
       break;
     case ' ': 
       isPaused = !isPaused;
       break;
+    case 'n': 
+      globalVar5 = globalVar1;
+      globalVar6 = globalVar2;
+      break;
+    case 'm': 
+      isShowingVars = !isShowingVars;
+      break;
+    case '1': 
+      renderOption = 1;
+      break;
+    case '2': 
+      renderOption = 2;
+      break;
+    case '3': 
+      renderOption = 3;
+      break;
+    case '4': 
+      renderOption = 4;
+      break;
+    
+    
       
   }
 
@@ -157,7 +246,7 @@ void keyPressed() {
 }
 
 
-void entityGrid () {
+void renderEntityGrid () {
 
     clear();
     background(0);
@@ -165,8 +254,8 @@ void entityGrid () {
     stroke(360);
     strokeWeight(.5);
     
-    int minNum = (int)globalVar1;
-    int maxNum = (int)globalVar1 + 8;
+    int minNum = (int) globalVar1;
+    int maxNum = (int) (globalVar1 + globalVar2);
 
     int minSpace = H < W ? H : W;
 
