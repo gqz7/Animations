@@ -1,20 +1,29 @@
-final int W = 1920;// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 //1680
-final int H = 1080;// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720 //950
-boolean isPaused = false;
+final int W = 3840;//(8K) 7680// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 //1680 //2560
+final int H = 2160;//(8K) 4320// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720 //1050 //1600
+boolean isPaused = true;
 float frames;
 int time; 
 float renderSpeed = 1.0;
 
-float globalVar1 = 12;
-float globalVar2 = 6;
-int globalVar3 = 111;
-float globalVar4 = .1;
-float globalVar5 = 8;
-float globalVar6 = 4;
+float globalAngle = 0;
+float globalLines = 12;
+float globalSides = 6;//77;
+float globalDimensions = 12;//32;
+float globalHigherDimensions = 6;//24;
+float globalRndrScl = 222;
+float globalLineWidth = .001;
 float incrementer = 1;
 
-boolean isShowingVars = false;
 int renderOption = 3;
+boolean zoomedIn = false;
+boolean isShowingVars = false;
+
+boolean halfLeaf = false;
+boolean halfEntity = false;
+boolean halfInDim = false;
+boolean halfHiDim = false;
+
+Space space;
 
 void settings() {
   //set canvas size
@@ -28,6 +37,8 @@ void setup() {
   //set colormode
   colorMode(HSB, 360, 100, 100);
   // noLoop();
+  // noCursor();
+  space = new Space();
 
     // background(0);
 }
@@ -39,172 +50,108 @@ void draw() {
     //println(frames);
     frames+=renderSpeed;
     time++;
+    globalRndrScl += 1 * incrementer;
+    // globalLines += .02;
+    // globalSides += .005;
+    // globalDimensions += .002;
+    // globalHigherDimensions += .001;
+    // globalRndrScl = map(frames, 0, 3333, 3333, 222);
     // saveFrame("../../../newrender/img_######.png");
   }
 
-  renderScene();
+  space.renderScene();
 
 }
 
-
-void renderScene () {
-
-    clear();
-    background(0);
-    if (isShowingVars) displayVars();
-    
-    stroke(360);
-    strokeWeight(globalVar4 > 0 ? globalVar4 : .01);
-    
-    translate(W/2, H/2);
-
-    switch (renderOption) {
-      case 1: 
-        //STANDARD ENTITY
-        renderEntity(globalVar1, globalVar2, globalVar3);
-      break;
-      case 2: 
-        //INTERDIMENSIONAL
-        renderInterdimensionalEntity(
-          globalVar5,//dim
-          globalVar1,//lines
-          globalVar2,//side
-          globalVar3 //size
-        );
-      break;
-      case 3: 
-        //HIGHER DIMENSIONAL
-        renderHigherDimensionalEntity(
-          globalVar6,//higherdims
-          globalVar5,//dim
-          globalVar1,//lines
-          globalVar2,//side
-          globalVar3 //size
-        );
-      break;
-      case 4: 
-        //ENTITY GRID
-        translate(-W/2, -H/2);
-        renderEntityGrid();
-      break;
-    }    
- 
-}
-
-
-
-void renderHigherDimensionalEntity (float numOfHigherDims, float numOfDims, float numOfLines, float numOfSides, float leafSize) {
-  
-  //
-  for (float i = 0; i < numOfHigherDims; ++i) {
-      push();
-        float x1 = (cos(map(i, 0, numOfHigherDims, 0, TWO_PI)) * leafSize);
-        float y1 = (sin(map(i, 0, numOfHigherDims, 0, TWO_PI)) * leafSize);
-
-        translate(x1, y1);
-        renderInterdimensionalEntity(numOfDims, numOfLines, numOfSides, leafSize);
-
-      pop();
-    }
-}
-
-void renderInterdimensionalEntity (float numOfDims, float numOfLines, float numOfSides, float leafSize) {
-    for (float i = 0; i < numOfDims; ++i) {
-      push();
-        float x1 = (cos(map(i, 0, numOfDims, 0, TWO_PI)) * leafSize);
-        float y1 = (sin(map(i, 0, numOfDims, 0, TWO_PI)) * leafSize);
-
-        translate(x1, y1);
-        renderEntity (numOfLines, numOfSides, leafSize);
-
-      pop();
-    }
-
-}
-
-
-void renderEntity (float numOfLines, float numOfSides, float leafSize) {
-    for (int i = 0; i < numOfSides; ++i) {
-      push();
-        rotate(map(i, 0, numOfSides, 0, TWO_PI));
-        renderLeaf(numOfLines, leafSize);
-      pop();
-    }
-}
-
-void renderLeaf (float numOfLines, float size) {
-    for (float i = 0; i < numOfLines; ++i) {
-
-        float x1 = (cos(map(i, 0, numOfLines, 0, TWO_PI)) * size);
-        float y1 = (sin(map(i, 0, numOfLines, 0, TWO_PI)) * size);
-
-        line(x1, y1, 0, -size);
-    }
-}
 
 void displayVars() {
+
+  beginShape();
+  fill(0);
+  rect(0, 0, 250, H/2);
+  endShape();
+
   textSize(20);
   fill(360);
-  push();
-    text("lines(q): " + globalVar1, 50, 100);
-    text("sides(a): " + globalVar2, 50, 150 );
-    text("scl(z): " + globalVar3, 50, 200 );
-    text("lw(e): " + globalVar4, 50, 250 );
-    text("dim(d): " + globalVar5, 50, 300 );
-    text("higDm(c): " + globalVar6, 50, 350 );
-    text("inc(t): " + incrementer, 50, 400 );
+  // push();
+    text("frames: " + frames, 50, 50);
+    text("lines(q/w): " + globalLines, 50, 100);
+    text("sides(a/s): " + globalSides, 50, 150 );
+    text("scl(z/x): " + globalRndrScl, 50, 200 );
+    text("lw(e/r): " + globalLineWidth, 50, 250 );
+    text("dim(d/f): " + globalDimensions, 50, 300 );
+    text("higDm(c/v): " + globalHigherDimensions, 50, 350 );
+    text("inc(t/y): " + incrementer, 50, 400 );
     text("rndOpt(#): " + renderOption, 50, 450 );
     text("normalize(n)", 50, 500 );
-    text("toggleDis(m)", 50, 550 );
-  pop();
+    text("resetScl(b)", 50, 550 );
+    text("screenshot(=)", 50, 600 );
+    text("toggleDis(m): "+(isShowingVars?"on":"off") , 50, 650 );
+    text("toggleZoom(,): "+(zoomedIn?"on":"off"), 50, 700 );
+    text("halfLeaf(.): "+(halfLeaf?"on":"off"), 50, 750 );
+    text("halfEntity(/): "+(halfEntity?"on":"off"), 50, 800 );
+    text("halfInDim(;): "+(halfInDim?"on":"off"), 50, 850 );
+    text("halfHiDim('): "+(halfHiDim?"on":"off"), 50, 900 );
+    text("resetVars(\\)", 50, 950 );
+  // pop();
 }
 
 
 void keyPressed() {
   switch (key) {
+    case ',':
+      zoomedIn = !zoomedIn;
+      break;
     //VAR 1 - line num
     case 'q': 
-      globalVar1-=incrementer;
+      globalLines-=incrementer;
+      if (globalLines <1 ) globalLines = 1;
       break;
     case 'w': 
-      globalVar1+=incrementer;
+      globalLines+=incrementer;
       break;
     //VAR 2 - side num
     case 'a': 
-      globalVar2-=incrementer;
+      globalSides-=incrementer;
+      if (globalLines <2 ) globalSides = 1;
       break;
     case 's': 
-      globalVar2+=incrementer;
+      globalSides+=incrementer;
+      
       break;
     //VAR 3 - render scale
     case 'z': 
-      globalVar3-=incrementer*10;
+      globalRndrScl-=incrementer*10;
+      if (globalRndrScl < 1) globalRndrScl = 1;
       break;
     case 'x': 
-      globalVar3+=incrementer*10;
+      globalRndrScl+=incrementer*10;
       break;
     //VAR 5 - dimensions
     case 'd': 
-      globalVar5-=incrementer;
+      globalDimensions-=incrementer;
+      if (globalDimensions < 1) globalDimensions = 1;
+      
       break;
     case 'f': 
-      globalVar5+=incrementer;
+      globalDimensions+=incrementer;
       break;
     //VAR 6 - higher dimensions
     case 'c': 
-      globalVar6-=incrementer;
+      globalHigherDimensions-=incrementer;
+      if (globalHigherDimensions < 1) globalHigherDimensions = 1;
       break;
     case 'v': 
-      globalVar6+=incrementer;
+      globalHigherDimensions+=incrementer;
       break;
     //VAR 4 - line width
     case 'e': 
-      globalVar4-=.010;
-      if (globalVar4 <= 0) globalVar4 = .001;
+      globalLineWidth-=.010;
+      if (globalLineWidth <= 0) globalLineWidth = .001;
       
       break;
     case 'r': 
-      globalVar4+=.010;
+      globalLineWidth+=.010;
       break;
     //VAR 5 - incrementer
     case 't': 
@@ -218,12 +165,45 @@ void keyPressed() {
       isPaused = !isPaused;
       break;
     case 'n': 
-      globalVar5 = globalVar1;
-      globalVar6 = globalVar2;
+      globalDimensions = globalLines;
+      globalHigherDimensions = globalSides;
       break;
     case 'm': 
       isShowingVars = !isShowingVars;
       break;
+    case 'b': 
+      globalRndrScl = H/4;
+      break;
+    case '=': 
+      saveFrame("../../../renderScreenShot/screenshot_######.png");
+      break;
+    case '\\':
+      globalAngle = 0;
+      globalDimensions = 6;
+      globalHigherDimensions = 6;
+      globalSides = 6;
+      globalLines = 6;
+      globalLineWidth = .01;
+      globalRndrScl = 333; 
+      
+    break;
+    case '.':
+      halfLeaf = !halfLeaf;
+    break;
+    case '/':
+      halfEntity = !halfEntity;
+
+    break;
+    case ';':
+      halfInDim = !halfInDim;
+
+    break;
+    case '\'':
+      halfHiDim = !halfHiDim;
+
+    break;
+
+      //RENDER OPTIONS 
     case '1': 
       renderOption = 1;
       break;
@@ -245,32 +225,3 @@ void keyPressed() {
 
 }
 
-
-void renderEntityGrid () {
-
-    clear();
-    background(0);
-    
-    stroke(360);
-    strokeWeight(.5);
-    
-    int minNum = (int) globalVar1;
-    int maxNum = (int) (globalVar1 + globalVar2);
-
-    int minSpace = H < W ? H : W;
-
-    int enitiySz = (int) (minSpace / ((maxNum-minNum+1) * 2.5));
-
-    for (int lineNum = minNum; lineNum <= maxNum; ++lineNum) {
-      for (int sideNum = minNum; sideNum <= maxNum; ++sideNum) {
-        push();
-          float transX = map(lineNum, minNum, maxNum, 0, W - enitiySz*3) + enitiySz*1.5;
-          float transY = map(sideNum, minNum, maxNum, 0, H - enitiySz*3) + enitiySz*1.5;
-          translate(transX, transY);
-
-          renderEntity(lineNum, sideNum, enitiySz);
-
-        pop();
-      }
-    }
-}
