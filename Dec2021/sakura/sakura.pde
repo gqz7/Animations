@@ -48,8 +48,8 @@ SpaceDebris spaceDebris;
 
 void settings() {
   //set canvas size
-  size(WIDTH, HEIGHT, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
-  // fullScreen();
+  size(720, 480, P3D); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
+  fullScreen();
 }
 
 void setup() {

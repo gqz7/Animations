@@ -3,16 +3,19 @@ final int H = 2160;//(8K) 4320// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD)
 boolean isPaused = true;
 float frames;
 int time; 
-float renderSpeed = 1.0;
+float renderSpeed = 5.0;
+// 3-45-4-24
+float globalAngle = 90;
+float globalLines = 3;
+float globalSides = 3;//77;
+float globalDimensions = 3;//32;
+float globalHigherDimensions = 3;//24;
+float globalRndrScl = 333;
+float globalLineWidth = .0001;
+float incrementer = 3;
 
-float globalAngle = 0;
-float globalLines = 12;
-float globalSides = 6;//77;
-float globalDimensions = 12;//32;
-float globalHigherDimensions = 6;//24;
-float globalRndrScl = 222;
-float globalLineWidth = .001;
-float incrementer = 1;
+int colorMode = 1;
+int globalHue = 159;
 
 int renderOption = 3;
 boolean zoomedIn = false;
@@ -22,6 +25,9 @@ boolean halfLeaf = false;
 boolean halfEntity = false;
 boolean halfInDim = false;
 boolean halfHiDim = false;
+
+float offsetX = 0;
+float offsetY = 0;
 
 Space space;
 
@@ -45,24 +51,53 @@ void setup() {
 
 //loop function that runs on a loop 
 void draw() {
+
  
   if (!isPaused) {
+    // offsetY += 1;
     //println(frames);
     frames+=renderSpeed;
     time++;
-    globalRndrScl += 1 * incrementer;
-    // globalLines += .02;
+    // globalRndrScl -= .7 * renderSpeed;
+
+    if ( time % 111 == 0 ) {
+      
+      ranIncrement();
+    }
+
+    // globalLines += .02 * renderSpeed;
     // globalSides += .005;
     // globalDimensions += .002;
     // globalHigherDimensions += .001;
     // globalRndrScl = map(frames, 0, 3333, 3333, 222);
-    // saveFrame("../../../newrender/img_######.png");
-  }
 
+
+
+    // saveFrame("../../../newrender/img_######.png");
+  
+  }
   space.renderScene();
+
 
 }
 
+void ranIncrement() {
+  float ran = random(1);
+  if ( ran < .25) {
+    globalLines += incrementer;
+  } else if ( ran < .5) {
+    globalSides += incrementer;
+    
+  } else if ( ran < .75) {
+    globalDimensions += incrementer;
+    
+  } else {
+    globalHigherDimensions += incrementer;
+
+  }
+
+  println((int)globalSides+"-"+(int)globalLines+"-"+(int)globalDimensions+"-"+(int)globalHigherDimensions);
+}
 
 void displayVars() {
 
@@ -90,9 +125,10 @@ void displayVars() {
     text("toggleZoom(,): "+(zoomedIn?"on":"off"), 50, 700 );
     text("halfLeaf(.): "+(halfLeaf?"on":"off"), 50, 750 );
     text("halfEntity(/): "+(halfEntity?"on":"off"), 50, 800 );
-    text("halfInDim(;): "+(halfInDim?"on":"off"), 50, 850 );
-    text("halfHiDim('): "+(halfHiDim?"on":"off"), 50, 900 );
+    text("halfInDim(;): "+offsetY, 50, 850 );
+    text("halfHiDim('): "+offsetX, 50, 900 );
     text("resetVars(\\)", 50, 950 );
+    text("angle([ / ]):" + globalAngle, 50, 1000 );
   // pop();
 }
 
@@ -191,15 +227,22 @@ void keyPressed() {
       halfLeaf = !halfLeaf;
     break;
     case '/':
-      halfEntity = !halfEntity;
+      colorMode = colorMode < 3 ? colorMode+1 : 1;
+      println("colormode: " + colorMode);
+
+    case '[':
+      globalAngle = globalAngle > 0 ? globalAngle-1 : 360;
+    break;
+    case ']':
+      globalAngle = globalAngle < 360 ? globalAngle+1 : 0;
 
     break;
     case ';':
-      halfInDim = !halfInDim;
+      ranIncrement();
 
     break;
     case '\'':
-      halfHiDim = !halfHiDim;
+      globalHue = globalHue < 361 ? globalHue + (int) incrementer : 1;
 
     break;
 
@@ -217,8 +260,27 @@ void keyPressed() {
       renderOption = 4;
       break;
     
-    
       
+  }
+
+  if (key == CODED) {
+    switch (keyCode) {
+      case UP:
+        offsetY += incrementer/10;
+      break;
+      case DOWN:
+        offsetY -= incrementer/10;
+
+      break;
+      case LEFT:
+        offsetX += incrementer/10;
+
+      break;
+      case RIGHT:
+        offsetX -= incrementer/10;
+
+      break;
+    }
   }
 
   

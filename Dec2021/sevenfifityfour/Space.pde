@@ -14,7 +14,8 @@ class Space  {
 
         // strokeWeight(globalLineWidth > 0 ? globalLineWidth : .001);
         
-        translate(W/2, H/2);
+        translate( (W/2) + offsetX, (H/2) + offsetY);
+        // translate( (W/2), (H/2) );
 
         Entity renderingEntity = new Entity(
             globalHigherDimensions,//higherdims
@@ -26,7 +27,7 @@ class Space  {
             0 //inner dim angle
         );
 
-        rotate(globalAngle);
+        rotate(globalAngle*PI/180);
 
         switch (renderOption) {
 

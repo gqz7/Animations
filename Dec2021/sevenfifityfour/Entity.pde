@@ -72,10 +72,10 @@ class Entity {
     }
 
 
+
     void renderEntity () {
         for (int i = 0; i < sides; ++i) {
-
-            stroke( i%2==0 ? 0 : 120, 50, 100);
+            setStrokeColor(i);
             push();
                 rotate(map(i, 0, sides, 0, TWO_PI));
                 this.renderLeaf();
@@ -92,6 +92,24 @@ class Entity {
             float y1 = (sin(map(i, 0, lines, 0, angleMaxLf)) * rndrScl);
 
             line(x1, y1, 0, -rndrScl);
+        }
+    }
+
+    void setStrokeColor (int i) { //i comes from renderEntity()
+        switch (colorMode) {
+            case 1:
+                stroke( globalHue, 77, 77 );
+            break;
+            case 2:
+                float timeInc1 = ((frames/7) + 136) % 360;
+                float timeInc2 = ((frames/7) + 295) % 360;
+                stroke( i%2==0 ? timeInc1 : timeInc2, 67, 100 );
+            break;
+            case 3:
+                float timeInc = (frames) % 360;
+                stroke( timeInc, 77, 77 );
+            break;
+        
         }
     }
 }

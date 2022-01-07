@@ -18,6 +18,8 @@ ControlGroup gui;
 final float fps = 60;
 float renderSpeed = .85;
 
+int colorMode = 1;
+
 //tracker for how many frames have elapsed
 boolean isPaused = false;
 float frames;
@@ -34,7 +36,7 @@ final float maxDistance = centerX+centerY;//centerX+centerY;
 
 
 //Fluid sim related vars
-float radius = .5;
+float radius = .25;
 final int N = 255;
 final int iter = 16;
 final int SCALE = 4;
@@ -46,10 +48,11 @@ void settings() {
   //set canvas size
   size(N*SCALE, N*SCALE);
 //   size(WIDTH, HEIGHT); //width: (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 // height: (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720
-//   fullScreen();
+  // fullScreen();
 }
 
 void setup() {
+  
   //set colormode
   colorMode(HSB, 360, 100, 100, 1);
   //create objects
@@ -87,9 +90,9 @@ void draw() {
     frames+=renderSpeed;
     time++;
     // saveFrame("../../../newrender/img_######.png");
+    renderScene();
   }
 
-  renderScene();
 
 }
 
@@ -217,10 +220,21 @@ void keyPressed() {
     case ' ': 
       isPaused = !isPaused;
       break;
-
-    case 'p': 
-      println("temp");
+    case 'r':
+      fluid = new Fluid(.7, 0, 0.0000003);
       break;
+    case 'm':
+      float temp1 = random(.0214, .999);
+      float temp2 = random(-1, 1);
+      float temp3 = random(0.000000214, 0.0000009);
+      println("New Fluid: ( " + temp1 + ", " + temp2 + ", " + temp3 + " )");
+      fluid = new Fluid(temp1, 0, temp3);
+      break;
+    case 't':
+      colorMode = colorMode < 3 ? colorMode+1 : 1;
+      println(colorMode);
+      break;
+    case 'k':
       
   }
 

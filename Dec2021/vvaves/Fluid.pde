@@ -76,22 +76,43 @@ class Fluid {
   }
 
   void renderD() {
-    colorMode(HSB, 255);
 
     for (int i = 0; i < N; i++) {
       for (int j = 0; j < N; j++) {
         float x = i * SCALE;
         float y = j * SCALE;
         float d = this.density[IX(i, j)];
-        fill(
-          map(d, 0, 100, 155, 200),
-          map(d, 0, 100, 0, 255),
-          map(d*d, 0, 10000, 1000, 0) //LIGHT
-          // map(d*d, 0, 10000, 0, 1000) //DARK
-        );
+        setColor(d);
         noStroke();
         square(x, y, SCALE);
       }
+    }
+  }
+
+  void setColor(float density) {
+    switch (colorMode) {
+      case 1:
+        fill(
+          map(density, 0, 100, 155, 200),
+          map(density, 0, 100, 0, 255),
+          map(density*density, 0, 10000, 1000, 0) //LIGHT
+        );
+      break;
+      case 2:
+        fill(
+          map(density, 0, 100, 120, 177),
+          map(density, 0, 100, 0, 255),
+          map(density*density, 0, 10000, 0, 1000) //DARK
+        );
+      break;
+      case 3:
+        fill(
+          (map(density, 0, 100, 0, 360) + frames*7) % 360,
+          100,//map(density, 0, 100, 0, 255),
+          map(density*density, 0, 10000, 0, 1000) //DARK
+        );
+      break;
+      
     }
   }
 

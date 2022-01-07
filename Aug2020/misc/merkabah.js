@@ -14,7 +14,7 @@ let canvas = document.createElement('canvas');
 
     renderPaused = false,   //user can toggle animation
     autoRotate = true,     //roates z axis, can be toggle by user
-    mouseRotate = false,  //determines if the user can rotate the merkabah my moving the mouse on the canvas
+    mouseRotate = true,  //determines if the user can rotate the merkabah my moving the mouse on the canvas
     hideMidLines = true, //determines if lines through center are shown in render
     showPoints = false, //determines if the points of the merkabah will show
 
@@ -91,6 +91,7 @@ let canvas = document.createElement('canvas');
     function mapNumber (number, min1, max1, min2, max2) {
         return ((number - min1) * (max2 - min2) / (max1 - min1) + min2);
     };
+    
     function createMerkabah() {
 
         const points = [];
