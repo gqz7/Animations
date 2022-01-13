@@ -27,8 +27,8 @@ class Geometry {
       spaceFlower.drawFlower(27, false); //spaceFlower.drawFlower(27, false);
     pop();
     
-    
-    nebula.render1(1500, 900);
+    //NEBULA
+    // nebula.render1(1500, 900);
     
     
     //pyramid(frames);

@@ -1,61 +1,76 @@
 class Space  {
 
-    void renderScene () {
+    void renderScene (int sceneNum) {
 
         clear();
-        background(0);
-        if (isShowingVars) displayVars();
+        // background(0);
+        
         
         // stroke(360);
-        // stroke(159, 67, 100);  //green
+          //green
         // stroke(177, 87, 100); //teal
         // stroke(309, 34, 95); //pink
-        stroke(360, 100, 100);
+        // stroke(360, 100, 100);
+        if (colorMode == 1) {
+            background(globalBgHue, 20, 17); 
+            stroke(globalLineHue, 44, 100);
+        } else if (colorMode == 2){
+            stroke(globalBgHue, 20, 17); 
+            background(globalLineHue, 44, 100);
+        } else {
+            background(0); 
+            stroke(360);
+        }
 
         // strokeWeight(globalLineWidth > 0 ? globalLineWidth : .001);
         
-        translate( (W/2) + offsetX, (H/2) + offsetY);
-        // translate( (W/2), (H/2) );
 
         Entity renderingEntity = new Entity(
+            globalDeityNum,
             globalHigherDimensions,//higherdims
             globalDimensions,//dim
             globalLines,//lines
             globalSides,//side
             zoomedIn ? globalRndrScl*10 : globalRndrScl,
-            0, //higher dim angle
-            0 //inner dim angle
+            globalHDAngle*PI/180, //higher dim angle
+            globalDeityAngle*PI/180 //inner dim angle
         );
 
-        rotate(globalAngle*PI/180);
+        push();
 
-        switch (renderOption) {
+            if (renderOption < 5 ) {
+                translate(W/2 + transX, H/2 + transY);
+                rotate(globalAngle*PI/180);
+            }
 
-        case 1: 
-            //STANDARD ENTITY
-            renderingEntity.renderEntity();
-        break;
-        case 2: 
-            //INTERDIMENSIONAL
-            renderingEntity.renderInterdimensionalEntity();
-        break;
-        case 3: 
-            //HIGHER DIMENSIONAL
-            renderingEntity.renderHigherDimensionalEntity();
-        break;
-        case 4: 
-            //ENTITY GRID
-            translate(-W/2, -H/2);
-            this.renderEntityGrid(renderingEntity);
-        break;
-        case 5:
-            this.deityRender(renderingEntity);
-        }    
-    
-    }
+            switch (renderOption) {
 
-    void deityRender(Entity rndEnt) {
-        rndEnt.renderInterdimensionalEntity();
+                case 1: 
+                    //STANDARD ENTITY
+                    renderingEntity.renderEntity();
+                break;
+                case 2: 
+                    //INTERDIMENSIONAL
+                    renderingEntity.renderInterdimensionalEntity();
+                break;
+                case 3: 
+                    //HIGHER DIMENSIONAL
+                    renderingEntity.renderHigherDimensionalEntity();
+                break;
+                case 4: 
+                    renderingEntity.deityRender();           
+                break;
+                case 5:
+                    //ENTITY GRID
+                    this.renderEntityGrid(renderingEntity);
+                break;
+            }    
+            
+
+        pop();
+
+        if (isShowingVars) displayVars();
+        
     }
 
 
@@ -80,6 +95,9 @@ class Space  {
                 float transX = map(lineNum, minNum, maxNum, 0, W - enitiySz*3) + enitiySz*1.5;
                 float transY = map(sideNum, minNum, maxNum, 0, H - enitiySz*3) + enitiySz*1.5;
                 translate(transX, transY);
+
+                rndEnt.lines = lineNum;
+                rndEnt.sides= sideNum;
 
                 rndEnt.renderEntity();
 

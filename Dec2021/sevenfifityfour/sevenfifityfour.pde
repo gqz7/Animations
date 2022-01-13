@@ -3,32 +3,41 @@ final int H = 2160;//(8K) 4320// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD)
 boolean isPaused = true;
 float frames;
 int time; 
-float renderSpeed = 5.0;
-// 3-45-4-24
-float globalAngle = 90;
+
+float renderSpeed = 1;
+
 float globalLines = 3;
-float globalSides = 3;//77;
-float globalDimensions = 3;//32;
-float globalHigherDimensions = 3;//24;
-float globalRndrScl = 333;
+float globalSides = 3;
+float globalDimensions = 3;
+float globalHigherDimensions = 3;
+float globalDeityNum = 3;
+
+float globalAngle = 0;
+float globalHDAngle = 0;
+float globalDeityAngle = 0;
+float globalRndrScl = 272;
 float globalLineWidth = .0001;
-float incrementer = 3;
+float incrementer = 1;
 
 int colorMode = 1;
-int globalHue = 159;
+int globalLineHue = 177;
+int globalBgHue = 339;
 
-int renderOption = 3;
+int renderOption = 4;
 boolean zoomedIn = false;
 boolean isShowingVars = false;
 
 boolean halfLeaf = false;
-boolean halfEntity = false;
-boolean halfInDim = false;
-boolean halfHiDim = false;
+boolean leafSymmetry = true;
+boolean toggle1 = true;
+boolean toggle2 = true;
 
-float offsetX = 0;
-float offsetY = 0;
+boolean dragLocked = true;
 
+float xOffset = 0;
+float yOffset = 0;
+float transX = 0;
+float transY = 0;
 Space space;
 
 void settings() {
@@ -52,17 +61,19 @@ void setup() {
 //loop function that runs on a loop 
 void draw() {
 
+
+  space.renderScene(renderOption);
  
   if (!isPaused) {
-    // offsetY += 1;
+    // yOffset += 1;
     //println(frames);
     frames+=renderSpeed;
     time++;
     // globalRndrScl -= .7 * renderSpeed;
 
     if ( time % 111 == 0 ) {
-      
-      ranIncrement();
+      // incrementAll(1);
+      // ranIncrement();
     }
 
     // globalLines += .02 * renderSpeed;
@@ -71,29 +82,44 @@ void draw() {
     // globalHigherDimensions += .001;
     // globalRndrScl = map(frames, 0, 3333, 3333, 222);
 
+    if (toggle1) globalHDAngle = globalHDAngle > 0 ? globalHDAngle - .01 * incrementer : 360;
+    if (toggle2) globalDeityAngle = globalDeityAngle > 0 ? globalDeityAngle - .01 * incrementer: 360;
+    // globalAngle += .05;
 
+    if (colorMode == 1) {
+      globalBgHue += .2;
+      globalLineHue += .2;
+    }
 
     // saveFrame("../../../newrender/img_######.png");
-  
+
   }
-  space.renderScene();
 
+}
 
+void incrementAll (int inc) {
+  globalLines += inc;
+  globalSides += inc;
+  globalDimensions += inc;
+  globalHigherDimensions += inc;
+  globalDeityNum += inc;
 }
 
 void ranIncrement() {
   float ran = random(1);
-  if ( ran < .25) {
+  if ( ran < .2) {
     globalLines += incrementer;
-  } else if ( ran < .5) {
+  } else if ( ran < .4) {
     globalSides += incrementer;
     
-  } else if ( ran < .75) {
+  } else if ( ran < .6) {
     globalDimensions += incrementer;
     
-  } else {
+  } else if ( ran < .8) {
     globalHigherDimensions += incrementer;
 
+  } else {
+    globalDeityNum += incrementer;
   }
 
   println((int)globalSides+"-"+(int)globalLines+"-"+(int)globalDimensions+"-"+(int)globalHigherDimensions);
@@ -101,35 +127,41 @@ void ranIncrement() {
 
 void displayVars() {
 
-  beginShape();
   fill(0);
-  rect(0, 0, 250, H/2);
-  endShape();
+  rect(0, 0, 444, 1444);
 
-  textSize(20);
+
+
+  textSize(30);
   fill(360);
-  // push();
-    text("frames: " + frames, 50, 50);
-    text("lines(q/w): " + globalLines, 50, 100);
-    text("sides(a/s): " + globalSides, 50, 150 );
-    text("scl(z/x): " + globalRndrScl, 50, 200 );
-    text("lw(e/r): " + globalLineWidth, 50, 250 );
-    text("dim(d/f): " + globalDimensions, 50, 300 );
-    text("higDm(c/v): " + globalHigherDimensions, 50, 350 );
-    text("inc(t/y): " + incrementer, 50, 400 );
-    text("rndOpt(#): " + renderOption, 50, 450 );
-    text("normalize(n)", 50, 500 );
-    text("resetScl(b)", 50, 550 );
-    text("screenshot(=)", 50, 600 );
-    text("toggleDis(m): "+(isShowingVars?"on":"off") , 50, 650 );
-    text("toggleZoom(,): "+(zoomedIn?"on":"off"), 50, 700 );
-    text("halfLeaf(.): "+(halfLeaf?"on":"off"), 50, 750 );
-    text("halfEntity(/): "+(halfEntity?"on":"off"), 50, 800 );
-    text("halfInDim(;): "+offsetY, 50, 850 );
-    text("halfHiDim('): "+offsetX, 50, 900 );
-    text("resetVars(\\)", 50, 950 );
-    text("angle([ / ]):" + globalAngle, 50, 1000 );
-  // pop();
+  text("frames: " + frames, 50, 30);
+  text("lines(q/w): " + globalLines, 50, 70);
+  text("sides(a/s): " + globalSides, 50, 110 );
+  text("dim(d/f): " + globalDimensions, 50, 150 );
+  text("higDm(c/v): " + globalHigherDimensions, 50, 190 );
+  text("deityNum(g/h): " + globalDeityNum, 50, 230 );
+  text("scl(z/x): " + globalRndrScl, 50, 300 );
+  text("lw(e/r): " + globalLineWidth, 50, 350 );
+  text("inc(t/y): " + incrementer, 50, 400 );
+  text("rndOpt(#): " + renderOption, 50, 450 );
+  text("2X scl(n)", 50, 500 );
+  text("/2 scl(b)", 50, 550 );
+  text("screenshot(=)", 50, 600 );
+  text("toggleDis(m): "+(isShowingVars?"on":"off") , 50, 650 );
+  text("toggleZoom(,): "+(zoomedIn?"on":"off"), 50, 700 );
+  text("halfLeaf(.): "+(halfLeaf?"on":"off"), 50, 750 );
+  text("colorMode(/): "+colorMode, 50, 800 );
+  text("transX: "+transX, 50, 850 );
+  text("transY: "+transY, 50, 900 );
+  text("resetVars(\\)", 50, 950 );
+  text("G-angle( [/] ):" + globalAngle, 50, 1000 );
+  text("D-angle( o/p ):" + globalDeityAngle, 50, 1050 );
+  text("HD-angle( u/i ):" + globalHDAngle, 50, 1100 );
+  text("HD-rotate(j):"+(toggle1?"on":"off"), 50, 1150 );
+  text("D-rotate(k):"+(toggle2?"on":"off"), 50, 1200 );
+  text("leaftType(l):"+(leafSymmetry?"0":"1"), 50, 1250 );
+  text("Colors( ' ) bg:"+globalBgHue+" ln:"+globalLineHue, 50, 1300 );
+  text("incrementAll(-)", 50, 1350 );
 }
 
 
@@ -149,7 +181,7 @@ void keyPressed() {
     //VAR 2 - side num
     case 'a': 
       globalSides-=incrementer;
-      if (globalLines <2 ) globalSides = 1;
+      if (globalSides <2 ) globalSides = 1;
       break;
     case 's': 
       globalSides+=incrementer;
@@ -180,6 +212,14 @@ void keyPressed() {
     case 'v': 
       globalHigherDimensions+=incrementer;
       break;
+    //VAR 7 - deitiy dimensions
+    case 'g': 
+      globalDeityNum-=incrementer;
+      if (globalDeityNum < 1) globalDeityNum = 1;
+      break;
+    case 'h': 
+      globalDeityNum+=incrementer;
+      break;
     //VAR 4 - line width
     case 'e': 
       globalLineWidth-=.010;
@@ -197,31 +237,49 @@ void keyPressed() {
     case 'y': 
       incrementer+=1;
       break;
+    //PAUSE
     case ' ': 
       isPaused = !isPaused;
-      break;
-    case 'n': 
-      globalDimensions = globalLines;
-      globalHigherDimensions = globalSides;
       break;
     case 'm': 
       isShowingVars = !isShowingVars;
       break;
+    case 'j': 
+      toggle1 = !toggle1;
+      break;
+    case 'k': 
+      toggle2 = !toggle2;
+      break;
+    case 'l': 
+      leafSymmetry = !leafSymmetry;
+      break;
     case 'b': 
-      globalRndrScl = H/4;
+      globalRndrScl = globalRndrScl/2;
+      break;
+    case 'n': 
+      globalRndrScl = globalRndrScl*2;
       break;
     case '=': 
       saveFrame("../../../renderScreenShot/screenshot_######.png");
       break;
+    case '-': 
+      incrementAll((int)incrementer);
+      // ranIncrement();
+      break;
     case '\\':
       globalAngle = 0;
-      globalDimensions = 6;
-      globalHigherDimensions = 6;
-      globalSides = 6;
-      globalLines = 6;
+      globalDeityAngle = 0;
+      globalHDAngle = 0;
+      globalDimensions = 1;
+      globalHigherDimensions = 1;
+      globalSides = 1;
+      globalLines = 1;
+      globalDeityNum = 1;
       globalLineWidth = .01;
-      globalRndrScl = 333; 
-      
+      globalRndrScl = 272; 
+      transX = 0;
+      transY = 0;
+      halfLeaf = false;
     break;
     case '.':
       halfLeaf = !halfLeaf;
@@ -229,20 +287,34 @@ void keyPressed() {
     case '/':
       colorMode = colorMode < 3 ? colorMode+1 : 1;
       println("colormode: " + colorMode);
-
+    break;
     case '[':
-      globalAngle = globalAngle > 0 ? globalAngle-1 : 360;
+      globalAngle = globalAngle > 0 ? globalAngle-incrementer : 360;
     break;
     case ']':
-      globalAngle = globalAngle < 360 ? globalAngle+1 : 0;
+      globalAngle = globalAngle < 360 ? globalAngle+incrementer : 0;
+
+    break;
+    case 'o':
+      globalDeityAngle = globalDeityAngle > 0 ? globalDeityAngle-incrementer : 360;
+    break;
+    case 'p':
+      globalDeityAngle = globalDeityAngle < 360 ? globalDeityAngle+incrementer : 0;
+
+    break;
+    case 'u':
+      globalHDAngle = globalHDAngle > 0 ? globalHDAngle-incrementer : 360;
+    break;
+    case 'i':
+      globalHDAngle = globalHDAngle < 360 ? globalHDAngle+incrementer : 0;
 
     break;
     case ';':
-      ranIncrement();
-
+      
     break;
     case '\'':
-      globalHue = globalHue < 361 ? globalHue + (int) incrementer : 1;
+      globalBgHue = globalBgHue < 361 ? globalBgHue + (int) incrementer : 1;
+      globalLineHue = globalLineHue < 361 ? globalLineHue + (int) incrementer : 1;
 
     break;
 
@@ -259,25 +331,25 @@ void keyPressed() {
     case '4': 
       renderOption = 4;
       break;
-    
-      
+    case '5': 
+      renderOption = 5;
+      break;
   }
 
   if (key == CODED) {
     switch (keyCode) {
       case UP:
-        offsetY += incrementer/10;
+        transY += incrementer/10;
       break;
       case DOWN:
-        offsetY -= incrementer/10;
-
+        transY -= incrementer/10;
       break;
       case LEFT:
-        offsetX += incrementer/10;
+        transX += incrementer/10;
 
       break;
       case RIGHT:
-        offsetX -= incrementer/10;
+        transX -= incrementer/10;
 
       break;
     }
@@ -287,3 +359,30 @@ void keyPressed() {
 
 }
 
+void mousePressed() {
+  dragLocked = true; 
+  xOffset = mouseX-transX; 
+  yOffset = mouseY-transY; 
+
+}
+
+void mouseDragged() {
+  if(dragLocked) {
+    transX = mouseX-xOffset; 
+    transY = mouseY-yOffset; 
+  }
+}
+
+void mouseReleased() {
+  dragLocked = false;
+}
+
+void mouseWheel(MouseEvent event) {
+  if (globalRndrScl > 10) {
+    globalRndrScl -= event.getCount() * incrementer * 2;
+  } else if ( globalRndrScl == 10 && event.getCount() == 1) {
+    globalRndrScl = 10 * 2;
+  } else {
+    globalRndrScl = 10;
+  }
+}
