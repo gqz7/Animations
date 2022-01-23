@@ -22,8 +22,8 @@
   //Noise algorithm that produces values used in this animation, not made by me
  OpenSimplex2S noise;
   
-  int WIDTH = 3840;//3840; //1920 //1280 //800
-  int HEIGHT = 2160;//2160; //1080 //720  //450
+  int WIDTH = 846;//1504//3840; //1920
+  int HEIGHT = 846;//846//2160; //1080
   
   boolean paused = true;
   boolean resetOn = true;
@@ -40,13 +40,15 @@
 
   //array of Points to keep track of quadrent information and x/y position aswell as pixel index
   Cell[][] allCells;
+  void settings () {
 
-  
-  void setup() {
     //set canvas size
     //WIDTH //3840; //1920 //1280 //800
     //HEIGHT //2160; //1080 //720  //450
-    size(3840,2160);
+    size(WIDTH,HEIGHT);
+  }
+  
+  void setup() {
     
     //set color mode to hue/saturation/brightness which i perfer for my animations
     colorMode(HSB, 360, 100, 100);

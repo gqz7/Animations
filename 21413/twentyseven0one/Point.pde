@@ -89,61 +89,86 @@ class Point {
   
   private void calcNoise () { 
     
-    double seedX = seedXNum.value, seedY = seedYNum.value;
+    // double seedX = seedXNum.value, seedY = seedYNum.value;
     
-    double xNoise = (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX;
-    double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY;
+    // double xNoise = (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX;
+    // double yNoise = (((noiseY*1.5)+seedY)/(yStatic+noiseX))+seedY;
+    
+    // noiseVal = noise.noise2(xNoise, yNoise);
+
+
+    double seedX = seedXNum.value, seedY = seedYNum.value;
+    double waveNoise = noise.noise2((seedX+noiseX+frames)/1111/renderSpeed, (seedY+noiseY+frames)/1211/renderSpeed);
+    double waveNoise1 = noise.noise2((seedX+frames)/1511/renderSpeed, (seedY+frames)/1131/renderSpeed);
+    double mappedWave = waveNoise*waveNoise1 / 10;
+
+    double xNoise = quad==1 || quad==4
+ 
+      ? 
+        (((noiseX*2)+seedX)/(xStatic+noiseY))+seedX//((((double)noiseX*(1 + noiseX*noiseY/777777))+seedX)/(xStatic+(double)noiseY))+seedX
+      : 
+       (((double)noiseX+seedX)
+        /(xStatic+noiseY))+(seedX)
+        * (1 + (Math.abs(((double) noiseX)*(1+cos((float)(noiseY*waveNoise1))*mappedWave)))
+       /777777);
+       
+    double yNoise = (((noiseY)+seedY)/(yStatic+noiseX))+seedY;
     
     noiseVal = noise.noise2(xNoise, yNoise);
 
   }
   
-  public int[] calcColor( int frames ) {
+  public float[] calcColor( int frames ) {
     
     calcNoise();
     //pixel saturation
     int saturation = 100;
 
-    float lightAdd = quad == 1 || quad == 2 ? (float) (Math.abs(x-width/2)) : (float) (Math.abs(x));
     //lightness calculation
     int lightCalc = int( 
         Math.abs(
-          Math.round( 100*noiseVal )) + lightAdd/19.3
+          Math.round( 100*noiseVal ))
         );
     
-    float mapH1 = quad == 1 || quad == 4 ? Math.abs(height-y*2) : Math.abs(y*1.5);
-    
-    float lightness = map( mapH1, 0, height/2, 0, lightCalc/1.7); 
+    float mapH1 = quad == 1 || quad == 4 ? height-Math.abs(y*2) : Math.abs(y);
+    float mapW1 = quad == 1 || quad == 2 ? width/2-Math.abs(x) : Math.abs(x);
     
     //pixel hue calculation
-    int hue = ( int(
+    float hueMax = map( mapW1, 0, width/2, 120, 540) + map( mapH1, 0, height/2, 100, 240); 
+    // if (mapH1 <= 0) println(mapH1);
+    
+    float hue = ( 
       Math.round(
-        720*noiseVal))+720+frames*10
+        hueMax*noiseVal)+(int)hueMax+(frames*(int)renderSpeed*3)
     )%360;
     
-    int convertedSaturation;
-    int convertedBrightness;
+    float lightAddX = quad == 1 || quad == 2 ? Math.abs(width/2-x) : Math.abs(x);
+    float lightAddY = quad == 1 || quad == 4 ? Math.abs(height-y*2) : Math.abs(y);
+    float lightness = map( mapH1, 0, height/2, 0, lightCalc) * (1+(lightAddY)/(lightAddX/.8));
+    // lightness = map(mapH1*mapW1, 0, HW*HH/2, lightness/2, lightness);
+    // float lightness = map( mapH1*(mapW1/4), 0, height*width/16, 0, lightCalc);// * (1+(lightAddY)/(lightAddX/.8));
     
-    int intLight = round(lightness);
+    float convertedSaturation;
+    float convertedBrightness;
     
     try {
       convertedSaturation = 
       2 * (
         saturation * (
           lightness < 50 
-            ? intLight 
-            : 100 - intLight 
+            ? lightness 
+            : 100 - lightness 
         )
-      ) / (intLight + saturation);
+      ) / (lightness + saturation);
 
 
     } catch ( ArithmeticException e ) {
         convertedSaturation = 0;
     }
     
-    convertedBrightness = 90-convertedSaturation + intLight;
-    
-    return new int[] { hue, convertedSaturation, convertedBrightness };
+    convertedBrightness = map(convertedSaturation, 0, invertLightness?50:100, 100, lightness);//90-convertedSaturation + 
+    if (invertLightness) convertedBrightness = 100 - convertedBrightness;
+    return new float[] { hue, convertedSaturation, convertedBrightness };
   } 
 
     
