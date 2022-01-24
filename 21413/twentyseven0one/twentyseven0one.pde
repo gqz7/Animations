@@ -44,8 +44,8 @@ NoiseSeed nSeedX2 = new NoiseSeed((float) Math.random()*1000 + 777.777);
 NoiseSeed nSeedY1 = new NoiseSeed((float) Math.random()*1000 + 3939.719);
 NoiseSeed nSeedY2 = new NoiseSeed((float) Math.random()*1000 + 3141.5826);
 //width and height of canvas
-int WIDTH = 1920;//800;//1024;//1504//3840; //1920//1360
-int HEIGHT = 1080;//600;//640;//846//2160; //1080//768
+int WIDTH = 1680;//800;//1024;//1504//3840; //1920//1360 //1680
+int HEIGHT = 1050;//600;//640;//846//2160; //1080//768 //1050
 //tracker for how many frames have elapsed
 int frames = 0;
 //array of Points to keep track of quadrent information and x/y position aswell as pixel index

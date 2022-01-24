@@ -1,5 +1,5 @@
-final int W = 3840;//(8K) 7680// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 //1680 //2560
-final int H = 2160;//(8K) 4320// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720 //1050 //1600
+final int W = 1680;//(8K) 7680// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 //1680 //2560
+final int H = 1050;//(8K) 4320// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720 //1050 //1600
 boolean isPaused = true;
 float frames;
 int time; 
