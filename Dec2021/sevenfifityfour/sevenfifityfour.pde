@@ -1,22 +1,23 @@
-final int W = 1680;//(8K) 7680// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 //1680 //2560
-final int H = 1050;//(8K) 4320// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720 //1050 //1600
+final int W = 3840;//(8K) 7680// (4K) 3840; // (HD) 1920 //(Square HD) 1280 //(SD) 1280 //1680 //2560
+final int H = 2160;//(8K) 4320// (4K) 2160; //(HD) 1080 //(Square HD) 1024//(SD) 720 //1050 //1600
 boolean isPaused = true;
 float frames;
 int time; 
 
 float renderSpeed = 1;
 
-float globalLines = 3;
-float globalSides = 3;
-float globalDimensions = 3;
-float globalHigherDimensions = 3;
-float globalDeityNum = 3;
+float globalLines = 15;
+float globalSides = 1;
+float globalDimensions = 20;
+float globalHigherDimensions = 10;
+float globalDeityNum = 10;
 
-float globalAngle = 0;
+float globalAngle = 90;
 float globalHDAngle = 0;
 float globalDeityAngle = 0;
 float globalRndrScl = 272;
 float globalLineWidth = .0001;
+float globalLineAlpha = 1;
 float incrementer = 1;
 
 int colorMode = 1;
@@ -36,7 +37,7 @@ boolean dragLocked = true;
 
 float xOffset = 0;
 float yOffset = 0;
-float transX = 0;
+float transX = 0;// screenshots: -300;
 float transY = 0;
 Space space;
 
@@ -50,7 +51,7 @@ void settings() {
 
 void setup() {
   //set colormode
-  colorMode(HSB, 360, 100, 100);
+  colorMode(HSB, 360, 100, 100, 100);
   // noLoop();
   // noCursor();
   space = new Space();
@@ -310,11 +311,10 @@ void keyPressed() {
 
     break;
     case ';':
-      
+        globalLineAlpha = globalLineAlpha-incrementer > 0 ? globalLineAlpha-incrementer : .01;
     break;
     case '\'':
-      globalBgHue = globalBgHue < 361 ? globalBgHue + (int) incrementer : 1;
-      globalLineHue = globalLineHue < 361 ? globalLineHue + (int) incrementer : 1;
+        globalLineAlpha = globalLineAlpha < 100 ? globalLineAlpha+incrementer : globalLineAlpha;
 
     break;
 

@@ -12,8 +12,8 @@ class Space  {
         // stroke(309, 34, 95); //pink
         // stroke(360, 100, 100);
         if (colorMode == 1) {
-            background(globalBgHue, 20, 17); 
-            stroke(globalLineHue, 44, 100);
+            background(15, 30, 15, 0); 
+            stroke(215, 44, 100, globalLineAlpha);
         } else if (colorMode == 2){
             stroke(globalBgHue, 20, 17); 
             background(globalLineHue, 44, 100);
